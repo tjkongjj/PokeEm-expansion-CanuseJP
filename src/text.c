@@ -54,7 +54,7 @@ static u32 GetGlyphWidth_SmallNarrower(u16, bool32);
 static u32 GetGlyphWidth_ShortNarrow(u16, bool32);
 static u32 GetGlyphWidth_ShortNarrower(u16, bool32);
 static bool32 StringStartsWithJapaneseGlyph(const u8 *str);
-static bool32 StringContainsJapaneseGlyph(const u8 *str);
+bool32 StringContainsJapaneseGlyph(const u8 *str);
 static struct TextPrinter *AllocateTextPrinter(void);
 static u32 GetNumTextPrinters(void);
 static void FreeFinishedTextPrinters(void);
@@ -324,7 +324,7 @@ case CHAR_DYNAMIC:
     return FALSE;
 }
 
-static bool32 StringContainsJapaneseGlyph(const u8 *str)
+bool32 StringContainsJapaneseGlyph(const u8 *str)
 {
     const u8 *bufferPointer;
 
@@ -1721,8 +1721,10 @@ static u16 RenderText(struct TextPrinter *textPrinter)
         else
             textPrinter->delayCounter = textPrinter->textSpeed;
 
-        currChar = *textPrinter->printerTemplate.currentChar;
-        textPrinter->printerTemplate.currentChar++;
+        do {
+            currChar = *textPrinter->printerTemplate.currentChar;
+            textPrinter->printerTemplate.currentChar++;
+        } while (!textPrinter->japanese && currChar == CHAR_ZWS);
 
         switch (currChar)
         {
@@ -2178,6 +2180,9 @@ static u32 (*GetFontWidthFunc(u8 fontId))(u16, bool32)
 
 s32 GetGlyphWidth(u16 glyphId, bool32 isJapanese, u8 fontId)
 {
+    if (!isJapanese && glyphId == CHAR_ZWS)
+        return 0;
+
     u32 (*func)(u16 fontId, bool32 isJapanese);
 
     func = GetFontWidthFunc(fontId);

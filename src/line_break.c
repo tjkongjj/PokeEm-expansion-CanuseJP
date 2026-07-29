@@ -6,10 +6,19 @@
 void StripLineBreaks(u8 *src)
 {
     u32 currIndex = 0;
+    u32 prevChar = EOS;
+    bool32 isJapanese = StringContainsJapaneseGlyph(src);
+
     while (src[currIndex] != EOS)
     {
         if (src[currIndex] == CHAR_PROMPT_SCROLL || src[currIndex] == CHAR_NEWLINE)
-            src[currIndex] = CHAR_SPACE;
+        {
+            if (!isJapanese && prevChar == CHAR_HYPHEN)
+                src[currIndex] = CHAR_ZWS;
+            else
+                src[currIndex] = CHAR_SPACE;
+        }
+        prevChar = src[currIndex];
         currIndex++;
     }
 }
@@ -350,6 +359,8 @@ bool32 IsWordSplittingChar(const u8 *src, u32 index)
 {
     switch (src[index])
     {
+    case CHAR_ZWS:
+        return !StringContainsJapaneseGlyph(src);
     case CHAR_SPACE:
         return TRUE;
     default:

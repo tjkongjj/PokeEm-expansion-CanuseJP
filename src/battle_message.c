@@ -415,7 +415,6 @@ const u8 *const gBattleStringsTable[STRINGID_COUNT] =
     [STRINGID_NOPPLEFT]                             = COMPOUND_STRING("{JPN}わざの のこりポイントが ない!\p"), //not in gen 5+
     [STRINGID_BUTNOPPLEFT]                          = COMPOUND_STRING("{JPN}しかし\nわざの のこりポイントが なかった!"),
     [STRINGID_PLAYERUSEDITEM]                       = COMPOUND_STRING("{JPN}{B_LAST_ITEM}を つかった！"),
-    [STRINGID_WALLYUSEDITEM]                        = COMPOUND_STRING("{JPN}ミツルは\n{B_LAST_ITEM}を つかった！"), //no decapitalize until it is everywhere
     [STRINGID_TRAINERBLOCKEDBALL]                   = COMPOUND_STRING("{JPN}トレーナーに ボールを はじかれた!"),
     [STRINGID_DONTBEATHIEF]                         = COMPOUND_STRING("{JPN}ひとの ものを とったら どろぼう!"),
     [STRINGID_ITDODGEDBALL]                         = COMPOUND_STRING("{JPN}ポケモンに\nうまく あたらなかった!"),
@@ -754,7 +753,9 @@ const u8 *const gBattleStringsTable[STRINGID_COUNT] =
     [STRINGID_ATTACKERSWITCHEDSTATWITHTARGET]       = COMPOUND_STRING("{JPN}{B_ATK_NAME_WITH_PREFIX}は\n{B_BUFF1}を あいてと いれかえた！"),
     [STRINGID_BEINGHITCHARGEDPKMNWITHPOWER]         = COMPOUND_STRING("{JPN}{B_EFF_NAME_WITH_PREFIX2}は\n{B_CURRENT_MOVE}を うけて じゅうでんした！"),
     [STRINGID_ORICHALCUMPULSEACTIVATES] = COMPOUND_STRING("{JPN}{B_SCR_NAME_WITH_PREFIX}は ひざしを つよめ\nこだいのこどうが あばれだす!!"),
+    [STRINGID_ORICHALCUMPULSEACTIVATESINSUN] = COMPOUND_STRING("{JPN}{B_SCR_NAME_WITH_PREFIX}は ひざしを あび\nこだいのこどうが あばれだす!!"),
     [STRINGID_HADRONENGINEACTIVATES] = COMPOUND_STRING("{JPN}{B_SCR_NAME_WITH_PREFIX}は エレキフィールドを はり\nみらいのきかんを やくどうさせる!!"),
+    [STRINGID_HADRONENGINEACTIVATESINTERRAIN] = COMPOUND_STRING("{JPN}{B_SCR_NAME_WITH_PREFIX}は エレキフィールドで\nみらいのきかんを やくどうさせる!!"),
     [STRINGID_SUNLIGHTACTIVATEDABILITY]             = COMPOUND_STRING("{JPN}つよい ひざしで{B_SCR_NAME_WITH_PREFIX2}の\nこだいかっせいが はつどうした！"),
     [STRINGID_STATWASHEIGHTENED]                    = COMPOUND_STRING("{JPN}{B_SCR_NAME_WITH_PREFIX}の {B_BUFF1}が たかまった！"),
     [STRINGID_ELECTRICTERRAINACTIVATEDABILITY]      = COMPOUND_STRING("{JPN}エレキフィールドで {B_SCR_NAME_WITH_PREFIX2}の\nクォークチャージが はつどうした！"),
@@ -2493,8 +2494,7 @@ void BufferStringBattle(enum StringID stringID, enum BattlerId battler)
         }
         break;
     case STRINGID_INTROSENDOUT: // poke first send-out
-        if (BattlerIsPlayer(battler) || BattlerIsPlayer(BATTLE_PARTNER(battler))
-         || BattlerIsWally(battler) || BattlerIsWally(BATTLE_PARTNER(battler)))
+        if (IsOnPlayerSide(battler))
         {
             if (IsDoubleBattle() && IsValidForBattle(GetBattlerMon(BATTLE_PARTNER(battler))))
             {
@@ -3522,7 +3522,14 @@ u32 BattleStringExpandPlaceholders(const u8 *src, u8 *dst, u32 dstSize)
                 break;
             case B_TXT_ATK_TRAINER_NAME_WITH_CLASS:
                 toCpy = textStart;
-                if (GetBattlerPosition(gBattlerAttacker) == B_POSITION_PLAYER_LEFT)
+                if (gBattleTypeFlags & BATTLE_TYPE_CATCH_TUTORIAL)
+                {
+                    if (IS_FRLG)
+                        textStart = StringCopy(textStart, COMPOUND_STRING("{JPN}おじいさん"));
+                    else
+                        textStart = StringCopy(textStart, COMPOUND_STRING("{JPN}ミツル"));
+                }
+                else if (GetBattlerPosition(gBattlerAttacker) == B_POSITION_PLAYER_LEFT)
                 {
                     textStart = StringCopy(textStart, BattleStringGetTrainerName(textStart, multiplayerId, gBattlerAttacker));
                 }

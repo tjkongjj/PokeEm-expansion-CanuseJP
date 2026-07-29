@@ -163,6 +163,8 @@ extern const u8 BattleScript_FaintAttackerForExplosion[];
 extern const u8 BattleScript_MaxHp50Recoil[];
 extern const u8 BattleScript_ItemSteal[];
 extern const u8 BattleScript_WeatherAbilityActivates[];
+extern const u8 BattleScript_OrichalcumPulseActivates[];
+extern const u8 BattleScript_OrichalcumPulseActivatesInSun[];
 extern const u8 BattleScript_TraceActivates[];
 extern const u8 BattleScript_AbilityHpHeal[];
 extern const u8 BattleScript_ShedSkinActivates[];
@@ -297,6 +299,8 @@ extern const u8 BattleScript_PsychicSurgeActivates[];
 extern const u8 BattleScript_GrassySurgeActivates[];
 extern const u8 BattleScript_MistySurgeActivates[];
 extern const u8 BattleScript_ElectricSurgeActivates[];
+extern const u8 BattleScript_HadronEngineActivates[];
+extern const u8 BattleScript_HadronEngineActivatesInTerrain[];
 extern const u8 BattleScript_EffectLifeDew[];
 extern const u8 BattleScript_PowderMoveNoEffect[];
 extern const u8 BattleScript_GrassyTerrainHeals[];
@@ -500,9 +504,6 @@ extern const u8 BattleScript_IncreaseStatChangeMessage[];
 extern const u8 BattleScript_DecreaseStatChangeMessage[];
 extern const u8 BattleScript_DecreaseStatChangeMessageMinStat[];
 extern const u8 BattleScript_StatDidntChangeMessagePause[];
-extern const u8 BattleScript_OrichalcumPulseActivates[];
-extern const u8 BattleScript_HadronEngineActivates[];
-
 // zmoves
 extern const u8 BattleScript_ZMoveActivateDamaging[];
 extern const u8 BattleScript_ZMoveActivateStatus[];

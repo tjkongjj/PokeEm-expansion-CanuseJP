@@ -2234,9 +2234,6 @@ const struct AbilityInfo gAbilitiesInfo[ABILITIES_COUNT] =
         .name = _("{JPN}ひひいろのこどう"),
         .description = COMPOUND_STRING("{JPN}せんとうで ひざしを つよくする"),
         .aiRating = 8,
-        .cantBeSwapped = TRUE,
-        .cantBeCopied = TRUE,
-        .cantBeOverwritten = TRUE,
     },
 
     [ABILITY_HADRON_ENGINE] =
@@ -2244,9 +2241,6 @@ const struct AbilityInfo gAbilitiesInfo[ABILITIES_COUNT] =
         .name = _("{JPN}ハドロンエンジン"),
         .description = COMPOUND_STRING("{JPN}エレキフィールドを はりめぐらせる"),
         .aiRating = 8,
-        .cantBeSwapped = TRUE,
-        .cantBeCopied = TRUE,
-        .cantBeOverwritten = TRUE,
     },
 
     [ABILITY_OPPORTUNIST] =
