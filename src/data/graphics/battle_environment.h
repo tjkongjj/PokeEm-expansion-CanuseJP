@@ -1,6 +1,6 @@
-const u32 gBattleEnvironmentTiles_TallGrass[] = INCGFX_U32("graphics/battle_environment/tall_grass/tiles.png", ".4bpp.smol");
-const u16 gBattleEnvironmentPalette_TallGrass[] = INCGFX_U16("graphics/battle_environment/tall_grass/palette.pal", ".gbapal");
-const u32 gBattleEnvironmentTilemap_TallGrass[] = INCGFX_U32("graphics/battle_environment/tall_grass/map.bin", ".smolTM");
+const u32 gBattleEnvironmentTiles_TallGrass[] = INCBIN_U32("build/extracted_battle_backgrounds/tall_grass/tiles.4bpp.lz");
+const u16 gBattleEnvironmentPalette_TallGrass[] = INCBIN_U16("build/extracted_battle_backgrounds/tall_grass/palette.gbapal");
+const u32 gBattleEnvironmentTilemap_TallGrass[] = INCBIN_U32("build/extracted_battle_backgrounds/tall_grass/map.bin.lz");
 
 const u32 gBattleEnvironmentTiles_LongGrass[] = INCGFX_U32("graphics/battle_environment/long_grass/tiles.png", ".4bpp.smol");
 const u16 gBattleEnvironmentPalette_LongGrass[] = INCGFX_U16("graphics/battle_environment/long_grass/palette.pal", ".gbapal");
@@ -26,9 +26,9 @@ const u32 gBattleEnvironmentTiles_Rock[] = INCGFX_U32("graphics/battle_environme
 const u16 gBattleEnvironmentPalette_Rock[] = INCGFX_U16("graphics/battle_environment/rock/palette.pal", ".gbapal");
 const u32 gBattleEnvironmentTilemap_Rock[] = INCGFX_U32("graphics/battle_environment/rock/map.bin", ".smolTM");
 
-const u32 gBattleEnvironmentTiles_Cave[] = INCGFX_U32("graphics/battle_environment/cave/tiles.png", ".4bpp.smol");
-const u16 gBattleEnvironmentPalette_Cave[] = INCGFX_U16("graphics/battle_environment/cave/palette.pal", ".gbapal");
-const u32 gBattleEnvironmentTilemap_Cave[] = INCGFX_U32("graphics/battle_environment/cave/map.bin", ".smolTM");
+const u32 gBattleEnvironmentTiles_Cave[] = INCBIN_U32("build/extracted_battle_backgrounds/cave/tiles.4bpp.lz");
+const u16 gBattleEnvironmentPalette_Cave[] = INCBIN_U16("build/extracted_battle_backgrounds/cave/palette.gbapal");
+const u32 gBattleEnvironmentTilemap_Cave[] = INCBIN_U32("build/extracted_battle_backgrounds/cave/map.bin.lz");
 
 const u32 gBattleEnvironmentTiles_Building[] = INCGFX_U32("graphics/battle_environment/building/tiles.png", ".4bpp.smol");
 const u16 gBattleEnvironmentPalette_Building[] = INCGFX_U16("graphics/battle_environment/building/palette.pal", ".gbapal");
@@ -38,8 +38,8 @@ const u16 gBattleEnvironmentPalette_BuildingGym[] = INCGFX_U16("graphics/battle_
 const u16 gBattleEnvironmentPalette_BuildingLeader[] = INCGFX_U16("graphics/battle_environment/building/leader.pal", ".gbapal");
 const u16 gBattleEnvironmentPalette_Plain[] = INCGFX_U16("graphics/battle_environment/plain/palette.pal", ".gbapal");
 
-const u32 gBattleEnvironmentTiles_Stadium[] = INCGFX_U32("graphics/battle_environment/stadium/tiles.png", ".4bpp.smol");
-const u32 gBattleEnvironmentTilemap_Stadium[] = INCGFX_U32("graphics/battle_environment/stadium/map.bin", ".smolTM");
+const u32 gBattleEnvironmentTiles_Stadium[] = INCBIN_U32("build/extracted_battle_backgrounds/champion_wallace/tiles.4bpp.lz");
+const u32 gBattleEnvironmentTilemap_Stadium[] = INCBIN_U32("build/extracted_battle_backgrounds/champion_wallace/map.bin.lz");
 
 const u16 gBattleEnvironmentPalette_Frontier[] = INCGFX_U16("graphics/battle_environment/stadium/battle_frontier.pal", ".gbapal"); // this is also used for link battles
 const u16 gBattleEnvironmentPalette_StadiumAqua[] = INCGFX_U16("graphics/battle_environment/stadium/aqua.pal", ".gbapal");
@@ -48,7 +48,7 @@ const u16 gBattleEnvironmentPalette_StadiumSidney[] = INCGFX_U16("graphics/battl
 const u16 gBattleEnvironmentPalette_StadiumPhoebe[] = INCGFX_U16("graphics/battle_environment/stadium/phoebe.pal", ".gbapal");
 const u16 gBattleEnvironmentPalette_StadiumGlacia[] = INCGFX_U16("graphics/battle_environment/stadium/glacia.pal", ".gbapal");
 const u16 gBattleEnvironmentPalette_StadiumDrake[] = INCGFX_U16("graphics/battle_environment/stadium/drake.pal", ".gbapal");
-const u16 gBattleEnvironmentPalette_StadiumWallace[] = INCGFX_U16("graphics/battle_environment/stadium/wallace.pal", ".gbapal");
+const u16 gBattleEnvironmentPalette_StadiumWallace[] = INCBIN_U16("build/extracted_battle_backgrounds/champion_wallace/palette.gbapal");
 
 const u16 gBattleEnvironmentPalette_Kyogre[] = INCGFX_U16("graphics/battle_environment/water/kyogre.pal", ".gbapal");
 const u16 gBattleEnvironmentPalette_Groudon[] = INCGFX_U16("graphics/battle_environment/cave/groudon.pal", ".gbapal");
