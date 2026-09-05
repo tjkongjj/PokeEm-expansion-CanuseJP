@@ -1,47 +1,47 @@
 // fallback
 const u8 gFallbackPokedexText[] = _(
-    "This is a newly discovered Pokemon.\n"
-    "It is currently under investigation.\n"
-    "No detailed information is available\n"
-    "at this time.");
+    "{JPN}エラーメッセージ\n"
+    "{JPN}げんざい ちょうさちゅう。\n"
+    "{JPN}すかん じょうほうを\n"
+    "{JPN}こうしんして ください。");
 
 // Gen 1 families
 const u8 gRaticateAlolaPokedexText[] = _(
-    "It forms a group of Rattata, which it \n"
-    "assumes command of. Each group\n"
-    "has its own territory, and disputes\n"
-    "over food happen often.");
+    "{JPN}コラッタたちを ひきいて むれを つくる。 むれどうしは\n"
+    "{JPN}なかが わるく エサばを めぐり はげしく あらそう。\n"
+    "{JPN}とても よくばりな せいしつ。 す には コラッタたちに\n"
+    "{JPN}あつめさせた エサが たべきれないほど たんまり あるぞ。");
 
 const u8 gPichuPokedexText[] = _(
-    "It is still inept at retaining electricity.\n"
-    "When it is startled, it discharges power\n"
-    "accidentally. It gets better at holding\n"
-    "power as it grows older.");
+    "{JPN}でんきを ためておく ことが まだ ヘタ。 びっくりすると\n"
+    "{JPN}おもわず ほうでんしてしまう。 せいちょうすると じょうずに\n"
+    "{JPN}なっていく。 なかまと あそんでいるとき おたがいの\n"
+    "{JPN}でんきが ショートして ひばなを だす ことが あるぞ。");
 
 const u8 gPikachuPokedexText[] = _(
-    "It stores electricity in the electric sacs\n"
-    "on its cheeks. When it releases pent-up\n"
-    "energy in a burst, the electric power is\n"
-    "equal to a lightning bolt.");
+    "{JPN}ほっぺたの でんきぶくろに でんきを ためる。 おもいっきり\n"
+    "{JPN}ほうでんすると かみなりに ひってきする でんきを はなつ\n"
+    "{JPN}ことが できる。 つくるでんきが きょうりょくな\n"
+    "{JPN}ピカチュウは ほっぺの ふくろは やわらかく よく のびるぞ。");
 
 const u8 gMarowakAlolaPokedexText[] = _(
-    "The cursed flames that light up the bone\n"
-    "carried by this Pokemon are said\n"
-    "to cause both mental and physical\n"
-    "pain that will never fade.");
+    "{JPN}なかまを とむらう しゅうせい。 しにわかれた ははおやの\n"
+    "{JPN}たましいを ほのおに かえて てにした ホネに ともし\n"
+    "{JPN}なかまを とむらう おどりを よどおし おどり つづける。\n"
+    "{JPN}ははのむねんは ほのおとなって ガラガラを まもる。");
 
 const u8 gEeveePokedexText[] = _(
-    "An Eevee has an unstable genetic makeup\n"
-    "that suddenly mutates due to its\n"
-    "environment. Radiation from various\n"
-    "Stones causes this Pokemon to evolve.");
+    "{JPN}くらしている かんきょうで とつぜんへんい する\n"
+    "{JPN}ふあんていな いでんしを もつ ポケモン。 イーブイの\n"
+    "{JPN}いでんしは しんかの ひみつを ときあかす かぎ だ。\n"
+    "{JPN}かのうせいをひめた とくしゅな ポケモン。");
 
 // Gen 2 families
 const u8 gUnownPokedexText[] = _(
-    "This Pokemon is shaped like ancient text\n"
-    "characters. Although research is ongoing,\n"
-    "it is a mystery as to which came first,\n"
-    "the ancient writings or the various Unown.");
+    "{JPN}こだいの もじに にた すがたの ポケモン。さきに\n"
+    "{JPN}うまれたのは もじか アンノーンなのか。けんきゅう\n"
+    "{JPN}ちゅうだが いまだに なぞである。 テレパシーを\n"
+    "{JPN}つかい なかまどうしで いしそつうを しているらしい。");
 
 // Gen 4 families
 const u8 gMothimPokedexText[] = _(
