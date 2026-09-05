@@ -27,14 +27,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}フシギダネ"),
         .cryId = CRY_BULBASAUR,
         .natDexNum = NATIONAL_DEX_BULBASAUR,
-        .categoryName = _("Seed"),
+        .categoryName = _("{JPN}たね"),
         .height = 7,
         .weight = 69,
         .description = COMPOUND_STRING(
-            "Bulbasaur can be seen napping in bright\n"
-            "sunlight. There is a seed on its back.\n"
-            "By soaking up the sun's rays, the seed\n"
-            "grows progressively larger."),
+            "{JPN}うまれたときから せなかに ふじぎな タネが うえてあって\n"
+            "{JPN}からだと ともに そだつという。 ひなたで ひるねを する\n"
+            "{JPN}すがたを みかける。 たいようの ひかりを いっぱい\n"
+            "{JPN}あびることで せなかの タネが おおきく そだつのだ。"),
         .pokemonScale = 356,
         .pokemonOffset = 17,
         .trainerScale = 256,
@@ -98,14 +98,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}フシギソウ"),
         .cryId = CRY_IVYSAUR,
         .natDexNum = NATIONAL_DEX_IVYSAUR,
-        .categoryName = _("Seed"),
+        .categoryName = _("{JPN}たね"),
         .height = 10,
         .weight = 130,
         .description = COMPOUND_STRING(
-            "To support its bulb, Ivysaur's legs\n"
-            "grow sturdy. If it spends more time lying in\n"
-            "the sunlight, the bud will soon bloom into\n"
-            "a large flower."),
+            "{JPN}つぼみが せなかに ついていて ようぶんを きゅうしゅう\n"
+            "{JPN}していくと おおきな はなが さくという。 つぼみを\n"
+            "{JPN}ささえるため あしこしが つよくなる。 ひなたで じっとする\n"
+            "{JPN}じかんが ながくなれば たいりんの はなが さくころだ。"),
         .pokemonScale = 335,
         .pokemonOffset = 13,
         .trainerScale = 256,
@@ -175,14 +175,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}フシギバナ"),
         .cryId = CRY_VENUSAUR,
         .natDexNum = NATIONAL_DEX_VENUSAUR,
-        .categoryName = _("Seed"),
+        .categoryName = _("{JPN}たね"),
         .height = 20,
         .weight = 1000,
         .description = COMPOUND_STRING(
-            "Venusaur's flower is said to take on vivid\n"
-            "colors if it gets plenty of nutrition and\n"
-            "sunlight. The flower's aroma soothes the\n"
-            "emotions of people."),
+            "{JPN}じゅうぶんな えいようと たいようの ひかりが はなの\n"
+            "{JPN}いろを あざやかに すると いわれる。 はなの かおりは\n"
+            "{JPN}ひとの こころを いやす。 あめの ふった よくじつは\n"
+            "{JPN}せなかの はなの あおりが つよまる。"),
         .pokemonScale = 256,
         .pokemonOffset = 0,
         .trainerScale = 388,
@@ -263,13 +263,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .cryId = CRY_VENUSAUR,
     #endif // P_MODIFIED_MEGA_CRIES
         .natDexNum = NATIONAL_DEX_VENUSAUR,
-        .categoryName = _("Seed"),
+        .categoryName = _("{JPN}たね"),
         .height = 24,
         .weight = 1555,
         .description = COMPOUND_STRING(
-            "In order to support its flower, which\n"
-            "has grown larger due to Mega Evolution,\n"
-            "its back and legs have become stronger."),
+            "{JPN}メガシンカして さらに おおきく せいちょうした \n"
+            "{JPN}ハナを ささえるため あしこしも たくましくなったのだ。\n"
+            "{JPN}せなかに はえた おおきな ハナは たいようの ひかりを\n"
+            "{JPN}きゅうしゅうし エネルギーに へんかん できる。"),
         .pokemonScale = 256,
         .pokemonOffset = 0,
         .trainerScale = 388,
@@ -336,14 +337,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}フシギバナ"),
         .cryId = CRY_VENUSAUR,
         .natDexNum = NATIONAL_DEX_VENUSAUR,
-        .categoryName = _("Seed"),
+        .categoryName = _("{JPN}たね"),
         .height = 240,
         .weight = 0,
         .description = COMPOUND_STRING(
-            "Spits big amounts of pollen like a volcano.\n"
-            "Breathing too much of it causes fainting.\n"
-            "In battle, it swings around two thick vines\n"
-            "that can easily topple 10-story buildings."),
+            "{JPN}2ほんの ふとい ツルを ふりまわし たたかう。 10かい\n"
+            "{JPN}だての ビルを かるく なぎたおすほど パワフルだ。\n"
+            "{JPN}やまの ふんかのような いきおいで ばらまく たいりょうの\n"
+            "{JPN}かふんは すいこみすぎると きを うしなうぞ。"),
         .pokemonScale = 256,
         .pokemonOffset = 0,
         .trainerScale = 388,
@@ -396,14 +397,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ヒトカゲ"),
         .cryId = CRY_CHARMANDER,
         .natDexNum = NATIONAL_DEX_CHARMANDER,
-        .categoryName = _("Lizard"),
+        .categoryName = _("{JPN}とかげ"),
         .height = 6,
         .weight = 85,
         .description = COMPOUND_STRING(
-            "The flame that burns at the tip of its\n"
-            "tail is an indication of its emotions.\n"
-            "The flame wavers when Charmander is\n"
-            "happy, and blazes when it is enraged."),
+            "{JPN}しっぽの ほのおは ヒトカゲの せいめいりょくの あかし。\n"
+            "{JPN}げんきだと さかんに もえさかる。 しっぽの ほのおは\n"
+            "{JPN}きぶんも ひょうげん。 たのしいときは ゆらゆら ほのおが\n"
+            "{JPN}ゆれて おこった ときには めらめら さかんに もえる。"),
         .pokemonScale = 444,
         .pokemonOffset = 18,
         .trainerScale = 256,
@@ -466,14 +467,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}リザード"),
         .cryId = CRY_CHARMELEON,
         .natDexNum = NATIONAL_DEX_CHARMELEON,
-        .categoryName = _("Flame"),
+        .categoryName = _("{JPN}かえん"),
         .height = 11,
         .weight = 190,
         .description = COMPOUND_STRING(
-            "Without pity, its sharp claws destroy foes.\n"
-            "If it encounters a strong enemy, it\n"
-            "becomes agitated, and the flame on its\n"
-            "tail flares with a bluish white color."),
+            "{JPN}シッポを ふりまわして あいてを なぎたおし するどい\n"
+            "{JPN}ツメで ズタズタに ひきさいてしまう。 \n"
+            "{JPN}きょうてきと むかいあうと きぶんが たかぶり\n"
+            "{JPN}シッポの ほのおがあおじろく もえあがる。"),
         .pokemonScale = 302,
         .pokemonOffset = 9,
         .trainerScale = 256,
@@ -544,14 +545,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}リザードン"),
         .cryId = CRY_CHARIZARD,
         .natDexNum = NATIONAL_DEX_CHARIZARD,
-        .categoryName = _("Flame"),
+        .categoryName = _("{JPN}かえん"),
         .height = 17,
         .weight = 905,
         .description = COMPOUND_STRING(
-            "A Charizard flies about in search of\n"
-            "strong opponents. It breathes intense\n"
-            "flames that can melt any material. However,\n"
-            "it will never torch a weaker foe."),
+            "{JPN}ちじょう 1400メートル まで ハネを つかって\n"
+            "{JPN}とぶことができる。 つよい あいてを もとめて\n"
+            "{JPN}そらを とびまわる。 たたかいの けいけんを\n"
+            "{JPN}つむほど ほのおの おんどは あがっていく。"),
         .pokemonScale = 256,
         .pokemonOffset = 1,
         .trainerScale = 302,
@@ -610,20 +611,20 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .eggGroups = MON_EGG_GROUPS(EGG_GROUP_MONSTER, EGG_GROUP_DRAGON),
         .abilities = { ABILITY_TOUGH_CLAWS, ABILITY_TOUGH_CLAWS, ABILITY_TOUGH_CLAWS },
         .bodyColor = BODY_COLOR_BLACK,
-        .speciesName = _("{JPN}リザードン"),
+        .speciesName = _("{JPN}リザードンX"),
     #if P_MODIFIED_MEGA_CRIES
         .cryId = CRY_CHARIZARD_MEGA_X,
     #else
         .cryId = CRY_CHARIZARD,
     #endif // P_MODIFIED_MEGA_CRIES
         .natDexNum = NATIONAL_DEX_CHARIZARD,
-        .categoryName = _("Flame"),
+        .categoryName = _("{JPN}かえん"),
         .height = 17,
         .weight = 1105,
         .description = COMPOUND_STRING(
-            "The overwhelming power that fills its\n"
-            "entire body causes it to turn black\n"
-            "and creates intense blue flames."),
+            "{JPN}ぜんしんに みなぎる なみはずれた パワーが\n"
+            "{JPN}からだを くろく そめあげ あおい ほのおを\n"
+            "{JPN}メラメラ もやす。"),
         .pokemonScale = 256,
         .pokemonOffset = 1,
         .trainerScale = 302,
@@ -684,21 +685,20 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .eggGroups = MON_EGG_GROUPS(EGG_GROUP_MONSTER, EGG_GROUP_DRAGON),
         .abilities = { ABILITY_DROUGHT, ABILITY_DROUGHT, ABILITY_DROUGHT },
         .bodyColor = BODY_COLOR_RED,
-        .speciesName = _("{JPN}リザードン"),
+        .speciesName = _("{JPN}リザードンY"),
     #if P_MODIFIED_MEGA_CRIES
         .cryId = CRY_CHARIZARD_MEGA_Y,
     #else
         .cryId = CRY_CHARIZARD,
     #endif // P_MODIFIED_MEGA_CRIES
         .natDexNum = NATIONAL_DEX_CHARIZARD,
-        .categoryName = _("Flame"),
+        .categoryName = _("{JPN}かえん"),
         .height = 17,
         .weight = 1005,
         .description = COMPOUND_STRING(
-            "Its bond with its Trainer is the source\n"
-            "of its power. It boasts speed and\n"
-            "maneuverability greater than that of a\n"
-            "jet fighter."),
+            "{JPN}トレーナーとの きずなが パワーの みなもと。\n"
+            "{JPN}ジェットきを しのぐ ひこう のうりょくを ほこる。\n"
+            ),
         .pokemonScale = 256,
         .pokemonOffset = 1,
         .trainerScale = 302,
@@ -764,14 +764,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}リザードン"),
         .cryId = CRY_CHARIZARD,
         .natDexNum = NATIONAL_DEX_CHARIZARD,
-        .categoryName = _("Flame"),
+        .categoryName = _("かえん"),
         .height = 280,
         .weight = 0,
         .description = COMPOUND_STRING(
-            "The flame inside its body burns\n"
-            "hotter than 3,600 degrees Fahrenheit.\n"
-            "When Charizard roars, that\n"
-            "temperature climbs even higher."),
+            "{JPN}キョダイマックスの パワーによって ほのおの つばさを\n"
+            "{JPN}もつ きょだいな リザードンの すがたが つくられた。\n"
+            "{JPN}せっし2000どの ほのおが たいないで うずまく。\n"
+            "{JPN}ほえると かりょくが さらに あがる。"),
         .pokemonScale = 256,
         .pokemonOffset = 1,
         .trainerScale = 302,
@@ -824,14 +824,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ゼニガメ"),
         .cryId = CRY_SQUIRTLE,
         .natDexNum = NATIONAL_DEX_SQUIRTLE,
-        .categoryName = _("Tiny Turtle"),
+        .categoryName = _("{JPN}かめのこ"),
         .height = 5,
         .weight = 90,
         .description = COMPOUND_STRING(
-            "Its shell is not just for protection.\n"
-            "Its rounded shape and the grooves on its\n"
-            "surface minimize resistance in water,\n"
-            "enabling Squirtle to swim at high speeds."),
+            "{JPN}こうらに とじこもり みを まもる。 あいての すきを\n"
+            "{JPN}みのがさず みずを ふきだして はんげきする。 こうらの\n"
+            "{JPN}やくめは みを まもる だけでない。 まるい かたちと\n"
+            "{JPN}ひょうめんの みぞが みずの ていこうを へらすのだ。"),
         .pokemonScale = 412,
         .pokemonOffset = 18,
         .trainerScale = 256,
@@ -895,14 +895,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}カメール"),
         .cryId = CRY_WARTORTLE,
         .natDexNum = NATIONAL_DEX_WARTORTLE,
-        .categoryName = _("Turtle"),
+        .categoryName = _("{JPN}かめ"),
         .height = 10,
         .weight = 225,
         .description = COMPOUND_STRING(
-            "Its large tail is covered with rich, thick\n"
-            "fur that deepens in color with age.\n"
-            "The scratches on its shell are evidence\n"
-            "of this Pokemon's toughness in battle."),
+            "{JPN}ポカンと あたまを たたかれると こうらに ひっこんで\n"
+            "{JPN}よける。 でも ちょっとだけ シッポが でているよ。\n"
+            "{JPN}ふさふさの けで おおわれた おおきな シッポは ながいき\n"
+            "{JPN}するほど ふかい いろあいに かわる。"),
         .pokemonScale = 332,
         .pokemonOffset = 10,
         .trainerScale = 256,
@@ -973,14 +973,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}カメックス"),
         .cryId = CRY_BLASTOISE,
         .natDexNum = NATIONAL_DEX_BLASTOISE,
-        .categoryName = _("Shellfish"),
+        .categoryName = _("{JPN}こうら"),
         .height = 16,
         .weight = 855,
         .description = COMPOUND_STRING(
-            "The waterspouts that protrude from its\n"
-            "shell are highly accurate. Their bullets of\n"
-            "water can precisely nail tin cans from\n"
-            "a distance of over 160 feet."),
+            "{JPN}からだが おもたく のしかかって あいてを きぜつさせる。\n"
+            "{JPN}ピンチの ときは カラに かくれる。 こうらの\n"
+            "{JPN}ふんしゃこうの ねらいは せいかく。 みずの だんがんを\n"
+            "{JPN}50メートル はなれた あきかんに めいちゅうさせる。"),
         .pokemonScale = 256,
         .pokemonOffset = -1,
         .trainerScale = 293,
@@ -1049,14 +1049,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .cryId = CRY_BLASTOISE,
     #endif // P_MODIFIED_MEGA_CRIES
         .natDexNum = NATIONAL_DEX_BLASTOISE,
-        .categoryName = _("Shellfish"),
+        .categoryName = _("{JPN}こうら"),
         .height = 16,
         .weight = 1011,
         .description = COMPOUND_STRING(
-            "The cannon on its back is as powerful\n"
-            "as a tank gun. Its tough legs and back\n"
-            "enable it to withstand the recoil from\n"
-            "firing the cannon."),
+            "{JPN}こうらの たいほうは せんしゃなみの いりょく。\n"
+            "{JPN}はっしゃの しょうげきを きょうじんな\n"
+            "{JPN}あいこしで ふんばる。"
+            ),
         .pokemonScale = 256,
         .pokemonOffset = -1,
         .trainerScale = 293,
@@ -1122,14 +1122,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}カメックス"),
         .cryId = CRY_BLASTOISE,
         .natDexNum = NATIONAL_DEX_BLASTOISE,
-        .categoryName = _("Shellfish"),
+        .categoryName = _("{JPN}こうら"),
         .height = 250,
         .weight = 0,
         .description = COMPOUND_STRING(
-            "It's not very good at precision\n"
-            "shooting. When attacking, it just fires\n"
-            "its 31 cannons over and over and\n"
-            "over."),
+            "{JPN}せいみつな しゃげきは ニガテ。 31もんの たいほうで\n"
+            "{JPN}うってうって うちまくる スタイルで せめるのだ。\n"
+            "{JPN}まんなかの しゅほうから はなたれる みずでっぽうは\n"
+            "{JPN}やまを うちぬき あなを あける はかいりょくだ。"),
         .pokemonScale = 256,
         .pokemonOffset = -1,
         .trainerScale = 293,
@@ -1182,14 +1182,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}キャタピー"),
         .cryId = CRY_CATERPIE,
         .natDexNum = NATIONAL_DEX_CATERPIE,
-        .categoryName = _("Worm"),
+        .categoryName = _("{JPN}いもむし"),
         .height = 3,
         .weight = 29,
         .description = COMPOUND_STRING(
-            "Its voracious appetite compels it to\n"
-            "devour leaves bigger than itself without\n"
-            "hesitation. It releases a terribly strong\n"
-            "odor from its antennae."),
+            "{JPN}からだ よりも おおきな はっぱを みるみる たべつくして\n"
+            "{JPN}しまうほどの しょくよくを もつ。 あかい しょっかくから\n"
+            "{JPN}においを だして てきを おいはらう。 だっぴを くりかえし\n"
+            "{JPN}おおきくなる。"),
         .pokemonScale = 549,
         .pokemonOffset = 22,
         .trainerScale = 256,
@@ -1256,14 +1256,13 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}トランセル"),
         .cryId = CRY_METAPOD,
         .natDexNum = NATIONAL_DEX_METAPOD,
-        .categoryName = _("Cocoon"),
+        .categoryName = _("{JPN}さなぎ"),
         .height = 7,
         .weight = 99,
         .description = COMPOUND_STRING(
-            "Its shell is as hard as an iron slab.\n"
-            "A Metapod does not move very much\n"
-            "because it is preparing its soft innards\n"
-            "for evolution inside the shell."),
+            "{JPN}からだの カラは てっぱんの ように かたい。 あまり\n"
+            "{JPN}うごかないのは カラのなかで やわらかい なかみが\n"
+            "{JPN}しんかの じゅんびを しているからだ。"),
         .pokemonScale = 350,
         .pokemonOffset = 18,
         .trainerScale = 256,
@@ -1336,14 +1335,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}バタフリー"),
         .cryId = CRY_BUTTERFREE,
         .natDexNum = NATIONAL_DEX_BUTTERFREE,
-        .categoryName = _("Butterfly"),
+        .categoryName = _("{JPN}ちょうちょ"),
         .height = 11,
         .weight = 320,
         .description = COMPOUND_STRING(
-            "It has a superior ability to search for\n"
-            "delicious honey from flowers. It can seek,\n"
-            "extract, and carry honey from flowers\n"
-            "blooming over six miles away."),
+            "{JPN}おいしい はなの ミツを さがす のうりょくに すぐれ\n"
+            "{JPN}すみかから 10キロはなれた ばじょに さく はなから\n"
+            "{JPN}ミツを あつめて はこんでいる。 はなの ミツが\n"
+            "{JPN}だいこうぶつ。"),
         .pokemonScale = 312,
         .pokemonOffset = 2,
         .trainerScale = 256,
@@ -1432,14 +1431,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}バタフリー"),
         .cryId = CRY_BUTTERFREE,
         .natDexNum = NATIONAL_DEX_BUTTERFREE,
-        .categoryName = _("Butterfly"),
+        .categoryName = _("{JPN}ちょうちょ"),
         .height = 170,
         .weight = 0,
         .description = COMPOUND_STRING(
-            "Once it has opponents trapped in a\n"
-            "tornado that could blow away a 10-\n"
-            "ton truck, it finishes them off with\n"
-            "its poisonous scales."),
+            "{JPN}キョダイマックスの パワーが けっしょうとなり まばゆく\n"
+            "{JPN}ひかる もうどくの りんぷんに なっている。\n"
+            "{JPN}10トントラックをも ふきとばす たつまきに まきこみつつ\n"
+            "{JPN}もうどくの りんぷんで とどめを さす。"),
         .pokemonScale = 312,
         .pokemonOffset = 2,
         .trainerScale = 256,
@@ -1493,14 +1492,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ビードル"),
         .cryId = CRY_WEEDLE,
         .natDexNum = NATIONAL_DEX_WEEDLE,
-        .categoryName = _("Hairy Bug"),
+        .categoryName = _("{JPN}けむし"),
         .height = 3,
         .weight = 32,
         .description = COMPOUND_STRING(
-            "A Weedle has an extremely acute sense\n"
-            "of smell. It distinguishes its favorite\n"
-            "kinds of leaves from those it dislikes by\n"
-            "sniffing with its big red nose."),
+            "{JPN}もりや くさちに おおく せいそく。 あたまの さきに\n"
+            "{JPN}5センチぐらいの ちいさく するどい どくばりをもつ。\n"
+            "{JPN}とても するどい きゅうかくを もっている。 こうぶつの\n"
+            "{JPN}はっぱか きらいな はっぱか おおきな はなで かぎわける。"),
         .pokemonScale = 455,
         .pokemonOffset = 22,
         .trainerScale = 256,
@@ -1567,14 +1566,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}コクーン"),
         .cryId = CRY_KAKUNA,
         .natDexNum = NATIONAL_DEX_KAKUNA,
-        .categoryName = _("Cocoon"),
+        .categoryName = _("{JPN}さなぎ"),
         .height = 6,
         .weight = 100,
         .description = COMPOUND_STRING(
-            "It remains virtually immobile while it\n"
-            "clings to a tree. However, on the inside,\n"
-            "it busily prepares for evolution. This is\n"
-            "evident from how hot its shell becomes."),
+            "{JPN}ほとんど うごかずに きに つかまっているが なかでは\n"
+            "{JPN}しんかの じゅんびで おおいそがし。 その しょうこに\n"
+            "{JPN}からだが あつくなっているぞ。 あぶないときは\n"
+            "{JPN}かたくなって みを まもっているようだ。"),
         .pokemonScale = 424,
         .pokemonOffset = 17,
         .trainerScale = 256,
@@ -1655,14 +1654,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}スピアー"),
         .cryId = CRY_BEEDRILL,
         .natDexNum = NATIONAL_DEX_BEEDRILL,
-        .categoryName = _("Poison Bee"),
+        .categoryName = _("{JPN}どくばち"),
         .height = 10,
         .weight = 295,
         .description = COMPOUND_STRING(
-            "A Beedrill is extremely territorial.\n"
-            "For safety reasons, no one should ever\n"
-            "approach its nest. If angered, they will\n"
-            "attack in a swarm."),
+            "{JPN}なわばりいしきが とても つよいので スピアーの\n"
+            "{JPN}すみかには ちかづかない ほうが みの ためだ。 おこると\n"
+            "{JPN}しゅうだんで おそって くるぞ。 もうスピードで\n"
+            "{JPN}とびまわり おしりの どくばりで さしまくる。"),
         .pokemonScale = 366,
         .pokemonOffset = 2,
         .trainerScale = 256,
@@ -1736,14 +1735,13 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .cryId = CRY_BEEDRILL,
     #endif // P_MODIFIED_MEGA_CRIES
         .natDexNum = NATIONAL_DEX_BEEDRILL,
-        .categoryName = _("Poison Bee"),
+        .categoryName = _("{JPN}どくばち"),
         .height = 14,
         .weight = 405,
         .description = COMPOUND_STRING(
-            "Its legs have become poison stingers.\n"
-            "It stabs its prey repeatedly with the\n"
-            "stingers on its limbs, dealing the final\n"
-            "blow with the stinger on its rear."),
+            "{JPN}りょうあしも どくばりに へんか。\n"
+            "{JPN}てあしの はりで さしまっくたあと\n"
+            "{JPN}しりの どくばりで とどめを さす。"),
         .pokemonScale = 366,
         .pokemonOffset = 2,
         .trainerScale = 256,
@@ -1820,14 +1818,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ポッポ"),
         .cryId = CRY_PIDGEY,
         .natDexNum = NATIONAL_DEX_PIDGEY,
-        .categoryName = _("Tiny Bird"),
+        .categoryName = _("{JPN}ことり"),
         .height = 3,
         .weight = 18,
         .description = COMPOUND_STRING(
-            "It has an extremely sharp sense of\n"
-            "direction. It can unerringly return home to\n"
-            "its nest, however far it may be removed\n"
-            "from its familiar surroundings."),
+            "{JPN}ほうこうかんかくに とても すぐれているので どんなに\n"
+            "{JPN}はなれた ばしょからでも まよわずに じぶんの す まで\n"
+            "{JPN}かえることが できる。 たたかいを このまない おとなしい\n"
+            "{JPN}せいかくだが へたに てを だすと はんげきされるぞ。"),
         .pokemonScale = 508,
         .pokemonOffset = -3,
         .trainerScale = 256,
@@ -1894,14 +1892,13 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ピジョン"),
         .cryId = CRY_PIDGEOTTO,
         .natDexNum = NATIONAL_DEX_PIDGEOTTO,
-        .categoryName = _("Bird"),
+        .categoryName = _("{JPN}とり"),
         .height = 11,
         .weight = 300,
         .description = COMPOUND_STRING(
-            "This Pokemon flies around, patrolling its\n"
-            "large territory. If its living space is\n"
-            "violated, it shows no mercy in thoroughly\n"
-            "punishing the foe with its sharp claws."),
+            "{JPN}ひろい なわばりを とんで みまわりを する。\n"
+            "{JPN}なわばりを あらす あいては ようしゃ しない。\n"
+            "{JPN}するどい ツメで てっていてきに こらしめるぞ。"),
         .pokemonScale = 331,
         .pokemonOffset = 10,
         .trainerScale = 256,
@@ -1977,14 +1974,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ピジョット"),
         .cryId = CRY_PIDGEOT,
         .natDexNum = NATIONAL_DEX_PIDGEOT,
-        .categoryName = _("Bird"),
+        .categoryName = _("とり"),
         .height = 15,
         .weight = 395,
         .description = COMPOUND_STRING(
-            "This Pokemon has gorgeous, glossy\n"
-            "feathers. Many Trainers are so captivated\n"
-            "by the beautiful feathers on its head that\n"
-            "they choose Pidgeot as their Pokemon."),
+            "{JPN}うつくしい こうたくの はねを もつ ポケモン。 あたまの\n"
+            "{JPN}はねの うつくしさに こころ うばわれ ピジョットを\n"
+            "{JPN}そだてる トレーナーも おおい。 うつくしい はねを\n"
+            "{JPN}ひろげて あいてを いかくする。"),
         .pokemonScale = 269,
         .pokemonOffset = 0,
         .trainerScale = 256,
@@ -2051,13 +2048,13 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .cryId = CRY_PIDGEOT,
     #endif // P_MODIFIED_MEGA_CRIES
         .natDexNum = NATIONAL_DEX_PIDGEOT,
-        .categoryName = _("Bird"),
+        .categoryName = _("{JPN}とり"),
         .height = 22,
         .weight = 505,
         .description = COMPOUND_STRING(
-            "With its muscular strength now greatly\n"
-            "increased, it can fly continuously\n"
-            "for two weeks without resting."),
+            "{JPN}きんりょくが おおはばに アップ。\n"
+            "{JPN}2しゅうかんの あいだ やすまず\n"
+            "{JPN}とびつづけることが できるのだ。"),
         .pokemonScale = 269,
         .pokemonOffset = 0,
         .trainerScale = 256,
@@ -2128,14 +2125,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}コラッタ"),
         .cryId = CRY_RATTATA,
         .natDexNum = NATIONAL_DEX_RATTATA,
-        .categoryName = _("Mouse"),
+        .categoryName = _("{JPN}ねずみ"),
         .height = 3,
         .weight = 35,
         .description = COMPOUND_STRING(
-            "A Rattata is cautious in the extreme.\n"
-            "Even while it is asleep, it constantly\n"
-            "moves its ears and listens for danger.\n"
-            "It will make its nest anywhere."),
+            "{JPN}けいかいしんが とても つよく ねている ときも みみを\n"
+            "{JPN}うごかし まわりの おとを きいている。 どこにでも\n"
+            "{JPN}すみつき す を つくる。 キバは ながくて するどい。\n"
+            "{JPN}のびつづけるので かたい モノを かじって けずる。"),
         .pokemonScale = 481,
         .pokemonOffset = 21,
         .trainerScale = 256,
@@ -2212,14 +2209,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ラッタ"),
         .cryId = CRY_RATICATE,
         .natDexNum = NATIONAL_DEX_RATICATE,
-        .categoryName = _("Mouse"),
+        .categoryName = _("{JPN}ねずみ"),
         .height = 7,
         .weight = 185,
         .description = COMPOUND_STRING(
-            "A Raticate's sturdy fangs grow steadily.\n"
-            "To keep them ground down, it gnaws on\n"
-            "rocks and logs. It may even chew on the\n"
-            "walls of houses."),
+            "{JPN}じょうぶな キバは どんどん のびるので いわや たいぼくを\n"
+            "{JPN}かじって けずっている。 いえの カベを かじられる\n"
+            "{JPN}ことも あるよ。 うしろあしに ついた みずかきを つかって\n"
+            "{JPN}かわをわたり ひろい はんいで エサを さがしまわる。"),
         .pokemonScale = 459,
         .pokemonOffset = 18,
         .trainerScale = 256,
@@ -2304,14 +2301,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}コラッタ"),
         .cryId = CRY_RATTATA,
         .natDexNum = NATIONAL_DEX_RATTATA,
-        .categoryName = _("Mouse"),
+        .categoryName = _("{JPN}ねずみ"),
         .height = 3,
         .weight = 38,
         .description = COMPOUND_STRING(
-            "With its incisors, it gnaws through doors\n"
-            "and infiltrates people's homes.\n"
-            "Then, with a twitch of its whiskers,\n"
-            "it steals whatever food it finds."),
+            "{JPN}ひが くれると かつどう。 きゅうかく するどい\n"
+            "{JPN}ひげを もつ。 むれの ボスである ラッタのため いいエサを\n"
+            "{JPN} もとめて まちじゅうを かけめぐる。 かくしてある\n"
+            "{JPN}たべものの においを かぎとり たちどころに みつけだす。"),
         .pokemonScale = 481,
         .pokemonOffset = 21,
         .trainerScale = 256,
@@ -2385,7 +2382,7 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ラッタ"),
         .cryId = CRY_RATICATE,
         .natDexNum = NATIONAL_DEX_RATICATE,
-        .categoryName = _("Mouse"),
+        .categoryName = _("ねずみ"),
         .height = 7,
         .weight = 255,
         .description = gRaticateAlolaPokedexText,
@@ -2445,10 +2442,10 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .eggGroups = MON_EGG_GROUPS(EGG_GROUP_FIELD),
         .abilities = { ABILITY_THICK_FAT, ABILITY_NONE, ABILITY_NONE },
         .bodyColor = BODY_COLOR_BLACK,
-        .speciesName = _("{JPN}ラッタ"),
+        .speciesName = _("{JPN}ぬしラッタ"),
         .cryId = CRY_RATICATE,
         .natDexNum = NATIONAL_DEX_RATICATE,
-        .categoryName = _("Mouse"),
+        .categoryName = _("{JPN}ねずみ"),
         .height = 14,
         .weight = 1050,
         .description = gRaticateAlolaPokedexText,
@@ -2516,14 +2513,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}オニスズメ"),
         .cryId = CRY_SPEAROW,
         .natDexNum = NATIONAL_DEX_SPEAROW,
-        .categoryName = _("Tiny Bird"),
+        .categoryName = _("{JPN}ことり"),
         .height = 3,
         .weight = 20,
         .description = COMPOUND_STRING(
-            "Its loud cry can be heard over half a mile\n"
-            "away. If its high, keening cry is heard\n"
-            "echoing all around, it is a sign that they\n"
-            "are warning each other of danger."),
+            "{JPN}おおきな なきごえは 1キロ さきまで とどく。 あちこちで\n"
+            "{JPN}カンだかい こえが きこえる ときは なかまたちに きけんを\n"
+            "{JPN}しらせている あいずだ。 ちいさな つばさを いそがしく\n"
+            "{JPN}はばたかせて とぶ。 くさむらの むしなどを たべる。"),
         .pokemonScale = 571,
         .pokemonOffset = 22,
         .trainerScale = 256,
@@ -2588,14 +2585,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}オニドリル"),
         .cryId = CRY_FEAROW,
         .natDexNum = NATIONAL_DEX_FEAROW,
-        .categoryName = _("Beak"),
+        .categoryName = _("{JPN}くちばし"),
         .height = 12,
         .weight = 380,
         .description = COMPOUND_STRING(
-            "Its long neck and elongated beak are\n"
-            "ideal for catching prey in soil or water.\n"
-            "It deftly moves this extended and skinny\n"
-            "beak to pluck prey."),
+            "{JPN}ながい くびと くちばしは つちや みずの なかに いる\n"
+            "{JPN}エサを つかまえるのに べんり。 ほそながい くちばしで\n"
+            "{JPN}きように つまむぞ。 おおきな つばさで 1にちじゅう\n"
+            "{JPN}とびまわる たいりょくの もちぬし。"),
         .pokemonScale = 278,
         .pokemonOffset = 1,
         .trainerScale = 256,
@@ -2664,14 +2661,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}アーボ"),
         .cryId = CRY_EKANS,
         .natDexNum = NATIONAL_DEX_EKANS,
-        .categoryName = _("Snake"),
+        .categoryName = _("{JPN}へび"),
         .height = 20,
         .weight = 69,
         .description = COMPOUND_STRING(
-            "An Ekans curls itself up in a spiral while\n"
-            "it rests. This position allows it to quickly\n"
-            "respond to an enemy from any direction\n"
-            "with a threat from its upraised head."),
+            "{JPN}ぐるぐる からだを まいて やすんでいるのは どの\n"
+            "{JPN}ほうこうから てきが おそってきても とっさに あたまを\n"
+            "{JPN}むけて いかくできるからだ。 アゴを はずすことで\n"
+            "{JPN}じぶんより おおきな えものも まるのみにする。"),
         .pokemonScale = 298,
         .pokemonOffset = 12,
         .trainerScale = 256,
@@ -2743,14 +2740,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}アーボック"),
         .cryId = CRY_ARBOK,
         .natDexNum = NATIONAL_DEX_ARBOK,
-        .categoryName = _("Cobra"),
+        .categoryName = _("{JPN}コブラ"),
         .height = 35,
         .weight = 650,
         .description = COMPOUND_STRING(
-            "This Pokemon has a terrifically strong\n"
-            "constricting power. It can even flatten\n"
-            "steel oil drums. Once it wraps its body\n"
-            "around its foe, escaping is impossible."),
+            "{JPN}おなかの もようで てきを いかく。 もように おびえて\n"
+            "{JPN}うごけなくなった すきに からだで しめつける。 しめつける\n"
+            "{JPN}ちからは とても きょうりょく。ドラムかんも ぺしゃんこに\n"
+            "{JPN}してしまうぞ。まきつかれたら にげだす ことは ふかのうだ。"),
         .pokemonScale = 256,
         .pokemonOffset = 0,
         .trainerScale = 296,
@@ -2813,7 +2810,7 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ピチュー"),
         .cryId = CRY_PICHU,
         .natDexNum = NATIONAL_DEX_PICHU,
-        .categoryName = _("Tiny Mouse"),
+        .categoryName = _("{JPN}こねずみ"),
         .height = 3,
         .weight = 20,
         .description = gPichuPokedexText,
@@ -2879,10 +2876,10 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .abilities = { ABILITY_STATIC, ABILITY_NONE, ABILITY_NONE },
         .bodyColor = BODY_COLOR_YELLOW,
         .noFlip = TRUE,
-        .speciesName = _("{JPN}ピチュー"),
+        .speciesName = _("{JPN}ギザみみピチュー"),
         .cryId = CRY_PICHU,
         .natDexNum = NATIONAL_DEX_PICHU,
-        .categoryName = _("Tiny Mouse"),
+        .categoryName = _("{JPN}こねずみ"),
         .height = 3,
         .weight = 20,
         .description = gPichuPokedexText,
@@ -2964,7 +2961,7 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ピカチュウ"),
         .cryId = CRY_PIKACHU,
         .natDexNum = NATIONAL_DEX_PIKACHU,
-        .categoryName = _("Mouse"),
+        .categoryName = _("{JPN}ねずみ"),
         .height = 4,
         .weight = 60,
         .description = gPikachuPokedexText,
@@ -3055,7 +3052,7 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ピカチュウ"),
         .cryId = CRY_PIKACHU,
         .natDexNum = NATIONAL_DEX_PIKACHU,
-        .categoryName = _("Mouse"),
+        .categoryName = _("{JPN}ねずみ"),
         .height = 4,
         .weight = 60,
         .description = gPikachuPokedexText,
@@ -3107,7 +3104,7 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ピカチュウ"),
         .cryId = CRY_PIKACHU,
         .natDexNum = NATIONAL_DEX_PIKACHU,
-        .categoryName = _("Mouse"),
+        .categoryName = _("{JPN}ねずみ"),
         .height = 4,
         .weight = 60,
         .description = gPikachuPokedexText,
@@ -3160,7 +3157,7 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ピカチュウ"),
         .cryId = CRY_PIKACHU,
         .natDexNum = NATIONAL_DEX_PIKACHU,
-        .categoryName = _("Mouse"),
+        .categoryName = _("{JPN}ねずみ"),
         .height = 4,
         .weight = 60,
         .description = gPikachuPokedexText,
@@ -3213,7 +3210,7 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ピカチュウ"),
         .cryId = CRY_PIKACHU,
         .natDexNum = NATIONAL_DEX_PIKACHU,
-        .categoryName = _("Mouse"),
+        .categoryName = _("{JPN}ねずみ"),
         .height = 4,
         .weight = 60,
         .description = gPikachuPokedexText,
@@ -3265,7 +3262,7 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ピカチュウ"),
         .cryId = CRY_PIKACHU,
         .natDexNum = NATIONAL_DEX_PIKACHU,
-        .categoryName = _("Mouse"),
+        .categoryName = _("{JPN}ねずみ"),
         .height = 4,
         .weight = 60,
         .description = gPikachuPokedexText,
@@ -3317,7 +3314,7 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ピカチュウ"),
         .cryId = CRY_PIKACHU,
         .natDexNum = NATIONAL_DEX_PIKACHU,
-        .categoryName = _("Mouse"),
+        .categoryName = _("{JPN}ねずみ"),
         .height = 4,
         .weight = 60,
         .description = gPikachuPokedexText,
@@ -3373,14 +3370,12 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ピカチュウ"),
         .cryId = CRY_PIKACHU,
         .natDexNum = NATIONAL_DEX_PIKACHU,
-        .categoryName = _("Mouse"),
+        .categoryName = _("{JPN}ねずみ"),
         .height = 4,
         .weight = 60,
         .description = COMPOUND_STRING(
-            "This Pikachu wears its partner's cap, which\n"
-            "is proof of the strong bond Pikachu and\n"
-            "its partner formed during adventures\n"
-            "across many different regions."),
+            "{JPN}かぶっているのは パートナーの ぼうし。\n"
+            "{JPN}さまざまな ちほうの おもいでが たくさん つまっている。"),
         .pokemonScale = 479,
         .pokemonOffset = 19,
         .trainerScale = 256,
@@ -3429,14 +3424,12 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ピカチュウ"),
         .cryId = CRY_PIKACHU,
         .natDexNum = NATIONAL_DEX_PIKACHU,
-        .categoryName = _("Mouse"),
+        .categoryName = _("{JPN}ねずみ"),
         .height = 4,
         .weight = 60,
         .description = COMPOUND_STRING(
-            "This Pikachu wears its partner's cap, which\n"
-            "is proof of the strong bond Pikachu and\n"
-            "its partner formed during adventures\n"
-            "across the Hoenn region together."),
+            "{JPN}かぶっているのは パートナーの ぼうし。\n"
+            "{JPN}ホウエンを たびした おもいでが たくさん つまっている。"),
         .pokemonScale = 479,
         .pokemonOffset = 19,
         .trainerScale = 256,
@@ -3485,14 +3478,12 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ピカチュウ"),
         .cryId = CRY_PIKACHU,
         .natDexNum = NATIONAL_DEX_PIKACHU,
-        .categoryName = _("Mouse"),
+        .categoryName = _("{JPN}"),
         .height = 4,
         .weight = 60,
         .description = COMPOUND_STRING(
-            "This Pikachu wears its partner's cap, which\n"
-            "is proof of the strong bond Pikachu and\n"
-            "its partner formed during adventures\n"
-            "across the Sinnoh region together."),
+            "{JPN}かぶっているのは パートナーの ぼうし。\n"
+            "{JPN}シンオウを たびした おもいでが たくさん つまっている。"),
         .pokemonScale = 479,
         .pokemonOffset = 19,
         .trainerScale = 256,
@@ -3541,14 +3532,12 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ピカチュウ"),
         .cryId = CRY_PIKACHU,
         .natDexNum = NATIONAL_DEX_PIKACHU,
-        .categoryName = _("Mouse"),
+        .categoryName = _("{JPN}ねずみ"),
         .height = 4,
         .weight = 60,
         .description = COMPOUND_STRING(
-            "This Pikachu wears its partner's cap, which\n"
-            "is proof of the strong bond Pikachu and\n"
-            "its partner formed during adventures\n"
-            "across the Unova region together."),
+            "{JPN}かぶっているのは パートナーの ぼうし。\n"
+            "{JPN}イッシュを たびした おもいでが たくさん つまっている。"),
         .pokemonScale = 479,
         .pokemonOffset = 19,
         .trainerScale = 256,
@@ -3597,14 +3586,12 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ピカチュウ"),
         .cryId = CRY_PIKACHU,
         .natDexNum = NATIONAL_DEX_PIKACHU,
-        .categoryName = _("Mouse"),
+        .categoryName = _("{JPN}ねずみ"),
         .height = 4,
         .weight = 60,
         .description = COMPOUND_STRING(
-            "This Pikachu wears its partner's cap, which\n"
-            "is proof of the strong bond Pikachu and\n"
-            "its partner formed during adventures\n"
-            "across the Kalos region together."),
+            "{JPN}かぶっているのは パートナーの ぼうし。\n"
+            "{JPN}カロスを たびした おもいでが たくさん つまっている。"),
         .pokemonScale = 479,
         .pokemonOffset = 19,
         .trainerScale = 256,
@@ -3653,14 +3640,12 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ピカチュウ"),
         .cryId = CRY_PIKACHU,
         .natDexNum = NATIONAL_DEX_PIKACHU,
-        .categoryName = _("Mouse"),
+        .categoryName = _("{JPN}ねずみ"),
         .height = 4,
         .weight = 60,
         .description = COMPOUND_STRING(
-            "This Pikachu wears its partner's cap, which\n"
-            "is proof of the strong bond Pikachu and\n"
-            "its partner formed during adventures\n"
-            "across the Alola region together."),
+            "{JPN}かぶっているのは パートナーの ぼうし。\n"
+            "{JPN}アローラで すごした おもいでが たくさん つまっている。"),
         .pokemonScale = 479,
         .pokemonOffset = 19,
         .trainerScale = 256,
@@ -3710,14 +3695,13 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ピカチュウ"),
         .cryId = CRY_PIKACHU,
         .natDexNum = NATIONAL_DEX_PIKACHU,
-        .categoryName = _("Mouse"),
+        .categoryName = _("{JPN}ねずみ"),
         .height = 4,
         .weight = 60,
         .description = COMPOUND_STRING(
-            "This Pikachu wears its partner's cap, which\n"
-            "is proof of the strong bond Pikachu and\n"
-            "its partner formed as the two overcame\n"
-            "many hardships together."),
+            "{JPN}かぶっているのは パートナーの ぼうし。\n"
+            "{JPN}うんめいてきな であいと ともに こんなんを\n"
+            "{JPN}のりこえて ふかめた きずなの あかしである。"),
         .pokemonScale = 479,
         .pokemonOffset = 19,
         .trainerScale = 256,
@@ -3766,14 +3750,13 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ピカチュウ"),
         .cryId = CRY_PIKACHU,
         .natDexNum = NATIONAL_DEX_PIKACHU,
-        .categoryName = _("Mouse"),
+        .categoryName = _("{JPN}ねずみ"),
         .height = 4,
         .weight = 60,
         .description = COMPOUND_STRING(
-            "This Pikachu wears its partner's cap, which\n"
-            "is proof of the strong bond Pikachu and\n"
-            "its partner formed during adventures\n"
-            "across the world together."),
+            "{JPN}かぶっているのは パートナーの ぼうし。\n"
+            "{JPN}いろんな せかいを たびした おもいでが\n"
+            "{JPN}たくさん つまっている。"),
         .pokemonScale = 479,
         .pokemonOffset = 19,
         .trainerScale = 256,
@@ -3825,14 +3808,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ピカチュウ"),
         .cryId = CRY_PIKACHU,
         .natDexNum = NATIONAL_DEX_PIKACHU,
-        .categoryName = _("Mouse"),
+        .categoryName = _("{JPN}ねずみ"),
         .height = 210,
         .weight = 0,
         .description = COMPOUND_STRING(
-            "When it smashes its opponents with\n"
-            "its bolt-shaped tail, it delivers a\n"
-            "surge of electricity equivalent to a\n"
-            "lightning strike."),
+            "{JPN}ぼうちょうした キョダイマックスの パワーによって からだが\n"
+            "{JPN}ふくれて そらまで のびる しっぽに なった。 カミナリの\n"
+            "{JPN}しっぽを たたきつけると らくらいに ひってきする\n"
+            "{JPN}でんあつと でんりゅうが あいてを つらぬく。"),
         .pokemonScale = 479,
         .pokemonOffset = 19,
         .trainerScale = 256,
@@ -3884,7 +3867,7 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ピカチュウ"),
         .cryId = CRY_PIKACHU,
         .natDexNum = NATIONAL_DEX_PIKACHU,
-        .categoryName = _("Mouse"),
+        .categoryName = _("{JPN}ねずみ"),
         .height = 4,
         .weight = 60,
         .description = gPikachuPokedexText,
@@ -3972,14 +3955,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ライチュウ"),
         .cryId = CRY_RAICHU,
         .natDexNum = NATIONAL_DEX_RAICHU,
-        .categoryName = _("Mouse"),
+        .categoryName = _("{JPN}ねずみ"),
         .height = 8,
         .weight = 300,
         .description = COMPOUND_STRING(
-            "If it stores too much electricity, its\n"
-            "behavior turns aggressive. To avoid this,\n"
-            "it occasionally discharges excess energy\n"
-            "and calms itself down."),
+            "{JPN}でんきが たまりすぎると こうげきてきな せいかくに\n"
+            "{JPN}かわるため たまに ほうでんして きもちを おちつける\n"
+            "{JPN}こうどうを とる。 でんげきは 10まんボルト。 じぶんの\n"
+            "{JPN}なんばいも おおきい あいてを いちげきで きぜつさせる。"),
         .pokemonScale = 426,
         .pokemonOffset = 13,
         .trainerScale = 256,
@@ -4055,14 +4038,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ライチュウ"),
         .cryId = CRY_RAICHU,
         .natDexNum = NATIONAL_DEX_RAICHU,
-        .categoryName = _("Mouse"),
+        .categoryName = _("{JPN}ねずみ"),
         .height = 7,
         .weight = 210,
         .description = COMPOUND_STRING(
-            "It uses psychokinesis to control\n"
-            "electricity. It focuses psychic energy\n"
-            "into its tail and rides it like it's surfing.\n"
-            "Another name for this Pokemon is 'hodad'."),
+            "{JPN}ねんりきで でんきを あやつる。 しっぽに のると\n"
+            "{JPN}サイコパワーで うきあがり そのまま いどう。 ほっぺを\n"
+            "{JPN}もみしだくと あまくて かぐわしい においが ただよう。\n"
+            "{JPN}ただし かるく しびれてしまうぞ。"),
         .pokemonScale = 426,
         .pokemonOffset = 13,
         .trainerScale = 256,
@@ -4126,21 +4109,20 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .eggGroups = MON_EGG_GROUPS(EGG_GROUP_FIELD, EGG_GROUP_FAIRY),
         .abilities = { ABILITY_ELECTRIC_SURGE, ABILITY_ELECTRIC_SURGE, ABILITY_ELECTRIC_SURGE },
         .bodyColor = BODY_COLOR_YELLOW,
-        .speciesName = _("{JPN}ライチュウ"),
+        .speciesName = _("{JPN}ライチュウX"),
     #if P_MODIFIED_MEGA_CRIES
         .cryId = CRY_RAICHU_MEGA_X,
     #else
         .cryId = CRY_RAICHU,
     #endif // P_MODIFIED_MEGA_CRIES
         .natDexNum = NATIONAL_DEX_RAICHU,
-        .categoryName = _("Mouse"),
+        .categoryName = _("{JPN}ねずみ"),
         .height = 12,
         .weight = 380,
         .description = COMPOUND_STRING(
-            "It resembles an X as it flies through\n"
-            "the air with 50 million volts of\n"
-            "electricity sparking from its ears and\n"
-            "forked tail."),
+            "{JPN}りょうみみと ふたまたの しっぽから\n"
+            "{JPN}5000まんボルトの でんきを スパークさせて\n"
+            "{JPN}Xのすがたで とぶ。"),
         .frontPic = gMonFrontPic_RaichuMegaX,
         .frontPicSize = MON_COORDS_SIZE(64, 64),
         .frontPicYOffset = 3,
@@ -4186,21 +4168,19 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .eggGroups = MON_EGG_GROUPS(EGG_GROUP_FIELD, EGG_GROUP_FAIRY),
         .abilities = { ABILITY_NO_GUARD, ABILITY_NO_GUARD, ABILITY_NO_GUARD },
         .bodyColor = BODY_COLOR_YELLOW,
-        .speciesName = _("{JPN}ライチュウ"),
+        .speciesName = _("{JPN}ライチュウY"),
     #if P_MODIFIED_MEGA_CRIES
         .cryId = CRY_RAICHU_MEGA_Y,
     #else
         .cryId = CRY_RAICHU,
     #endif // P_MODIFIED_MEGA_CRIES
         .natDexNum = NATIONAL_DEX_RAICHU,
-        .categoryName = _("Mouse"),
+        .categoryName = _("{JPN}ねずみ"),
         .height = 10,
         .weight = 260,
         .description = COMPOUND_STRING(
-            "It fires bolts of electricity from the\n"
-            "tip of its tail and from the spiky tufts\n"
-            "of fur growing out of its temples. This\n"
-            "electricity forms the letter Y."),
+            "{JPN}こめかみから のびた ギザギザの たいもうと\n"
+            "{JPN}しっぽの さきから Yのきせきで でんげきを はなつ。"),
         .frontPic = gMonFrontPic_RaichuMegaY,
         .frontPicSize = MON_COORDS_SIZE(64, 64),
         .frontPicYOffset = 4,
@@ -4250,14 +4230,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}サンド"),
         .cryId = CRY_SANDSHREW,
         .natDexNum = NATIONAL_DEX_SANDSHREW,
-        .categoryName = _("Mouse"),
+        .categoryName = _("{JPN}ねずみ"),
         .height = 6,
         .weight = 120,
         .description = COMPOUND_STRING(
-            "When it curls up in a ball, it can make any\n"
-            "attack bounce off harmlessly. Its hide has\n"
-            "turned tough and solid as a result of\n"
-            "living in the desert."),
+            "{JPN}まるくなると どんな こうげきでも はねかえす。 さばくで\n"
+            "{JPN}せいかつしている うちに からだの ひょうめんが カチカチに\n"
+            "{JPN}かたく へんかした。 じめんを ほって すあなを つくる。\n"
+            "{JPN}かたい いわも するどい ツメで くだいて ほりすすむぞ。"),
         .pokemonScale = 365,
         .pokemonOffset = 18,
         .trainerScale = 256,
@@ -4323,14 +4303,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}サンドパン"),
         .cryId = CRY_SANDSLASH,
         .natDexNum = NATIONAL_DEX_SANDSLASH,
-        .categoryName = _("Mouse"),
+        .categoryName = _("{JPN}ねずみ"),
         .height = 10,
         .weight = 295,
         .description = COMPOUND_STRING(
-            "It curls up in a ball to protect itself from\n"
-            "enemy attacks. It also curls up to prevent\n"
-            "heatstroke during the daytime when\n"
-            "temperatures rise sharply."),
+            "{JPN}からだの トゲは ひふが かたくなったもの。 せなかを\n"
+            "{JPN}まるめると トゲトゲの ボールみたい。 トゲに さされて\n"
+            "{JPN}ひるんだ あいてに とびかかり するどい ツメで ばりばり\n"
+            "{JPN}ひっかきまくるぞ。"),
         .pokemonScale = 341,
         .pokemonOffset = 11,
         .trainerScale = 256,
@@ -4395,14 +4375,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}サンド"),
         .cryId = CRY_SANDSHREW,
         .natDexNum = NATIONAL_DEX_SANDSHREW,
-        .categoryName = _("Mouse"),
+        .categoryName = _("{JPN}ねずみ"),
         .height = 7,
         .weight = 400,
         .description = COMPOUND_STRING(
-            "Life on mountains covered with deep snow\n"
-            "has granted this Pokemon a body of ice\n"
-            "that's as hard as steel.\n"
-            "Predators go after its soft belly."),
+            "{JPN}かざんの ふんかから にげるうちに ゆきやまに\n"
+            "{JPN}うつりすんだ。 はがねの こうらは とても がんじょうだが\n"
+            "{JPN}かたすぎて からだを まるめることが できない。 やわらかい\n"
+            "{JPN}おなかを ねらわれるので ひっしに じめんに しがみつく。"),
         .pokemonScale = 365,
         .pokemonOffset = 18,
         .trainerScale = 256,
@@ -4467,14 +4447,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}サンドパン"),
         .cryId = CRY_SANDSLASH,
         .natDexNum = NATIONAL_DEX_SANDSLASH,
-        .categoryName = _("Mouse"),
+        .categoryName = _("{JPN}ねずみ"),
         .height = 12,
         .weight = 550,
         .description = COMPOUND_STRING(
-            "It uses large, hooked claws to cut a path\n"
-            "through deep snow as it runs.\n"
-            "On snowy mountains, this Sandslash\n"
-            "is faster than any other Pokemon."),
+            "{JPN}ごっかんの せかいに てきおうした すがた。 せつげんを\n"
+            "{JPN}こうそくで かける。 するどいツメを しっかり つきたてて\n"
+            "{JPN}ひょうざんも すべらず のぼっていく。 ゆきやまでは どの\n"
+            "{JPN}ポケモンよりも はやいのだ。"),
         .pokemonScale = 341,
         .pokemonOffset = 11,
         .trainerScale = 256,
@@ -4545,14 +4525,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ニドラン♀"),
         .cryId = CRY_NIDORAN_F,
         .natDexNum = NATIONAL_DEX_NIDORAN_F,
-        .categoryName = _("Poison Pin"),
+        .categoryName = _("{JPN}どくばり"),
         .height = 4,
         .weight = 70,
         .description = COMPOUND_STRING(
-            "Its highly toxic barbs are thought to have\n"
-            "developed as protection for this small-\n"
-            "bodied Pokemon. When enraged, it releases\n"
-            "a horrible toxin from its horn."),
+            "{JPN}ちいさい からだを まもるため きょうりょくな どくばりが\n"
+            "{JPN}はったつしたと かんがえられている。 おこると ツノの\n"
+            "{JPN}さきから もうどくを だす。 こがらで とても おとなしい。\n"
+            "{JPN}やさしい せいかくで たたかいは このまない。"),
         .pokemonScale = 488,
         .pokemonOffset = 21,
         .trainerScale = 256,
@@ -4625,14 +4605,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ニドリーナ"),
         .cryId = CRY_NIDORINA,
         .natDexNum = NATIONAL_DEX_NIDORINA,
-        .categoryName = _("Poison Pin"),
+        .categoryName = _("{JPN}どくばり"),
         .height = 8,
         .weight = 200,
         .description = COMPOUND_STRING(
-            "When it is with its friends or\n"
-            "family, its barbs are tucked away to\n"
-            "prevent injury. It appears to become\n"
-            "nervous if separated from the others."),
+            "{JPN}なかまや かぞくと いっしょの ときは おたがい\n"
+            "{JPN}きずつかないように トゲが ひっこんでいる。\n"
+            "{JPN}なかまから はなれると ふあんに なるらしい。\n"
+            "{JPN}きけんを かんじると ぜんしんの トゲを さかだてる。"),
         .pokemonScale = 381,
         .pokemonOffset = 15,
         .trainerScale = 256,
@@ -4704,14 +4684,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ニドクイン"),
         .cryId = CRY_NIDOQUEEN,
         .natDexNum = NATIONAL_DEX_NIDOQUEEN,
-        .categoryName = _("Drill"),
+        .categoryName = _("{JPN}ドリル"),
         .height = 13,
         .weight = 600,
         .description = COMPOUND_STRING(
-            "It is adept at sending foes flying with\n"
-            "harsh tackles using its tough, scaly body.\n"
-            "This Pokemon is at its strongest when\n"
-            "it is defending its young."),
+            "{JPN}かたい ウロコで おおわれた からだを ぶつけて あいてを\n"
+            "{JPN}はじきとばす こうげきが とくいだ。 こどもを まもる\n"
+            "{JPN}ときが いちばん つよい。 すあなの こどもを\n"
+            "{JPN}いのちがけで まもる。"),
         .pokemonScale = 293,
         .pokemonOffset = 4,
         .trainerScale = 256,
@@ -4774,14 +4754,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ニドラン♂"),
         .cryId = CRY_NIDORAN_M,
         .natDexNum = NATIONAL_DEX_NIDORAN_M,
-        .categoryName = _("Poison Pin"),
+        .categoryName = _("{JPN}どくばり"),
         .height = 5,
         .weight = 90,
         .description = COMPOUND_STRING(
-            "The male Nidoran has developed muscles\n"
-            "that freely move its ears in any direction.\n"
-            "Even the slightest sound does not escape\n"
-            "this Pokemon's notice."),
+            "{JPN}みみを うごかす きんにくが はったつしていて どんな\n"
+            "{JPN}むきにも じざいに みみを うごかせる。 かすかな\n"
+            "{JPN}ものおとも ききもらさない ポケモン。\n"
+            "{JPN}こがらだが いさましい せいしつ。"),
         .pokemonScale = 511,
         .pokemonOffset = 20,
         .trainerScale = 256,
@@ -4847,14 +4827,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ニドリーノ"),
         .cryId = CRY_NIDORINO,
         .natDexNum = NATIONAL_DEX_NIDORINO,
-        .categoryName = _("Poison Pin"),
+        .categoryName = _("{JPN}どくばり"),
         .height = 9,
         .weight = 195,
         .description = COMPOUND_STRING(
-            "Its horn is harder than a diamond.\n"
-            "If it senses a hostile presence, all the\n"
-            "barbs on its back bristle up at once, and it\n"
-            "challenges the foe with all its might."),
+            "{JPN}ダイヤモンドよりも かたい ツノを もつ。 てきの けはいを\n"
+            "{JPN}かんじると せなかの トゲが いっせいに さかだち\n"
+            "{JPN}ぜんりょくで たちむかう。 あいてに さかだち\n"
+            "{JPN}しょうげきで ツノから もうどくが にじみでる。"),
         .pokemonScale = 408,
         .pokemonOffset = 15,
         .trainerScale = 256,
@@ -4927,14 +4907,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ニドキング"),
         .cryId = CRY_NIDOKING,
         .natDexNum = NATIONAL_DEX_NIDOKING,
-        .categoryName = _("Drill"),
+        .categoryName = _("{JPN}ドリル"),
         .height = 14,
         .weight = 620,
         .description = COMPOUND_STRING(
-            "A Nidoking's thick tail packs enormously\n"
-            "destructive power capable of toppling\n"
-            "a metal transmission tower. Once it goes\n"
-            "on a rampage, there is no stopping it."),
+            "{JPN}ふとい しっぽの ひとふりは がんじょうな てっとうも\n"
+            "{JPN}へしおる すさまじい はかいりょく。 いちど あばれだすと\n"
+            "{JPN}てが つけられない。 ふとい てあしと しっぽで がんがん\n"
+            "{JPN}せめこむ ちからじまん。"),
         .pokemonScale = 256,
         .pokemonOffset = 0,
         .trainerScale = 256,
@@ -5011,14 +4991,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ピィ"),
         .cryId = CRY_CLEFFA,
         .natDexNum = NATIONAL_DEX_CLEFFA,
-        .categoryName = _("Star Shape"),
+        .categoryName = _("{JPN}ほしがた"),
         .height = 3,
         .weight = 30,
         .description = COMPOUND_STRING(
-            "On nights with many shooting stars,\n"
-            "Cleffa can be seen dancing in a ring.\n"
-            "They dance until daybreak, when they\n"
-            "quench their thirst with the morning dew."),
+            "{JPN}ながれぼしの おおい よるは わ に なって おどる ピィの\n"
+            "{JPN}すがたを みることが できる。 ひのでまで おどり よつゆで\n"
+            "{JPN}のどを うるおす。 そのシルエットから おほしさまの\n"
+            "{JPN}うまれかわりと しんじられている。"),
         .pokemonScale = 462,
         .pokemonOffset = 23,
         .trainerScale = 256,
@@ -5088,14 +5068,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ピッピ"),
         .cryId = CRY_CLEFAIRY,
         .natDexNum = NATIONAL_DEX_CLEFAIRY,
-        .categoryName = _("Fairy"),
+        .categoryName = _("ようせい"),
         .height = 6,
         .weight = 75,
         .description = COMPOUND_STRING(
-            "On every night of a full moon, they come\n"
-            "out to play. When dawn arrives, the tired\n"
-            "Clefairy go to sleep nestled up against\n"
-            "each other in deep and quiet mountains."),
+            "{JPN}まんげつの よるは げんき いっぱいに あそぶ。 あけがた\n"
+            "{JPN}つかれた ピッピたちは しずかな やまおくで なかまたちと\n"
+            "{JPN}よりそって ねむる。 せなかの つばさに つきのひかりを\n"
+            "{JPN}あつめることで くうちゅうに うかぶことが できるらしい。"),
         .pokemonScale = 441,
         .pokemonOffset = 20,
         .trainerScale = 256,
@@ -5170,14 +5150,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ピクシー"),
         .cryId = CRY_CLEFABLE,
         .natDexNum = NATIONAL_DEX_CLEFABLE,
-        .categoryName = _("Fairy"),
+        .categoryName = _("{JPN}ようせい"),
         .height = 13,
         .weight = 400,
         .description = COMPOUND_STRING(
-            "A Clefable uses its wings to skip lightly \n"
-            "as if it were flying. Its bouncy step\n"
-            "lets it even walk on water. On quiet,\n"
-            "moonlit nights, it strolls on lakes."),
+            "{JPN}つばさを つかって とぶように スキップ。 すいめんを\n"
+            "{JPN}あるく ことだって できるのだ。 しずかな つきよに\n"
+            "{JPN}みずうみを あるく。 ようせいの なかまで めったに\n"
+            "{JPN}ひとまえに でてこない。 すぐ にげてしまうようだ。"),
         .pokemonScale = 256,
         .pokemonOffset = 5,
         .trainerScale = 256,
@@ -5245,13 +5225,12 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .cryId = CRY_CLEFABLE,
     #endif // P_MODIFIED_MEGA_CRIES
         .natDexNum = NATIONAL_DEX_CLEFABLE,
-        .categoryName = _("Fairy"),
+        .categoryName = _("{JPN}ようせい"),
         .height = 17,
         .weight = 423,
         .description = COMPOUND_STRING(
-            "It flies by using the power of\n"
-            "moonlight to control gravity within\n"
-            "a radius of over 32 feet around it."),
+            "{JPN}つきの ひかりの ちからで しゅうい 20メートルの\n"
+            "{JPN}じゅうりょくを じざいに あやつり とびまわる。"),
         .frontPic = gMonFrontPic_ClefableMega,
         .frontPicSize = MON_COORDS_SIZE(64, 64),
         .frontPicYOffset = 0,
@@ -5302,14 +5281,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ロコン"),
         .cryId = CRY_VULPIX,
         .natDexNum = NATIONAL_DEX_VULPIX,
-        .categoryName = _("Fox"),
+        .categoryName = _("{JPN}きつね"),
         .height = 6,
         .weight = 99,
         .description = COMPOUND_STRING(
-            "It can freely control fire, making fiery\n"
-            "orbs fly like will-o'-the-wisps. Just\n"
-            "before evolution, its six tails grow hot \n"
-            "as if on fire."),
+            "{JPN}うまれた ときは しろい 1ぽんの しっぽ。 あいじょうを\n"
+            "{JPN}たっぷり うけると しっぽは 6ぽんに わかれて みごとな\n"
+            "{JPN}まきげになる。 6ほんの しっぽは そだつごとに けなみが\n"
+            "{JPN}よくなり うつくしくなる。"),
         .pokemonScale = 542,
         .pokemonOffset = 19,
         .trainerScale = 256,
@@ -5376,14 +5355,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}キュウコン"),
         .cryId = CRY_NINETALES,
         .natDexNum = NATIONAL_DEX_NINETALES,
-        .categoryName = _("Fox"),
+        .categoryName = _("{JPN}きつね"),
         .height = 11,
         .weight = 199,
         .description = COMPOUND_STRING(
-            "It has long been said that each of the\n"
-            "nine tails embody an enchanted power.\n"
-            "A long-lived Ninetales will have fur that\n"
-            "shines like gold."),
+            "{JPN}9ほんの しっぽには それぞれ ふしぎな ちからが\n"
+            "{JPN}やどっていると いいつたえられる。 ながいきの\n"
+            "{JPN}キュウコンは たいもうが きんいろ。 ちのうが\n"
+            "{JPN}たかく ひとの ことばを りかいする。"),
         .pokemonScale = 339,
         .pokemonOffset = 10,
         .trainerScale = 256,
@@ -5448,14 +5427,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ロコン"),
         .cryId = CRY_VULPIX,
         .natDexNum = NATIONAL_DEX_VULPIX,
-        .categoryName = _("Fox"),
+        .categoryName = _("{JPN}きつね"),
         .height = 6,
         .weight = 99,
         .description = COMPOUND_STRING(
-            "They live together in a skulk, helping\n"
-            "one another. In hot weather, this Pokemon\n"
-            "makes ice shards with its six tails and\n"
-            "sprays them around to cool itself off."),
+            "{JPN}あついときには 6ぽんの しっぽで こおりのつぶてを\n"
+            "{JPN}つくり あたりに ばらまいて からだを ひやす。\n"
+            "{JPN}はく いきは マイナス 50ど。 まるで ゆきの\n"
+            "{JPN}うまれかわり。 またの なを ケオケオと いう。"),
         .pokemonScale = 542,
         .pokemonOffset = 19,
         .trainerScale = 256,
@@ -5521,14 +5500,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}キュウコン"),
         .cryId = CRY_NINETALES,
         .natDexNum = NATIONAL_DEX_NINETALES,
-        .categoryName = _("Fox"),
+        .categoryName = _("{JPN}きつね"),
         .height = 11,
         .weight = 199,
         .description = COMPOUND_STRING(
-            "While it will guide travelers who get lost\n"
-            "on a snowy mountain down to the\n"
-            "mountain's base, it won't forgive anyone\n"
-            "who harms nature."),
+            "{JPN}まんねんゆきが おおう やまに すみ かみの けしんと\n"
+            "{JPN}あがめられている。 ふぶきを まとって あらわれる。\n"
+            "{JPN}ゆきやまの そうなんしゃを ふもとへ みちびき たすけるが\n"
+            "{JPN}やまを あらす ふとどきものには ようしゃしない。"),
         .pokemonScale = 339,
         .pokemonOffset = 10,
         .trainerScale = 256,
@@ -5605,14 +5584,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ププリン"),
         .cryId = CRY_IGGLYBUFF,
         .natDexNum = NATIONAL_DEX_IGGLYBUFF,
-        .categoryName = _("Balloon"),
+        .categoryName = _("{JPN}ふうせん"),
         .height = 3,
         .weight = 10,
         .description = COMPOUND_STRING(
-            "Its soft and pliable body is very bouncy.\n"
-            "When it sings continuously with all its\n"
-            "might, its body steadily turns a deepening\n"
-            "pink color."),
+            "{JPN}やわらかい からだは とても よく はずむ。\n"
+            "{JPN}いっしょうけんめい うたいつづけると ぜんしんが\n"
+            "{JPN}こい ピンクいろに そまっていく。 ねてるときも\n"
+            "{JPN}ゆめの なかで うたっているよ。"),
         .pokemonScale = 457,
         .pokemonOffset = -1,
         .trainerScale = 256,
@@ -5683,14 +5662,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}プリン"),
         .cryId = CRY_JIGGLYPUFF,
         .natDexNum = NATIONAL_DEX_JIGGLYPUFF,
-        .categoryName = _("Balloon"),
+        .categoryName = _("{JPN}ふうせん"),
         .height = 5,
         .weight = 55,
         .description = COMPOUND_STRING(
-            "Nothing can avoid falling asleep hearing a\n"
-            "Jigglypuff's song. The sound waves of its\n"
-            "singing voice match the brain waves of\n"
-            "someone in a deep sleep."),
+            "{JPN}プリンの うたで ねむらない ものは いない。 うたごえの\n"
+            "{JPN}おとの なみは じゅくすいしている ときの のうはと\n"
+            "{JPN}おなじ かたちを している。 うたう うたは すむ\n"
+            "{JPN}ちほうによって ぜんぜん ちがっている。"),
         .pokemonScale = 433,
         .pokemonOffset = 2,
         .trainerScale = 256,
@@ -5775,14 +5754,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}プクリン"),
         .cryId = CRY_WIGGLYTUFF,
         .natDexNum = NATIONAL_DEX_WIGGLYTUFF,
-        .categoryName = _("Balloon"),
+        .categoryName = _("{JPN}ふうせん"),
         .height = 10,
         .weight = 120,
         .description = COMPOUND_STRING(
-            "Its fur is the ultimate in luxuriousness.\n"
-            "Sleeping alongside a Wigglytuff is simply\n"
-            "divine. Its body expands seemingly without\n"
-            "end when it inhales."),
+            "{JPN}ごくじょうの けなみを もつ ポケモン。 プクリンと\n"
+            "{JPN}そいねすると さいこうの ねごこち。 いきを すうと\n"
+            "{JPN}からだが どんどん ふくらむ。 ひたいの まきげは\n"
+            "{JPN}てんにも のぼる ごくじょうの てざわり。"),
         .pokemonScale = 328,
         .pokemonOffset = 11,
         .trainerScale = 256,
@@ -5846,14 +5825,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ズバット"),
         .cryId = CRY_ZUBAT,
         .natDexNum = NATIONAL_DEX_ZUBAT,
-        .categoryName = _("Bat"),
+        .categoryName = _("{JPN}こうもり"),
         .height = 8,
         .weight = 75,
         .description = COMPOUND_STRING(
-            "While living in pitch-black caverns, their\n"
-            "eyes gradually grew shut and deprived\n"
-            "them of vision. They use ultrasonic waves\n"
-            "to detect obstacles."),
+            "{JPN}まっくらな どうくつで せいかつしている うちに\n"
+            "{JPN}りょうめが ふさがり みえなくなってしまった。\n"
+            "{JPN}ちょうおんぱで しょうがいぶつを たんちする。\n"
+            "{JPN}たいようの ひかりが にがて。"),
         .pokemonScale = 362,
         .pokemonOffset = -5,
         .trainerScale = 256,
@@ -5939,14 +5918,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ゴルバット"),
         .cryId = CRY_GOLBAT,
         .natDexNum = NATIONAL_DEX_GOLBAT,
-        .categoryName = _("Bat"),
+        .categoryName = _("{JPN}こうもり"),
         .height = 16,
         .weight = 550,
         .description = COMPOUND_STRING(
-            "Its fangs easily puncture even thick\n"
-            "animal hide. It loves to feast on the blood\n"
-            "of people and Pokemon. It flits about in\n"
-            "darkness and strikes from behind."),
+            "{JPN}かたい ひふでも らくらく つらぬく キバ。 ひとや\n"
+            "{JPN}ポケモンの けつえきが だいこうぶつ。 くらやみを\n"
+            "{JPN}とびまわり はいごから おそう。 ふとい キバは\n"
+            "{JPN}ストローのように なかが くうどうで いがいに もろい。"),
         .pokemonScale = 256,
         .pokemonOffset = 1,
         .trainerScale = 256,
@@ -6046,14 +6025,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}クロバット"),
         .cryId = CRY_CROBAT,
         .natDexNum = NATIONAL_DEX_CROBAT,
-        .categoryName = _("Bat"),
+        .categoryName = _("{JPN}こうもり"),
         .height = 18,
         .weight = 750,
         .description = COMPOUND_STRING(
-            "Over the course of evolution, its hind legs\n"
-            "turned into wings. By alternately resting\n"
-            "its front and rear wings, it can fly all day\n"
-            "without having to stop."),
+            "{JPN}うしろあしが はったつして ハネに かわった。 てあしの\n"
+            "{JPN}ハネを こうごに やすませながら はばたけば 1にちじゅう\n"
+            "{JPN}やすまず とべる。 キバが するどいので くらやみで\n"
+            "{JPN}かまれ ちを すわれても いたみが なくて きが つかない。"),
         .pokemonScale = 256,
         .pokemonOffset = 0,
         .trainerScale = 281,
@@ -6132,14 +6111,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ナゾノクサ"),
         .cryId = CRY_ODDISH,
         .natDexNum = NATIONAL_DEX_ODDISH,
-        .categoryName = _("Weed"),
+        .categoryName = _("{JPN}ざっそう"),
         .height = 5,
         .weight = 54,
         .description = COMPOUND_STRING(
-            "This Pokemon grows by absorbing moonlight.\n"
-            "During the daytime, it buries itself in the\n"
-            "ground, leaving only its leaves exposed to\n"
-            "avoid detection by its enemies."),
+            "{JPN}つきあかりを あびて せいちょうする ポケモン。 ひるまは\n"
+            "{JPN}はっぱだけを だして じめんに うまっているので てきから\n"
+            "{JPN}みつかりにくいのだ。 よる あるきまわって タネを まく。\n"
+            "{JPN}こえた つちほど はっぱに ツヤが でるという。"),
         .pokemonScale = 423,
         .pokemonOffset = 19,
         .trainerScale = 256,
@@ -6207,14 +6186,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}クサイハナ"),
         .cryId = CRY_GLOOM,
         .natDexNum = NATIONAL_DEX_GLOOM,
-        .categoryName = _("Weed"),
+        .categoryName = _("{JPN}ざっそう"),
         .height = 8,
         .weight = 86,
         .description = COMPOUND_STRING(
-            "A horribly noxious honey drools from its\n"
-            "mouth. One whiff of the honey can result\n"
-            "in memory loss. Some fans are said to\n"
-            "enjoy this overwhelming stink, however."),
+            "{JPN}くちから たれている みつの においを かぐと あまりの\n"
+            "{JPN}くささに きおくが なくなる らしい。 むしろ この\n"
+            "{JPN}においを このむ マニアも いる。みつは 2キロ\n"
+            "{JPN}はなれていても はなが まがるほど もうれつに くさい。"),
         .pokemonScale = 329,
         .pokemonOffset = 13,
         .trainerScale = 256,
@@ -6302,14 +6281,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ラフレシア"),
         .cryId = CRY_VILEPLUME,
         .natDexNum = NATIONAL_DEX_VILEPLUME,
-        .categoryName = _("Flower"),
+        .categoryName = _("{JPN}フラワー"),
         .height = 12,
         .weight = 186,
         .description = COMPOUND_STRING(
-            "In seasons when it produces more pollen,\n"
-            "the air around a Vileplume turns yellow\n"
-            "with the powder as it walks. The pollen is\n"
-            "highly toxic and causes paralysis."),
+            "{JPN}かふんの ふえる きせつは ラフレシアが あるくと まわりの\n"
+            "{JPN}くうきが きいろく なる。 かふんは からだを しびれさせる\n"
+            "{JPN}もうどく。 はなびらの おおきさは せかいいち。 ひどい\n"
+            "{JPN}アレルギーを ひきおこす どくかふんを ばらまいて あるく。"),
         .pokemonScale = 256,
         .pokemonOffset = 4,
         .trainerScale = 256,
@@ -6391,14 +6370,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}キレイハナ"),
         .cryId = CRY_BELLOSSOM,
         .natDexNum = NATIONAL_DEX_BELLOSSOM,
-        .categoryName = _("Flower"),
+        .categoryName = _("{JPN}フラワー"),
         .height = 4,
         .weight = 58,
         .description = COMPOUND_STRING(
-            "Its flower petals deepen in color through\n"
-            "exposure to sunlight. When cloudy weather\n"
-            "persists, it does a dance that is thought\n"
-            "to be a ritual for summoning the sun."),
+            "{JPN}たいようを あびて はなびらが いろづく。 くもりが\n"
+            "{JPN}つづいた ときに おどる ダンスは たいようを よぶ ぎしきと\n"
+            "{JPN}かんがえられている。 たいようのいしの えいきょうで ひるに\n"
+            "{JPN}かつどうするように なった。"),
         .pokemonScale = 472,
         .pokemonOffset = 21,
         .trainerScale = 256,
@@ -6480,14 +6459,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}パラス"),
         .cryId = CRY_PARAS,
         .natDexNum = NATIONAL_DEX_PARAS,
-        .categoryName = _("Mushroom"),
+        .categoryName = _("{JPN}きのこ"),
         .height = 3,
         .weight = 54,
         .description = COMPOUND_STRING(
-            "A Paras has parasitic tochukaso\n"
-            "mushrooms growing on its back. They grow\n"
-            "by drawing nutrients from the host. They\n"
-            "are valued as a medicine for long life."),
+            "{JPN}パラスから ようぶんを すいとって おおきくなる キノコは\n"
+            "{JPN}とうちゅうかそう と よばれている。ちょうじゅの\n"
+            "{JPN}くすりになる きちょうな キノコ。 パラスと ともに\n"
+            "{JPN}おおきく そだつ。 かわかし ふんまつにして つかう。"),
         .pokemonScale = 593,
         .pokemonOffset = 22,
         .trainerScale = 256,
@@ -6570,14 +6549,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}パラセクト"),
         .cryId = CRY_PARASECT,
         .natDexNum = NATIONAL_DEX_PARASECT,
-        .categoryName = _("Mushroom"),
+        .categoryName = _("{JPN}きのこ"),
         .height = 10,
         .weight = 295,
         .description = COMPOUND_STRING(
-            "Parasect are known to infest the roots of\n"
-            "large trees en masse and drain nutrients.\n"
-            "When an infested tree dies, they move\n"
-            "onto another tree all at once."),
+            "{JPN}パラセクトは しゅうだんで たいぼくの ねもとに\n"
+            "{JPN}くっついて えいようを すいとってしまう。 かれると\n"
+            "{JPN}いっせいに べつの きに いどうする。 からだよりも\n"
+            "{JPN}おおきな キノコが パラセクトを あやつっている。"),
         .pokemonScale = 307,
         .pokemonOffset = 8,
         .trainerScale = 256,
@@ -6647,14 +6626,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}コンパン"),
         .cryId = CRY_VENONAT,
         .natDexNum = NATIONAL_DEX_VENONAT,
-        .categoryName = _("Insect"),
+        .categoryName = _("{JPN}こんちゅう"),
         .height = 10,
         .weight = 300,
         .description = COMPOUND_STRING(
-            "Its coat of thin, stiff hair that covers\n"
-            "its entire body is said to have evolved\n"
-            "for protection. Its large eyes never fail\n"
-            "to spot even miniscule prey."),
+            "{JPN}みを まもるために ほそく かたい たいもうが ぜんしんを\n"
+            "{JPN}おおうように なったと いわれる。 ちいさな えものも\n"
+            "{JPN}みのがさない めを もつ。 よるになると あかりに\n"
+            "{JPN}あつまり ちいさなムシを とらえて たべる。"),
         .pokemonScale = 360,
         .pokemonOffset = 0,
         .trainerScale = 256,
@@ -6726,14 +6705,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}モルフォン"),
         .cryId = CRY_VENOMOTH,
         .natDexNum = NATIONAL_DEX_VENOMOTH,
-        .categoryName = _("Poison Moth"),
+        .categoryName = _("{JPN}どくが"),
         .height = 15,
         .weight = 125,
         .description = COMPOUND_STRING(
-            "Venomoth are nocturnal--they are only\n"
-            "active at night. Their favorite prey are\n"
-            "insects that gather around streetlights,\n"
-            "attracted by the light in the darkness."),
+            "{JPN}やこうせいで よるに かつどうを はじめる。 がいとうの\n"
+            "{JPN}あかりに さそわれ あつまった ちいさな むしを このんで\n"
+            "{JPN}たべる。 ハネを おおっている りんぷんは いろの\n"
+            "{JPN}ちがいに よって さまざまな どくを もっている らしい。"),
         .pokemonScale = 285,
         .pokemonOffset = 2,
         .trainerScale = 256,
@@ -6816,14 +6795,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ディグダ"),
         .cryId = CRY_DIGLETT,
         .natDexNum = NATIONAL_DEX_DIGLETT,
-        .categoryName = _("Mole"),
+        .categoryName = _("{JPN}もぐら"),
         .height = 2,
         .weight = 8,
         .description = COMPOUND_STRING(
-            "Diglett are raised in most farms.\n"
-            "The reason is simple--wherever they\n"
-            "burrow, the soil is left perfectly tilled\n"
-            "for growing delicious crops."),
+            "{JPN}ほとんどの のうかは ディグダを そだてている。\n"
+            "{JPN}ディグダが あなを ほった とちは ほどよく たがやされ\n"
+            "{JPN}おいしい やさいが つくれるからだ。 まぶしくないと\n"
+            "{JPN}ちじょうに かおを だしたりする。"),
         .pokemonScale = 833,
         .pokemonOffset = 25,
         .trainerScale = 256,
@@ -6895,14 +6874,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ダグトリオ"),
         .cryId = CRY_DUGTRIO,
         .natDexNum = NATIONAL_DEX_DUGTRIO,
-        .categoryName = _("Mole"),
+        .categoryName = _("{JPN}もぐら"),
         .height = 7,
         .weight = 333,
         .description = COMPOUND_STRING(
-            "Because the triplets originally split from\n"
-            "one body, they think exactly alike.\n"
-            "They work cooperatively to burrow\n"
-            "endlessly through the ground."),
+            "{JPN}もともと ひとつの からだから 3つごに なったので みんな\n"
+            "{JPN}かんがえることは おなじ。 ちからを あわせ どこまでも\n"
+            "{JPN}ほりすすむ。 3つの あたまが たがいちがいに うごくのは\n"
+            "{JPN}まわりの つちを やわらかくして ほりやすくするため。"),
         .pokemonScale = 406,
         .pokemonOffset = 18,
         .trainerScale = 256,
@@ -6974,14 +6953,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ディグダ"),
         .cryId = CRY_DIGLETT,
         .natDexNum = NATIONAL_DEX_DIGLETT,
-        .categoryName = _("Mole"),
+        .categoryName = _("{JPN}もぐら"),
         .height = 2,
         .weight = 10,
         .description = COMPOUND_STRING(
-            "The metal-rich geology of its habitat\n"
-            "caused it to develop steel whiskers on its\n"
-            "head that change shape depending on its\n"
-            "mood and when communicating with others."),
+            "{JPN}てつぶん たっぷりの だいちで くらすうちに あたまの\n"
+            "{JPN}てっぺんから はがねの ヒゲが 3ぼん はえた。ゆらゆら\n"
+            "{JPN}うごき なかまと こうしん。 ほかの ちほうの\n"
+            "{JPN}ディグダよりも ちからもち。"),
         .pokemonScale = 833,
         .pokemonOffset = 25,
         .trainerScale = 256,
@@ -7049,14 +7028,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ダグトリオ"),
         .cryId = CRY_DUGTRIO,
         .natDexNum = NATIONAL_DEX_DUGTRIO,
-        .categoryName = _("Mole"),
+        .categoryName = _("{JPN}もぐら"),
         .height = 7,
         .weight = 666,
         .description = COMPOUND_STRING(
-            "Their beautiful, metallic whiskers create\n"
-            "a sort of protective helmet on\n"
-            "heir heads, and they also function\n"
-            "as highly precise sensors."),
+            "{JPN}うつくしい きんぞくしつの ひげは ヘルメットのように\n"
+            "{JPN}あたまを ほごし かつ こうどな センサーでもある。\n"
+            "{JPN}3びきは とても なかよし。 ばつぐんの コンビネーションで\n"
+            "{JPN}きょうてきに たちむかい たおす。"),
         .pokemonScale = 406,
         .pokemonOffset = 18,
         .trainerScale = 256,
@@ -7137,14 +7116,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ニャース"),
         .cryId = CRY_MEOWTH,
         .natDexNum = NATIONAL_DEX_MEOWTH,
-        .categoryName = _("Scratch Cat"),
+        .categoryName = _("{JPN}ばけねこ"),
         .height = 4,
         .weight = 42,
         .description = COMPOUND_STRING(
-            "Meowth withdraw their sharp claws into\n"
-            "their paws to silently sneak about.\n"
-            "For some reason, this Pokemon loves\n"
-            "shiny coins that glitter with light."),
+            "{JPN}するどい ツメを ひっこめて ぬきあし さしあし あしおとを\n"
+            "{JPN}たてずに あるくことが できる。 キラキラ ひかる コインが\n"
+            "{JPN}なぜか だいすきだ。 ひろっては どこかに かくしている。\n"
+            "{JPN}ひたいの こばんが よごれないよう まめに かおを あらう。"),
         .pokemonScale = 480,
         .pokemonOffset = 19,
         .trainerScale = 256,
@@ -7217,14 +7196,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ペルシアン"),
         .cryId = CRY_PERSIAN,
         .natDexNum = NATIONAL_DEX_PERSIAN,
-        .categoryName = _("Classy Cat"),
+        .categoryName = _("{JPN}シャムネコ"),
         .height = 10,
         .weight = 320,
         .description = COMPOUND_STRING(
-            "A Persian's six bold whiskers sense air\n"
-            "movements to determine what is in its\n"
-            "vicinity. It becomes docile if grabbed\n"
-            "by the whiskers."),
+            "{JPN}たくましい 6ぽんの ヒゲは くうきの うごきで まわりの\n"
+            "{JPN}ようすを キャッチする やくわり。 ヒゲを つかまれると\n"
+            "{JPN}おとなしくなって しまう。 しなやかな きんにくの\n"
+            "{JPN}おかげで あしおとひとつ たてずに あるける。"),
         .pokemonScale = 320,
         .pokemonOffset = 10,
         .trainerScale = 256,
@@ -7287,14 +7266,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ニャース"),
         .cryId = CRY_MEOWTH,
         .natDexNum = NATIONAL_DEX_MEOWTH,
-        .categoryName = _("Scratch Cat"),
+        .categoryName = _("{JPN}ばけねこ"),
         .height = 4,
         .weight = 42,
         .description = COMPOUND_STRING(
-            "It's accustomed to luxury because it used\n"
-            "to live with Alolan royalty. Highly smart\n"
-            "and proud, it's famously difficult to\n"
-            "handle, but that also makes it popular."),
+            "{JPN}たかい ちのうと プライドを もつ。 あつかい にくいと\n"
+            "{JPN}ひょうばんだが そこが また にんきの りゆう。 むかし\n"
+            "{JPN}アローラちほうの おうぞくと ぜいたくな くらしを\n"
+            "{JPN}していたため エサの えりごのみが はげしい。"),
         .pokemonScale = 480,
         .pokemonOffset = 19,
         .trainerScale = 256,
@@ -7359,14 +7338,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ペルシアン"),
         .cryId = CRY_PERSIAN,
         .natDexNum = NATIONAL_DEX_PERSIAN,
-        .categoryName = _("Classy Cat"),
+        .categoryName = _("{JPN}シャムネコ"),
         .height = 11,
         .weight = 330,
         .description = COMPOUND_STRING(
-            "It looks down on everyone other than\n"
-            "itself. In contrast to its lovely face, it\n"
-            "is so brutal that it tortures its weakened\n"
-            "prey rather than finishing them off."),
+            "{JPN}さいじょうきゅうの けなみを もつ。 たたかいで\n"
+            "{JPN}たかぶると けなみが なみうち それが また うつくしい。\n"
+            "{JPN}たかい しんたいのうりょくを もつ うえに ひれつな\n"
+            "{JPN}たたかいかたを するので てに おえない つよさ。"),
         .pokemonScale = 320,
         .pokemonOffset = 10,
         .trainerScale = 256,
@@ -7429,14 +7408,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ニャース"),
         .cryId = CRY_MEOWTH,
         .natDexNum = NATIONAL_DEX_MEOWTH,
-        .categoryName = _("Scratch Cat"),
+        .categoryName = _("{JPN}ばけねこ"),
         .height = 4,
         .weight = 75,
         .description = COMPOUND_STRING(
-            "Living with a savage, seafaring people has\n"
-            "hardened its body so much that parts of it\n"
-            "turned to iron. Darker coins are harder\n"
-            "and garner more respect among Meowth."),
+            "{JPN}ひたいの こばんは より くろいほど かたく なかまから\n"
+            "{JPN}そんけいされる。 ゆうもうで おそれを しらない。\n"
+            "{JPN}せんとうてきな かいようみんぞくと くらすうちに\n"
+            "{JPN}きたえられ からだの あちこちが くろがねに へんかした。"),
         .pokemonScale = 480,
         .pokemonOffset = 19,
         .trainerScale = 256,
@@ -7496,13 +7475,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ニャイキング"),
         .cryId = CRY_PERRSERKER,
         .natDexNum = NATIONAL_DEX_PERRSERKER,
-        .categoryName = _("Viking"),
+        .categoryName = _("{JPN}バイキング"),
         .height = 8,
         .weight = 280,
         .description = COMPOUND_STRING(
-            "What appears to be an iron helmet is\n"
-            "actually hardened hair. This Pokemon\n"
-            "lives for the thrill of battle."),
+            "{JPN}あたまの たいもうが こうしつかして てつの ヘルメット\n"
+            "{JPN}のように なった。 とても こうせんてきなせいしつ。\n"
+            "{JPN}たたかいに あけくれて しんかした けっか のばすと\n"
+            "{JPN}たんけんに かわる ぶっそうな ツメを てにいれた。"),
         .pokemonScale = 366,
         .pokemonOffset = 7,
         .trainerScale = 257,
@@ -7561,14 +7541,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ニャース"),
         .cryId = CRY_MEOWTH,
         .natDexNum = NATIONAL_DEX_MEOWTH,
-        .categoryName = _("Scratch Cat"),
+        .categoryName = _("{JPN}"),
         .height = 330,
         .weight = 0,
         .description = COMPOUND_STRING(
-            "The pattern that has appeared on\n"
-            "its giant coin is thought to be the\n"
-            "key to unlocking the secrets of the\n"
-            "Dynamax phenomenon."),
+            "{JPN}キョダイマックスの パワーにより どうたいは のびに のびて\n"
+            "{JPN}ひたいの こばんは おおばんに かわった。 ひたいの\n"
+            "{JPN}おおばんに うかびあがった もようは キョダイマックスの\n"
+            "{JPN}ひみつを とく カギと かんがえられている。"),
         .pokemonScale = 480,
         .pokemonOffset = 19,
         .trainerScale = 256,
@@ -7622,14 +7602,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}コダック"),
         .cryId = CRY_PSYDUCK,
         .natDexNum = NATIONAL_DEX_PSYDUCK,
-        .categoryName = _("Duck"),
+        .categoryName = _("{JPN}あひる"),
         .height = 8,
         .weight = 196,
         .description = COMPOUND_STRING(
-            "When its headache intensifies, it starts\n"
-            "using strange powers. However, it has no\n"
-            "recollection of its powers, so it always\n"
-            "looks befuddled and bewildered."),
+            "{JPN}ふしぎな のうりょくをもてあまし いつも ずつうに\n"
+            "{JPN}なやまされている。 ずつうが はげしくなると ふしぎな\n"
+            "{JPN}ちからを つかいだすがそのときの きおくは のこらない。\n"
+            "{JPN}おもいだせないのでくびを かしげているのだ。"),
         .pokemonScale = 369,
         .pokemonOffset = 15,
         .trainerScale = 256,
@@ -7693,14 +7673,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ゴルダック"),
         .cryId = CRY_GOLDUCK,
         .natDexNum = NATIONAL_DEX_GOLDUCK,
-        .categoryName = _("Duck"),
+        .categoryName = _("{JPN}あひる"),
         .height = 17,
         .weight = 766,
         .description = COMPOUND_STRING(
-            "A Golduck is an adept swimmer.\n"
-            "It sometimes joins competitive swimmers\n"
-            "in training. It uses psychic powers when\n"
-            "its forehead shimmers with light."),
+            "{JPN}およぎが とくいな ゴルダックは すいえい せんしゅの\n"
+            "{JPN}とっくんに つきあう ことも ある。 ひたいが あやしく\n"
+            "{JPN}かがやくとき ゴルダックは もてる ちからを\n"
+            "{JPN}100パーセント はっきできる。"),
         .pokemonScale = 256,
         .pokemonOffset = 1,
         .trainerScale = 273,
@@ -7768,14 +7748,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}マンキー"),
         .cryId = CRY_MANKEY,
         .natDexNum = NATIONAL_DEX_MANKEY,
-        .categoryName = _("Pig Monkey"),
+        .categoryName = _("{JPN}ぶたざる"),
         .height = 5,
         .weight = 280,
         .description = COMPOUND_STRING(
-            "When it starts shaking and its nasal\n"
-            "breathing turns rough, it's a sure sign\n"
-            "of anger. However, since this happens\n"
-            "instantly, there is no time to flee."),
+            "{JPN}からだが ふるえ はないきが あらくなれば おこりだす\n"
+            "{JPN}まえぶれ なのだが あっというまに はげしく おこるので\n"
+            "{JPN}にげだす ひまは ない。 てごろな えものを みかけると\n"
+            "{JPN}むれを なして おそいかかる。"),
         .pokemonScale = 404,
         .pokemonOffset = 19,
         .trainerScale = 256,
@@ -7846,14 +7826,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}オコリザル"),
         .cryId = CRY_PRIMEAPE,
         .natDexNum = NATIONAL_DEX_PRIMEAPE,
-        .categoryName = _("Pig Monkey"),
+        .categoryName = _("{JPN}ぶたざる"),
         .height = 10,
         .weight = 320,
         .description = COMPOUND_STRING(
-            "When it becomes furious, its blood\n"
-            "circulation becomes more robust, and\n"
-            "its muscles are made stronger. But it\n"
-            "also becomes much less intelligent."),
+            "{JPN}はげしく おこる ことで けっこうが よくなり きんにくの\n"
+            "{JPN}ちからを つよくするのだ。 ただし あたまの かいてんは\n"
+            "{JPN}おそくなるぞ。 ほかの ポケモンよりも のうないの\n"
+            "{JPN}けっかんが じょうぶなので おこり つづけても げんき。"),
         .pokemonScale = 326,
         .pokemonOffset = 10,
         .trainerScale = 256,
@@ -7922,14 +7902,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}コノヨザル"),
         .cryId = CRY_ANNIHILAPE,
         .natDexNum = NATIONAL_DEX_ANNIHILAPE,
-        .categoryName = _("Rage Monkey"),
+        .categoryName = _("{JPN}ふんどざる"),
         .height = 12,
         .weight = 560,
         .description = COMPOUND_STRING(
-            "When its anger rose beyond a\n"
-            "critical point, this Pokemon gained power\n"
-            "that is unfettered by the limits of\n"
-            "its physical body."),
+            "{JPN}いかりのボルテージが りんかいてんを こえたとき\n"
+            "{JPN}にくたいという わくに しばられない パワーを\n"
+            "{JPN}てにいれた。 あたまの けっかんが ぶちきれるほど\n"
+            "{JPN}りきんで くりだす わざを なんども つかい しんかした。"),
         .pokemonScale = 356,
         .pokemonOffset = 17,
         .trainerScale = 256,
@@ -7988,14 +7968,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ガーディ"),
         .cryId = CRY_GROWLITHE,
         .natDexNum = NATIONAL_DEX_GROWLITHE,
-        .categoryName = _("Puppy"),
+        .categoryName = _("{JPN}こいぬ"),
         .height = 7,
         .weight = 190,
         .description = COMPOUND_STRING(
-            "Its superb sense of smell ensures that\n"
-            "this Pokemon won't forget any scent,\n"
-            "no matter what. It uses its sense of smell\n"
-            "to detect the emotions of others."),
+            "{JPN}きゅうかくに すぐれ いちど かいだ においは なにが\n"
+            "{JPN}あっても ぜったいに わすれない。 あいての きもちを\n"
+            "{JPN}においで さっちする。 しらない においを だす あいては\n"
+            "{JPN}はげしく ほえて おいだす。"),
         .pokemonScale = 346,
         .pokemonOffset = 14,
         .trainerScale = 256,
@@ -8062,14 +8042,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ウインディ"),
         .cryId = CRY_ARCANINE,
         .natDexNum = NATIONAL_DEX_ARCANINE,
-        .categoryName = _("Legendary"),
+        .categoryName = _("{JPN}でんせつ"),
         .height = 19,
         .weight = 1550,
         .description = COMPOUND_STRING(
-            "This fleet-footed Pokemon is said to run\n"
-            "over 6,200 miles in a single day and night.\n"
-            "The fire that blazes wildly within its body\n"
-            "is its source of power."),
+            "{JPN}10000キロの きょりを いっちゅうやで はしると\n"
+            "{JPN}いわれている かいそくの ポケモン。 たいないで もえさかる\n"
+            "{JPN}ほのおが パワーとなる。 いふうどうどうとした すがたは\n"
+            "{JPN}ふるくから ひとびとの こころを とりこにしてきた。"),
         .pokemonScale = 256,
         .pokemonOffset = 1,
         .trainerScale = 312,
@@ -8131,14 +8111,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ガーディ"),
         .cryId = CRY_GROWLITHE,
         .natDexNum = NATIONAL_DEX_GROWLITHE,
-        .categoryName = _("Scout"),
+        .categoryName = _("{JPN}みはり"),
         .height = 8,
         .weight = 227,
         .description = COMPOUND_STRING(
-            "They patrol their territory in pairs.\n"
-            "It's believed the igneous rock components\n"
-            "in the fur of this species are the result\n"
-            "of volcanic activity in its habitat."),
+            "{JPN}けいかいしんが つよく ペアに なって なわばりを\n"
+            "{JPN}みまわりする。 ひとに なつきにくく しんらいかんけいを\n"
+            "{JPN}きずくには じかんが かかる。 たいもうに かせいがんの\n"
+            "{JPN}せいぶんが まざるのは かざんかつどうの えいきょう。"),
         .pokemonScale = 346,
         .pokemonOffset = 14,
         .trainerScale = 256,
@@ -8198,14 +8178,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ウインディ"),
         .cryId = CRY_ARCANINE,
         .natDexNum = NATIONAL_DEX_ARCANINE,
-        .categoryName = _("Legendary"),
+        .categoryName = _("{JPN}でんせつ"),
         .height = 20,
         .weight = 1680,
         .description = COMPOUND_STRING(
-            "Snaps at its foes with fangs cloaked in\n"
-            "blazing flame. Despite its bulk, it deftly\n"
-            "feints every which way, leading opponents\n"
-            "on a deceptively merry chase."),
+            "{JPN}あたまの つのは 3つに ふえて からだは くろく なった。\n"
+            "{JPN}もえさかる ほのおのキバで かみつく。 からだは\n"
+            "{JPN}おおきいが うごきは すばやく あざやかに あいてを\n"
+            "{JPN}ほんろうする。 まるで えんぶを おどっている よう。"),
         .pokemonScale = 256,
         .pokemonOffset = 1,
         .trainerScale = 312,
@@ -8267,14 +8247,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ニョロモ"),
         .cryId = CRY_POLIWAG,
         .natDexNum = NATIONAL_DEX_POLIWAG,
-        .categoryName = _("Tadpole"),
+        .categoryName = _("{JPN}おたま"),
         .height = 6,
         .weight = 124,
         .description = COMPOUND_STRING(
-            "It is possible to see this Pokemon's spiral\n"
-            "innards right through its thin skin.\n"
-            "However, the skin is also very flexible.\n"
-            "Even sharp fangs bounce right off it."),
+            "{JPN}うずまき もようの ないぞうが すけてしまうほど うすい\n"
+            "{JPN}ひふだが するどい キバを はねかえす だんりょくを\n"
+            "{JPN}もっているのだ。 はえたばかりの あしは あるくことが\n"
+            "{JPN}にがて。 きけんなのに りくに あがりたがる。"),
         .pokemonScale = 369,
         .pokemonOffset = 20,
         .trainerScale = 256,
@@ -8338,14 +8318,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ニョロゾ"),
         .cryId = CRY_POLIWHIRL,
         .natDexNum = NATIONAL_DEX_POLIWHIRL,
-        .categoryName = _("Tadpole"),
+        .categoryName = _("{JPN}おたま"),
         .height = 10,
         .weight = 200,
         .description = COMPOUND_STRING(
-            "Its body surface is always wet and slick\n"
-            "with an oily fluid. Because of this greasy\n"
-            "covering, it can easily slip and slide out\n"
-            "of the clutches of any enemy in battle."),
+            "{JPN}いつも からだの ひょうめんが えきたいで ぬるぬる\n"
+            "{JPN}ぬれているため てきに つかまっても ぬるりと すりぬけ\n"
+            "{JPN}にげる ことが できるぞ。 ちじょうで くらせるのに\n"
+            "{JPN}なぜか すいちゅう せいかつが すき。"),
         .pokemonScale = 288,
         .pokemonOffset = 11,
         .trainerScale = 256,
@@ -8424,14 +8404,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ニョロボン"),
         .cryId = CRY_POLIWRATH,
         .natDexNum = NATIONAL_DEX_POLIWRATH,
-        .categoryName = _("Tadpole"),
+        .categoryName = _("{JPN}おたま"),
         .height = 13,
         .weight = 540,
         .description = COMPOUND_STRING(
-            "Its highly developed muscles never grow\n"
-            "fatigued, however much it exercises.\n"
-            "This Pokemon can swim back and forth\n"
-            "across the Pacific Ocean without effort."),
+            "{JPN}はったつした きょうじんな きんにくは どんなに\n"
+            "{JPN}うんどうしても つかれる ことは ない。 たいへいようも\n"
+            "{JPN}かるく おうだん できるほどだ。 ほんの いっしゅん\n"
+            "{JPN}だけなら みずのうえを はしることが できる。"),
         .pokemonScale = 256,
         .pokemonOffset = 6,
         .trainerScale = 256,
@@ -8499,14 +8479,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ニョロトノ"),
         .cryId = CRY_POLITOED,
         .natDexNum = NATIONAL_DEX_POLITOED,
-        .categoryName = _("Frog"),
+        .categoryName = _("{JPN}かえる"),
         .height = 11,
         .weight = 339,
         .description = COMPOUND_STRING(
-            "The curled hair on its head proves its\n"
-            "status as a king. It is said that the\n"
-            "longer and curlier the hair, the more\n"
-            "respect it earns from its peers."),
+            "{JPN}あたまの まきげは おうじゃの あかしだ。 ながく\n"
+            "{JPN}きれいに まいている ニョロトノほど なかまの\n"
+            "{JPN}そんけいを あつめると いわれている。 つきよに\n"
+            "{JPN}あつまり だいがっしょうする。"),
         .pokemonScale = 289,
         .pokemonOffset = 6,
         .trainerScale = 256,
@@ -8593,14 +8573,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ケーシィ"),
         .cryId = CRY_ABRA,
         .natDexNum = NATIONAL_DEX_ABRA,
-        .categoryName = _("Psi"),
+        .categoryName = _("{JPN}ねんりき"),
         .height = 9,
         .weight = 195,
         .description = COMPOUND_STRING(
-            "A Pokemon that sleeps 18 hours a day.\n"
-            "Observation revealed that it uses\n"
-            "Teleport to change its location once\n"
-            "every hour."),
+            "{JPN}1にち 18じかん ねむる ポケモン。 かんさつの けっか\n"
+            "{JPN}1じかんごとに テレポートで ばしょを いどうしている\n"
+            "{JPN}ことが わかった。 ねぶそくでは ちょうのうりょくが\n"
+            "{JPN}つかえなくなってしまう。"),
         .pokemonScale = 363,
         .pokemonOffset = 14,
         .trainerScale = 256,
@@ -8666,14 +8646,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ユンゲラー"),
         .cryId = CRY_KADABRA,
         .natDexNum = NATIONAL_DEX_KADABRA,
-        .categoryName = _("Psi"),
+        .categoryName = _("{JPN}ねんりき"),
         .height = 13,
         .weight = 565,
         .description = COMPOUND_STRING(
-            "It is rumored that a boy with psychic\n"
-            "abilities suddenly transformed into\n"
-            "Kadabra while he was assisting research\n"
-            "into extrasensory powers."),
+            "{JPN}ぎんの スプーンは アルファはを たかめる。 つよい\n"
+            "{JPN}せいしんりょくの もちぬしじゃ ないと ユンゲラーの\n"
+            "{JPN}トレーナーには なれない。 スプーンが ないと いつもの\n"
+            "{JPN}はんぶんしか ちょうのうりょくを つかえない。"),
         .pokemonScale = 256,
         .pokemonOffset = 3,
         .trainerScale = 256,
@@ -8765,14 +8745,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}フーディン"),
         .cryId = CRY_ALAKAZAM,
         .natDexNum = NATIONAL_DEX_ALAKAZAM,
-        .categoryName = _("Psi"),
+        .categoryName = _("{JPN}ねんりき"),
         .height = 15,
         .weight = 480,
         .description = COMPOUND_STRING(
-            "While it has strong psychic abilities and\n"
-            "high intelligence, an Alakazam's muscles\n"
-            "are very weak. It uses psychic power to\n"
-            "move its body."),
+            "{JPN}つよい ちょうのうりょくと たかい ちのうを もっているが\n"
+            "{JPN}きんりょくは とても よわい。 ちょうのうりょくで\n"
+            "{JPN}からだを うごかしている。 りょうてに もつ スプーンは\n"
+            "{JPN}フーディンの ちょうのうりょくで うみだしたモノ。"),
         .pokemonScale = 256,
         .pokemonOffset = 3,
         .trainerScale = 256,
@@ -8859,13 +8839,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .cryId = CRY_ALAKAZAM,
     #endif // P_MODIFIED_MEGA_CRIES
         .natDexNum = NATIONAL_DEX_ALAKAZAM,
-        .categoryName = _("Psi"),
+        .categoryName = _("{JPN}ねんりき"),
         .height = 12,
         .weight = 480,
         .description = COMPOUND_STRING(
-            "Having traded away its muscles, Alakazam's\n"
-            "true power has been unleashed. With its\n"
-            "psychic powers, it can foresee all things."),
+            "{JPN}メガシンカに よって そのちからの すべてが\n"
+            "{JPN}サイコパワーに へんかん。 ひたいに ある あかい\n"
+            "{JPN}きかんから サイコパワーを ほうしゅつして あいての\n"
+            "{JPN}すべてを みとおすぞ。"),
         .pokemonScale = 256,
         .pokemonOffset = 3,
         .trainerScale = 256,
@@ -8946,14 +8927,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ワンリキー"),
         .cryId = CRY_MACHOP,
         .natDexNum = NATIONAL_DEX_MACHOP,
-        .categoryName = _("Superpower"),
+        .categoryName = _("{JPN}かくとう"),
         .height = 8,
         .weight = 195,
         .description = COMPOUND_STRING(
-            "It continually undertakes strenuous\n"
-            "training to master all forms of martial\n"
-            "arts. Its strength lets it easily hoist\n"
-            "a sumo wrestler onto its shoulders."),
+            "{JPN}あらゆる かくとうぎを マスターする ために きびしい\n"
+            "{JPN}トレーニングを つづけている。 どんなに きたえても\n"
+            "{JPN}きんにくつうに ならない ボディを もつ ポケモン。\n"
+            "{JPN}ちからもちで すもうとりも らくらく かつぐ。"),
         .pokemonScale = 342,
         .pokemonOffset = 14,
         .trainerScale = 256,
@@ -9023,14 +9004,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ゴーリキー"),
         .cryId = CRY_MACHOKE,
         .natDexNum = NATIONAL_DEX_MACHOKE,
-        .categoryName = _("Superpower"),
+        .categoryName = _("{JPN}かくとう"),
         .height = 15,
         .weight = 705,
         .description = COMPOUND_STRING(
-            "A belt is worn by a Machoke to keep its\n"
-            "overwhelming power under control.\n"
-            "Because it is so dangerous, no one has\n"
-            "ever removed the belt."),
+            "{JPN}こしに まいた ベルトは ゴーリキーの ありあまる\n"
+            "{JPN}パワーを せいぎょする ため。 しんの きょうてきに\n"
+            "{JPN}であうと こしの パワーセーブ ベルトを はずして\n"
+            "{JPN}ぜんりょくを はっきする。"),
         .pokemonScale = 323,
         .pokemonOffset = 9,
         .trainerScale = 257,
@@ -9105,14 +9086,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}カイリキー"),
         .cryId = CRY_MACHAMP,
         .natDexNum = NATIONAL_DEX_MACHAMP,
-        .categoryName = _("Superpower"),
+        .categoryName = _("{JPN}かいりき"),
         .height = 16,
         .weight = 1300,
         .description = COMPOUND_STRING(
-            "It is impossible to defend against punches\n"
-            "and chops doled out by its four arms.\n"
-            "Its fighting spirit flares up when it faces\n"
-            "a tough opponent."),
+            "{JPN}あらゆる かくとうぎを マスターした ポケモン。 4ほんの\n"
+            "{JPN}うでから くりだされる パンチや チョップを ふせぐ\n"
+            "{JPN}ことは ふかのうだ。 きょうてきに であうと とうしを\n"
+            "{JPN}もやす。かんがえる よりも さきに からだが うごく。"),
         .pokemonScale = 280,
         .pokemonOffset = 1,
         .trainerScale = 269,
@@ -9184,14 +9165,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}カイリキー"),
         .cryId = CRY_MACHAMP,
         .natDexNum = NATIONAL_DEX_MACHAMP,
-        .categoryName = _("Superpower"),
+        .categoryName = _("{JPN}かいりき"),
         .height = 250,
         .weight = 0,
         .description = COMPOUND_STRING(
-            "One of these Pokemon once used\n"
-            "its immeasurable strength to lift a\n"
-            "large ship that was in trouble. It\n"
-            "then carried the ship to port."),
+            "{JPN}キョダイマックス パワーが うでに みなぎり ばくだんに\n"
+            "{JPN}ひってきする はかいりょくの パンチを くりだす。\n"
+            "{JPN}けたはずれに アップした かいりきで こまっている\n"
+            "{JPN}おおがたせんを かつぎ みなとまで はこんだことが ある。"),
         .pokemonScale = 280,
         .pokemonOffset = 1,
         .trainerScale = 269,
@@ -9244,14 +9225,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}マダツボミ"),
         .cryId = CRY_BELLSPROUT,
         .natDexNum = NATIONAL_DEX_BELLSPROUT,
-        .categoryName = _("Flower"),
+        .categoryName = _("{JPN}フラワー"),
         .height = 7,
         .weight = 40,
         .description = COMPOUND_STRING(
-            "A Bellsprout's thin and flexible body lets\n"
-            "it bend and sway to avoid any attack,\n"
-            "however strong it may be. From its mouth,\n"
-            "it leaks a fluid that melts even iron."),
+            "{JPN}ほそく しなやかな からだは どんな つよい こうげきでも\n"
+            "{JPN}しなって よける ことが できる。 くちから てつも\n"
+            "{JPN}とかしてしまう えきを だす。 ツルを のばして えものを\n"
+            "{JPN}とらえる ときの うごきは とても すばやい。"),
         .pokemonScale = 354,
         .pokemonOffset = 16,
         .trainerScale = 256,
@@ -9314,14 +9295,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ウツドン"),
         .cryId = CRY_WEEPINBELL,
         .natDexNum = NATIONAL_DEX_WEEPINBELL,
-        .categoryName = _("Flycatcher"),
+        .categoryName = _("{JPN}ハエとり"),
         .height = 10,
         .weight = 64,
         .description = COMPOUND_STRING(
-            "At night, a Weepinbell hangs on to a tree\n"
-            "branch with its hooked rear and sleeps.\n"
-            "If it moves around in its sleep, it may\n"
-            "wake up to find itself on the ground."),
+            "{JPN}よるに なると おしりの フックを きの えだに ひっかけて\n"
+            "{JPN}ぶらさがり ねむりに つく。 ねぞうが わるいと あさ\n"
+            "{JPN}おっこちているよ。 くちよりも おおきな えものは\n"
+            "{JPN}きれあじ するどい ハッパで きざんで のこさず たべる。"),
         .pokemonScale = 256,
         .pokemonOffset = 0,
         .trainerScale = 256,
@@ -9399,19 +9380,19 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .growthRate = GROWTH_MEDIUM_SLOW,
         .eggGroups = MON_EGG_GROUPS(EGG_GROUP_GRASS),
         .abilities = { ABILITY_CHLOROPHYLL, ABILITY_NONE, ABILITY_GLUTTONY },
-        .bodyColor = BODY_COLOR_GREEN,
+        .bodyColor = BODY_COLOR_YELLOW,
         .noFlip = TRUE,
         .speciesName = _("{JPN}ウツボット"),
         .cryId = CRY_VICTREEBEL,
         .natDexNum = NATIONAL_DEX_VICTREEBEL,
-        .categoryName = _("Flycatcher"),
+        .categoryName = _("{JPN}ハエとり"),
         .height = 17,
         .weight = 155,
         .description = COMPOUND_STRING(
-            "The long vine extending from its head is\n"
-            "waved about as if it were a living thing to\n"
-            "attract prey. When an unsuspecting victim\n"
-            "approaches, it is swallowed whole."),
+            "{JPN}あたまに ついている ながい つるを ちいさな いきものに\n"
+            "{JPN}みえる うごきで えものを さそい ちかづいてきた\n"
+            "{JPN}ところを ぱくりと ひとのみ。 くちのなかに\n"
+            "{JPN}いれたものは 1にちで ホネまで とかしてしまうという。"),
         .pokemonScale = 256,
         .pokemonOffset = 1,
         .trainerScale = 312,
@@ -9474,7 +9455,7 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .growthRate = GROWTH_MEDIUM_SLOW,
         .eggGroups = MON_EGG_GROUPS(EGG_GROUP_GRASS),
         .abilities = { ABILITY_INNARDS_OUT, ABILITY_INNARDS_OUT, ABILITY_INNARDS_OUT },
-        .bodyColor = BODY_COLOR_YELLOW,
+        .bodyColor = BODY_COLOR_GREEN,
         .noFlip = TRUE,
         .speciesName = _("{JPN}ウツボット"),
     #if P_MODIFIED_MEGA_CRIES
@@ -9483,14 +9464,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .cryId = CRY_VICTREEBEL,
     #endif // P_MODIFIED_MEGA_CRIES
         .natDexNum = NATIONAL_DEX_VICTREEBEL,
-        .categoryName = _("Flycatcher"),
+        .categoryName = _("{JPN}ハエとり"),
         .height = 45,
         .weight = 1255,
         .description = COMPOUND_STRING(
-            "The volume of this Pokemon's acid\n"
-            "has increased due to Mega Evolution,\n"
-            "filling its mouth. If not careful,\n"
-            "the acid will overflow and spill out."),
+            "{JPN}メガシンカにより ぞうりょうした ようかいえきが\n"
+            "{JPN}くちの なかを みたしている。 きを ぬくと くちから\n"
+            "{JPN}あふれだす。 ツルで くちを しばって もれないように\n"
+            "{JPN}している。"),
         .frontPic = gMonFrontPic_VictreebelMega,
         .frontPicSize = MON_COORDS_SIZE(64, 64),
         .frontPicYOffset = 0,
@@ -9540,14 +9521,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}メノクラゲ"),
         .cryId = CRY_TENTACOOL,
         .natDexNum = NATIONAL_DEX_TENTACOOL,
-        .categoryName = _("Jellyfish"),
+        .categoryName = _("{JPN}くらげ"),
         .height = 9,
         .weight = 455,
         .description = COMPOUND_STRING(
-            "Its body is almost entirely composed of\n"
-            "water. It ensnares its foe with its two\n"
-            "long tentacles, then stabs with the poison\n"
-            "stingers at their tips."),
+            "{JPN}からだの ほとんどが みずで できているので うみから\n"
+            "{JPN}でると からからに ひからびてしまう。 ひからびた\n"
+            "{JPN}ときは うみに もどしてあげよう。 すいしょうのような\n"
+            "{JPN}めだまから ふしぎな ビームを はっしゃする。"),
         .pokemonScale = 256,
         .pokemonOffset = 0,
         .trainerScale = 256,
@@ -9612,14 +9593,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ドククラゲ"),
         .cryId = CRY_TENTACRUEL,
         .natDexNum = NATIONAL_DEX_TENTACRUEL,
-        .categoryName = _("Jellyfish"),
+        .categoryName = _("{JPN}くらげ"),
         .height = 16,
         .weight = 550,
         .description = COMPOUND_STRING(
-            "It lives in complex rock formations on\n"
-            "the ocean floor and traps prey using its\n"
-            "80 tentacles. Its red orbs glow when it\n"
-            "grows excited or agitated."),
+            "{JPN}いりくんだ かいていの いわばに せいそく。 80ぽんの\n"
+            "{JPN}しょくしゅで えものを とらえる。 こうふんすると あかい\n"
+            "{JPN}たまが はっこうする。 あたまの あかい たまを はげしく\n"
+            "{JPN}てんめつさせて なかまに きけんを しらせるのだ。"),
         .pokemonScale = 256,
         .pokemonOffset = 0,
         .trainerScale = 312,
@@ -9690,14 +9671,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}イシツブテ"),
         .cryId = CRY_GEODUDE,
         .natDexNum = NATIONAL_DEX_GEODUDE,
-        .categoryName = _("Rock"),
+        .categoryName = _("{JPN}がんせき"),
         .height = 4,
         .weight = 200,
         .description = COMPOUND_STRING(
-            "It climbs mountain paths using only the\n"
-            "power of its arms. Because they look just\n"
-            "like boulders lining paths, hikers may step\n"
-            "on them without noticing."),
+            "{JPN}やまみちに おおく せいそくする。 りょううでの\n"
+            "{JPN}ちからだけで やまみちを のぼる。 みちばたの いしと\n"
+            "{JPN}そっくりなので とざんしゃが きづかずに ふみつけてしまう\n"
+            "{JPN}ことが ある。 がんじょうな からだが じまん。"),
         .pokemonScale = 347,
         .pokemonOffset = 18,
         .trainerScale = 256,
@@ -9762,14 +9743,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ゴローン"),
         .cryId = CRY_GRAVELER,
         .natDexNum = NATIONAL_DEX_GRAVELER,
-        .categoryName = _("Rock"),
+        .categoryName = _("{JPN}がんせき"),
         .height = 10,
         .weight = 1050,
         .description = COMPOUND_STRING(
-            "They descend from mountains by tumbling\n"
-            "down steep slopes. They are so brutal,\n"
-            "they smash aside obstructing trees and\n"
-            "massive boulders with thunderous tackles."),
+            "{JPN}いわを たべて せいちょうする ポケモンだ。 やまの\n"
+            "{JPN}ふもとから さんちょうまで のぼる。 きゅうしゃめんを\n"
+            "{JPN}ころがり やまを おりていく。 ゆくてを ふさぐ\n"
+            "{JPN}たいぼくや おおいわは たいあたりで なぎたおしてしまう。"),
         .pokemonScale = 256,
         .pokemonOffset = 2,
         .trainerScale = 256,
@@ -9843,14 +9824,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ゴローニャ"),
         .cryId = CRY_GOLEM,
         .natDexNum = NATIONAL_DEX_GOLEM,
-        .categoryName = _("Megaton"),
+        .categoryName = _("{JPN}メガトン"),
         .height = 14,
         .weight = 3000,
         .description = COMPOUND_STRING(
-            "It is said to live in volcanic craters\n"
-            "on mountain peaks. Once a year, it sheds\n"
-            "its hide and grows larger. The shed hide\n"
-            "crumbles and returns to the soil."),
+            "{JPN}さんちょうの かこうに すみかが あるという。 1ねんに\n"
+            "{JPN}1かい だっぴして おおきくなる。 だっぴ したてのときは\n"
+            "{JPN}ぜんたいが しろっぽく やわらかいが すぐに くうきに\n"
+            "{JPN}ふれて かたくなる。 カラは くずれて つちに かえる。"),
         .pokemonScale = 256,
         .pokemonOffset = 3,
         .trainerScale = 296,
@@ -9915,14 +9896,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}イシツブテ"),
         .cryId = CRY_GEODUDE,
         .natDexNum = NATIONAL_DEX_GEODUDE,
-        .categoryName = _("Rock"),
+        .categoryName = _("{JPN}がんせき"),
         .height = 4,
         .weight = 203,
         .description = COMPOUND_STRING(
-            "Its body is a magnetic stone. Iron sand\n"
-            "attach to parts of its body with stronger\n"
-            "magnetism. If you carelessly step on one,\n"
-            "it will headbutt and shock you in anger."),
+            "{JPN}じりょくを おびた いしの からだ。 ずつきで なかまと\n"
+            "{JPN}きそいあう。 いしあたまは でんきと じりょくを おびる。\n"
+            "{JPN}うっかり じめんで ねている イシツブテを ふむと\n"
+            "{JPN}バチンと おとが して ビリっと ぜんしんが しびれる。"),
         .pokemonScale = 347,
         .pokemonOffset = 18,
         .trainerScale = 256,
@@ -9988,14 +9969,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ゴローン"),
         .cryId = CRY_GRAVELER,
         .natDexNum = NATIONAL_DEX_GRAVELER,
-        .categoryName = _("Rock"),
+        .categoryName = _("{JPN}がんせき"),
         .height = 10,
         .weight = 1100,
         .description = COMPOUND_STRING(
-            "When two Graveler smash each other over\n"
-            "dravite, their favorite food, they cause\n"
-            "flashes of light and booming noises.\n"
-            "People call them fireworks of the earth."),
+            "{JPN}こうぶつの いしの えいきょうで ぜんしんが でんきを\n"
+            "{JPN}おびている。 やまみちを ころがり おりるとき じゃまな\n"
+            "{JPN}ものは かたっぱしから はねとばし かつ かんでんさせる。\n"
+            "{JPN}とても けんかっぱやい せいかく。"),
         .pokemonScale = 256,
         .pokemonOffset = 2,
         .trainerScale = 256,
@@ -10062,14 +10043,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ゴローニャ"),
         .cryId = CRY_GOLEM,
         .natDexNum = NATIONAL_DEX_GOLEM,
-        .categoryName = _("Megaton"),
+        .categoryName = _("{JPN}メガトン"),
         .height = 17,
         .weight = 3160,
         .description = COMPOUND_STRING(
-            "It fires rocks charged with electricity.\n"
-            "Even if the rock isn't fired that\n"
-            "accurately, just grazing an opponent\n"
-            "will cause numbness and fainting."),
+            "{JPN}でんきを おびた いわを じりょくで かそくさせて\n"
+            "{JPN}うちだす。 めいちゅう せずとも かするだけで あいては\n"
+            "{JPN}しびれ しっしんする。 そのあたりの イシツブテを\n"
+            "{JPN}つかまえ せなかに こめ はっしゃ することも。"),
         .pokemonScale = 256,
         .pokemonOffset = 3,
         .trainerScale = 296,
@@ -10134,14 +10115,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ポニータ"),
         .cryId = CRY_PONYTA,
         .natDexNum = NATIONAL_DEX_PONYTA,
-        .categoryName = _("Fire Horse"),
+        .categoryName = _("{JPN}ひのうま"),
         .height = 10,
         .weight = 300,
         .description = COMPOUND_STRING(
-            "A Ponyta is very weak at birth. It can\n"
-            "barely stand up. Its legs become stronger\n"
-            "as it stumbles and falls while trying to\n"
-            "keep up with its parent."),
+            "{JPN}うまれて すぐは たちあがるのも やっとだが ころびながら\n"
+            "{JPN}おやの あとを おいかけている うちに じょうぶな\n"
+            "{JPN}あしこしに そだつのだ。 ポニータに みとめられると\n"
+            "{JPN}もえる たてがみに さわっても ふしぎと あつくない。"),
         .pokemonScale = 283,
         .pokemonOffset = 8,
         .trainerScale = 256,
@@ -10204,14 +10185,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ギャロップ"),
         .cryId = CRY_RAPIDASH,
         .natDexNum = NATIONAL_DEX_RAPIDASH,
-        .categoryName = _("Fire Horse"),
+        .categoryName = _("{JPN}ひのうま"),
         .height = 17,
         .weight = 950,
         .description = COMPOUND_STRING(
-            "It usually canters casually in the fields\n"
-            "and plains. But once a Rapidash turns\n"
-            "serious, its fiery manes flare and blaze\n"
-            "as it gallops its way up to 150 mph."),
+            "{JPN}いつもは のんびり のはらを かけまわっているが ひとたび\n"
+            "{JPN}ほんきを だすと たてがみの ほのおが もえあがり\n"
+            "{JPN}じそく240キロで はしりだす。 もえる たてがみが\n"
+            "{JPN}きらめいて よりいっそう うつくしく みえる。"),
         .pokemonScale = 256,
         .pokemonOffset = 0,
         .trainerScale = 289,
@@ -10273,14 +10254,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ポニータ"),
         .cryId = CRY_PONYTA,
         .natDexNum = NATIONAL_DEX_PONYTA,
-        .categoryName = _("Unique Horn"),
+        .categoryName = _("{JPN}いっかく"),
         .height = 8,
         .weight = 240,
         .description = COMPOUND_STRING(
-            "Its small horn hides a healing power.\n"
-            "This Pokemon will look into your eyes and\n"
-            "read the contents of your heart. If it\n"
-            "finds evil there, it promptly hides away."),
+            "{JPN}ちいさな ツノに いやしの ちからを ひめている。\n"
+            "{JPN}ちょっとした キズなら ツノを すりよせ なおして\n"
+            "{JPN}くれる。 ひとみを のぞいて こころを よむ。 よこしまな\n"
+            "{JPN}きもちを みつけると たちまち すがたを けしてしまう。"),
         .pokemonScale = 283,
         .pokemonOffset = 8,
         .trainerScale = 256,
@@ -10340,14 +10321,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ギャロップ"),
         .cryId = CRY_RAPIDASH,
         .natDexNum = NATIONAL_DEX_RAPIDASH,
-        .categoryName = _("Unique Horn"),
+        .categoryName = _("{JPN}いっかく"),
         .height = 17,
         .weight = 800,
         .description = COMPOUND_STRING(
-            "Little can stand up to its psycho cut.\n"
-            "Unleashed from this Pokemon's horn,\n"
-            "the move will punch a hole right\n"
-            "through a thick metal sheet."),
+            "{JPN}ゆうもうかかんで ほこり たかい。 あしさきの けに\n"
+            "{JPN}サイコパワーを ためて かろやかに もりを かける。\n"
+            "{JPN}ツノから はなつ サイコカッターは きょうりょく。\n"
+            "{JPN}ぶあつい てっぱんに あなを あけるほどの はかいりょく。"),
         .pokemonScale = 256,
         .pokemonOffset = 0,
         .trainerScale = 289,
@@ -10409,14 +10390,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ヤドン"),
         .cryId = CRY_SLOWPOKE,
         .natDexNum = NATIONAL_DEX_SLOWPOKE,
-        .categoryName = _("Dopey"),
+        .categoryName = _("{JPN}まぬけ"),
         .height = 12,
         .weight = 360,
         .description = COMPOUND_STRING(
-            "It catches prey by dipping its tail in\n"
-            "water at the side of a river. But it often\n"
-            "forgets what it is doing and spends entire\n"
-            "days just loafing at water's edge."),
+            "{JPN}みずべで ボーッとしている。 しっぽを かわに いれて\n"
+            "{JPN}エサを つっているが そのうち なにを しているのか\n"
+            "{JPN}わすれてしまい かわべりに ねそべったまま 1にちを\n"
+            "{JPN}おえる。 ながい しっぽは よくちぎれる。"),
         .pokemonScale = 256,
         .pokemonOffset = 10,
         .trainerScale = 256,
@@ -10485,14 +10466,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ヤドラン"),
         .cryId = CRY_SLOWBRO,
         .natDexNum = NATIONAL_DEX_SLOWBRO,
-        .categoryName = _("Hermit Crab"),
+        .categoryName = _("{JPN}やどかり"),
         .height = 16,
         .weight = 785,
         .description = COMPOUND_STRING(
-            "Its tail has a Shellder firmly attached\n"
-            "with a bite. As a result, the tail can't be\n"
-            "used for fishing anymore. This forces it\n"
-            "to reluctantly swim and catch prey."),
+            "{JPN}シェルダーが かみついて いるので しっぽで エサを\n"
+            "{JPN}つれなくなった ヤドランは しぶしぶ すいちゅうを\n"
+            "{JPN}およいで エサを つかまえている。 シェルダーが\n"
+            "{JPN}つよく かむたび いっしゅん なにかを ひらめく。"),
         .pokemonScale = 256,
         .pokemonOffset = 6,
         .trainerScale = 296,
@@ -10555,14 +10536,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ヤドキング"),
         .cryId = CRY_SLOWKING,
         .natDexNum = NATIONAL_DEX_SLOWKING,
-        .categoryName = _("Royal"),
+        .categoryName = _("{JPN}おうじゃ"),
         .height = 20,
         .weight = 795,
         .description = COMPOUND_STRING(
-            "It undertakes research every day to\n"
-            "solve the mysteries of the world.\n"
-            "However, it apparently forgets everything\n"
-            "if the Shellder on its head comes off."),
+            "{JPN}せかいの ふしぎを かいめい するため まいにち\n"
+            "{JPN}けんきゅう しているが あたまの シェルダーが\n"
+            "{JPN}はずれると ぜんぶ わすれてしまう らしい。\n"
+            "{JPN}サイコパワーを じざいに あやつる。"),
         .pokemonScale = 256,
         .pokemonOffset = 0,
         .trainerScale = 309,
@@ -10626,14 +10607,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ヤドラン"),
         .cryId = CRY_SLOWBRO_MEGA,
         .natDexNum = NATIONAL_DEX_SLOWBRO,
-        .categoryName = _("Hermit Crab"),
+        .categoryName = _("{JPN}やどかり"),
         .height = 20,
         .weight = 1200,
         .description = COMPOUND_STRING(
-            "When bathed in the energy of Mega\n"
-            "Evolution, Shellder converts into\n"
-            "impregnable armor. There is virtually no\n"
-            "change in Slowpoke."),
+            "{JPN}メガシンカの エネルギーは シェルダーの ちからを\n"
+            "{JPN}きょうかした。 シェルダーに まるのみ されて\n"
+            "{JPN}てっぺきの まもりを てに いれた。 ヤドンには とくに\n"
+            "{JPN}へんかナシ。 なかは けっこう かいてき なのだ。"),
         .pokemonScale = 256,
         .pokemonOffset = 6,
         .trainerScale = 296,
@@ -10700,14 +10681,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ヤドン"),
         .cryId = CRY_SLOWPOKE_GALAR,
         .natDexNum = NATIONAL_DEX_SLOWPOKE,
-        .categoryName = _("Dopey"),
+        .categoryName = _("{JPN}まぬけ"),
         .height = 12,
         .weight = 360,
         .description = COMPOUND_STRING(
-            "Although it is normally zoned out, its\n"
-            "expression abruptly sharpens on occasion.\n"
-            "The cause seems to lie in Slowpoke's diet,\n"
-            "which also give their tails a spicy flavor."),
+            "{JPN}いつも ボーッとしているが たまに かおつきが ピリッと\n"
+            "{JPN}ひきしまる。 たべている エサが げんいんらしい。\n"
+            "{JPN}しっぽを たらし つりをするが しみでる スパイスの\n"
+            "{JPN}かおりで ちょうかは いつも いまひとつ。"),
         .pokemonScale = 256,
         .pokemonOffset = 10,
         .trainerScale = 256,
@@ -10773,14 +10754,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ヤドラン"),
         .cryId = CRY_SLOWBRO,
         .natDexNum = NATIONAL_DEX_SLOWBRO,
-        .categoryName = _("Hermit Crab"),
+        .categoryName = _("{JPN}やどかり"),
         .height = 16,
         .weight = 705,
         .description = COMPOUND_STRING(
-            "A Shellder bite set off a chemical reaction\n"
-            "with the spices inside Slowbro's body,\n"
-            "causing Slowbro to become a\n"
-            "Poison-type Pokemon."),
+            "{JPN}シェルダーに かみつかれた しげきと たいないの\n"
+            "{JPN}スパイスが かがくてきに はんのうして どくタイプに\n"
+            "{JPN}なった。 シェルダーの ベロを にぎると まきがいの\n"
+            "{JPN}せんたんから もうどくの えきたいを うちだす。"),
         .pokemonScale = 256,
         .pokemonOffset = 6,
         .trainerScale = 296,
@@ -10839,14 +10820,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ヤドキング"),
         .cryId = CRY_SLOWKING,
         .natDexNum = NATIONAL_DEX_SLOWKING,
-        .categoryName = _("Hexpert"),
+        .categoryName = _("{JPN}じゅじゅつし"),
         .height = 18,
         .weight = 795,
         .description = COMPOUND_STRING(
-            "A combination of toxins and the shock of\n"
-            "evolving has increased Shellder's\n"
-            "intelligence to the point that Shellder\n"
-            "now controls Slowking."),
+            "{JPN}しんかの ショックと どくそによって シェルダーの\n"
+            "{JPN}ちのうが あがりまくり ヤドキングを あやつるように\n"
+            "{JPN}なった。 あやしげな じゅもんを となえながら たべた\n"
+            "{JPN}ものと どくそを まぜて あやしい くすりを つくる。"),
         .pokemonScale = 256,
         .pokemonOffset = 0,
         .trainerScale = 309,
@@ -10911,14 +10892,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}コイル"),
         .cryId = CRY_MAGNEMITE,
         .natDexNum = NATIONAL_DEX_MAGNEMITE,
-        .categoryName = _("Magnet"),
+        .categoryName = _("{JPN}じしゃく"),
         .height = 3,
         .weight = 60,
         .description = COMPOUND_STRING(
-            "The units at its sides are extremely\n"
-            "powerful magnets. They generate enough\n"
-            "magnetism to draw in iron objects from\n"
-            "over 300 feet away."),
+            "{JPN}さゆうの ユニットは きょうりょくな じしゃく。\n"
+            "{JPN}でんじはを だす ことで じゅうりょくを さえぎり\n"
+            "{JPN}くうちゅうに うかぶ。 たいないの でんきが なくなると\n"
+            "{JPN}とべなくなる。 でんきが ある ばしょに むれる。"),
         .pokemonScale = 288,
         .pokemonOffset = -9,
         .trainerScale = 256,
@@ -10983,14 +10964,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}レアコイル"),
         .cryId = CRY_MAGNETON,
         .natDexNum = NATIONAL_DEX_MAGNETON,
-        .categoryName = _("Magnet"),
+        .categoryName = _("{JPN}じしゃく"),
         .height = 10,
         .weight = 600,
         .description = COMPOUND_STRING(
-            "It is actually three Magnemite linked\n"
-            "by magnetism. It generates powerful radio\n"
-            "waves that raise temperatures by 3.6\n"
-            "degrees F within a 3,300-foot radius."),
+            "{JPN}3びきの コイルが じりょくで れんけつした ポケモン。\n"
+            "{JPN}つよい じりょくで きかいを こわしてしまうので\n"
+            "{JPN}おおきな まちでは サイレンを ならして レアコイルの\n"
+            "{JPN}たいりょう はっせいを しらせる。"),
         .pokemonScale = 292,
         .pokemonOffset = 1,
         .trainerScale = 256,
@@ -11067,14 +11048,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ジバコイル"),
         .cryId = CRY_MAGNEZONE,
         .natDexNum = NATIONAL_DEX_MAGNEZONE,
-        .categoryName = _("Magnet Area"),
+        .categoryName = _("{JPN}じば"),
         .height = 12,
         .weight = 1800,
         .description = COMPOUND_STRING(
-            "As it zooms through the sky, this\n"
-            "Pokemon seems to be receiving signals\n"
-            "of unknown origin, while transmitting its\n"
-            "own signals of unknown purpose."),
+            "{JPN}とくしゅな じばの えいきょうで レアコイルが\n"
+            "{JPN}しんかした。 3つの ユニットから じりょくを だす。\n"
+            "{JPN}かいでんぱを はっしん しながら そらを とびまわり\n"
+            "{JPN}みちの でんぱを じゅしん していると いう。"),
         .pokemonScale = 282,
         .pokemonOffset = 4,
         .trainerScale = 256,
@@ -11148,14 +11129,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}カモネギ"),
         .cryId = CRY_FARFETCHD,
         .natDexNum = NATIONAL_DEX_FARFETCHD,
-        .categoryName = _("Wild Duck"),
+        .categoryName = _("{JPN}かるがも"),
         .height = 8,
         .weight = 150,
         .description = COMPOUND_STRING(
-            "It is always seen with a stick from a plant.\n"
-            "Apparently, there are good sticks and bad\n"
-            "sticks. This Pokemon occasionally fights\n"
-            "with others over choice sticks."),
+            "{JPN}もっている しょくぶつの クキにも よいものと\n"
+            "{JPN}そうでない ものが あるらしく カモネギどうしが クキを\n"
+            "{JPN}めぐって たたかう ことが ある。 はねで もつ クキを\n"
+            "{JPN}かたなのように あやつり てきを きりすてる。"),
         .pokemonScale = 330,
         .pokemonOffset = 2,
         .trainerScale = 293,
@@ -11230,14 +11211,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}カモネギ"),
         .cryId = CRY_FARFETCHD,
         .natDexNum = NATIONAL_DEX_FARFETCHD,
-        .categoryName = _("Wild Duck"),
+        .categoryName = _("{JPN}かるがも"),
         .height = 8,
         .weight = 420,
         .description = COMPOUND_STRING(
-            "The stalks of leeks are thicker and longer\n"
-            "in the Galar region. Brave Farfetch'd\n"
-            "warriors that adapted to these stalks\n"
-            "took on a unique form."),
+            "{JPN}ふとく ながい ガラルの ネギを つかいこなす うちに\n"
+            "{JPN}どくじの すがたに へんかした カモネギ。 ふとく\n"
+            "{JPN}たくましい ネギを ふるい ゆうかんに たたかう せんし。\n"
+            "{JPN}いちげきの はかいりょくに かける。"),
         .pokemonScale = 330,
         .pokemonOffset = 2,
         .trainerScale = 293,
@@ -11299,14 +11280,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ネギガナイト"),
         .cryId = CRY_SIRFETCHD,
         .natDexNum = NATIONAL_DEX_SIRFETCHD,
-        .categoryName = _("Wild Duck"),
+        .categoryName = _("{JPN}かるがも"),
         .height = 8,
         .weight = 1170,
         .description = COMPOUND_STRING(
-            "Only Farfetch'd that have survived many\n"
-            "battles can attain this evolution. When\n"
-            "this Pokemon's leek withers, it will\n"
-            "retire from combat."),
+            "{JPN}れきせんを いきぬいた ものが このすがたに しんかする。\n"
+            "{JPN}かたいネギの はで こうげきを いなし するどい クキで\n"
+            "{JPN}はんげき。 せいこん こめて そだてた ネギは\n"
+            "{JPN}ネギガナイト の いのち。"),
         .pokemonScale = 366,
         .pokemonOffset = 7,
         .trainerScale = 257,
@@ -11366,14 +11347,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ドードー"),
         .cryId = CRY_DODUO,
         .natDexNum = NATIONAL_DEX_DODUO,
-        .categoryName = _("Twin Bird"),
+        .categoryName = _("{JPN}ふたごどり"),
         .height = 14,
         .weight = 392,
         .description = COMPOUND_STRING(
-            "Even while eating or sleeping, one of the\n"
-            "heads remains always vigilant for any sign\n"
-            "of danger. When threatened, it flees at\n"
-            "over 60 miles per hour."),
+            "{JPN}2つの あたまの のうみそは テレパシーのような ちからで\n"
+            "{JPN}きもちを つうじあわせているらしい。 しょくじの ときも\n"
+            "{JPN}ねている ときも どちらかの あたまが つねに まわりを\n"
+            "{JPN}けいかいしている。"),
         .pokemonScale = 256,
         .pokemonOffset = 3,
         .trainerScale = 257,
@@ -11459,14 +11440,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ドードリオ"),
         .cryId = CRY_DODRIO,
         .natDexNum = NATIONAL_DEX_DODRIO,
-        .categoryName = _("Triple Bird"),
+        .categoryName = _("{JPN}みつごどり"),
         .height = 18,
         .weight = 852,
         .description = COMPOUND_STRING(
-            "A peculiar Pokemon species with three\n"
-            "heads. It vigorously races across grassy\n"
-            "plains even in arid seasons with little\n"
-            "rainfall."),
+            "{JPN}3つの あたまを もつ ちんしゅの ポケモン。 3つあるのは\n"
+            "{JPN}あたまだけでは ないらしい。 しんぞうと はいも\n"
+            "{JPN}3つなので いきぎれしないで ながい きょりを はしる\n"
+            "{JPN}ことが できるのだ。"),
         .pokemonScale = 256,
         .pokemonOffset = 0,
         .trainerScale = 268,
@@ -11550,14 +11531,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}パウワウ"),
         .cryId = CRY_SEEL,
         .natDexNum = NATIONAL_DEX_SEEL,
-        .categoryName = _("Sea Lion"),
+        .categoryName = _("{JPN}あしか"),
         .height = 11,
         .weight = 900,
         .description = COMPOUND_STRING(
-            "Seel hunt for prey in frigid, ice-covered\n"
-            "seas. When it needs to breathe, it punches\n"
-            "a hole through the ice with the sharply\n"
-            "protruding section of its head."),
+            "{JPN}こおりに おおわれた うみで エサを とる。 いきつぎを\n"
+            "{JPN}するときは あたまの でっぱりで こおりを わって\n"
+            "{JPN}うみから かおを だす。 さむくなるほど げんきになって\n"
+            "{JPN}つめたい うみを うれしそうに およぎまわる。"),
         .pokemonScale = 297,
         .pokemonOffset = 8,
         .trainerScale = 256,
@@ -11624,14 +11605,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ジュゴン"),
         .cryId = CRY_DEWGONG,
         .natDexNum = NATIONAL_DEX_DEWGONG,
-        .categoryName = _("Sea Lion"),
+        .categoryName = _("{JPN}あしか"),
         .height = 17,
         .weight = 1200,
         .description = COMPOUND_STRING(
-            "It loves to snooze on bitterly cold ice.\n"
-            "The sight of this Pokemon sleeping on\n"
-            "a glacier was mistakenly thought to be\n"
-            "a mermaid by a mariner long ago."),
+            "{JPN}つめたい こおりの うえで ねるのが だいすき。 むかし\n"
+            "{JPN}ひょうざんで ねむる すがたを みた ふなのりが\n"
+            "{JPN}にんぎょと まちがえた。 さむさに つよく むしろ\n"
+            "{JPN}さむいほど げんきになる。"),
         .pokemonScale = 256,
         .pokemonOffset = 0,
         .trainerScale = 275,
@@ -11694,14 +11675,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ベトベター"),
         .cryId = CRY_GRIMER,
         .natDexNum = NATIONAL_DEX_GRIMER,
-        .categoryName = _("Sludge"),
+        .categoryName = _("{JPN}ヘドロ"),
         .height = 9,
         .weight = 300,
         .description = COMPOUND_STRING(
-            "Born from polluted sludge in the sea,\n"
-            "Grimer's favorite food is anything filthy.\n"
-            "They feed on wastewater pumped out from\n"
-            "factories."),
+            "{JPN}おせんされた うみの ヘドロから うまれた ベトベターは\n"
+            "{JPN}きたない ものが だいこうぶつ。 ドロドロ ブヨブヨした\n"
+            "{JPN}からだは どんなに ほそい すきまにも はいりこむことが\n"
+            "{JPN}できる。 からだの ばいきんが へると しぬ。"),
         .pokemonScale = 258,
         .pokemonOffset = 10,
         .trainerScale = 256,
@@ -11768,14 +11749,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ベトベトン"),
         .cryId = CRY_MUK,
         .natDexNum = NATIONAL_DEX_MUK,
-        .categoryName = _("Sludge"),
+        .categoryName = _("{JPN}ヘドロ"),
         .height = 12,
         .weight = 300,
         .description = COMPOUND_STRING(
-            "It prefers warm and humid habitats.\n"
-            "In the summertime, the toxic substances\n"
-            "in its body intensify, making Muk reek like\n"
-            "putrid kitchen garbage."),
+            "{JPN}あたたかく しっけの おおい とちを このむ。 からだから\n"
+            "{JPN}しみだしている たいえきは はなが まがるほど\n"
+            "{JPN}きょうれつな においを はなつ。 だが いちぶには\n"
+            "{JPN}それがいいと いう ベトベトンマニアも そんざいする。"),
         .pokemonScale = 256,
         .pokemonOffset = 2,
         .trainerScale = 256,
@@ -11841,14 +11822,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ベトベター"),
         .cryId = CRY_GRIMER,
         .natDexNum = NATIONAL_DEX_GRIMER,
-        .categoryName = _("Sludge"),
+        .categoryName = _("{JPN}ヘドロ"),
         .height = 7,
         .weight = 420,
         .description = COMPOUND_STRING(
-            "There are a hundred or so of them living\n"
-            "in Alola's waste-disposal site. They're all\n"
-            "hard workers who eat a lot of trash. Grimer\n"
-            "seems to relish any and all kinds of trash."),
+            "{JPN}ゴミもんだいを かいけつ するため よそから もちこんだ\n"
+            "{JPN}ベトベターが いつのまにか このすがたに なった。\n"
+            "{JPN}ゴミを しょうかして きれいに かがやく けっしょうを\n"
+            "{JPN}つくりだす。 けっしょうは どくその かたまり。"),
         .pokemonScale = 258,
         .pokemonOffset = 10,
         .trainerScale = 256,
@@ -11914,14 +11895,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ベトベトン"),
         .cryId = CRY_MUK,
         .natDexNum = NATIONAL_DEX_MUK,
-        .categoryName = _("Sludge"),
+        .categoryName = _("{JPN}ヘドロ"),
         .height = 10,
         .weight = 520,
         .description = COMPOUND_STRING(
-            "While it's unexpectedly quiet and friendly,\n"
-            "if it's not fed any trash for a while,,\n"
-            "it will smash its Trainer's furnishings,\n"
-            "and eat up the fragments."),
+            "{JPN}だいこうぶつの ゴミを たらふく いただいた\n"
+            "{JPN}ベトベトンほど からだの もようが あざやかに\n"
+            "{JPN}いろづくのだ。 キバや ツメに みえるのは どくその\n"
+            "{JPN}けっしょう。 ふれるだけで どくに なる。"),
         .pokemonScale = 256,
         .pokemonOffset = 2,
         .trainerScale = 256,
@@ -11992,14 +11973,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}シェルダー"),
         .cryId = CRY_SHELLDER,
         .natDexNum = NATIONAL_DEX_SHELLDER,
-        .categoryName = _("Bivalve"),
+        .categoryName = _("{JPN}2まいがい"),
         .height = 3,
         .weight = 40,
         .description = COMPOUND_STRING(
-            "At night, it burrows a hole in the seafloor\n"
-            "with its broad tongue to make a place to\n"
-            "sleep. While asleep, it closes its shell,\n"
-            "but leaves its tongue hanging out."),
+            "{JPN}よるに なると おおきな ベロで かいていの すなに\n"
+            "{JPN}あなを ほり そのなかで ねむる。 カラを とじて\n"
+            "{JPN}ねむるが ベロは だしたまま。 カラの なかに たまった\n"
+            "{JPN}すなは やがて しんじゅに かわる。"),
         .pokemonScale = 675,
         .pokemonOffset = 24,
         .trainerScale = 256,
@@ -12069,14 +12050,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}パルシェン"),
         .cryId = CRY_CLOYSTER,
         .natDexNum = NATIONAL_DEX_CLOYSTER,
-        .categoryName = _("Bivalve"),
+        .categoryName = _("{JPN}2まいがい"),
         .height = 15,
         .weight = 1325,
         .description = COMPOUND_STRING(
-            "It swims in the sea by swallowing water,\n"
-            "then jetting it out toward the rear.\n"
-            "The Cloyster shoots spikes from its\n"
-            "shell using the same system."),
+            "{JPN}のみこんだ かいすいを うしろへ いきおい よく\n"
+            "{JPN}ふんしゃする ことで うみの なかを およぐ。 トゲを\n"
+            "{JPN}はっしゃする しくみも おなじ。 カラが ひじょうに\n"
+            "{JPN}かたく ナパームだんでも こわせない。"),
         .pokemonScale = 256,
         .pokemonOffset = 0,
         .trainerScale = 269,
@@ -12139,14 +12120,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ゴース"),
         .cryId = CRY_GASTLY,
         .natDexNum = NATIONAL_DEX_GASTLY,
-        .categoryName = _("Gas"),
+        .categoryName = _("{JPN}ガスじょう"),
         .height = 13,
         .weight = 1,
         .description = COMPOUND_STRING(
-            "When exposed to a strong wind, a Gastly's\n"
-            "gaseous body quickly dwindles away.\n"
-            "They cluster under the eaves of houses\n"
-            "to escape the ravages of wind."),
+            "{JPN}きょうふうを うけると ガスじょうの からだは みるみる\n"
+            "{JPN}ふきとばされ ちいさくなって しまう。かぜを さけた\n"
+            "{JPN}ゴースが のきしたに あつまる。 ふるくなって だれも\n"
+            "{JPN}すまなくなった たてものに はっせいするらしい。"),
         .pokemonScale = 256,
         .pokemonOffset = 0,
         .trainerScale = 256,
@@ -12213,14 +12194,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ゴースト"),
         .cryId = CRY_HAUNTER,
         .natDexNum = NATIONAL_DEX_HAUNTER,
-        .categoryName = _("Gas"),
+        .categoryName = _("{JPN}ガスじょう"),
         .height = 16,
         .weight = 1,
         .description = COMPOUND_STRING(
-            "If a Haunter beckons you while it is\n"
-            "floating in darkness, don't approach it.\n"
-            "This Pokemon will try to lick you with its\n"
-            "tongue and steal your life away."),
+            "{JPN}やみに うかぶ ゴーストが てまねきしても ぜったいに\n"
+            "{JPN}ちかよっては いけないよ。 ペロリと なめられ いのちを\n"
+            "{JPN}すわれてしまうぞ。 ひかりに おびえ やみよを このむ。\n"
+            "{JPN}どんな ものでも すりぬけられる。"),
         .pokemonScale = 256,
         .pokemonOffset = 2,
         .trainerScale = 293,
@@ -12302,14 +12283,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ゲンガー"),
         .cryId = CRY_GENGAR,
         .natDexNum = NATIONAL_DEX_GENGAR,
-        .categoryName = _("Shadow"),
+        .categoryName = _("{JPN}シャドー"),
         .height = 15,
         .weight = 405,
         .description = COMPOUND_STRING(
-            "Deep in the night, your shadow cast by\n"
-            "a streetlight may suddenly overtake you.\n"
-            "It is actually a Gengar running past\n"
-            "you, pretending to be your shadow."),
+            "{JPN}まよなか がいとうの あかりで できた かげが じぶんを\n"
+            "{JPN}おいこして いくのは ゲンガーが かげに なりすまして\n"
+            "{JPN}はしって いくからだ。 よなか ひとの かげに もぐりこみ\n"
+            "{JPN}すこしずつ たいおんを うばう。"),
         .pokemonScale = 256,
         .pokemonOffset = 2,
         .trainerScale = 302,
@@ -12376,14 +12357,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .cryId = CRY_GENGAR,
     #endif // P_MODIFIED_MEGA_CRIES
         .natDexNum = NATIONAL_DEX_GENGAR,
-        .categoryName = _("Shadow"),
+        .categoryName = _("{JPN}シャドー"),
         .height = 14,
         .weight = 405,
         .description = COMPOUND_STRING(
-            "Gengar's relationships are warped. It\n"
-            "tries to take the lives of anyone and\n"
-            "everyone. It will even try to curse the\n"
-            "Trainer who is its master!"),
+            "{JPN}メガシンカに よって いじげんへの アクセスが かのうに。\n"
+            "{JPN}いじげんに もぐって こうげきの チャンスを じっと\n"
+            "{JPN}うかがっている。 ぜんしんが あやしい パワーに\n"
+            "{JPN}みちみちている。"),
         .pokemonScale = 256,
         .pokemonOffset = 2,
         .trainerScale = 302,
@@ -12451,14 +12432,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ゲンガー"),
         .cryId = CRY_GENGAR,
         .natDexNum = NATIONAL_DEX_GENGAR,
-        .categoryName = _("Shadow"),
+        .categoryName = _("{JPN}シャドー"),
         .height = 200,
         .weight = 0,
         .description = COMPOUND_STRING(
-            "Rumor has it that its gigantic\n"
-            "mouth leads not into its body, filled\n"
-            "with cursed energy, but instead\n"
-            "directly to the afterlife."),
+            "{JPN}のろいの エネルギーに みちている。 きょだいな くちの\n"
+            "{JPN}むこうがわは あのよへと つづいているという。 いのちを\n"
+            "{JPN}ねらい ワナを はる。 くちのまえに たつと たいせつな\n"
+            "{JPN}ひとが よぶ こえが きこえる。"),
         .pokemonScale = 256,
         .pokemonOffset = 2,
         .trainerScale = 302,
@@ -12511,14 +12492,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}イワーク"),
         .cryId = CRY_ONIX,
         .natDexNum = NATIONAL_DEX_ONIX,
-        .categoryName = _("Rock Snake"),
+        .categoryName = _("{JPN}いわへび"),
         .height = 88,
         .weight = 2100,
         .description = COMPOUND_STRING(
-            "There is a magnet in its brain that\n"
-            "prevents an Onix from losing direction\n"
-            "while tunneling. As it grows older, its body\n"
-            "becomes steadily rounder and smoother."),
+            "{JPN}のうみそに じしゃくが あるので つちの なかを ほり\n"
+            "{JPN}すすんでいても ほうこうを まちがえない。 ちちゅうを\n"
+            "{JPN}ほりすすみながら いろんな かたいものを とりこみ\n"
+            "{JPN}がんじょうな からだをつくる。"),
         .pokemonScale = 256,
         .pokemonOffset = 1,
         .trainerScale = 515,
@@ -12584,14 +12565,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ハガネール"),
         .cryId = CRY_STEELIX,
         .natDexNum = NATIONAL_DEX_STEELIX,
-        .categoryName = _("Iron Snake"),
+        .categoryName = _("{JPN}てつへび"),
         .height = 92,
         .weight = 4000,
         .description = COMPOUND_STRING(
-            "Steelix live even further underground\n"
-            "than Onix. This Pokemon is known to dig\n"
-            "toward the earth's core, reaching a depth\n"
-            "of over six-tenths of a mile underground."),
+            "{JPN}イワークよりも ふかい ちちゅうに すんでいる。\n"
+            "{JPN}ちきゅうの ちゅうしんに むかって ほりすすみ ふかさ\n"
+            "{JPN}1キロに たっする ことも ある。 じょうぶな あごで\n"
+            "{JPN}がんせきを かみくだき すすむ。"),
         .pokemonScale = 256,
         .pokemonOffset = 0,
         .trainerScale = 516,
@@ -12675,14 +12656,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .cryId = CRY_STEELIX,
     #endif // P_MODIFIED_MEGA_CRIES
         .natDexNum = NATIONAL_DEX_STEELIX,
-        .categoryName = _("Iron Snake"),
+        .categoryName = _("{JPN}てつへび"),
         .height = 105,
         .weight = 7400,
         .description = COMPOUND_STRING(
-            "The cells within its body, crystallized by\n"
-            "the energy produced from Mega Evolution,\n"
-            "are stronger than any mineral and able\n"
-            "to withstand any temperature."),
+            "{JPN}メガシンカの エネルギーによって たいないの さいぼうが\n"
+            "{JPN}けっしょうかし あらゆる こうぶつよりも かたく\n"
+            "{JPN}こうおんに たえることが できる。 はがれた うろこは\n"
+            "{JPN}じりょくで からだの まわりを まわっている。"),
         .pokemonScale = 256,
         .pokemonOffset = 0,
         .trainerScale = 516,
@@ -12751,14 +12732,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}スリープ"),
         .cryId = CRY_DROWZEE,
         .natDexNum = NATIONAL_DEX_DROWZEE,
-        .categoryName = _("Hypnosis"),
+        .categoryName = _("{JPN}さいみん"),
         .height = 10,
         .weight = 324,
         .description = COMPOUND_STRING(
-            "If your nose becomes itchy while you are\n"
-            "sleeping, it's a sure sign that a Drowzee is\n"
-            "standing above your pillow and trying to\n"
-            "eat your dream through your nostrils."),
+            "{JPN}ねむっているとき キミの はなが ムズムズしたら\n"
+            "{JPN}まくらもとに たった スリープが はなの あなから ゆめを\n"
+            "{JPN}たべようとしている あいず。 ユメを たべるという\n"
+            "{JPN}でんせつの いきもの バクの しそん。"),
         .pokemonScale = 274,
         .pokemonOffset = 6,
         .trainerScale = 256,
@@ -12828,14 +12809,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}スリーパー"),
         .cryId = CRY_HYPNO,
         .natDexNum = NATIONAL_DEX_HYPNO,
-        .categoryName = _("Hypnosis"),
+        .categoryName = _("{JPN}さいみん"),
         .height = 16,
         .weight = 756,
         .description = COMPOUND_STRING(
-            "The arcing movement and glitter of the\n"
-            "pendulum in a Hypno's hand lull the foe\n"
-            "into deep hypnosis. While searching for\n"
-            "prey, it polishes the pendulum."),
+            "{JPN}てに もっている ふりこの うごきと かがやきが あいてを\n"
+            "{JPN}ふかい さいみんじょうたいに おとす。 えものを\n"
+            "{JPN}さがしながら ふりこを みがいている。 であったえものを\n"
+            "{JPN}とりあえず ねむらせ そのユメを あじみ。"),
         .pokemonScale = 256,
         .pokemonOffset = 3,
         .trainerScale = 257,
@@ -12915,14 +12896,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}クラブ"),
         .cryId = CRY_KRABBY,
         .natDexNum = NATIONAL_DEX_KRABBY,
-        .categoryName = _("River Crab"),
+        .categoryName = _("{JPN}さわがに"),
         .height = 4,
         .weight = 65,
         .description = COMPOUND_STRING(
-            "Krabby live in holes dug into beaches.\n"
-            "On sandy shores with little in the way\n"
-            "of food, they can be seen squabbling with\n"
-            "each other over territory."),
+            "{JPN}すなはまに あなを ほり そこで くらしている。 エサの\n"
+            "{JPN}すくない すなはまでは ばしょとりをする クラブたちの\n"
+            "{JPN}あらそいを みる ことが できる。ハサミは たたかいで\n"
+            "{JPN}とれても また はえてきて もとどおり。"),
         .pokemonScale = 469,
         .pokemonOffset = 20,
         .trainerScale = 256,
@@ -12988,14 +12969,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}キングラー"),
         .cryId = CRY_KINGLER,
         .natDexNum = NATIONAL_DEX_KINGLER,
-        .categoryName = _("Pincer"),
+        .categoryName = _("{JPN}はさみ"),
         .height = 13,
         .weight = 600,
         .description = COMPOUND_STRING(
-            "It waves its huge, oversized claw in the\n"
-            "air to communicate with others.\n"
-            "But since the claw is so heavy, this\n"
-            "Pokemon quickly tires."),
+            "{JPN}キングラーは きょだいな ハサミを ふって なかま\n"
+            "{JPN}どうしで あいずを おくりあっているが ハサミが\n"
+            "{JPN}おもすぎて すぐに つかれてしまう。 おおきいほうの\n"
+            "{JPN}はさみの パワーは 1まんばりき。"),
         .pokemonScale = 256,
         .pokemonOffset = 2,
         .trainerScale = 256,
@@ -13059,14 +13040,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}キングラー"),
         .cryId = CRY_KINGLER,
         .natDexNum = NATIONAL_DEX_KINGLER,
-        .categoryName = _("Pincer"),
+        .categoryName = _("{JPN}はさみ"),
         .height = 190,
         .weight = 0,
         .description = COMPOUND_STRING(
-            "The flow of Gigantamax energy has\n"
-            "spurred this Pokemon's left pincer\n"
-            "to grow to an enormous size. That\n"
-            "claw can pulverize anything."),
+            "{JPN}キョダイマックスの パワーによって きょだいになった\n"
+            "{JPN}ひだりの はさみは なんでも こなごなに すりつぶす。\n"
+            "{JPN}きょうアルカリせいの あわを だす。 ふきかけられた\n"
+            "{JPN}あいての からだを たちまち とかしてしまう。"),
         .pokemonScale = 256,
         .pokemonOffset = 2,
         .trainerScale = 256,
@@ -13119,14 +13100,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ビリリダマ"),
         .cryId = CRY_VOLTORB,
         .natDexNum = NATIONAL_DEX_VOLTORB,
-        .categoryName = _("Ball"),
+        .categoryName = _("{JPN}ボール"),
         .height = 5,
         .weight = 104,
         .description = COMPOUND_STRING(
-            "It bears an uncanny and unexplained\n"
-            "resemblance to a Poke Ball. Because it\n"
-            "explodes at the slightest shock, even\n"
-            "veteran Trainers treat it with caution."),
+            "{JPN}なぜか モンスターボールに すがたが にている。 すこしの\n"
+            "{JPN}ショックで すぐに ばくはつする。モンスターボールに\n"
+            "{JPN}きょうりょくな パルスを あびせた ときに うまれたと\n"
+            "{JPN}ウワサされている。"),
         .pokemonScale = 364,
         .pokemonOffset = -8,
         .trainerScale = 256,
@@ -13197,14 +13178,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}マルマイン"),
         .cryId = CRY_ELECTRODE,
         .natDexNum = NATIONAL_DEX_ELECTRODE,
-        .categoryName = _("Ball"),
+        .categoryName = _("{JPN}ボール"),
         .height = 12,
         .weight = 666,
         .description = COMPOUND_STRING(
-            "They appear in great numbers at electric\n"
-            "power plants. Because they feed on\n"
-            "electricity, they cause massive and\n"
-            "chaotic blackouts in nearby cities."),
+            "{JPN}はつでんしょに たいりょうはっせいする。 でんきを\n"
+            "{JPN}たべてしまうため ちかくの まちでは だいていでんが\n"
+            "{JPN}おこり おおさわぎに なる。 でんきエネルギーを\n"
+            "{JPN}ためこむほど こうそくで うごける。"),
         .pokemonScale = 256,
         .pokemonOffset = 0,
         .trainerScale = 256,
@@ -13268,14 +13249,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ビリリダマ"),
         .cryId = CRY_VOLTORB,
         .natDexNum = NATIONAL_DEX_VOLTORB,
-        .categoryName = _("Sphere"),
+        .categoryName = _("{JPN}きゅうたい"),
         .height = 5,
         .weight = 130,
         .description = COMPOUND_STRING(
-            "It resembles an ancient Poke Ball design.\n"
-            "When excited, it discharges the electric\n"
-            "current it has stored in its belly, then\n"
-            "lets out a great, uproarious laugh."),
+            "{JPN}ふるい モンスターボールに そっくり。 まちがって\n"
+            "{JPN}さわると かんでんしたり ときには たねを とばしたり\n"
+            "{JPN}ばくはつするので きけん。 でも せいかくは ようきで\n"
+            "{JPN}ゆうこうてき。"),
         .pokemonScale = 364,
         .pokemonOffset = -8,
         .trainerScale = 256,
@@ -13334,14 +13315,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}マルマイン"),
         .cryId = CRY_ELECTRODE,
         .natDexNum = NATIONAL_DEX_ELECTRODE,
-        .categoryName = _("Sphere"),
+        .categoryName = _("{JPN}きゅうたい"),
         .height = 12,
         .weight = 710,
         .description = COMPOUND_STRING(
-            "The tissue on the surface of its body is\n"
-            "similar in composition to an Apricorn.\n"
-            "When irritated, it lets loose an electric\n"
-            "current equal to 20 lightning bolts."),
+            "{JPN}からだの そしきは ぼんぐりの せいぶんに そっくりで\n"
+            "{JPN}モンスターボールに にている。 からだに ある ちいさい\n"
+            "{JPN}あなから でんきを だす。 おこったときに だす でんきは\n"
+            "{JPN}らくらい 20かいぶんにも ひってきする。"),
         .pokemonScale = 256,
         .pokemonOffset = 0,
         .trainerScale = 256,
@@ -13404,14 +13385,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}タマタマ"),
         .cryId = CRY_EXEGGCUTE,
         .natDexNum = NATIONAL_DEX_EXEGGCUTE,
-        .categoryName = _("Egg"),
+        .categoryName = _("{JPN}たまご"),
         .height = 4,
         .weight = 25,
         .description = COMPOUND_STRING(
-            "It consists of six eggs that care for each\n"
-            "other. The eggs attract each other and\n"
-            "spin around. When cracks increasingly\n"
-            "appear, it is close to evolution."),
+            "{JPN}なかまおもいの 6この たまごは おたがいに ひきつけあい\n"
+            "{JPN}くるくる かいてんしている。カラの ヒビが ふえると\n"
+            "{JPN}しんかは まぢかだ。 テレパシーで なかまと こうしん\n"
+            "{JPN}している らしいぞ。"),
         .pokemonScale = 489,
         .pokemonOffset = -4,
         .trainerScale = 256,
@@ -13496,14 +13477,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ナッシー"),
         .cryId = CRY_EXEGGUTOR,
         .natDexNum = NATIONAL_DEX_EXEGGUTOR,
-        .categoryName = _("Coconut"),
+        .categoryName = _("{JPN}やしのみ"),
         .height = 20,
         .weight = 1200,
         .description = COMPOUND_STRING(
-            "Originally from the tropics, Exeggutor's\n"
-            "heads grow larger from exposure to strong\n"
-            "sunlight. It is said that when the heads\n"
-            "fall, they group to form an Exeggcute."),
+            "{JPN}あるく ねったいうりんと よばれる。 おおきくなった\n"
+            "{JPN}あたまの ひとつが じめんに おちると タマタマになる。\n"
+            "{JPN}それぞれの あたまに いしが あり テレパシーで\n"
+            "{JPN}はなしあい みんなで なにを するのか きめている。"),
         .pokemonScale = 256,
         .pokemonOffset = 0,
         .trainerScale = 309,
@@ -13565,14 +13546,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ナッシー"),
         .cryId = CRY_EXEGGUTOR,
         .natDexNum = NATIONAL_DEX_EXEGGUTOR,
-        .categoryName = _("Coconut"),
+        .categoryName = _("{JPN}やしのみ"),
         .height = 109,
         .weight = 4156,
         .description = COMPOUND_STRING(
-            "Alola is the best environment for\n"
-            "this Pokemon. Local people take pride\n"
-            "in its appearance, saying this is how\n"
-            "Exeggutor ought to look."),
+            "{JPN}のびのび そだって サイコパワーは いらなくなり\n"
+            "{JPN}ねむれる ドラゴンの ちからが かくせい したのだ。\n"
+            "{JPN}つよい ひざしが タマタマの ひめた ちからを\n"
+            "{JPN}めざめさせた けっかが これなのだ。"),
         .pokemonScale = 256,
         .pokemonOffset = 0,
         .trainerScale = 309,
@@ -13639,14 +13620,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}カラカラ"),
         .cryId = CRY_CUBONE,
         .natDexNum = NATIONAL_DEX_CUBONE,
-        .categoryName = _("Lonely"),
+        .categoryName = _("{JPN}こどく"),
         .height = 4,
         .weight = 65,
         .description = COMPOUND_STRING(
-            "It pines for the mother it will never see\n"
-            "again. Seeing a likeness of its mother in\n"
-            "the full moon, it cries. The stains on the\n"
-            "skull it wears are from its tears."),
+            "{JPN}2どと あえない ははおやの おもかげを まんげつに\n"
+            "{JPN}みつけて なきごえを あげる。 かぶっている ホネの\n"
+            "{JPN}しみは なみだの あと。 ははおやの ホネを\n"
+            "{JPN}かぶっているので すがおも ひょうじょうも わからない。"),
         .pokemonScale = 545,
         .pokemonOffset = 21,
         .trainerScale = 256,
@@ -13719,14 +13700,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ガラガラ"),
         .cryId = CRY_MAROWAK,
         .natDexNum = NATIONAL_DEX_MAROWAK,
-        .categoryName = _("Bone Keeper"),
+        .categoryName = _("{JPN}ほねずき"),
         .height = 10,
         .weight = 450,
         .description = COMPOUND_STRING(
-            "A Marowak is the evolved form of a Cubone\n"
-            "that has grown tough by overcoming the\n"
-            "grief of losing its mother. Its tempered\n"
-            "and hardened spirit is not easily broken."),
+            "{JPN}ははおやに あえない かなしみを のりこえた カラカラが\n"
+            "{JPN}たくましく しんかした すがた。 きたえられた こころは\n"
+            "{JPN}かんたんに くじけない。 ホネを ぶきにして ゆうかんに\n"
+            "{JPN}てきと わたりあう。"),
         .pokemonScale = 293,
         .pokemonOffset = 12,
         .trainerScale = 256,
@@ -13793,7 +13774,7 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ガラガラ"),
         .cryId = CRY_MAROWAK,
         .natDexNum = NATIONAL_DEX_MAROWAK,
-        .categoryName = _("Bone Keeper"),
+        .categoryName = _("{JPN}ほねずき"),
         .height = 10,
         .weight = 340,
         .description = gMarowakAlolaPokedexText,
@@ -13852,10 +13833,10 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .eggGroups = MON_EGG_GROUPS(EGG_GROUP_MONSTER),
         .abilities = { ABILITY_ROCK_HEAD, ABILITY_NONE, ABILITY_NONE },
         .bodyColor = BODY_COLOR_PURPLE,
-        .speciesName = _("{JPN}ガラガラ"),
+        .speciesName = _("{JPN}ぬしガラガラ"),
         .cryId = CRY_MAROWAK,
         .natDexNum = NATIONAL_DEX_MAROWAK,
-        .categoryName = _("Bone Keeper"),
+        .categoryName = _("ほねずき"),
         .height = 17,
         .weight = 980,
         .description = gMarowakAlolaPokedexText,
@@ -13926,14 +13907,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}バルキー"),
         .cryId = CRY_TYROGUE,
         .natDexNum = NATIONAL_DEX_TYROGUE,
-        .categoryName = _("Scuffle"),
+        .categoryName = _("{JPN}けんか"),
         .height = 7,
         .weight = 210,
         .description = COMPOUND_STRING(
-            "Tyrogue become stressed out if they do\n"
-            "not get to train every day. When raising\n"
-            "this Pokemon, the Trainer must establish\n"
-            "a regular training schedule."),
+            "{JPN}まいにち トレーニング しないと ストレスが たまって\n"
+            "{JPN}しまうので トレーナーは そだてる とき スケジュール\n"
+            "{JPN}かんりに くふうが ひつようだ。 かくとうセンスを\n"
+            "{JPN}みがくため あらゆる あいてに たちむかう。"),
         .pokemonScale = 292,
         .pokemonOffset = 9,
         .trainerScale = 256,
@@ -14001,14 +13982,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}サワムラー"),
         .cryId = CRY_HITMONLEE,
         .natDexNum = NATIONAL_DEX_HITMONLEE,
-        .categoryName = _("Kicking"),
+        .categoryName = _("{JPN}キック"),
         .height = 15,
         .weight = 498,
         .description = COMPOUND_STRING(
-            "Its legs freely stretch and contract.\n"
-            "Using these springlike limbs, it bowls over\n"
-            "foes with devastating kicks. After battle,\n"
-            "it rubs down its tired legs."),
+            "{JPN}じざいに のびちぢみする あしで きょうれつな キックを\n"
+            "{JPN}はなち あいてを けりたおす。 どんな しせいでも\n"
+            "{JPN}れんぞくで キックを はなてる すごい やつ。 たたかいの\n"
+            "{JPN}あと つかれた あしを もみほぐす。"),
         .pokemonScale = 256,
         .pokemonOffset = 3,
         .trainerScale = 259,
@@ -14072,14 +14053,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}エビワラー"),
         .cryId = CRY_HITMONCHAN,
         .natDexNum = NATIONAL_DEX_HITMONCHAN,
-        .categoryName = _("Punching"),
+        .categoryName = _("{JPN}パンチ"),
         .height = 14,
         .weight = 502,
         .description = COMPOUND_STRING(
-            "A Hitmonchan is said to possess the\n"
-            "spirit of a boxer who aimed to become the\n"
-            "world champion. Having an indomitable\n"
-            "spirit means that it will never give up."),
+            "{JPN}せかいチャンピオンを めざしていた ボクサーの\n"
+            "{JPN}たましいが やどったと いわれる エビワラーは\n"
+            "{JPN}ふくつの せいしんで ぜったいに へこたれない。\n"
+            "{JPN}3ぷんかん こうげきすると ひとやすみ したくなる。"),
         .pokemonScale = 256,
         .pokemonOffset = 2,
         .trainerScale = 277,
@@ -14152,14 +14133,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}カポエラー"),
         .cryId = CRY_HITMONTOP,
         .natDexNum = NATIONAL_DEX_HITMONTOP,
-        .categoryName = _("Handstand"),
+        .categoryName = _("{JPN}さかだち"),
         .height = 14,
         .weight = 480,
         .description = COMPOUND_STRING(
-            "Its technique of kicking while spinning is\n"
-            "a remarkable mix of both offense and\n"
-            "defense. Hitmontop travel faster\n"
-            "spinning than they do walking."),
+            "{JPN}コマのように かいてんしながら たたかう。 こうそく\n"
+            "{JPN}かいてんしながら はなつ キックは こうげきと\n"
+            "{JPN}ぼうぎょを かねた みごとな わざ。 あるく よりも\n"
+            "{JPN}かいてんした ほうが はやい。"),
         .pokemonScale = 256,
         .pokemonOffset = 2,
         .trainerScale = 257,
@@ -14225,14 +14206,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ベロリンガ"),
         .cryId = CRY_LICKITUNG,
         .natDexNum = NATIONAL_DEX_LICKITUNG,
-        .categoryName = _("Licking"),
+        .categoryName = _("{JPN}なめまわし"),
         .height = 12,
         .weight = 655,
         .description = COMPOUND_STRING(
-            "Whenever it sees something unfamiliar,\n"
-            "it always licks the object because it\n"
-            "memorizes things by texture and taste.\n"
-            "It is somewhat put off by sour things."),
+            "{JPN}はじめて めに する ものは かならず ペロリ。\n"
+            "{JPN}したざわりと あじで きおくしているのだ。でも\n"
+            "{JPN}すっぱい ものは ちょっと にがて。なめられた\n"
+            "{JPN}ぶぶんを ほうっておくと かぶれるぞ。"),
         .pokemonScale = 256,
         .pokemonOffset = 4,
         .trainerScale = 256,
@@ -14297,14 +14278,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ベロベルト"),
         .cryId = CRY_LICKILICKY,
         .natDexNum = NATIONAL_DEX_LICKILICKY,
-        .categoryName = _("Licking"),
+        .categoryName = _("{JPN}なめまわし"),
         .height = 17,
         .weight = 1400,
         .description = COMPOUND_STRING(
-            "The long tongue is always soggy with\n"
-            "slobber. The saliva contains a solvent\n"
-            "that causes numbness. Getting too close\n"
-            "to it will leave you soaked with drool."),
+            "{JPN}ぐんぐん のびる ベロを なんにでも まきつける。\n"
+            "{JPN}うかつに ちかよると だえきで べとべとに されてしまう。\n"
+            "{JPN}ながいしたは いつも だえきまみれ。 だえきには ものを\n"
+            "{JPN}とかす せいぶんが ふくまれており さわると しびれる。"),
         .pokemonScale = 259,
         .pokemonOffset = 0,
         .trainerScale = 290,
@@ -14378,14 +14359,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ドガース"),
         .cryId = CRY_KOFFING,
         .natDexNum = NATIONAL_DEX_KOFFING,
-        .categoryName = _("Poison Gas"),
+        .categoryName = _("{JPN}どくガス"),
         .height = 6,
         .weight = 10,
         .description = COMPOUND_STRING(
-            "Getting up close to a Koffing will give\n"
-            "you a chance to observe, through its thin\n"
-            "skin, the toxic gases swirling inside. It\n"
-            "blows up at the slightest stimulation."),
+            "{JPN}しげきを あたえると ガスの どくそが つよまり からだの\n"
+            "{JPN}あちこちから いきおいよく ふきだす。 きおんが たかい\n"
+            "{JPN}ほど ガスが たくさん できる。 まんまるに ふくらんだ\n"
+            "{JPN}あと だいばくはつする。"),
         .pokemonScale = 369,
         .pokemonOffset = -1,
         .trainerScale = 256,
@@ -14460,14 +14441,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}マタドガス"),
         .cryId = CRY_WEEZING,
         .natDexNum = NATIONAL_DEX_WEEZING,
-        .categoryName = _("Poison Gas"),
+        .categoryName = _("{JPN}どくガス"),
         .height = 12,
         .weight = 95,
         .description = COMPOUND_STRING(
-            "By diluting its toxic gases with a special\n"
-            "process, the highest grade of perfume can\n"
-            "be extracted. To Weezing, gases emanating\n"
-            "from garbage are the ultimate feast."),
+            "{JPN}ふたごの からだを こうごに しぼませたり\n"
+            "{JPN}ふくらませたりして どくガスを まぜている。 どくガスを\n"
+            "{JPN}とくしゅな ほうほうで うすめると さいこうきゅうの\n"
+            "{JPN}こうすいが できあがる。 ゴミから でる ガスが ごちそう。"),
         .pokemonScale = 305,
         .pokemonOffset = 3,
         .trainerScale = 256,
@@ -14534,14 +14515,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}マタドガス"),
         .cryId = CRY_WEEZING,
         .natDexNum = NATIONAL_DEX_WEEZING,
-        .categoryName = _("Poison Gas"),
+        .categoryName = _("{JPN}どくガス"),
         .height = 30,
         .weight = 160,
         .description = COMPOUND_STRING(
-            "Long ago, when droves of factories fouled\n"
-            "the air with pollution, it changed into this\n"
-            "form for some reason. It consumes air\n"
-            "pollutant particles, expelling clean air."),
+            "{JPN}こうじょうが たちならび くうきが よごれていた むかし。\n"
+            "{JPN}なぜか このすがたに へんかした。 たいきの きたない\n"
+            "{JPN}せいぶんを きゅうしゅうし きれいな くうきを フンの\n"
+            "{JPN}かわりに はきだしている。"),
         .pokemonScale = 305,
         .pokemonOffset = 3,
         .trainerScale = 256,
@@ -14603,14 +14584,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}サイホーン"),
         .cryId = CRY_RHYHORN,
         .natDexNum = NATIONAL_DEX_RHYHORN,
-        .categoryName = _("Spikes"),
+        .categoryName = _("{JPN}とげとげ"),
         .height = 10,
         .weight = 1150,
         .description = COMPOUND_STRING(
-            "Once it starts running, it doesn't stop.\n"
-            "Its tiny brain makes it so stupid that it\n"
-            "can't remember why it started running in\n"
-            "the first place."),
+            "{JPN}いちど はしりだしたら とまらない。 ひたすら まっすぐ\n"
+            "{JPN}つきすすみ こわしまくる。 のうみそが ちいさいので\n"
+            "{JPN}はしっている りゆうを わすれてしまうほど あたまが\n"
+            "{JPN}わるいのだ。 たまに おもいだすらしい。"),
         .pokemonScale = 267,
         .pokemonOffset = 6,
         .trainerScale = 256,
@@ -14687,14 +14668,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}サイドン"),
         .cryId = CRY_RHYDON,
         .natDexNum = NATIONAL_DEX_RHYDON,
-        .categoryName = _("Drill"),
+        .categoryName = _("{JPN}ドリル"),
         .height = 19,
         .weight = 1200,
         .description = COMPOUND_STRING(
-            "Its horn, which rotates like a drill,\n"
-            "destroys tall buildings with one strike.\n"
-            "It stands on its hind legs, and its brain\n"
-            "is well developed."),
+            "{JPN}ドリルに なる ツノで がんせきを はかいする。\n"
+            "{JPN}かたい ひふは たいほうでも キズつかない。\n"
+            "{JPN}よろいの ような ひふは あつさを かんじない。\n"
+            "{JPN}うしろあしで たちあがり のうが はったつした。"),
         .pokemonScale = 256,
         .pokemonOffset = 1,
         .trainerScale = 299,
@@ -14777,14 +14758,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ドサイドン"),
         .cryId = CRY_RHYPERIOR,
         .natDexNum = NATIONAL_DEX_RHYPERIOR,
-        .categoryName = _("Drill"),
+        .categoryName = _("{JPN}ドリル"),
         .height = 24,
         .weight = 2828,
         .description = COMPOUND_STRING(
-            "It can launch a rock held in its hand\n"
-            "like a missile by tightening and then\n"
-            "expanding its muscles instantaneously.\n"
-            "Geodude are shot at rare times."),
+            "{JPN}きんにくを ちからを こめて しゅんかんてきに\n"
+            "{JPN}ふくらませることで てにした いしを ふんしゅつできる。\n"
+            "{JPN}まれに イシツブテを とばす。 ぜんしんの\n"
+            "{JPN}プロテクターは かざんの ふんかにも たえられる。"),
         .pokemonScale = 256,
         .pokemonOffset = 3,
         .trainerScale = 369,
@@ -14864,14 +14845,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ピンプク"),
         .cryId = CRY_HAPPINY,
         .natDexNum = NATIONAL_DEX_HAPPINY,
-        .categoryName = _("Playhouse"),
+        .categoryName = _("{JPN}ままごと"),
         .height = 6,
         .weight = 244,
         .description = COMPOUND_STRING(
-            "It carries a round white rock in its\n"
-            "belly pouch. If it gets along well with\n"
-            "someone, it will sometimes give that\n"
-            "person the rock."),
+            "{JPN}しろくて まるいものが だいすき。 しろくて まるい\n"
+            "{JPN}いしを タマゴと おもいこんで だいじに おなかの\n"
+            "{JPN}ふくろに いれている。 すきな あいてに いしを わたす。\n"
+            "{JPN}まきげの かたちを きにしている。"),
         .pokemonScale = 422,
         .pokemonOffset = 15,
         .trainerScale = 256,
@@ -14936,14 +14917,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ラッキー"),
         .cryId = CRY_CHANSEY,
         .natDexNum = NATIONAL_DEX_CHANSEY,
-        .categoryName = _("Egg"),
+        .categoryName = _("{JPN}たまご"),
         .height = 11,
         .weight = 346,
         .description = COMPOUND_STRING(
-            "Chansey lay nutritionally excellent eggs\n"
-            "every day. The eggs are so delicious, they\n"
-            "are eagerly devoured by even those people\n"
-            "who have lost their appetite."),
+            "{JPN}えいよう まんてんの タマゴを まいにち うむ。\n"
+            "{JPN}しょくよくを なくした ひとでも ペロリと\n"
+            "{JPN}たべてしまうほど おいしい タマゴだ。\n"
+            "{JPN}しあわせを はこぶと いわれている。"),
         .pokemonScale = 257,
         .pokemonOffset = 7,
         .trainerScale = 256,
@@ -15015,14 +14996,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ハピナス"),
         .cryId = CRY_BLISSEY,
         .natDexNum = NATIONAL_DEX_BLISSEY,
-        .categoryName = _("Happiness"),
+        .categoryName = _("{JPN}しあわせ"),
         .height = 15,
         .weight = 468,
         .description = COMPOUND_STRING(
-            "If it senses sadness with its fluffy fur,\n"
-            "a Blissey will rush over to the sad person,\n"
-            "however far away, to share an egg of\n"
-            "happiness that brings a smile to any face."),
+            "{JPN}ふわふわの たいもうで かなしんでいる こころを\n"
+            "{JPN}キャッチすると どんなに とおくでも かけつけて\n"
+            "{JPN}えがおに なる しあわせタマゴを わけてあげる。\n"
+            "{JPN}なおるまで かんびょうする やさしい ポケモン。"),
         .pokemonScale = 256,
         .pokemonOffset = 4,
         .trainerScale = 310,
@@ -15089,14 +15070,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}モンジャラ"),
         .cryId = CRY_TANGELA,
         .natDexNum = NATIONAL_DEX_TANGELA,
-        .categoryName = _("Vine"),
+        .categoryName = _("{JPN}ツルじょう"),
         .height = 10,
         .weight = 350,
         .description = COMPOUND_STRING(
-            "Its vines snap off easily and painlessly\n"
-            "if they are grabbed, allowing it to make a\n"
-            "quick getaway. The lost vines are replaced\n"
-            "by new growth the very next day."),
+            "{JPN}てきに つかまれると ツルは ぷちっと きれる。 ぜんぜん\n"
+            "{JPN}いたくないので その スキに にげる。よくじつには\n"
+            "{JPN}あたらしい ツルが はえそろうぞ。 ツルに かくれている\n"
+            "{JPN}かおを みたものは まだ いない。"),
         .pokemonScale = 304,
         .pokemonOffset = 1,
         .trainerScale = 256,
@@ -15161,14 +15142,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}モジャンボ"),
         .cryId = CRY_TANGROWTH,
         .natDexNum = NATIONAL_DEX_TANGROWTH,
-        .categoryName = _("Vine"),
+        .categoryName = _("{JPN}ツルじょう"),
         .height = 20,
         .weight = 1286,
         .description = COMPOUND_STRING(
-            "It ensnares prey by extending arms made\n"
-            "of vines. Even if one of its arms is eaten,\n"
-            "it's fine. The Pokemon regenerates quickly\n"
-            "and will go right back to normal."),
+            "{JPN}しょくぶつの ツルで できた うでを のばして えものを\n"
+            "{JPN}からめとる。 うでを たべられても へっちゃら。\n"
+            "{JPN}あたたかい きせつに なると めだまも かくれて\n"
+            "{JPN}しまうほど しょくぶつの ツルが のびつづける。"),
         .pokemonScale = 261,
         .pokemonOffset = 1,
         .trainerScale = 334,
@@ -15246,14 +15227,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ガルーラ"),
         .cryId = CRY_KANGASKHAN,
         .natDexNum = NATIONAL_DEX_KANGASKHAN,
-        .categoryName = _("Parent"),
+        .categoryName = _("{JPN}おやこ"),
         .height = 22,
         .weight = 800,
         .description = COMPOUND_STRING(
-            "If you come across a young Kangaskhan\n"
-            "playing by itself, never try to catch it.\n"
-            "The baby's parent is sure to be in the area,\n"
-            "and it will become violently enraged."),
+            "{JPN}ガルーラの こどもが 1ぴきで あそんでいても\n"
+            "{JPN}ぜったいに つかまえたりしては いけないよ。 ちかくに\n"
+            "{JPN}いる おやが はげしく おこりだすぞ。 こどもを\n"
+            "{JPN}まもるためになら どんな あいてにも たちむかっていく。"),
         .pokemonScale = 256,
         .pokemonOffset = 0,
         .trainerScale = 387,
@@ -15322,14 +15303,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .cryId = CRY_KANGASKHAN,
     #endif // P_MODIFIED_MEGA_CRIES
         .natDexNum = NATIONAL_DEX_KANGASKHAN,
-        .categoryName = _("Parent"),
+        .categoryName = _("{JPN}おやこ"),
         .height = 22,
         .weight = 1000,
         .description = COMPOUND_STRING(
-            "When the mother sees the back of her\n"
-            "Mega-Evolved child, it makes her think\n"
-            "of the day when her child will inevitably\n"
-            "leave her."),
+            "{JPN}ばくはつてきな エネルギーを あびた こどもが\n"
+            "{JPN}いちじてきに せいちょう。 メガガルーラが つよい\n"
+            "{JPN}りゆうは こどもの せいちょうに よろこび\n"
+            "{JPN}はりきっている ママの せい。"),
         .pokemonScale = 256,
         .pokemonOffset = 0,
         .trainerScale = 387,
@@ -15402,14 +15383,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}タッツー"),
         .cryId = CRY_HORSEA,
         .natDexNum = NATIONAL_DEX_HORSEA,
-        .categoryName = _("Dragon"),
+        .categoryName = _("{JPN}ドラゴン"),
         .height = 4,
         .weight = 80,
         .description = COMPOUND_STRING(
-            "By cleverly flicking the fins on its back\n"
-            "side to side, it moves in any direction\n"
-            "while facing forward. It spits ink to\n"
-            "escape if it senses danger."),
+            "{JPN}せなかの ヒレを きように うごかして まえを むいたまま\n"
+            "{JPN}ぜんごさゆうに いどうする。 きけんを かんじると\n"
+            "{JPN}はんしゃてきに くちから まっくろい スミを はきだして\n"
+            "{JPN}にげるぞ。 サンゴの かげに すみかを つくる。"),
         .pokemonScale = 399,
         .pokemonOffset = -1,
         .trainerScale = 256,
@@ -15479,14 +15460,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}シードラ"),
         .cryId = CRY_SEADRA,
         .natDexNum = NATIONAL_DEX_SEADRA,
-        .categoryName = _("Dragon"),
+        .categoryName = _("{JPN}ドラゴン"),
         .height = 12,
         .weight = 250,
         .description = COMPOUND_STRING(
-            "The poisonous barbs all over its body are\n"
-            "highly valued as ingredients for making\n"
-            "traditional herbal medicine. It shows no\n"
-            "mercy to anything approaching its nest."),
+            "{JPN}サンゴの えだの すきまに もぐって ねむる。 すみかに\n"
+            "{JPN}ちかづく てきには ようしゃ しない。 \n"
+            "{JPN}ぜんしんを おおう もうどくの トゲは かんぽうやくの\n"
+            "{JPN}ざいりょうになり きちょう。"),
         .pokemonScale = 299,
         .pokemonOffset = 3,
         .trainerScale = 256,
@@ -15566,14 +15547,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}キングドラ"),
         .cryId = CRY_KINGDRA,
         .natDexNum = NATIONAL_DEX_KINGDRA,
-        .categoryName = _("Dragon"),
+        .categoryName = _("{JPN}ドラゴン"),
         .height = 18,
         .weight = 1520,
         .description = COMPOUND_STRING(
-            "It sleeps quietly, deep on the seafloor.\n"
-            "When it comes up to the surface, it\n"
-            "creates a huge whirlpool that can swallow\n"
-            "even ships."),
+            "{JPN}いきものの すまない ふかい かいていで しずかに\n"
+            "{JPN}ねむる。 すいめんへ あがってくるとき ふねを\n"
+            "{JPN}のみこむ ほど おおきな うずしおが はっせいする。\n"
+            "{JPN}はがれた ウロコは おうぞくへ けんじょうされるほど。"),
         .pokemonScale = 256,
         .pokemonOffset = 0,
         .trainerScale = 287,
@@ -15639,14 +15620,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}トサキント"),
         .cryId = CRY_GOLDEEN,
         .natDexNum = NATIONAL_DEX_GOLDEEN,
-        .categoryName = _("Goldfish"),
+        .categoryName = _("{JPN}きんぎょ"),
         .height = 6,
         .weight = 150,
         .description = COMPOUND_STRING(
-            "In the springtime, schools of Goldeen\n"
-            "can be seen swimming up falls and rivers.\n"
-            "It metes out staggering damage with its\n"
-            "single horn."),
+            "{JPN}すいちゅうで ゆうがに たなびく ひれが とても\n"
+            "{JPN}うつくしい ポケモン。 はるになると トサキントの\n"
+            "{JPN}しゅうだんが たきを のぼって じょうりゅうへ むかう。\n"
+            "{JPN}いっぽんヅノの こうげきは きょうれつ。"),
         .pokemonScale = 379,
         .pokemonOffset = 4,
         .trainerScale = 256,
@@ -15728,14 +15709,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}アズマオウ"),
         .cryId = CRY_SEAKING,
         .natDexNum = NATIONAL_DEX_SEAKING,
-        .categoryName = _("Goldfish"),
+        .categoryName = _("{JPN}きんぎょ"),
         .height = 13,
         .weight = 390,
         .description = COMPOUND_STRING(
-            "It punches holes in boulders on stream-\n"
-            "beds. This is a clever innovation that\n"
-            "prevents its eggs from being attacked or\n"
-            "washed away by the current."),
+            "{JPN}かわぞこの いわに ツノで あなを あける。 タマゴが\n"
+            "{JPN}きゅうりゅうに ながされたり てきに おそわれない\n"
+            "{JPN}ための かしこい くふう。 タマゴを まもるため オスと\n"
+            "{JPN}メスは こうたいで すの まわりを パトロールする。"),
         .pokemonScale = 256,
         .pokemonOffset = 3,
         .trainerScale = 256,
@@ -15815,14 +15796,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ヒトデマン"),
         .cryId = CRY_STARYU,
         .natDexNum = NATIONAL_DEX_STARYU,
-        .categoryName = _("Star Shape"),
+        .categoryName = _("{JPN}ほしがた"),
         .height = 8,
         .weight = 345,
         .description = COMPOUND_STRING(
-            "It gathers with others in the night and\n"
-            "makes its red core glow on and off with\n"
-            "the twinkling stars. It can regenerate\n"
-            "limbs if they are severed from its body."),
+            "{JPN}なつの おわりごろ よぞらの ほしの またたきに あわせて\n"
+            "{JPN}しゅうだんで ちゅうしんの あかい コアを てんめつ\n"
+            "{JPN}させる。 ヒトデマンが ほしの ように みえるよ。\n"
+            "{JPN}からだの いちぶが ちぎれても じこさいせい するぞ。"),
         .pokemonScale = 326,
         .pokemonOffset = 1,
         .trainerScale = 256,
@@ -15887,14 +15868,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}スターミー"),
         .cryId = CRY_STARMIE,
         .natDexNum = NATIONAL_DEX_STARMIE,
-        .categoryName = _("Mysterious"),
+        .categoryName = _("{JPN}なぞの"),
         .height = 11,
         .weight = 800,
         .description = COMPOUND_STRING(
-            "People in ancient times imagined that\n"
-            "Starmie were transformed from the\n"
-            "reflections of stars that twinkled on\n"
-            "gentle waves at night."),
+            "{JPN}おだやかな うみに うつった よぞらの ほしが すがたを\n"
+            "{JPN}かえて スターミーに なったと おおむかしの ひとは\n"
+            "{JPN}くうそうしていた。 ほしがたの からだを スクリューの\n"
+            "{JPN}ように かいてんさせて すいちゅうを およぎまわる。"),
         .pokemonScale = 301,
         .pokemonOffset = 3,
         .trainerScale = 256,
@@ -15965,14 +15946,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .cryId = CRY_STARMIE,
     #endif // P_MODIFIED_MEGA_CRIES
         .natDexNum = NATIONAL_DEX_STARMIE,
-        .categoryName = _("Mysterious"),
+        .categoryName = _("{JPN}なぞの"),
         .height = 23,
         .weight = 800,
         .description = COMPOUND_STRING(
-            "Its movements have become more\n"
-            "humanlike. Whether it's simply\n"
-            "trying to communicate or wants to\n"
-            "supplant humanity is unclear."),
+            "{JPN}にそくほこうで うごくようになり うごきも にんげんに\n"
+            "{JPN}ちかくなって いるが それが にんげんと いしそつうする\n"
+            "{JPN}つもりなのか なりかわる つもりなのかは ふめい。\n"
+            "{JPN}たかさは おおきく 2ばいいじょうに なった。"),
         .frontPic = gMonFrontPic_StarmieMega,
         .frontPicSize = MON_COORDS_SIZE(64, 64),
         .frontPicYOffset = 0,
@@ -16030,14 +16011,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}マネネ"),
         .cryId = CRY_MIME_JR,
         .natDexNum = NATIONAL_DEX_MIME_JR,
-        .categoryName = _("Mime"),
+        .categoryName = _("{JPN}マイム"),
         .height = 6,
         .weight = 130,
         .description = COMPOUND_STRING(
-            "In an attempt to confuse its enemy,\n"
-            "it mimics the enemy's movements.\n"
-            "Once mimicked, the foe cannot take\n"
-            "its eyes off this Pokemon."),
+            "{JPN}あいての うごきを モノマネする しゅうせい。 まねを\n"
+            "{JPN}された あいては めが はなせなくなる という。 あいてが\n"
+            "{JPN}おどろくと うれしくなって ついつい まねしているのを\n"
+            "{JPN}わすれてしまう。"),
         .pokemonScale = 422,
         .pokemonOffset = 14,
         .trainerScale = 256,
@@ -16111,14 +16092,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}バリヤード"),
         .cryId = CRY_MR_MIME,
         .natDexNum = NATIONAL_DEX_MR_MIME,
-        .categoryName = _("Barrier"),
+        .categoryName = _("{JPN}バリアー"),
         .height = 13,
         .weight = 545,
         .description = COMPOUND_STRING(
-            "A Mr. Mime is a master of pantomime. It can\n"
-            "convince others that something unseeable\n"
-            "actually exists. Once believed, the\n"
-            "imaginary object does become real."),
+            "{JPN}めに みえない ものを みぶりで そこに あると\n"
+            "{JPN}しんじこませる パントマイムの たつじん。 しんじさせた\n"
+            "{JPN}ものは ほんとうに あらわれる。 ゆびから でる\n"
+            "{JPN}なぞのパワーで まわりの くうきを かためている。"),
         .pokemonScale = 258,
         .pokemonOffset = 6,
         .trainerScale = 256,
@@ -16184,14 +16165,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}バリヤード"),
         .cryId = CRY_MR_MIME,
         .natDexNum = NATIONAL_DEX_MR_MIME,
-        .categoryName = _("Dancing"),
+        .categoryName = _("{JPN}ダンス"),
         .height = 14,
         .weight = 568,
         .description = COMPOUND_STRING(
-            "Its talent is tap-dancing. It can radiate\n"
-            "chilliness from the bottoms of its feet to\n"
-            "to create a floor of ice, which this\n"
-            "Pokemon can kick up to use as a barrier."),
+            "{JPN}タップダンスが とくい。 こおらせた ゆかの うえで\n"
+            "{JPN}いちにち タップダンスに はげんでいる。 あしの\n"
+            "{JPN}うらから れいきを だす。 れいきで つくった こおりの\n"
+            "{JPN}ゆかを けりあげ バリヤーの ごとく みを まもる。"),
         .pokemonScale = 258,
         .pokemonOffset = 6,
         .trainerScale = 256,
@@ -16252,13 +16233,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}バリコオル"),
         .cryId = CRY_MR_RIME,
         .natDexNum = NATIONAL_DEX_MR_RIME,
-        .categoryName = _("Comedian"),
+        .categoryName = _("{JPN}コメディアン"),
         .height = 15,
         .weight = 582,
         .description = COMPOUND_STRING(
-            "It's highly skilled at tap-dancing. It\n"
-            "waves its cane of ice in time with its\n"
-            "graceful movements."),
+            "{JPN}タップダンスの たつじん。 こおりで できた ステッキを\n"
+            "{JPN}ふり かろやかな ステップを ひろうする。 ユーモラスな\n"
+            "{JPN}うごきで みんなの にんきもの。 おなかの もようから\n"
+            "{JPN}サイコパワーを ほうしゅつする。"),
         .pokemonScale = 268,
         .pokemonOffset = 2,
         .trainerScale = 271,
@@ -16321,14 +16303,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ストライク"),
         .cryId = CRY_SCYTHER,
         .natDexNum = NATIONAL_DEX_SCYTHER,
-        .categoryName = _("Mantis"),
+        .categoryName = _("{JPN}かまきり"),
         .height = 15,
         .weight = 560,
         .description = COMPOUND_STRING(
-            "Its blindingly fast speed adds to the\n"
-            "sharpness of its twin forearm scythes.\n"
-            "The scythes can slice through thick logs\n"
-            "in one wicked stroke."),
+            "{JPN}めにも とまらぬ スピードが りょううでの カマの\n"
+            "{JPN}きれあじを さらに するどく するのだ。 ひとふり すれば\n"
+            "{JPN}たいぼくも まっぷたつだ。 ニンジャのように すばやい\n"
+            "{JPN}うごきで えものを まどわせる。"),
         .pokemonScale = 256,
         .pokemonOffset = 1,
         .trainerScale = 293,
@@ -16425,14 +16407,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ハッサム"),
         .cryId = CRY_SCIZOR,
         .natDexNum = NATIONAL_DEX_SCIZOR,
-        .categoryName = _("Pincer"),
+        .categoryName = _("{JPN}はさみ"),
         .height = 18,
         .weight = 1180,
         .description = COMPOUND_STRING(
-            "A Scizor has a body with the hardness of\n"
-            "steel. It is not easily fazed by ordinary\n"
-            "sorts of attacks. It flaps its wings to\n"
-            "regulate its body temperature."),
+            "{JPN}はがねの かたさを もつ からだは ちょっとや そっとの\n"
+            "{JPN}こうげきでは びくとも しないぞ。 ハネを はばたかせ\n"
+            "{JPN}たいおんを ちょうせつする。 たたかいで あつく\n"
+            "{JPN}なりすぎて きんぞくの からだが とけないため。"),
         .pokemonScale = 278,
         .pokemonOffset = 1,
         .trainerScale = 256,
@@ -16510,14 +16492,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .cryId = CRY_SCIZOR,
     #endif // P_MODIFIED_MEGA_CRIES
         .natDexNum = NATIONAL_DEX_SCIZOR,
-        .categoryName = _("Pincer"),
+        .categoryName = _("{JPN}はさみ"),
         .height = 20,
         .weight = 1250,
         .description = COMPOUND_STRING(
-            "The excess energy that bathes this\n"
-            "Pokemon keeps it in constant danger of\n"
-            "overflow. It can't sustain a battle over\n"
-            "long periods of time."),
+            "{JPN}かじょうな エネルギーを あびて つねに\n"
+            "{JPN}オーバーフローぎみ。 ちょうじかんは たたかえないのだ。\n"
+            "{JPN}メガシンカの えいきょうで ハサミは はさんだ ものを\n"
+            "{JPN}ズタズタに さく きょうあくな かたちに へんかした。"),
         .pokemonScale = 278,
         .pokemonOffset = 1,
         .trainerScale = 256,
@@ -16581,14 +16563,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}バサギリ"),
         .cryId = CRY_KLEAVOR,
         .natDexNum = NATIONAL_DEX_KLEAVOR,
-        .categoryName = _("Axe"),
+        .categoryName = _("{JPN}まさかり"),
         .height = 18,
         .weight = 890,
         .description = COMPOUND_STRING(
-            "A violent creature that fells trees with\n"
-            "its crude axes and shields itself with hard\n"
-            "stone. Should one encounter this Pokemon\n"
-            "in the wild, one's only recourse is to flee."),
+            "{JPN}かざんちたいで ごくまれに みつかる こうせきによって\n"
+            "{JPN}からだの いちぶが いわへと かわる しんかを とげた。\n"
+            "{JPN}おおきく おもい いわの オノを ふりまわして えものを\n"
+            "{JPN}しとめる らんぼうもの。"),
         .pokemonScale = 267,
         .pokemonOffset = 2,
         .trainerScale = 286,
@@ -16652,14 +16634,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ムチュール"),
         .cryId = CRY_SMOOCHUM,
         .natDexNum = NATIONAL_DEX_SMOOCHUM,
-        .categoryName = _("Kiss"),
+        .categoryName = _("{JPN}くちづけ"),
         .height = 4,
         .weight = 60,
         .description = COMPOUND_STRING(
-            "It actively runs about, but also falls\n"
-            "often. Whenever it falls, it will check its\n"
-            "reflection on a lake's surface to make\n"
-            "sure its face hasn't become dirty."),
+            "{JPN}げんき いっぱい うごきまわるが よく ころぶ。 むっくり\n"
+            "{JPN}おきあがると みずうみの すいめんに かおを うつして\n"
+            "{JPN}よごれていないか しらべる。 なんでも くちびるで\n"
+            "{JPN}ふれてみて たしかめる。"),
         .pokemonScale = 440,
         .pokemonOffset = 20,
         .trainerScale = 256,
@@ -16726,14 +16708,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ルージュラ"),
         .cryId = CRY_JYNX,
         .natDexNum = NATIONAL_DEX_JYNX,
-        .categoryName = _("Human Shape"),
+        .categoryName = _("{JPN}ひとがた"),
         .height = 14,
         .weight = 406,
         .description = COMPOUND_STRING(
-            "A Jynx sashays rhythmically as if it were\n"
-            "dancing. Its motions are so bouncingly\n"
-            "alluring, people seeing it are compelled to\n"
-            "shake their hips without noticing."),
+            "{JPN}おどるような こしつきで リズミカルに あるく。 その\n"
+            "{JPN}うごきは みている ひとも おもわず こしを ふって\n"
+            "{JPN}しまうほど かろやか。 なきごえは まるで にんげんの\n"
+            "{JPN}ことばのように きこえるが いみは りかいできない。"),
         .pokemonScale = 256,
         .pokemonOffset = 3,
         .trainerScale = 300,
@@ -16800,14 +16782,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}エレキッド"),
         .cryId = CRY_ELEKID,
         .natDexNum = NATIONAL_DEX_ELEKID,
-        .categoryName = _("Electric"),
+        .categoryName = _("{JPN}でんき"),
         .height = 6,
         .weight = 235,
         .description = COMPOUND_STRING(
-            "If it touches metal and discharges the\n"
-            "electricity it has stored in its body, an\n"
-            "Elekid begins swinging its arms in circles\n"
-            "to recharge itself."),
+            "{JPN}きんぞくに さわって からだに ためた でんきが ほうでん\n"
+            "{JPN}してしまうと りょううでを ぐるぐる まわして ふたたび\n"
+            "{JPN}でんきを ためる。 すぐ つかれるので すこししか\n"
+            "{JPN}でんきが ためられない。"),
         .pokemonScale = 363,
         .pokemonOffset = 14,
         .trainerScale = 256,
@@ -16872,14 +16854,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}エレブー"),
         .cryId = CRY_ELECTABUZZ,
         .natDexNum = NATIONAL_DEX_ELECTABUZZ,
-        .categoryName = _("Electric"),
+        .categoryName = _("{JPN}でんげき"),
         .height = 11,
         .weight = 300,
         .description = COMPOUND_STRING(
-            "When a storm approaches, it competes with\n"
-            "others to scale heights that are likely to\n"
-            "be stricken by lightning. Some towns use\n"
-            "Electabuzz in place of lightning rods."),
+            "{JPN}あらしが くると きの うえ など カミナリの おちそうな\n"
+            "{JPN}たかい ばしょへ きそって のぼる。 ひらいしん がわりに\n"
+            "{JPN}する まちも ある。 あたりが くらいと ぜんしんが\n"
+            "{JPN}あおじろく ひかるのだ。"),
         .pokemonScale = 351,
         .pokemonOffset = 8,
         .trainerScale = 256,
@@ -16953,14 +16935,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}エレキブル"),
         .cryId = CRY_ELECTIVIRE,
         .natDexNum = NATIONAL_DEX_ELECTIVIRE,
-        .categoryName = _("Thunderbolt"),
+        .categoryName = _("{JPN}らいでん"),
         .height = 18,
         .weight = 1386,
         .description = COMPOUND_STRING(
-            "When it gets excited, it thumps its chest.\n"
-            "With every thud, thunder roars, electric\n"
-            "sparks shower all around and blue sparks\n"
-            "begin to crackle between its horns."),
+            "{JPN}はつでんりょうは しんぱくすうと ひれいする。\n"
+            "{JPN}たたかいになると いっきに ボルテージが あがるのだ。\n"
+            "{JPN}でんきを いっぱいに ためると 2ほんの ツノの あいだで\n"
+            "{JPN}はげしく あおじろい ひばなを ちらす。"),
         .pokemonScale = 267,
         .pokemonOffset = 2,
         .trainerScale = 286,
@@ -17026,14 +17008,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ブビィ"),
         .cryId = CRY_MAGBY,
         .natDexNum = NATIONAL_DEX_MAGBY,
-        .categoryName = _("Live Coal"),
+        .categoryName = _("{JPN}ひだね"),
         .height = 7,
         .weight = 214,
         .description = COMPOUND_STRING(
-            "If a Magby is spouting yellow flames from\n"
-            "its mouth, it is in good health. When it is\n"
-            "fatigued, black smoke will be mixed in with\n"
-            "the flames."),
+            "{JPN}きいろい ほのおを くちから ふいている ときは\n"
+            "{JPN}けんこうな しょうこだが つかれていると くろい\n"
+            "{JPN}けむりが まざる ように なるぞ。 こがらだが\n"
+            "{JPN}たいおんは 600ど。"),
         .pokemonScale = 284,
         .pokemonOffset = 13,
         .trainerScale = 256,
@@ -17098,14 +17080,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ブーバー"),
         .cryId = CRY_MAGMAR,
         .natDexNum = NATIONAL_DEX_MAGMAR,
-        .categoryName = _("Spitfire"),
+        .categoryName = _("{JPN}ひふき"),
         .height = 13,
         .weight = 445,
         .description = COMPOUND_STRING(
-            "In battle, it blows out intense flames from\n"
-            "all over its body to intimidate its foe.\n"
-            "These fiery bursts create heat waves that\n"
-            "ignite grass and trees in the area."),
+            "{JPN}たたかいに なると からだから しゃくねつの ほのおを\n"
+            "{JPN}ふきあげ あいてを いかくする。その ねっぷうで\n"
+            "{JPN}まわりの くさきも もやすぞ。 たたかいで キズついた\n"
+            "{JPN}からだは ようがんに つかって いやす。"),
         .pokemonScale = 277,
         .pokemonOffset = 5,
         .trainerScale = 256,
@@ -17177,14 +17159,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ブーバーン"),
         .cryId = CRY_MAGMORTAR,
         .natDexNum = NATIONAL_DEX_MAGMORTAR,
-        .categoryName = _("Blast"),
+        .categoryName = _("{JPN}ばくえん"),
         .height = 16,
         .weight = 680,
         .description = COMPOUND_STRING(
-            "According to what is known, a single pair\n"
-            "of male and female Magmortar lives in\n"
-            "one volcano. From its arm, it launches\n"
-            "fireballs hotter than 3,600 degreesF."),
+            "{JPN}うでの さきから せっし2000どの ひのたまを はっしゃ\n"
+            "{JPN}する。 くちから はく いきも もえている。 かざんの\n"
+            "{JPN}かこうで くらすうちに マグマだまりに にた きかんを\n"
+            "{JPN}もつ かざんのような からだに なった。"),
         .pokemonScale = 259,
         .pokemonOffset = 1,
         .trainerScale = 296,
@@ -17250,14 +17232,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}カイロス"),
         .cryId = CRY_PINSIR,
         .natDexNum = NATIONAL_DEX_PINSIR,
-        .categoryName = _("Stag Beetle"),
+        .categoryName = _("{JPN}くわがた"),
         .height = 15,
         .weight = 550,
         .description = COMPOUND_STRING(
-            "Their pincers are strong enough to\n"
-            "shatter thick logs. Because they dislike\n"
-            "cold, Pinsir burrow and sleep under\n"
-            "the ground on chilly nights."),
+            "{JPN}たくましい 2ほんの ツノの ひょうめんに ある トゲが\n"
+            "{JPN}あいての からだに ふかく くいこむので はさまれると\n"
+            "{JPN}かんたんに はずせないのだ。 ツノは たいぼくも\n"
+            "{JPN}へしおる いりょく。"),
         .pokemonScale = 256,
         .pokemonOffset = 2,
         .trainerScale = 257,
@@ -17327,14 +17309,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .cryId = CRY_PINSIR,
     #endif // P_MODIFIED_MEGA_CRIES
         .natDexNum = NATIONAL_DEX_PINSIR,
-        .categoryName = _("Stag Beetle"),
+        .categoryName = _("{JPN}くわがた"),
         .height = 17,
         .weight = 590,
         .description = COMPOUND_STRING(
-            "The influence of Mega Evolution leaves it\n"
-            "in a state of constant excitement.\n"
-            "It pierces enemies with its two large\n"
-            "horns before shredding them."),
+            "{JPN}メガシンカの エネルギーを あびて はねが いじょうに\n"
+            "{JPN}はったつし とべるように なった。 よほど うれしいのか\n"
+            "{JPN}めったに ちじょうには おりてこないぞ。\n"
+            "{JPN}メガシンカの えいきょうで つねに こうふんしている。"),
         .pokemonScale = 256,
         .pokemonOffset = 2,
         .trainerScale = 257,
@@ -17413,14 +17395,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ケンタロス"),
         .cryId = CRY_TAUROS,
         .natDexNum = NATIONAL_DEX_TAUROS,
-        .categoryName = _("Wild Bull"),
+        .categoryName = _("{JPN}あばれうし"),
         .height = 14,
         .weight = 884,
         .description = COMPOUND_STRING(
-            "It is not satisfied unless it is rampaging\n"
-            "at all times. If there is no opponent for\n"
-            "Tauros to battle, it will charge at thick\n"
-            "trees and knock them down to calm itself."),
+            "{JPN}いつも あばれて いないと きが すまない。 たたかう\n"
+            "{JPN}あいてが いない ときは たいぼくに ぶちあたり\n"
+            "{JPN}なぎたおす ことで きを しずめる。 あらっぽい\n"
+            "{JPN}せいかくの ポケモン。"),
         .pokemonScale = 256,
         .pokemonOffset = 0,
         .trainerScale = 256,
@@ -17484,14 +17466,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ケンタロス"),
         .cryId = CRY_TAUROS,
         .natDexNum = NATIONAL_DEX_TAUROS,
-        .categoryName = _("Wild Bull"),
+        .categoryName = _("{JPN}あばれうし"),
         .height = 14,
         .weight = 1150,
         .description = COMPOUND_STRING(
-            "This Pokemon has a muscular body\n"
-            "and excels at close-quarters combat.\n"
-            "It uses its short horns to strike\n"
-            "the opponent's weak spots."),
+            "{JPN}ぶあつく ちからづよい きんにくと きしょうの あらさが\n"
+            "{JPN}とくちょう。 コンバットしゅと よばれる。 みじかい\n"
+            "{JPN}ツノで きゅうしょを ねらう。 きんこつりゅうりゅうの\n"
+            "{JPN}からだで かくとうせんが とくい。"),
         .pokemonScale = 256,
         .pokemonOffset = 0,
         .trainerScale = 256,
@@ -17550,14 +17532,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ケンタロス"),
         .cryId = CRY_TAUROS,
         .natDexNum = NATIONAL_DEX_TAUROS,
-        .categoryName = _("Wild Bull"),
+        .categoryName = _("{JPN}あばれうし"),
         .height = 14,
         .weight = 850,
         .description = COMPOUND_STRING(
-            "When heated by fire energy, its horns can\n"
-            "get hotter than 1,800 degrees Fahrenheit.\n"
-            "Those gored by them will suffer\n"
-            "both wounds and burns."),
+            "{JPN}こうおんの はないきを ふきだすので ブレイズしゅと\n"
+            "{JPN}なづけられた。 3ほんの しっぽを たばねている。\n"
+            "{JPN}ほのおのエネルギーで ねっした ツノは\n"
+            "{JPN}せっし1000どにもなる。"),
         .pokemonScale = 256,
         .pokemonOffset = 0,
         .trainerScale = 256,
@@ -17616,14 +17598,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ケンタロス"),
         .cryId = CRY_TAUROS,
         .natDexNum = NATIONAL_DEX_TAUROS,
-        .categoryName = _("Wild Bull"),
+        .categoryName = _("{JPN}あばれうし"),
         .height = 14,
         .weight = 1100,
         .description = COMPOUND_STRING(
-            "This Pokemon blasts water from holes on\n"
-            "the tips of its horns--the high-pressure\n"
-            "jets pierce right through\n"
-            "Tauros's enemies."),
+            "{JPN}しぼうぶんが おおく うきやすいのが ウォーターしゅの\n"
+            "{JPN}とくちょう。 ツノの せんたんの あなから みずを\n"
+            "{JPN}いきおいよく ふきだし こうあつの すいりゅうで\n"
+            "{JPN}てきを つらぬく。"),
         .pokemonScale = 256,
         .pokemonOffset = 0,
         .trainerScale = 256,
@@ -17685,14 +17667,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}コイキング"),
         .cryId = CRY_MAGIKARP,
         .natDexNum = NATIONAL_DEX_MAGIKARP,
-        .categoryName = _("Fish"),
+        .categoryName = _("{JPN}さかな"),
         .height = 9,
         .weight = 100,
         .description = COMPOUND_STRING(
-            "Its swimming muscles are weak, so it is\n"
-            "easily washed away by currents. In places\n"
-            "where water pools, you can see many\n"
-            "Magikarp deposited there by the flow."),
+            "{JPN}およぐ ちからが よわいため ながされてしまう。 はねる\n"
+            "{JPN}ことしか しない なさけない ポケモン。 はねている\n"
+            "{JPN}だけで まんぞくに たたかえないため よわいと\n"
+            "{JPN}おもわれているが どんなに よごれた みずでも くらせる。"),
         .pokemonScale = 310,
         .pokemonOffset = 4,
         .trainerScale = 256,
@@ -17773,14 +17755,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ギャラドス"),
         .cryId = CRY_GYARADOS,
         .natDexNum = NATIONAL_DEX_GYARADOS,
-        .categoryName = _("Atrocious"),
+        .categoryName = _("{JPN}きょうあく"),
         .height = 65,
         .weight = 2350,
         .description = COMPOUND_STRING(
-            "It is an extremely vicious and violent\n"
-            "Pokemon. When humans begin to fight,\n"
-            "it will appear and burn everything to the\n"
-            "ground with intensely hot flames."),
+            "{JPN}コイキングから しんかする とき のうさいぼうの\n"
+            "{JPN}こうぞうが くみかわる ために せいかくが きょうぼうに\n"
+            "{JPN}なると いわれている。 にんげんが あらそいを はじめると\n"
+            "{JPN}あらわれて しゃくねつの ほのおで すべてを やきつくす。"),
         .pokemonScale = 256,
         .pokemonOffset = 6,
         .trainerScale = 481,
@@ -17860,14 +17842,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .cryId = CRY_GYARADOS,
     #endif // P_MODIFIED_MEGA_CRIES
         .natDexNum = NATIONAL_DEX_GYARADOS,
-        .categoryName = _("Atrocious"),
+        .categoryName = _("{JPN}きょうあく"),
         .height = 65,
         .weight = 3050,
         .description = COMPOUND_STRING(
-            "Although it obeys its instinctive drive to\n"
-            "destroy everything within its reach, it\n"
-            "will respond to orders from a Trainer it\n"
-            "truly trusts."),
+            "{JPN}メガシンカが のうにも さよう。 すべてを やきつくす\n"
+            "{JPN}はかいの ほんのうしか のこっていない。 からだの\n"
+            "{JPN}わきの ふんしゃこう から みずを ふきだし すいめんへ\n"
+            "{JPN}とぶ。 そのスピードは マッハを こえるぞ。"),
         .pokemonScale = 256,
         .pokemonOffset = 6,
         .trainerScale = 481,
@@ -17938,14 +17920,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ラプラス"),
         .cryId = CRY_LAPRAS,
         .natDexNum = NATIONAL_DEX_LAPRAS,
-        .categoryName = _("Transport"),
+        .categoryName = _("{JPN}のりもの"),
         .height = 25,
         .weight = 2200,
         .description = COMPOUND_STRING(
-            "People have driven Lapras almost to the\n"
-            "point of extinction. In the evenings,\n"
-            "it is said to sing plaintively as it seeks\n"
-            "what few others of its kind still remain."),
+            "{JPN}ひとが ぜつめつの ききに おいこんでしまった。\n"
+            "{JPN}ゆうぐれどきになると すくなくなった なかまを さがして\n"
+            "{JPN}かなしそうな こえで うたうと いう。 めったに\n"
+            "{JPN}あらそわないため たくさん つかまえられ かずが へった。"),
         .pokemonScale = 257,
         .pokemonOffset = 10,
         .trainerScale = 423,
@@ -18010,14 +17992,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ラプラス"),
         .cryId = CRY_LAPRAS,
         .natDexNum = NATIONAL_DEX_LAPRAS,
-        .categoryName = _("Transport"),
+        .categoryName = _("{JPN}のりもの"),
         .height = 240,
         .weight = 0,
         .description = COMPOUND_STRING(
-            "Over 5,000 people can ride on its\n"
-            "shell at once. And it's a very\n"
-            "comfortable ride, without the slightest\n"
-            "shaking or swaying."),
+            "{JPN}せなかの こうらには 5000にん いじょうの にんげんを\n"
+            "{JPN}のせられる。 ゆれも なく のりごこち バツグン。\n"
+            "{JPN}こおりのつぶが あつまって できた おおきな リングで\n"
+            "{JPN}ひょうざんを くだきながら ゆうぜんと およぐ。"),
         .pokemonScale = 257,
         .pokemonOffset = 10,
         .trainerScale = 423,
@@ -18073,14 +18055,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}メタモン"),
         .cryId = CRY_DITTO,
         .natDexNum = NATIONAL_DEX_DITTO,
-        .categoryName = _("Transform"),
+        .categoryName = _("{JPN}へんしん"),
         .height = 3,
         .weight = 40,
         .description = COMPOUND_STRING(
-            "A Ditto rearranges its cell structure to\n"
-            "transform itself. However, if it tries to\n"
-            "change based on its memory, it will get\n"
-            "details wrong."),
+            "{JPN}からだの さいぼうを くみかえて へんしんする。\n"
+            "{JPN}おもいだしながら いぜん みた ものに かわると ちょっと\n"
+            "{JPN}ちがう かたちに なってしまうのだ。 わらわされて\n"
+            "{JPN}ちからが ぬけると へんしんは とけてしまう。"),
         .pokemonScale = 633,
         .pokemonOffset = 23,
         .trainerScale = 256,
@@ -18152,7 +18134,7 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}イーブイ"),
         .cryId = CRY_EEVEE,
         .natDexNum = NATIONAL_DEX_EEVEE,
-        .categoryName = _("Evolution"),
+        .categoryName = _("{JPN}しんか"),
         .height = 3,
         .weight = 65,
         .description = gEeveePokedexText,
@@ -18210,17 +18192,17 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
                                 {EVO_ITEM, ITEM_WATER_STONE, SPECIES_VAPOREON},
                                 {EVO_ITEM, ITEM_FIRE_STONE, SPECIES_FLAREON}
                             #if P_GEN_6_CROSS_EVOS
-                                ,{EVO_LEVEL, 0, SPECIES_SYLVEON, CONDITIONS({IF_MIN_FRIENDSHIP, FRIENDSHIP_EVO_THRESHOLD}, {IF_KNOWS_MOVE_TYPE, TYPE_FAIRY})}
+                                ,{EVO_LEVEL, 0, SPECIES_SYLVEON, CONDITIONS({IF_MIN_FRIENDSHIP, FRIENDSHIP_EVO_THRESHOLD}, {IF_KNOWS_MOVE_TYPE, TYPE_FAIRY})}                                
                             #endif
                             #if P_GEN_2_CROSS_EVOS
                                 ,{EVO_LEVEL, 0, SPECIES_ESPEON, CONDITIONS({IF_MIN_FRIENDSHIP, FRIENDSHIP_EVO_THRESHOLD}, {IF_NOT_TIME, TIME_NIGHT})},
                                 {EVO_LEVEL, 0, SPECIES_UMBREON, CONDITIONS({IF_MIN_FRIENDSHIP, FRIENDSHIP_EVO_THRESHOLD}, {IF_TIME, TIME_NIGHT})}
                             #endif
                             #if P_GEN_4_CROSS_EVOS
-                                ,{EVO_LEVEL, 0, SPECIES_LEAFEON, CONDITIONS({IF_IN_MAP, MAP_PETALBURG_WOODS})},
+                                 ,{EVO_LEVEL, 0, SPECIES_LEAFEON, CONDITIONS({IF_IN_MAP, MAP_PETALBURG_WOODS})},
                                 {EVO_ITEM, ITEM_LEAF_STONE, SPECIES_LEAFEON},
                                 {EVO_LEVEL, 0, SPECIES_GLACEON, CONDITIONS({IF_IN_MAP, MAP_SHOAL_CAVE_LOW_TIDE_ICE_ROOM})},
-                                {EVO_ITEM, ITEM_ICE_STONE, SPECIES_GLACEON}
+                                {EVO_ITEM, ITEM_ICE_STONE, SPECIES_GLACEON}                                
                             #endif
                             ),
     },
@@ -18248,14 +18230,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}イーブイ"),
         .cryId = CRY_EEVEE,
         .natDexNum = NATIONAL_DEX_EEVEE,
-        .categoryName = _("Evolution"),
+        .categoryName = _("{JPN}しんか"),
         .height = 180,
         .weight = 0,
         .description = COMPOUND_STRING(
-            "Having gotten even friendlier and\n"
-            "more innocent, Eevee tries to play\n"
-            "with anyone around, only to end up\n"
-            "crushing them with its immense body."),
+            "{JPN}キョダイマックス パワーで さらに もふもふした\n"
+            "{JPN}くびまわりの わたげで てきを つつみこみ とりこにする。\n"
+            "{JPN}むじゃきさに はくしゃが かかった。 どんな あいてにも\n"
+            "{JPN}じゃれつくが きょたい ゆえに おしつぶしてしまう。"),
         .pokemonScale = 476,
         .pokemonOffset = 18,
         .trainerScale = 256,
@@ -18307,7 +18289,7 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}イーブイ"),
         .cryId = CRY_EEVEE,
         .natDexNum = NATIONAL_DEX_EEVEE,
-        .categoryName = _("Evolution"),
+        .categoryName = _("{JPN}しんか"),
         .height = 3,
         .weight = 65,
         .description = gEeveePokedexText,
@@ -18383,14 +18365,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}シャワーズ"),
         .cryId = CRY_VAPOREON,
         .natDexNum = NATIONAL_DEX_VAPOREON,
-        .categoryName = _("Bubble Jet"),
+        .categoryName = _("{JPN}あわはき"),
         .height = 10,
         .weight = 290,
         .description = COMPOUND_STRING(
-            "Vaporeon underwent a spontaneous\n"
-            "mutation and grew fins and gills that\n"
-            "allow them to live underwater. They have\n"
-            "the ability to freely control water."),
+            "{JPN}とつぜんへんいに より すいちゅうで せいかつ できる\n"
+            "{JPN}ように ヒレと エラが はえてきた。 みずを じざいに\n"
+            "{JPN}あやつる ちからを もつ。 さいぼうが みずのぶんしに\n"
+            "{JPN}にており みずに とけることもできる。"),
         .pokemonScale = 316,
         .pokemonOffset = 8,
         .trainerScale = 256,
@@ -18449,14 +18431,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}サンダース"),
         .cryId = CRY_JOLTEON,
         .natDexNum = NATIONAL_DEX_JOLTEON,
-        .categoryName = _("Lightning"),
+        .categoryName = _("{JPN}かみなり"),
         .height = 8,
         .weight = 245,
         .description = COMPOUND_STRING(
-            "Its cells generate weak power that is\n"
-            "amplified by its fur's static electricity\n"
-            "to drop thunderbolts. The bristling fur is\n"
-            "made of electrically charged needles."),
+            "{JPN}さいぼうの だす よわい でんきを たいもうの せいでんきで\n"
+            "{JPN}ぞうふくさせ カミナリを おとす。さかだった たいもうは\n"
+            "{JPN}でんきを おびた はり。 たいないに でんきが たまると\n"
+            "{JPN}ぜんしんの たいもうが ぜんぶ するどく とがりはじめる。"),
         .pokemonScale = 283,
         .pokemonOffset = 8,
         .trainerScale = 256,
@@ -18515,14 +18497,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ブースター"),
         .cryId = CRY_FLAREON,
         .natDexNum = NATIONAL_DEX_FLAREON,
-        .categoryName = _("Flame"),
+        .categoryName = _("{JPN}ほのお"),
         .height = 9,
         .weight = 250,
         .description = COMPOUND_STRING(
-            "Flareon's fluffy fur releases heat into\n"
-            "the air so that its body does not get\n"
-            "excessively hot. Its body temperature can\n"
-            "rise to a maximum of 1,650 degrees F."),
+            "{JPN}ふさふさの たいもうは あがりすぎた たいおんを くうきに\n"
+            "{JPN}ほうねつして さげる きのうを もつ。 たいおんは\n"
+            "{JPN}さいこう 900ど まで あがるぞ。 おおきく くうきを\n"
+            "{JPN}すいこむのは こうげきの サイン。"),
         .pokemonScale = 306,
         .pokemonOffset = 12,
         .trainerScale = 256,
@@ -18582,14 +18564,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}エーフィ"),
         .cryId = CRY_ESPEON,
         .natDexNum = NATIONAL_DEX_ESPEON,
-        .categoryName = _("Sun"),
+        .categoryName = _("{JPN}たいよう"),
         .height = 9,
         .weight = 265,
         .description = COMPOUND_STRING(
-            "An Espeon is extremely loyal to any\n"
-            "Trainer it considers to be worthy. It is\n"
-            "said to have developed precognitive\n"
-            "powers to protect its Trainer from harm."),
+            "{JPN}みとめた トレーナーには きわめて ちゅうじつ。\n"
+            "{JPN}トレーナーを きけんから まもる ために よちのうりょくが\n"
+            "{JPN}はったつしたと いわれている。 ひたいの たまから\n"
+            "{JPN}サイコパワーを ほうしゃして たたかう。"),
         .pokemonScale = 363,
         .pokemonOffset = 14,
         .trainerScale = 256,
@@ -18649,14 +18631,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ブラッキー"),
         .cryId = CRY_UMBREON,
         .natDexNum = NATIONAL_DEX_UMBREON,
-        .categoryName = _("Moonlight"),
+        .categoryName = _("{JPN}げっこう"),
         .height = 10,
         .weight = 270,
         .description = COMPOUND_STRING(
-            "Umbreon evolved from exposure to the\n"
-            "moon's energy pulses. It lurks in darkness\n"
-            "and waits for its foes to move. The rings\n"
-            "on its body glow when it leaps to attack."),
+            "{JPN}つきの はどうを うけて しんかした ポケモン。\n"
+            "{JPN}くらやみに じっと ひそみ あいてを うかがう。\n"
+            "{JPN}おおきな ひとみは まっくらやみでも えものの\n"
+            "{JPN}すがたを ハッキリと とらえるぞ。"),
         .pokemonScale = 317,
         .pokemonOffset = 11,
         .trainerScale = 256,
@@ -18717,14 +18699,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}リーフィア"),
         .cryId = CRY_LEAFEON,
         .natDexNum = NATIONAL_DEX_LEAFEON,
-        .categoryName = _("Verdant"),
+        .categoryName = _("{JPN}しんりょく"),
         .height = 10,
         .weight = 255,
         .description = COMPOUND_STRING(
-            "Its cellular composition is closer to\n"
-            "that of a plant than an animal. It uses\n"
-            "photosynthesis to produce its energy\n"
-            "supply without eating food."),
+            "{JPN}きほんてきに あらそわない。 しょくぶつのように\n"
+            "{JPN}こうごうせいを するため リーフィアの まわりは\n"
+            "{JPN}すんだ くうきに つつまれている。 キレイな かわが\n"
+            "{JPN}ながれる もりの おくふかくで しずかに くらしている。"),
         .pokemonScale = 305,
         .pokemonOffset = 8,
         .trainerScale = 257,
@@ -18784,14 +18766,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}グレイシア"),
         .cryId = CRY_GLACEON,
         .natDexNum = NATIONAL_DEX_GLACEON,
-        .categoryName = _("Fresh Snow"),
+        .categoryName = _("{JPN}しんせつ"),
         .height = 8,
         .weight = 259,
         .description = COMPOUND_STRING(
-            "It can control its body temperature\n"
-            "at will. This enables it to freeze the\n"
-            "moisture in the atmosphere, creating\n"
-            "flurries of diamond dust."),
+            "{JPN}たいおんを コントロールすることで しゅういの くうきを\n"
+            "{JPN}こおらせて ダイヤモンドダストを ふらせる。 たいおんを\n"
+            "{JPN}さげることで ぜんしんの たいもうを こおらせて\n"
+            "{JPN}するどく とがった ハリのようにして とばす。"),
         .pokemonScale = 366,
         .pokemonOffset = 10,
         .trainerScale = 257,
@@ -18854,14 +18836,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ニンフィア"),
         .cryId = CRY_SYLVEON,
         .natDexNum = NATIONAL_DEX_SYLVEON,
-        .categoryName = _("Intertwine"),
+        .categoryName = _("{JPN}むすびつき"),
         .height = 10,
         .weight = 235,
         .description = COMPOUND_STRING(
-            "Its ribbonlike feelers give off an aura\n"
-            "that weakens hostility in its prey, causing\n"
-            "them to let down their guard. A moment\n"
-            "later, it pounces."),
+            "{JPN}リボンのような しょっかくから きもちを やわらげる\n"
+            "{JPN}はどうを おくりこみ たたかいを やめさせる。\n"
+            "{JPN}だいすきな トレーナーの うでに リボンのような\n"
+            "{JPN}しょっかくを まきつけて いっしょに あるく。"),
         .pokemonScale = 305,
         .pokemonOffset = 7,
         .trainerScale = 257,
@@ -18928,14 +18910,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ポリゴン"),
         .cryId = CRY_PORYGON,
         .natDexNum = NATIONAL_DEX_PORYGON,
-        .categoryName = _("Virtual"),
+        .categoryName = _("{JPN}バーチャル"),
         .height = 8,
         .weight = 365,
         .description = COMPOUND_STRING(
-            "It is capable of reverting itself entirely\n"
-            "back to program data in order to enter\n"
-            "cyberspace. A Porygon is copy-\n"
-            "protected so it cannot be duplicated."),
+            "{JPN}せかいで はじめて じんこうてきに つくりだされた\n"
+            "{JPN}ポケモン。 ぜんしんを プログラム データに もどして\n"
+            "{JPN}でんし くうかんに はいる ことが できる。\n"
+            "{JPN}コピーガードされて いるので コピー できない。"),
         .pokemonScale = 328,
         .pokemonOffset = 15,
         .trainerScale = 256,
@@ -19005,14 +18987,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ポリゴン2"),
         .cryId = CRY_PORYGON2,
         .natDexNum = NATIONAL_DEX_PORYGON2,
-        .categoryName = _("Virtual"),
+        .categoryName = _("{JPN}バーチャル"),
         .height = 6,
         .weight = 325,
         .description = COMPOUND_STRING(
-            "It was created by humans using the power\n"
-            "of science. It has been given artificial\n"
-            "intelligence that enables it to learn new\n"
-            "gestures and emotions on its own."),
+            "{JPN}にんげんが かがくの ちからで つくりだした。 じんこう\n"
+            "{JPN}ちのうを もたせたので あたらしい しぐさや かんじょうを\n"
+            "{JPN}ひとりで おぼえていく。 じりきで さまざまなことを\n"
+            "{JPN}まなんでいくが よけいなことまで おぼえだす。"),
         .pokemonScale = 320,
         .pokemonOffset = 17,
         .trainerScale = 256,
@@ -19086,14 +19068,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ポリゴンZ"),
         .cryId = CRY_PORYGON_Z,
         .natDexNum = NATIONAL_DEX_PORYGON_Z,
-        .categoryName = _("Virtual"),
+        .categoryName = _("{JPN}バーチャル"),
         .height = 9,
         .weight = 340,
         .description = COMPOUND_STRING(
-            "In order to create a more advanced\n"
-            "Pokemon, an additional program was\n"
-            "installed, but apparently it contained a\n"
-            "defect that made it move oddly."),
+            "{JPN}いじげん くうかんを じゆうに いどうできるように\n"
+            "{JPN}プログラムを しゅうせいしたが ミスした らしい。\n"
+            "{JPN}ふあんていな きょどうが めだつ。 プログラムを\n"
+            "{JPN}アップデートした ぎじゅつしゃの うでの せいらしい。"),
         .pokemonScale = 338,
         .pokemonOffset = 8,
         .trainerScale = 256,
@@ -19165,14 +19147,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}オムナイト"),
         .cryId = CRY_OMANYTE,
         .natDexNum = NATIONAL_DEX_OMANYTE,
-        .categoryName = _("Spiral"),
+        .categoryName = _("{JPN}うずまき"),
         .height = 4,
         .weight = 75,
         .description = COMPOUND_STRING(
-            "One of the ancient and long-since-extinct\n"
-            "Pokemon that have been regenerated\n"
-            "from fossils by humans. If attacked,\n"
-            "it withdraws into its hard shell."),
+            "{JPN}おおむかしに ぜつめつしたが にんげんの てで かせきから\n"
+            "{JPN}ふっかつさせた ポケモンの ひとつ。 てきに おそわれると\n"
+            "{JPN}かたい カラに かくれる。 おおむかし うみだった\n"
+            "{JPN}ばしょから かいのカセキが はっくつ される。"),
         .pokemonScale = 521,
         .pokemonOffset = 22,
         .trainerScale = 256,
@@ -19239,14 +19221,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}オムスター"),
         .cryId = CRY_OMASTAR,
         .natDexNum = NATIONAL_DEX_OMASTAR,
-        .categoryName = _("Spiral"),
+        .categoryName = _("{JPN}うずまき"),
         .height = 10,
         .weight = 350,
         .description = COMPOUND_STRING(
-            "An Omastar uses its tentacles to capture\n"
-            "its prey. It is believed to have become\n"
-            "extinct because its shell grew too large,\n"
-            "making its movements slow and ponderous."),
+            "{JPN}しょくしゅを あやつり えものを つかまえる。 カラが\n"
+            "{JPN}おおきく なりすぎた ことで うごきが にぶくなり\n"
+            "{JPN}ぜつめつしたと かんがえられている。 いちど\n"
+            "{JPN}まきついたら ぜったいに はなれない。"),
         .pokemonScale = 307,
         .pokemonOffset = 7,
         .trainerScale = 256,
@@ -19315,14 +19297,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}カブト"),
         .cryId = CRY_KABUTO,
         .natDexNum = NATIONAL_DEX_KABUTO,
-        .categoryName = _("Shellfish"),
+        .categoryName = _("{JPN}こうら"),
         .height = 5,
         .weight = 115,
         .description = COMPOUND_STRING(
-            "It is a Pokemon that has been regenerated\n"
-            "from a fossil. However, in rare cases, living\n"
-            "examples have been discovered. Kabuto\n"
-            "have not changed for 300 million years."),
+            "{JPN}かせきから ふっかつした ポケモンだが まれに\n"
+            "{JPN}いきつづけている カブトを はっけん できる。 その\n"
+            "{JPN}すがたは 3おくねん かわっていない。 かいていに\n"
+            "{JPN}かくれては せなかの めで あたりを みていたようだ。"),
         .pokemonScale = 454,
         .pokemonOffset = 21,
         .trainerScale = 256,
@@ -19395,14 +19377,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}カブトプス"),
         .cryId = CRY_KABUTOPS,
         .natDexNum = NATIONAL_DEX_KABUTOPS,
-        .categoryName = _("Shellfish"),
+        .categoryName = _("{JPN}こうら"),
         .height = 13,
         .weight = 405,
         .description = COMPOUND_STRING(
-            "Kabutops once swam underwater to hunt \n"
-            "for prey. It was apparently evolving from\n"
-            "being a water dweller to living on land as\n"
-            "evident from changes in its gills and legs."),
+            "{JPN}すいちゅうを およぎ えものを とらえていた。 みずの\n"
+            "{JPN}せいかつから ちじょうで くらせるように エラや あし\n"
+            "{JPN}などが へんかを はじめていた。 すばやく えものに\n"
+            "{JPN}ちかづくと カマで きりさき とどめを さす。"),
         .pokemonScale = 271,
         .pokemonOffset = 3,
         .trainerScale = 256,
@@ -19465,14 +19447,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}プテラ"),
         .cryId = CRY_AERODACTYL,
         .natDexNum = NATIONAL_DEX_AERODACTYL,
-        .categoryName = _("Fossil"),
+        .categoryName = _("{JPN}かせき"),
         .height = 18,
         .weight = 590,
         .description = COMPOUND_STRING(
-            "Aerodactyl is a Pokemon from the age\n"
-            "of dinosaurs. It was regenerated from DNA\n"
-            "extracted from amber. It is imagined to\n"
-            "have been the king of the skies."),
+            "{JPN}コハクから とりだした いでんしを さいせいして\n"
+            "{JPN}ふっかつした きょうりゅう じだいの ポケモン。 そらの\n"
+            "{JPN}おうじゃだったと そうぞうされている。 のこぎりのような\n"
+            "{JPN}キバで えものを ひきさいて くっていた。"),
         .pokemonScale = 256,
         .pokemonOffset = 0,
         .trainerScale = 302,
@@ -19542,13 +19524,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .cryId = CRY_AERODACTYL,
     #endif // P_MODIFIED_MEGA_CRIES
         .natDexNum = NATIONAL_DEX_AERODACTYL,
-        .categoryName = _("Fossil"),
+        .categoryName = _("{JPN}かせき"),
         .height = 21,
         .weight = 790,
         .description = COMPOUND_STRING(
-            "The power of Mega Evolution has\n"
-            "completely restored its genes. The rocks\n"
-            "on its body are harder than diamond."),
+            "{JPN}メガシンカに より うしなわれていた いでんしが\n"
+            "{JPN}よみがえり ぜんしんを おおう するどい いわが\n"
+            "{JPN}ふっかつ。 いぜんに わを かけて きょうぼうに。\n"
+            "{JPN}うごくもの すべてに おそいかかる。"),
         .pokemonScale = 256,
         .pokemonOffset = 0,
         .trainerScale = 302,
@@ -19620,14 +19603,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ゴンベ"),
         .cryId = CRY_MUNCHLAX,
         .natDexNum = NATIONAL_DEX_MUNCHLAX,
-        .categoryName = _("Big Eater"),
+        .categoryName = _("{JPN}おおぐい"),
         .height = 6,
         .weight = 1050,
         .description = COMPOUND_STRING(
-            "When it finds something that looks like\n"
-            "it might be edible, it goes right ahead\n"
-            "and swallows it whole. That's why it gets\n"
-            "fatter day by day."),
+            "{JPN}ながい からだの けの したに たべものを かくす\n"
+            "{JPN}しゅうせい。 ひっしに エサを たべているうちに\n"
+            "{JPN}からだの けのしたに かくしていた エサのことを\n"
+            "{JPN}わすれてしまうのだ。"),
         .pokemonScale = 422,
         .pokemonOffset = 14,
         .trainerScale = 256,
@@ -19692,14 +19675,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}カビゴン"),
         .cryId = CRY_SNORLAX,
         .natDexNum = NATIONAL_DEX_SNORLAX,
-        .categoryName = _("Sleeping"),
+        .categoryName = _("{JPN}いねむり"),
         .height = 21,
         .weight = 4600,
         .description = COMPOUND_STRING(
-            "Snorlax's typical day consists of nothing\n"
-            "more than eating and sleeping. It is such\n"
-            "a docile Pokemon that there are children\n"
-            "who use its big belly as a place to play."),
+            "{JPN}たべて ねての くりかえしで 1にちが おわる。 おおきな\n"
+            "{JPN}おなかの うえを あそびばに している こどもたちも\n"
+            "{JPN}いるほど おとなしい ポケモンだ。 1にちに 400キロ\n"
+            "{JPN}たべないと まんぷくに ならない。"),
         .pokemonScale = 256,
         .pokemonOffset = 4,
         .trainerScale = 423,
@@ -19765,14 +19748,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}カビゴン"),
         .cryId = CRY_SNORLAX,
         .natDexNum = NATIONAL_DEX_SNORLAX,
-        .categoryName = _("Sleeping"),
+        .categoryName = _("{JPN}いねむり"),
         .height = 350,
         .weight = 0,
         .description = COMPOUND_STRING(
-            "Gigantamax energy has affected\n"
-            "stray seeds and even pebbles that\n"
-            "got stuck to Snorlax, making them grow\n"
-            "to a huge size."),
+            "{JPN}おそろしいほどの かいりきを もつ。 キョダイマックス\n"
+            "{JPN}パワーで おなかに たべこぼした タネや からみついた\n"
+            "{JPN}こいし までも おおきくなったぞ。 ゆうだいな\n"
+            "{JPN}そのすがたも ほとんど うごかざること やまの ごとしだ。"),
         .pokemonScale = 256,
         .pokemonOffset = 4,
         .trainerScale = 423,
@@ -19832,14 +19815,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}フリーザー"),
         .cryId = CRY_ARTICUNO,
         .natDexNum = NATIONAL_DEX_ARTICUNO,
-        .categoryName = _("Freeze"),
+        .categoryName = _("{JPN}れいとう"),
         .height = 17,
         .weight = 554,
         .description = COMPOUND_STRING(
-            "Articuno is a legendary bird Pokemon that\n"
-            "can control ice. The flapping of its wings\n"
-            "chills the air. As a result, it is said that\n"
-            "when this Pokemon flies, snow will fall."),
+            "{JPN}こおりを あやつる でんせつの とりポケモン。 はばたく\n"
+            "{JPN}ことで くうきを つめたく ひやすので フリーザーが\n"
+            "{JPN}とぶと ゆきが ふると いわれる。 あおく うつくしい\n"
+            "{JPN}はねは こおりで できていると いわれている。"),
         .pokemonScale = 256,
         .pokemonOffset = 0,
         .trainerScale = 309,
@@ -19905,14 +19888,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}フリーザー"),
         .cryId = CRY_ARTICUNO,
         .natDexNum = NATIONAL_DEX_ARTICUNO,
-        .categoryName = _("Cruel"),
+        .categoryName = _("{JPN}れいこく"),
         .height = 17,
         .weight = 509,
         .description = COMPOUND_STRING(
-            "It fires beams that immobilize opponents\n"
-            "as if they had been frozen solid.\n"
-            "Its feather-like blades of psychic energy\n"
-            "rip through thick iron sheets like paper."),
+            "{JPN}こおりついたかのように からだの じゆうを うばう\n"
+            "{JPN}ビームを うちだす フリーザーの なを もつ ポケモン。\n"
+            "{JPN}サイコパワーで つくった はねの やいばは ぶあつい\n"
+            "{JPN}てっぱんも かみのように きりさく。"),
         .pokemonScale = 256,
         .pokemonOffset = 0,
         .trainerScale = 309,
@@ -19985,14 +19968,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}サンダー"),
         .cryId = CRY_ZAPDOS,
         .natDexNum = NATIONAL_DEX_ZAPDOS,
-        .categoryName = _("Electric"),
+        .categoryName = _("{JPN}でんげき"),
         .height = 16,
         .weight = 526,
         .description = COMPOUND_STRING(
-            "Zapdos is a legendary bird Pokemon that\n"
-            "has the ability to control electricity.\n"
-            "It usually lives in thunderclouds. It gains\n"
-            "power if it is stricken by lightning bolts."),
+            "{JPN}でんきを あやつる でんせつの とりポケモン。 ふだんは\n"
+            "{JPN}カミナリぐもの なかで くらしている。 カミナリに\n"
+            "{JPN}うたれると ちからが わいてくる。 きらめく ハネで\n"
+            "{JPN}はばたくと はげしい かみなりが はっせいする。"),
         .pokemonScale = 256,
         .pokemonOffset = 0,
         .trainerScale = 318,
@@ -20058,14 +20041,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}サンダー"),
         .cryId = CRY_ZAPDOS,
         .natDexNum = NATIONAL_DEX_ZAPDOS,
-        .categoryName = _("Strong Legs"),
+        .categoryName = _("{JPN}けんきゃく"),
         .height = 16,
         .weight = 582,
         .description = COMPOUND_STRING(
-            "When its feathers rub together, they\n"
-            "produce a crackling sound like the\n"
-            "zapping of electricity. Apparently, it runs\n"
-            "through the mountains at over 180 mph."),
+            "{JPN}うもうが こすれるとき バチバチと でんきのような おとが\n"
+            "{JPN}することから サンダーと よばれてきた。 ひとけりで\n"
+            "{JPN}ダンプカーを こなごなに する きゃくりょくを もつ。\n"
+            "{JPN}じそく 300キロで やまを かけるという。"),
         .pokemonScale = 256,
         .pokemonOffset = 0,
         .trainerScale = 318,
@@ -20134,14 +20117,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ファイヤー"),
         .cryId = CRY_MOLTRES,
         .natDexNum = NATIONAL_DEX_MOLTRES,
-        .categoryName = _("Flame"),
+        .categoryName = _("{JPN}かえん"),
         .height = 20,
         .weight = 600,
         .description = COMPOUND_STRING(
-            "Moltres is a legendary bird Pokemon\n"
-            "that can control fire. If injured, it is said\n"
-            "to dip its body in the molten magma of\n"
-            "a volcano to burn and heal itself."),
+            "{JPN}ほのおを あやつる でんせつの とりポケモン。 からだが\n"
+            "{JPN}きずつくと かこうの マグマに はいり ぜんしんを\n"
+            "{JPN}もやして きずを いやすと いう。 はばたくと つばさの\n"
+            "{JPN}ほのおが あかく うつくしく きらめく。"),
         .pokemonScale = 270,
         .pokemonOffset = 0,
         .trainerScale = 387,
@@ -20235,14 +20218,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ファイヤー"),
         .cryId = CRY_MOLTRES,
         .natDexNum = NATIONAL_DEX_MOLTRES,
-        .categoryName = _("Malevolent"),
+        .categoryName = _("{JPN}じゃあく"),
         .height = 20,
         .weight = 660,
         .description = COMPOUND_STRING(
-            "This Pokemon's sinister, flame-like aura\n"
-            "will consume the spirit of any creature\n"
-            "it hits. Victims become burned-out\n"
-            "shadows of themselves."),
+            "{JPN}じゃあくな オーラを ほのおのように もえあがらせる その\n"
+            "{JPN}すがたから ファイヤーと なづけられた。 れっかのごとき\n"
+            "{JPN}じゃあくな オーラに あてられると せいこんが つきはて\n"
+            "{JPN}まっしろに もえつきて しまうのだ。"),
         .pokemonScale = 270,
         .pokemonOffset = 0,
         .trainerScale = 387,
@@ -20306,14 +20289,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ミニリュウ"),
         .cryId = CRY_DRATINI,
         .natDexNum = NATIONAL_DEX_DRATINI,
-        .categoryName = _("Dragon"),
+        .categoryName = _("{JPN}ドラゴン"),
         .height = 18,
         .weight = 33,
         .description = COMPOUND_STRING(
-            "A Dratini continually molts and sloughs\n"
-            "off its old skin. It does so because the\n"
-            "life energy within its body steadily builds\n"
-            "to reach uncontrollable levels."),
+            "{JPN}ミニリュウが だっぴを くりかえして いるのは からだの\n"
+            "{JPN}なかで せいめいの エネルギーが どんどん ふくらみ\n"
+            "{JPN}おさえきれなく なるからだ。 ぬけがらを なめして\n"
+            "{JPN}つくった ブーツは ちょうこうきゅうひん。"),
         .pokemonScale = 256,
         .pokemonOffset = 8,
         .trainerScale = 386,
@@ -20376,14 +20359,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ハクリュー"),
         .cryId = CRY_DRAGONAIR,
         .natDexNum = NATIONAL_DEX_DRAGONAIR,
-        .categoryName = _("Dragon"),
+        .categoryName = _("{JPN}ドラゴン"),
         .height = 40,
         .weight = 165,
         .description = COMPOUND_STRING(
-            "A Dragonair stores an enormous amount of\n"
-            "energy inside its body. It is said to alter\n"
-            "the weather around it by loosing energy\n"
-            "from the crystals on its neck and tail."),
+            "{JPN}おおきな エネルギーを からだに ためている。 くびと\n"
+            "{JPN}しっぽの すいしょうから エネルギーを ときはなち\n"
+            "{JPN}あたりの てんきを かえると いう。 オーラを まとう\n"
+            "{JPN}すがたは しんぴてき。"),
         .pokemonScale = 256,
         .pokemonOffset = 0,
         .trainerScale = 411,
@@ -20452,14 +20435,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}カイリュー"),
         .cryId = CRY_DRAGONITE,
         .natDexNum = NATIONAL_DEX_DRAGONITE,
-        .categoryName = _("Dragon"),
+        .categoryName = _("{JPN}ドラゴン"),
         .height = 22,
         .weight = 2100,
         .description = COMPOUND_STRING(
-            "It can circle the globe in just 16 hours.\n"
-            "It is a kindhearted Pokemon that leads\n"
-            "lost and foundering ships in a storm\n"
-            "to the safety of land."),
+            "{JPN}あらしで なんぱしかけた ふねを みつけると りくちまで\n"
+            "{JPN}ゆうどうする やさしい ポケモン。 あれくるう うみも\n"
+            "{JPN}ものともせずに とんでいく。 ひろい うみの どこかに\n"
+            "{JPN}すみかが あると いわれている。"),
         .pokemonScale = 256,
         .pokemonOffset = 0,
         .trainerScale = 309,
@@ -20528,14 +20511,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .cryId = CRY_DRAGONITE,
     #endif // P_MODIFIED_MEGA_CRIES
         .natDexNum = NATIONAL_DEX_DRAGONITE,
-        .categoryName = _("Dragon"),
+        .categoryName = _("{JPN}ドラゴン"),
         .height = 22,
         .weight = 2900,
         .description = COMPOUND_STRING(
-            "Mega Evolution has excessively\n"
-            "powered up this Pokemon's feelings\n"
-            "of kindness. It finishes off its\n"
-            "opponents with mercy in its heart."),
+            "{JPN}メガシンカの エネルギーが やさしい きもちを かじょうに\n"
+            "{JPN}パワーアップ。 じひの こころで てきを たおす。\n"
+            "{JPN}しょっかくの きのうをもつ あたまの おおきな つばさで\n"
+            "{JPN}とびまわる。"),
         .frontPic = gMonFrontPic_DragoniteMega,
         .frontPicSize = MON_COORDS_SIZE(64, 64),
         .frontPicYOffset = 1,
@@ -20591,14 +20574,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ミュウツー"),
         .cryId = CRY_MEWTWO,
         .natDexNum = NATIONAL_DEX_MEWTWO,
-        .categoryName = _("Genetic"),
+        .categoryName = _("{JPN}いでんし"),
         .height = 20,
         .weight = 1220,
         .description = COMPOUND_STRING(
-            "A Pokemon that was created by genetic\n"
-            "manipulation. However, even though the\n"
-            "scientific power of humans made its body,\n"
-            "they failed to give it a warm heart."),
+            "{JPN}いでんしそうさに よって つくられた ポケモン。\n"
+            "{JPN}にんげんの かがくりょくで からだは つくれても\n"
+            "{JPN}やさしい こころを つくることは できなかった。\n"
+            "{JPN}そのちからは たたかうことに とっか している。"),
         .pokemonScale = 256,
         .pokemonOffset = 0,
         .trainerScale = 309,
@@ -20660,21 +20643,21 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .eggGroups = MON_EGG_GROUPS(EGG_GROUP_NO_EGGS_DISCOVERED),
         .abilities = { ABILITY_STEADFAST, ABILITY_STEADFAST, ABILITY_STEADFAST },
         .bodyColor = BODY_COLOR_PURPLE,
-        .speciesName = _("{JPN}ミュウツー"),
+        .speciesName = _("{JPN}ミュウツーX"),
     #if P_MODIFIED_MEGA_CRIES
         .cryId = CRY_MEWTWO_MEGA_X,
     #else
         .cryId = CRY_MEWTWO,
     #endif // P_MODIFIED_MEGA_CRIES
         .natDexNum = NATIONAL_DEX_MEWTWO,
-        .categoryName = _("Genetic"),
+        .categoryName = _("{JPN}いでんし"),
         .height = 23,
         .weight = 1270,
         .description = COMPOUND_STRING(
-            "Psychic power has augmented its muscles.\n"
-            "It has a grip strength of one ton and can\n"
-            "sprint a hundred meters in two seconds\n"
-            "flat!"),
+            "{JPN}サイコパワーが からだの きんにくを ぞうきょう。\n"
+            "{JPN}あくりょくは 1トン。 100メートルを 2びょうで\n"
+            "{JPN}はしれるぞ。 のびる てあしを つかって\n"
+            "{JPN}にくだんせんで たたかう。"),
         .pokemonScale = 256,
         .pokemonOffset = 0,
         .trainerScale = 309,
@@ -20739,21 +20722,21 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .eggGroups = MON_EGG_GROUPS(EGG_GROUP_NO_EGGS_DISCOVERED),
         .abilities = { ABILITY_INSOMNIA, ABILITY_INSOMNIA, ABILITY_INSOMNIA },
         .bodyColor = BODY_COLOR_PURPLE,
-        .speciesName = _("{JPN}ミュウツー"),
+        .speciesName = _("{JPN}ミュウツーY"),
     #if P_MODIFIED_MEGA_CRIES
         .cryId = CRY_MEWTWO_MEGA_Y,
     #else
         .cryId = CRY_MEWTWO,
     #endif // P_MODIFIED_MEGA_CRIES
         .natDexNum = NATIONAL_DEX_MEWTWO,
-        .categoryName = _("Genetic"),
+        .categoryName = _("{JPN}いでんし"),
         .height = 15,
         .weight = 330,
         .description = COMPOUND_STRING(
-            "Despite its diminished size, its mental\n"
-            "power has grown phenomenally. With a mere\n"
-            "thought, it can smash a skyscraper to\n"
-            "smithereens."),
+            "{JPN}からだは ちいさくなったが パワーは ケタはずれ。 \n"
+            "{JPN}よりシャープに けいりょうかし つねに ちゅうに\n"
+            "{JPN}ういている。 かるく ねんじるだけで こうそうビルも\n"
+            "{JPN}こっぱみじん だ。"),
         .pokemonScale = 256,
         .pokemonOffset = 0,
         .trainerScale = 309,
@@ -20833,14 +20816,14 @@ const struct SpeciesInfo gSpeciesInfoGen1[] =
         .speciesName = _("{JPN}ミュウ"),
         .cryId = CRY_MEW,
         .natDexNum = NATIONAL_DEX_MEW,
-        .categoryName = _("New Species"),
+        .categoryName = _("{JPN}しんしゅ"),
         .height = 4,
         .weight = 40,
         .description = COMPOUND_STRING(
-            "A Mew is said to possess the genes of all\n"
-            "Pokemon. It is capable of making itself\n"
-            "invisible at will, so it entirely avoids\n"
-            "notice even if it approaches people."),
+            "{JPN}すべての ポケモンの いでんしを もつと いう まぼろしの\n"
+            "{JPN}ポケモン。 じゆうじざいに すがたを けすことが\n"
+            "{JPN}できるので ひとに ちかづいても まったく きづかれない。\n"
+            "{JPN}あらゆる わざが つかえる。"),
         .pokemonScale = 457,
         .pokemonOffset = -2,
         .trainerScale = 256,
