@@ -49,7 +49,7 @@ const struct AbilityInfo gAbilitiesInfo[ABILITIES_COUNT] =
     [ABILITY_DAMP] =
     {
         .name = _("{JPN}しめりけ"),
-        .description = COMPOUND_STRING("{JPN}だれも じばくが できなくなる"),
+        .description = COMPOUND_STRING("{JPN}だれも ばくはつが できなくなる"),
         .aiRating = 2,
         .breakable = TRUE,
     },
@@ -165,7 +165,7 @@ const struct AbilityInfo gAbilitiesInfo[ABILITIES_COUNT] =
     [ABILITY_SUCTION_CUPS] =
     {
         .name = _("{JPN}きゅうばん"),
-        .description = COMPOUND_STRING("{JPN}きゅうばんで じめんに はりつく"),
+        .description = COMPOUND_STRING("{JPN}いれかえさせる わざが きかない"),
         .aiRating = 2,
         .breakable = TRUE,
     },
@@ -503,7 +503,7 @@ const struct AbilityInfo gAbilitiesInfo[ABILITIES_COUNT] =
     [ABILITY_BLAZE] =
     {
         .name = _("{JPN}もうか"),
-        .description = COMPOUND_STRING("{JPN}ピンチに ほのおが つよくなる"),
+        .description = COMPOUND_STRING("{JPN}ピンチに ほのおの いりょくが あがる"),
         .aiRating = 5,
     },
 
@@ -1786,7 +1786,7 @@ const struct AbilityInfo gAbilitiesInfo[ABILITIES_COUNT] =
     [ABILITY_NEUROFORCE] =
     {
         .name = _("{JPN}ブレインフォース"),
-        .description = COMPOUND_STRING("{JPN}こうかばつぐんで いりょくが あがる"),
+        .description = COMPOUND_STRING("{JPN}こうかばつぐんの いりょくが あがる"),
         .aiRating = 6,
     },
 
