@@ -44,16 +44,16 @@ EventScript_CancelCut::
 	end
 
 Text_WantToCut:
-	.string "This tree looks like it can be\n"
-	.string "CUT down!\p"
-	.string "Would you like to CUT it?$"
+	.string "{JPN}・・・・このきは なんだか\n"
+	.string "きれそうだ！\p"
+	.string "いあいぎりで きりますか？$"
 
 Text_MonUsedFieldMove:
-	.string "{STR_VAR_1} used {STR_VAR_2}!$"
+	.string "{STR_VAR_1} は\n{STR_VAR_2}を つかった！$"
 
 Text_CantCut:
-	.string "This tree looks like it can be\n"
-	.string "CUT down!$"
+	.string "このきは なんだか\n"
+	.string "きれそうだ！$"
 
 @ Use rock smash from party menu
 EventScript_UseRockSmash::
