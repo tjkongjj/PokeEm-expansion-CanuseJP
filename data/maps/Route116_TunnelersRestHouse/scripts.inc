@@ -28,31 +28,29 @@ Route116_TunnelersRestHouse_EventScript_TunnelOpened::
 	end
 
 Route116_TunnelersRestHouse_Text_WeHadToStopBoring:
-	.string "That RUSTURF TUNNEL there...\p"
-	.string "At first, we had a huge work crew boring\n"
-	.string "through rock with the latest machinery.\l"
-	.string "But, we had to stop.\p"
-	.string "It turns out that we would have had\n"
-	.string "a negative effect on wild POKEMON in\l"
-	.string "the area.\p"
-	.string "So, we've got nothing to do but loll\n"
-	.string "around here doing nothing.$"
+	.string "あの カナシダトンネル{ENG}....\p"
+	.string "{JPN}はじめは たくさんの にんげんと\n"
+	.string "さいしんの キカイで ほりすすんでいた\p"
+	.string "だが そのまま ほりすすむと\n"
+	.string "あたりの ポケモンに\l"
+	.string "あくえいきょうを あたえる らしくてね\p"
+	.string "で おれら どうしようもなく\n"
+	.string "ここで ぼんやりと しているわけさ$"
 
 Route116_TunnelersRestHouse_Text_ManDiggingHisWayToVerdanturf:
-	.string "There's a man digging his way to\n"
-	.string "VERDANTURF all by his lonesome.\l"
-	.string "He's desperate to get through.\p"
-	.string "He says that if he digs little by little\n"
-	.string "without using machines, he won't\l"
-	.string "disturb POKEMON, and he'll avoid\l"
-	.string "harming the natural environment.\p"
-	.string "I wonder if he made it through yet.$"
+	.string "どうしても シダケに いきたい\n"
+	.string "やつが じぶんの ちから だけで\l"
+	.string "トンネルを ほっているよ\p"
+	.string "にんげんの ちからで すこしずつ ほれば\n"
+	.string "ポケモンを おどろかせなくて すむし\l"
+	.string "まわりの しぜんにも わるい えいきょうを\l"
+	.string "あたえないで すむって いってな$"
 
 Route116_TunnelersRestHouse_Text_GetToVerdanturfWithoutTunnel:
-	.string "To get to VERDANTURF without using\n"
-	.string "this TUNNEL, you'd have to cross the\l"
-	.string "sea to DEWFORD, sail on to SLATEPORT,\l"
-	.string "then travel through MAUVILLE.$"
+	.string "トンネルを つかわずに ここから\n"
+	.string "シダケに いくなら うみを わたり\l"
+	.string "ムロから カイナ そして\l"
+	.string "キンセツを とおって いくしか ないな！$"
 
 Route116_TunnelersRestHouse_Text_TunnelHasGoneThrough:
 	.string "Did you hear? The TUNNEL to VERDANTURF\n"
