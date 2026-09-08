@@ -132,8 +132,8 @@ static const u8 sText_TenDashes[] = _("？？？？？？？？？？");
 ALIGNED(4) static const u8 sExpandedPlaceholder_PokedexDescription[] = _("");
 static const u16 sSizeScreenSilhouette_Pal[] = INCGFX_U16("graphics/pokedex/size_silhouette.pal", ".gbapal");
 
-static const u8 sText_Stats_Buttons[] = _("{A_BUTTON}きりかえ   {DPAD_UPDOWN}わざ");
-static const u8 sText_Stats_Buttons_Decapped[] = _("{A_BUTTON}きりかえ   {DPAD_UPDOWN}わざ");
+static const u8 sText_Stats_Buttons[] = _("{JPN}{A_BUTTON}きりかえ   {DPAD_UPDOWN}わざ");
+static const u8 sText_Stats_Buttons_Decapped[] = _("{JPN}{A_BUTTON}きりかえ   {DPAD_UPDOWN}わざ");
 static const u8 sText_Stats_HP[] = _("HP");
 static const u8 sText_Stats_Attack[] = _("こうげき");
 static const u8 sText_Stats_Defense[] = _("ぼうぎょ");
@@ -162,12 +162,12 @@ static const u8 sText_Stats_CatchRate_Relaxed[] = _("ややかんたん");
 static const u8 sText_Stats_CatchRate_Easy[] = _("かんたん");
 static const u8 sText_Stats_ExpYield[] = _("けいけんち: ");
 static const u8 sText_Stats_EggCycles[] = _("ふかほすう:");
-static const u8 sText_Stats_EggCycles_VeryFast[] = _("{EMOJI_BOLT}{EMOJI_DIZZYEGG}");
-static const u8 sText_Stats_EggCycles_Fast[] = _("{EMOJI_DIZZYEGG}");
-static const u8 sText_Stats_EggCycles_Normal[] = _("{EMOJI_DIZZYEGG}{EMOJI_DIZZYEGG}");
-static const u8 sText_Stats_EggCycles_Slow[] = _("{EMOJI_DIZZYEGG}{EMOJI_DIZZYEGG}{EMOJI_DIZZYEGG}");
+static const u8 sText_Stats_EggCycles_VeryFast[] = _("{EMOJI_BOLT}{ENG}{EMOJI_DIZZYEGG}");
+static const u8 sText_Stats_EggCycles_Fast[] = _("{ENG}{EMOJI_DIZZYEGG}");
+static const u8 sText_Stats_EggCycles_Normal[] = _("{ENG}{EMOJI_DIZZYEGG}{EMOJI_DIZZYEGG}");
+static const u8 sText_Stats_EggCycles_Slow[] = _("{ENG}{EMOJI_DIZZYEGG}{EMOJI_DIZZYEGG}{EMOJI_DIZZYEGG}");
 static const u8 sText_Stats_Growthrate[] = _("そだち: ");
-static const u8 sText_Stats_Friendship[] = _("なつき:");
+static const u8 sText_Stats_Friendship[] = _("なつき: ");
 static const u8 sText_Stats_Friendship_BigAnger[] = _("{EMOJI_BIGANGER}");
 static const u8 sText_Stats_Friendship_Neutral[] = _("{EMOJI_NEUTRAL}");
 static const u8 sText_Stats_Friendship_Happy[] = _("{EMOJI_HAPPY}");
@@ -179,56 +179,56 @@ static const u8 sText_Stats_MEDIUM_SLOW[] = _("ふつうおそい");
 static const u8 sText_Stats_FAST[] = _("はやい");
 static const u8 sText_Stats_SLOW[] = _("おそい");
 static const u8 sText_Stats_ContestHeart[] = _("H");
-static const u8 sText_Stats_Minus[] = _("？");
+static const u8 sText_Stats_Minus[] = _("{ENG}-");
 static const u8 sText_Stats_eggGroup[] = _("タマゴG1:");
 static const u8 sText_Stats_eggGroup_Groups[] = _("{STR_VAR_1}/{STR_VAR_2}");
-static const u8 sText_Stats_eggGroup_MONSTER[] = _("かいじゅう");
-static const u8 sText_Stats_eggGroup_WATER_1[] = _("すいちゅう {CIRCLE_1}");
-static const u8 sText_Stats_eggGroup_BUG[] = _("むし");
-static const u8 sText_Stats_eggGroup_FLYING[] = _("ひこう");
-static const u8 sText_Stats_eggGroup_FIELD[] = _("りくじょう");
-static const u8 sText_Stats_eggGroup_FAIRY[] = _("ようせい");
-static const u8 sText_Stats_eggGroup_GRASS[] = _("しょくぶつ");
-static const u8 sText_Stats_eggGroup_HUMAN_LIKE[] = _("ひとがた");
-static const u8 sText_Stats_eggGroup_WATER_3[] = _("すいちゅう {CIRCLE_3}");
-static const u8 sText_Stats_eggGroup_MINERAL[] = _("こうぶつ");
-static const u8 sText_Stats_eggGroup_AMORPHOUS[] = _("ふていけい");
-static const u8 sText_Stats_eggGroup_WATER_2[] = _("すいちゅう {CIRCLE_2}");
-static const u8 sText_Stats_eggGroup_DITTO[] = _("メタモン");
-static const u8 sText_Stats_eggGroup_DRAGON[] = _("ドラゴン");
+static const u8 sText_Stats_eggGroup_MONSTER[] = _("{JPN}かいじゅう");
+static const u8 sText_Stats_eggGroup_WATER_1[] = _("{JPN}すいちゅう{ENG}{CIRCLE_1}");
+static const u8 sText_Stats_eggGroup_BUG[] = _("{JPN}むし");
+static const u8 sText_Stats_eggGroup_FLYING[] = _("{JPN}ひこう");
+static const u8 sText_Stats_eggGroup_FIELD[] = _("{JPN}りくじょう");
+static const u8 sText_Stats_eggGroup_FAIRY[] = _("{JPN}ようせい");
+static const u8 sText_Stats_eggGroup_GRASS[] = _("{JPN}しょくぶつ");
+static const u8 sText_Stats_eggGroup_HUMAN_LIKE[] = _("{JPN}ひとがた");
+static const u8 sText_Stats_eggGroup_WATER_3[] = _("{JPN}すいちゅう{ENG}{CIRCLE_3}");
+static const u8 sText_Stats_eggGroup_MINERAL[] = _("{JPN}こうぶつ");
+static const u8 sText_Stats_eggGroup_AMORPHOUS[] = _("{JPN}ふていけい");
+static const u8 sText_Stats_eggGroup_WATER_2[] = _("{JPN}すいちゅう{ENG}{CIRCLE_2}");
+static const u8 sText_Stats_eggGroup_DITTO[] = _("{JPN}メタモン");
+static const u8 sText_Stats_eggGroup_DRAGON[] = _("{JPN}ドラゴン");
 static const u8 sText_Stats_eggGroup_NO_EGGS_DISCOVERED[] = _("？？？");
 static const u8 sText_Stats_eggGroup_UNKNOWN[] = _("？？？");
 static const u8 sText_Dex_SEEN[] = _("みつけた");
 static const u8 sText_Dex_OWN[] = _("つかまえた");
 
-static const u8 sText_EVO_Buttons[] = _("{DPAD_UPDOWN}しんか  {A_BUTTON}みる");
-static const u8 sText_EVO_Buttons_Decapped[] = _("{DPAD_UPDOWN}しんか  {A_BUTTON}みる");
-static const u8 sText_EVO_Buttons_PE[] = _("{DPAD_UPDOWN}しんか  {A_BUTTON}みる  {START_BUTTON}フォルム");
-static const u8 sText_EVO_Buttons_Decapped_PE[] = _("{DPAD_UPDOWN}しんか  {A_BUTTON}みる  {START_BUTTON}フォルム");
+static const u8 sText_EVO_Buttons[] = _("{JPN}{DPAD_UPDOWN}しんか {A_BUTTON}みる");
+static const u8 sText_EVO_Buttons_Decapped[] = _("{JPN}{DPAD_UPDOWN}しんか {A_BUTTON}みる");
+static const u8 sText_EVO_Buttons_PE[] = _("{JPN}{DPAD_UPDOWN}しんか {A_BUTTON}みる {START_BUTTON}フォルム");
+static const u8 sText_EVO_Buttons_Decapped_PE[] = _("{JPN}{DPAD_UPDOWN}しんか {A_BUTTON}みる {START_BUTTON}フォルム");
 static const u8 sText_EVO_Name[] = _("{STR_VAR_3}:");
 static const u8 sText_EVO_PreEvo[] = _("{STR_VAR_2}から しんか");
 static const u8 sText_EVO_PreEvo_PE_Mega[] = _("{STR_VAR_2}で メガシンカ");
-static const u8 sText_EVO_LEVEL_SILCOON[] = _("{LV}{UP_ARROW}{STR_VAR_2} カラサリス");
-static const u8 sText_EVO_LEVEL_CASCOON[] = _("{LV}{UP_ARROW}{STR_VAR_2} マユルド");
-static const u8 sText_EVO_MOVE[] = _("{LV}{UP_ARROW}{STR_VAR_2}を おぼえる");
-static const u8 sText_EVO_LEVEL_RAIN[] = _("{LV}{UP_ARROW}{STR_VAR_2} あめのとき");
+static const u8 sText_EVO_LEVEL_SILCOON[] = _("{ENG}{LV}{JPN}{UP_ARROW}{STR_VAR_2} カラサリス");
+static const u8 sText_EVO_LEVEL_CASCOON[] = _("{ENG}{LV}{JPN}{UP_ARROW}{STR_VAR_2} マユルド");
+static const u8 sText_EVO_MOVE[] = _("{ENG}{LV}{JPN}{UP_ARROW}{STR_VAR_2}を おぼえる");
+static const u8 sText_EVO_LEVEL_RAIN[] = _("{ENG}{LV}{JPN}{UP_ARROW}{STR_VAR_2} あめのとき");
 static const u8 sText_EVO_TRADE_SPECIFIC_MON[] = _("{STR_VAR_2}と こうかん");
 static const u8 sText_EVO_CRITICAL_HITS[] = _("1かいのバトルで\nきゅうしょ {STR_VAR_2}かい");
 static const u8 sText_EVO_SCRIPT_TRIGGER_DMG[] = _("HPを {STR_VAR_2}いじょう へらす");
 static const u8 sText_EVO_DARK_SCROLL[] = _("あくのかけじくを つかう");
 static const u8 sText_EVO_WATER_SCROLL[] = _("みずのかけじくを つかう");
 static const u8 sText_EVO_USE_MOVE_TWENTY_TIMES[] = _("{STR_VAR_2}を 20かい つかう");
-static const u8 sText_EVO_RECOIL_DAMAGE_MALE[] = _("{STR_VAR_2}の はんどう おす");
-static const u8 sText_EVO_RECOIL_DAMAGE_FEMALE[] = _("{STR_VAR_2}の はんどう めす");
+static const u8 sText_EVO_RECOIL_DAMAGE_MALE[] = _("{STR_VAR_2}の はんどう ♂");
+static const u8 sText_EVO_RECOIL_DAMAGE_FEMALE[] = _("{STR_VAR_2}の はんどう ♀");
 static const u8 sText_EVO_DEFEAT_THREE_WITH_ITEM[] = _("{STR_VAR_3}を 3ひき たおす\n{STR_VAR_2}もち");
 static const u8 sText_EVO_NONE[] = _("{STR_VAR_1}は しんかしない。");
 
-static const u8 sText_FORMS_Buttons_PE[] = _("{A_BUTTON}フォルム  {START_BUTTON}しんか");
-static const u8 sText_FORMS_Buttons_Decapped_PE[] = _("{A_BUTTON}フォルム  {START_BUTTON}しんか");
-static const u8 sText_FORMS_Buttons_Submenu_PE[] = _("{DPAD_NONE}フォルム {A_BUTTON}みる {START_BUTTON}しんか");
-static const u8 sText_FORMS_Buttons_Submenu_Decapped_PE[] = _("{DPAD_NONE}フォルム {A_BUTTON}みる {START_BUTTON}しんか");
+static const u8 sText_FORMS_Buttons_PE[] = _("{JPN}{A_BUTTON}フォルム {START_BUTTON}しんか");
+static const u8 sText_FORMS_Buttons_Decapped_PE[] = _("{JPN}{A_BUTTON}フォルム {START_BUTTON}しんか");
+static const u8 sText_FORMS_Buttons_Submenu_PE[] = _("{JPN}{DPAD_NONE}フォルム {A_BUTTON}みる {START_BUTTON}しんか");
+static const u8 sText_FORMS_Buttons_Submenu_Decapped_PE[] = _("{JPN}{DPAD_NONE}フォルム {A_BUTTON}みる {START_BUTTON}しんか");
 static const u8 sText_FORMS_NONE[] = _("{STR_VAR_1}に べつのフォルムは ありません。");
-static const u8 sText_PlusSymbol[] = _("+");
+static const u8 sText_PlusSymbol[] = _("{ENG}+");
 
 // static .rodata graphics
 
@@ -5623,8 +5623,14 @@ static void PrintStatsScreen_Left(u8 taskId)
         PrintStatsScreenTextSmall(WIN_STATS_LEFT, sText_Stats_Friendship, base_x, base_y + base_y_offset*base_i);
         switch (sPokedexView->sPokemonStats.friendship)
         {
+        case 0:
+            StringCopy(strEV, sText_Stats_Friendship_BigAnger);
+            break;
         case 35:
             StringCopy(strEV, sText_Stats_Friendship_BigAnger);
+            break;
+        case 50:
+            StringCopy(strEV, sText_Stats_Friendship_Neutral);
             break;
         case 70:
             StringCopy(strEV, sText_Stats_Friendship_Neutral);
@@ -6521,7 +6527,7 @@ static void PrintEvolutionTargetSpeciesAndMethod(u8 taskId, enum Species species
                 break;
             case EVO_LEVEL:
             case EVO_LEVEL_BATTLE_ONLY:
-                StringCopy(gStringVar4, COMPOUND_STRING("{LV}{UP_ARROW}"));
+                StringCopy(gStringVar4, COMPOUND_STRING("{ENG}{LV}{JPN}{UP_ARROW}"));
                 if (evolutions[i].param > 1)
                 {
                     ConvertIntToDecimalStringN(gStringVar2, evolutions[i].param, STR_CONV_MODE_LEFT_ALIGN, EVO_SCREEN_LVL_DIGITS); //level
@@ -6574,21 +6580,21 @@ static void PrintEvolutionTargetSpeciesAndMethod(u8 taskId, enum Species species
                 case IF_GENDER:
                     switch (evolutions[i].params[j].arg1)
                     {
-                    case MON_MALE:   StringAppend(gStringVar4, COMPOUND_STRING("おす"));   break;
-                    case MON_FEMALE: StringAppend(gStringVar4, COMPOUND_STRING("めす")); break;
+                    case MON_MALE:   StringAppend(gStringVar4, COMPOUND_STRING("♂"));   break;
+                    case MON_FEMALE: StringAppend(gStringVar4, COMPOUND_STRING("♀")); break;
                     }
                     break;
                 case IF_MIN_FRIENDSHIP:
                     StringAppend(gStringVar4, COMPOUND_STRING("{UP_ARROW_2}なつき"));
                     break;
                 case IF_ATK_GT_DEF:
-                    StringAppend(gStringVar4, COMPOUND_STRING("こうげき>ぼうぎょ"));
+                    StringAppend(gStringVar4, COMPOUND_STRING("こうげき {ENG}>{JPN} ぼうぎょ"));
                     break;
                 case IF_ATK_EQ_DEF:
-                    StringAppend(gStringVar4, COMPOUND_STRING("こうげき=ぼうぎょ"));
+                    StringAppend(gStringVar4, COMPOUND_STRING("こうげき {ENG}={JPN} ぼうぎょ"));
                     break;
                 case IF_ATK_LT_DEF:
-                    StringAppend(gStringVar4, COMPOUND_STRING("こうげき<ぼうぎょ"));
+                    StringAppend(gStringVar4, COMPOUND_STRING("こうげき {ENG}<{JPN} ぼうぎょ"));
                     break;
                 case IF_TIME:
                     switch (evolutions[i].params[j].arg1)
@@ -6632,7 +6638,7 @@ static void PrintEvolutionTargetSpeciesAndMethod(u8 taskId, enum Species species
                              && arg < 10 && arg >= 0)
                             arg = 1;
                     ConvertIntToDecimalStringN(gStringVar2, arg * 10, STR_CONV_MODE_LEFT_ALIGN, 3);
-                    StringAppend(gStringVar4, COMPOUND_STRING("ランダム %"));
+                    StringAppend(gStringVar4, COMPOUND_STRING("ランダム{ENG}%"));
                     StringAppend(gStringVar4, gStringVar2);
                     break;
                 case IF_MIN_BEAUTY:
@@ -6727,7 +6733,7 @@ static void PrintEvolutionTargetSpeciesAndMethod(u8 taskId, enum Species species
                     StringAppend(gStringVar4, COMPOUND_STRING("ローな せいかく"));
                     break;
                 case IF_RECOIL_DAMAGE_GE:
-                    StringAppend(gStringVar4, COMPOUND_STRING("いじょううける= "));
+                    StringAppend(gStringVar4, COMPOUND_STRING("いじょううける{ENG}= "));
                     ConvertIntToDecimalStringN(gStringVar2, evolutions[i].params[j].arg1, STR_CONV_MODE_LEFT_ALIGN, 3);
                     StringAppend(gStringVar4, gStringVar2);
                     StringAppend(gStringVar4, COMPOUND_STRING(" はんどうダメージ"));
@@ -6772,7 +6778,7 @@ static void PrintEvolutionTargetSpeciesAndMethod(u8 taskId, enum Species species
                                  && arg < 100 && arg >= 0)
                             arg = 1;
                     ConvertIntToDecimalStringN(gStringVar2, arg, STR_CONV_MODE_LEFT_ALIGN, 3);
-                    StringAppend(gStringVar4, COMPOUND_STRING("%"));
+                    StringAppend(gStringVar4, COMPOUND_STRING("{ENG}%"));
                     StringAppend(gStringVar4, gStringVar2);
                     break;
                 case IF_MIN_OVERWORLD_STEPS:
@@ -7409,7 +7415,6 @@ static void Task_LoadSizeScreen(u8 taskId)
         u8 string[64];
 
         StringCopy(string, gText_SizeComparedTo);
-        StringAppend(string, gSaveBlock2Ptr->playerName);
         PrintInfoScreenText(string, GetStringCenterAlignXOffset(FONT_NORMAL, string, 0xF0), 0x79);
         gMain.state++;
         break;
