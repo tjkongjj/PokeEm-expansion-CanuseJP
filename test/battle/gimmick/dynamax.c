@@ -25,6 +25,37 @@ SINGLE_BATTLE_TEST("Dynamax: Dynamax increases HP and max HP by 1.5x", u16 hp)
     }
 }
 
+SINGLE_BATTLE_TEST("Dynamax: Max Moves do not inherit positive priority on the activation turn")
+{
+    GIVEN {
+        ASSUME(GetMovePriority(MOVE_QUICK_ATTACK) > 0);
+        PLAYER(SPECIES_WOBBUFFET) { Speed(1); }
+        OPPONENT(SPECIES_WOBBUFFET) { Speed(2); }
+    } WHEN {
+        TURN { MOVE(player, MOVE_QUICK_ATTACK, gimmick: GIMMICK_DYNAMAX); MOVE(opponent, MOVE_SCRATCH); }
+    } SCENE {
+        MESSAGE("The opposing Wobbuffet used Scratch!");
+        MESSAGE("Wobbuffet used Max Strike!");
+    }
+}
+
+SINGLE_BATTLE_TEST("Dynamax: Max Moves do not inherit negative priority while Dynamaxed")
+{
+    GIVEN {
+        ASSUME(GetMovePriority(MOVE_AVALANCHE) < 0);
+        PLAYER(SPECIES_WOBBUFFET) { Speed(2); }
+        OPPONENT(SPECIES_WOBBUFFET) { Speed(1); }
+    } WHEN {
+        TURN { MOVE(player, MOVE_SCRATCH, gimmick: GIMMICK_DYNAMAX); MOVE(opponent, MOVE_CELEBRATE); }
+        TURN { MOVE(player, MOVE_AVALANCHE); MOVE(opponent, MOVE_SCRATCH); }
+    } SCENE {
+        MESSAGE("Wobbuffet used Max Strike!");
+        MESSAGE("The opposing Wobbuffet used Celebrate!");
+        MESSAGE("Wobbuffet used Max Hailstorm!");
+        MESSAGE("The opposing Wobbuffet used Scratch!");
+    }
+}
+
 SINGLE_BATTLE_TEST("Dynamax: Dynamax Level increases HP and max HP multipliers by 0.05 for each level", u16 hp)
 {
     u32 dynamax, level;

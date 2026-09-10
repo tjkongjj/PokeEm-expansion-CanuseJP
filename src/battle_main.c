@@ -4756,16 +4756,25 @@ s32 GetChosenMovePriority(enum BattlerId battler, enum Ability ability)
 
 s32 GetBattleMovePriority(enum BattlerId battler, enum Ability ability, enum Move move)
 {
+    bool32 isDynamaxMove = GetActiveGimmick(battler) == GIMMICK_DYNAMAX
+                        || IsGimmickSelected(battler, GIMMICK_DYNAMAX)
+                        || ((gBattleStruct->gimmick.toActivate & (1u << battler))
+                         && gBattleStruct->gimmick.usableGimmick[battler] == GIMMICK_DYNAMAX);
     s32 priority = 0;
 
     if (GetActiveGimmick(battler) == GIMMICK_Z_MOVE && !IsBattleMoveStatus(move))
         move = GetUsableZMove(battler, move);
 
-    priority = GetMovePriority(move);
-
-    // Max Guard check
-    if (GetActiveGimmick(battler) == GIMMICK_DYNAMAX && GetMoveCategory(move) == DAMAGE_CATEGORY_STATUS)
-        return GetMovePriority(MOVE_MAX_GUARD);
+    if (isDynamaxMove)
+    {
+        // Max Moves have priority 0 regardless of their base move. Max Guard keeps its own priority.
+        if (GetMoveCategory(move) == DAMAGE_CATEGORY_STATUS)
+            return GetMovePriority(MOVE_MAX_GUARD);
+    }
+    else
+    {
+        priority = GetMovePriority(move);
+    }
 
     if (gProtectStructs[battler].quash)
     {
@@ -4784,7 +4793,7 @@ s32 GetBattleMovePriority(enum BattlerId battler, enum Ability ability, enum Mov
     }
     else if (GetMoveEffect(move) == EFFECT_GRASSY_GLIDE
           && IsGrassyTerrainAffected(battler, ability, GetBattlerHoldEffect(battler), gFieldStatuses)
-          && GetActiveGimmick(gBattlerAttacker) != GIMMICK_DYNAMAX && !IsGimmickSelected(battler, GIMMICK_DYNAMAX))
+          && !isDynamaxMove)
     {
         priority++;
     }
