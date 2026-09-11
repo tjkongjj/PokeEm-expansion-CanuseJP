@@ -342,15 +342,15 @@ VerdanturfTown_BattleTentLobby_Text_GentleMonsScaryIfAngry:
 	.string "おこったら きっと こわーーーいよ！！$"
 
 VerdanturfTown_BattleTentLobby_Text_AttractionRunsDeep:
-	.string "{JPN}あたしの ポケモンへの きもち・・・・\n"
-	.string "それは まさに メロメロなのよ・・・・\p"
+	.string "{JPN}あたしの ポケモンへの きもち{0xB0}{0xB0}\n"
+	.string "それは まさに メロメロなのよ{0xB0}{0xB0}\p"
 	.string "あら へんなところ みられちゃった\p"
 	.string "まあ いいわ\n"
 	.string "あたなの ポケモンに\l"
 	.string "この わざマシンは いかが？$"
 
 VerdanturfTown_BattleTentLobby_Text_AttractionMutual:
-	.string "{JPN}ポケモンの あたしへの きもちも・・・・\n"
+	.string "{JPN}ポケモンの あたしへの きもちも{0xB0}{0xB0}\n"
 	.string "やっぱり メロメロに ちがいないわ！\p"
 	.string "だって あたしの おもう とおりに\n"
 	.string "たたかって くれるもの！$"
