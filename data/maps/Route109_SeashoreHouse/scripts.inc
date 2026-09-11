@@ -172,7 +172,7 @@ Route109_SeashoreHouse_Text_SimonIntro:
 	.string "みせちゃうけど なかないでよ！$"
 
 Route109_SeashoreHouse_Text_SimonDefeated:
-	.string "{JPN}・・・・まけたけど なかないぞ$"
+	.string "{JPN}{0xB0}{0xB0}まけたけど なかないぞ$"
 
 Route109_SeashoreHouse_Text_SimonPostBattle:
 	.string "{JPN}ポケモンが ぼくを のせて\n"
