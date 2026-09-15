@@ -535,51 +535,51 @@ LilycoveCity_Harbor_Movement_SailorBoardWithBrineyEast:
 	step_end
 
 LilycoveCity_Harbor_Text_FerryUnavailable:
-	.string "I beg your pardon?\n"
-	.string "You're looking for a ship?\p"
-	.string "I'm sorry, the ferry service isn't\n"
-	.string "available at present...$"
+	.string "{JPN}えっ？ ふね ですか？\p"
+	.string "もうしわけ ございません げんざい\n"
+	.string "れんらくせんは ないんです{0xB0}{0xB0}$"
 
 LilycoveCity_Harbor_Text_MayISeeYourTicket:
-	.string "Hello, are you here for the ferry?\n"
-	.string "May I see your TICKET?$"
+	.string "{JPN}れんらくせんを ごりよう ですね!\n"
+	.string "チケットは おもち でしょうか?$"
 
 LilycoveCity_Harbor_Text_NoTicket:
-	.string "{PLAYER} doesn't have the TICKET...\p"
-	.string "I'm terribly sorry.\p"
-	.string "You must have a TICKET to board\n"
-	.string "the ferry.$"
+	.string "{JPN}{PLAYER}は\n"
+	.string "チケットを もっていない!\p"
+	.string "{0xB0}{0xB0}もうしわけ ありません!\p"
+	.string "ふねに のれるのは\n"
+	.string "チケットの ある かた だけです$"
 
 LilycoveCity_Harbor_Text_FlashTicketWhereTo:
-	.string "{PLAYER} flashed the TICKET.\p"
-	.string "Perfect! That's all you need!\p"
-	.string "And where would you like to go?$"
+	.string "{JPN}{PLAYER}は\n"
+	.string "ふねのチケットを みせた!\p"
+	.string "はい！ けっこう です！\p"
+	.string "いきさきは どちら でしょう？$"
 
 LilycoveCity_Harbor_Text_SailAnotherTime:
-	.string "Please sail with us another time!$"
+	.string "{JPN}また ごりよう ください！$"
 
 LilycoveCity_Harbor_Text_SlateportItIs:
-	.string "SLATEPORT CITY it is, then!$"
+	.string "{JPN}カイナシティ ですね！$"
 
 LilycoveCity_Harbor_Text_BattleFrontierItIs:
-	.string "BATTLE FRONTIER it is, then!$"
+	.string "{JPN}バトルフロンティア ですね！$"
 
 LilycoveCity_Harbor_Text_PleaseBoard:
-	.string "Please board the ferry and wait for\n"
-	.string "departure.$"
+	.string "{JPN}れんらくせんに のって おまちください$"
 
 LilycoveCity_Harbor_Text_WhereWouldYouLikeToGo:
-	.string "Then, where would you like to go?$"
+	.string "{JPN}いきさきは どちら でしょう？$"
 
 LilycoveCity_Harbor_Text_SailorFerryUnavailable:
-	.string "Until they finish making the ferry,\n"
-	.string "we sailors have nothing to do...\p"
-	.string "I wish they'd get a move on, the folks\n"
-	.string "at the SHIPYARD in SLATEPORT.$"
+	.string "{JPN}れんらくせんが かんせい しないと\n"
+	.string "ふなのり というものは ヒマだぜ{0xB0}{0xB0}\p"
+	.string "カイナの ぞうせんじょの れんちゅう\n"
+	.string "しゃかりきに がんばって くれよな$"
 
 LilycoveCity_Harbor_Text_SailorFerryAvailable:
-	.string "The ferry S.S. TIDAL is finally in\n"
-	.string "operation.\p"
-	.string "The folks at the SHIPYARD in SLATEPORT\n"
-	.string "must've worked extra hard.\p"
-	.string "Well, it's my turn to get busy now!$"
+	.string "{JPN}やっと れんらくせん タイドリップごうが\n"
+	.string "うんこう するように なったんだ！\p"
+	.string "カイナの ぞうせんじょの みんな\n"
+	.string "たいへん だったろうな\l"
+	.string "これからは おれが いそがしくなるぞ！$"

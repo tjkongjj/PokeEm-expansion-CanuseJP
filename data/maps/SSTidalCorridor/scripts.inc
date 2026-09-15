@@ -250,87 +250,82 @@ SSTidalCorridor_Movement_SailorReturn:
 	step_end
 
 SSTidalCorridor_Text_ScottBattleFrontierInvite:
-	.string "SCOTT: Well, hi, hi!\n"
-	.string "{PLAYER}{KUN}, {PLAYER}{KUN}!\p"
-	.string "Something's come up, so I have to\n"
-	.string "disembark, but am I glad to see you!\p"
-	.string "Congratulations, LEAGUE CHAMPION!\p"
-	.string "There's a place I'd like to invite\n"
-	.string "someone like you.\p"
-	.string "It's the...\n"
-	.string "BATTLE FRONTIER!\p"
-	.string "What's the place like?\n"
-	.string "You'll understand when you see it!\p"
-	.string "I've spoken with the ship's CAPTAIN\n"
-	.string "about this.\p"
-	.string "The next time you take a ferry,\n"
-	.string "you should be able to sail to\l"
-	.string "the BATTLE FRONTIER.\p"
-	.string "Okay, {PLAYER}{KUN}, I'll be waiting for you\n"
-	.string "at the BATTLE FRONTIER!$"
+	.string "{JPN}エニシダ『やあ やあ やあ\n"
+	.string "{PLAYER}{KUN} {PLAYER}{KUN}！\p"
+	.string "わたしは ようじが あって\n"
+	.string "もう ふねを おりるんだけど\l"
+	.string "あえて よかったよ！\p"
+	.string "リーグチャンピオン おめでとう！\n"
+	.string "そんな きみを しょうたい したい\l"
+	.string "ところが ある！\p"
+	.string "それは{0xB0}{0xB0} バトルフロンティア だ！\p"
+	.string "どんな ところかって？\n"
+	.string "とにかく きてみれば わかるよ\p"
+	.string "このふねの せんちょうには\n"
+	.string "はなしを しておいた から{0xB0}{0xB0}\l"
+	.string "つぎから ふねに のるときは\l"
+	.string "バトルフロンティアに いける はずだよ！\p"
+	.string "じゃあね {PLAYER}{KUN}\n"
+	.string "バトルフロンティアで まっているよ！$"
 
 SSTidal_Text_FastCurrentsHopeYouEnjoyVoyage:
-	.string "This ferry is built to plow through\n"
-	.string "fast-running currents.\p"
-	.string "We hope you enjoy your voyage with us.\n"
-	.string "Feel free to explore the ship.$"
+	.string "{JPN}かいりゅうを ものともせず すすむ\n"
+	.string "れんらくせんを どうぞ ごらんください$"
 
 SSTidal_Text_HopeYouEnjoyVoyage:
-	.string "We hope you enjoy your voyage on\n"
-	.string "our ferry.$"
+	.string "{JPN}それでは れんらくせんに よる\n"
+	.string "ふなたびを おたのしみ ください$"
 
 SSTidal_Text_MadeLandInSlateport:
-	.string "We have made land in SLATEPORT CITY.\n"
-	.string "Thank you for sailing with us.$"
+	.string "{JPN}おつかれさまです ただいま\n"
+	.string "カイナシティに とうちゃく しました$"
 
 SSTidal_Text_MadeLandInLilycove:
-	.string "We have made land in LILYCOVE CITY.\n"
-	.string "Thank you for sailing with us.$"
+	.string "{JPN}おつかれさまです ただいま\n"
+	.string "ミナモシティに とうちゃく しました$"
 
 SSTidalCorridor_Text_CanRestInCabin2:
-	.string "It'll be some time before we make land,\n"
-	.string "I reckon.\p"
-	.string "You can rest up in your cabin if you'd\n"
-	.string "like. Your cabin's No. 2.\p"
-	.string "The bed in there is soft and plushy.\n"
-	.string "I can attest to how comfy it is!$"
+	.string "{JPN}とうちゃくまで まだまだ だな\p"
+	.string "じぶんの へやに もどって やすんでいなよ\n"
+	.string "たしか きみの へやは\l"
+	.string "2ごうしつ だったな\p"
+	.string "あの へやの ベッドは\n"
+	.string "ふかふか していて きもちいいぞ！$"
 
 SSTidalCorridor_Text_WeveArrived:
-	.string "We've arrived!$"
+	.string "{JPN}とうちゃく したぞ！$"
 
 SSTidalCorridor_Text_VisitOtherCabins:
-	.string "Go visit other cabins.\n"
-	.string "TRAINERS bored of the boat trip will\l"
-	.string "be itching to battle.$"
+	.string "{JPN}ふなたびに あきちゃって\n"
+	.string "きゃくしつで ポケモンで しょうぶを\l"
+	.string "したがっている トレーナーも いるぞ！$"
 
 SSTidalCorridor_Text_EnjoyYourCruise:
-	.string "Enjoy your cruise!$"
+	.string "{JPN}まっ ふなたびを たのしんでくれよ$"
 
 SSTidalCorridor_Text_HorizonSpreadsBeyondPorthole:
-	.string "The horizon spreads beyond\n"
-	.string "the porthole.$"
+	.string "{JPN}まどの むこうに\n"
+	.string "すいへいせんが ひろがっている！$"
 
 SSTidalCorridor_Text_BrineyWelcomeAboard:
-	.string "MR. BRINEY: Welcome aboard, {PLAYER}{KUN}!\p"
-	.string "They made me honorary captain of\n"
-	.string "the S.S. TIDAL!\p"
-	.string "You can call me CAPTAIN BRINEY now!\p"
-	.string "You know, I retired once before,\n"
-	.string "but when I saw this majestic ship...\p"
-	.string "Let me just say, it stirred my sleeping\n"
-	.string "soul as a sailor!$"
+	.string "{JPN}ハギ『ようこそ！ {PLAYER}{KUN}！\p"
+	.string "わしが この タイドリップごうの\n"
+	.string "めいよ せんちょう ハギ じゃよ！\p"
+	.string "いやぁ いちど いんたい したが\n"
+	.string "こんな すごい ふねを みてしまうと\l"
+	.string "ふなのりの ちが さわぐのう！！$"
 
 SSTidalCorridor_Text_Peeko:
-	.string "PEEKO: Pihyo pihyohyo...$"
+	.string "{JPN}ピーコ『ピひょ ピひょひょ{0xB0}{0xB0}！$"
 
 SSTidalCorridor_Text_Cabin1:
-	.string "Cabin 1$"
+	.string "{JPN}1ごうしつ$"
 
 SSTidalCorridor_Text_Cabin2:
-	.string "Cabin 2$"
+	.string "{JPN}2ごうしつ$"
 
 SSTidalCorridor_Text_Cabin3:
-	.string "Cabin 3$"
+	.string "{JPN}3ごうしつ$"
 
 SSTidalCorridor_Text_Cabin4:
-	.string "Cabin 4$"
+	.string "{JPN}4ごうしつ$"
