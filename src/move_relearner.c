@@ -9,6 +9,7 @@
 #include "decompress.h"
 #include "event_data.h"
 #include "field_screen_effect.h"
+#include "frontier_tutor.h"
 #include "gpu_regs.h"
 #include "item.h"
 #include "move_relearner.h"
@@ -32,7 +33,6 @@
 #include "constants/rgb.h"
 #include "constants/songs.h"
 #include "data/tutor_moves.h"
-#include "data/pokemon/frontier_full_learnsets.h"
 
 // The different versions of hearts are selected using animation
 // commands.
@@ -434,6 +434,7 @@ void CB2_InitLearnMove(void)
         gTasks[sMoveRelearnerStruct->mainTask].tCategory = CONTEST_INFO;
     else
         gTasks[sMoveRelearnerStruct->mainTask].tCategory = BATTLE_INFO;
+    gMain.state = 0;
     SetMainCallback2(CB2_InitLearnMove_Basic);
 }
 
@@ -446,6 +447,7 @@ static void CB2_InitLearnMoveReturnFromSelectMove(void)
     gTasks[sMoveRelearnerStruct->mainTask].tPartyIndex = gSpecialVar_0x8008;
     gTasks[sMoveRelearnerStruct->mainTask].tMove = gSpecialVar_0x8009;
     gTasks[sMoveRelearnerStruct->mainTask].tCategory = gSpecialVar_0x800A;
+    gMain.state = 0;
     SetMainCallback2(CB2_InitLearnMove_Basic);
 }
 
@@ -524,12 +526,17 @@ static void UIPlayFanfare(u32 songId)
 
 static void UIShowMoveList(u8 taskId)
 {
-    gSpecialVar_0x8008 = gTasks[taskId].tPartyIndex;
-    gSpecialVar_0x8009 = gTasks[taskId].tMove;
-    gSpecialVar_0x800A = gTasks[taskId].tCategory;
-    ShowSelectMovePokemonSummaryScreen(gParties[B_TRAINER_PLAYER], gTasks[taskId].tPartyIndex, CB2_InitLearnMoveReturnFromSelectMove, gTasks[taskId].tMove);
-    DestroyTask(taskId);
+    u16 partyIndex = gTasks[taskId].tPartyIndex;
+    u16 move = gTasks[taskId].tMove;
+    u16 category = gTasks[taskId].tCategory;
+
+    gSpecialVar_0x8008 = partyIndex;
+    gSpecialVar_0x8009 = move;
+    gSpecialVar_0x800A = category;
+
     FreeMoveRelearnerResources();
+    DestroyTask(taskId);
+    ShowSelectMovePokemonSummaryScreen(gParties[B_TRAINER_PLAYER], partyIndex, CB2_InitLearnMoveReturnFromSelectMove, move);
 }
 
 static void UIEndTask(u8 taskId)
@@ -954,7 +961,7 @@ static u32 GetRelearnerLevelUpMoves(struct BoxPokemon *mon, u16 *moves)
     {
         const struct LevelUpMove *learnset = GetSpeciesLevelUpLearnset(species);
 
-        for (u32 i = 0; i < MAX_LEVEL_UP_MOVES && learnset[i].move != LEVEL_UP_MOVE_END; i++)
+        for (u32 i = 0; learnset[i].move != LEVEL_UP_MOVE_END && numMoves < MAX_RELEARNER_MOVES; i++)
         {
             if (learnset[i].level > level)
                 break;
@@ -973,7 +980,7 @@ static u32 GetRelearnerLevelUpMoves(struct BoxPokemon *mon, u16 *moves)
         }
 
         species = (P_PRE_EVO_MOVES ? GetSpeciesPreEvolution(species) : SPECIES_NONE);
-    } while (species != SPECIES_NONE);
+    } while (species != SPECIES_NONE && numMoves < MAX_RELEARNER_MOVES);
 
     return numMoves;
 }
@@ -990,7 +997,7 @@ static u32 GetRelearnerEggMoves(struct BoxPokemon *mon, u16 *moves)
     if (eggMoves[0] == MOVE_UNAVAILABLE)
         return 0;
 
-    for (u32 i = 0; eggMoves[i] != MOVE_UNAVAILABLE; i++)
+    for (u32 i = 0; eggMoves[i] != MOVE_UNAVAILABLE && numMoves < MAX_RELEARNER_MOVES; i++)
     {
         if (!BoxMonKnowsMove(mon, eggMoves[i]))
             moves[numMoves++] = eggMoves[i];
@@ -1004,7 +1011,7 @@ static u32 GetRelearnerTMMoves(struct BoxPokemon *mon, u16 *moves)
     enum Species species = GetBoxMonData(mon, MON_DATA_SPECIES);
     u32 numMoves = 0;
 
-    for (u32 i = 0; i < NUM_ALL_MACHINES; i++)
+    for (u32 i = 0; i < NUM_ALL_MACHINES && numMoves < MAX_RELEARNER_MOVES; i++)
     {
         enum Item item = GetTMHMItemId(i + 1);
         enum Move move = GetTMHMMoveId(i + 1);
@@ -1030,7 +1037,7 @@ static u32 GetRelearnerTutorMoves(struct BoxPokemon *mon, u16 *moves)
     enum Species species = GetBoxMonData(mon, MON_DATA_SPECIES);
     u32 numMoves = 0;
 
-    for (u32 i = 0; gTutorMoves[i] != MOVE_UNAVAILABLE; i++)
+    for (u32 i = 0; gTutorMoves[i] != MOVE_UNAVAILABLE && numMoves < MAX_RELEARNER_MOVES; i++)
     {
         enum Move move = gTutorMoves[i];
 
@@ -1047,30 +1054,49 @@ static u32 GetRelearnerTutorMoves(struct BoxPokemon *mon, u16 *moves)
 static u32 GetRelearnerFrontierFullMoves(struct BoxPokemon *mon, u16 *moves)
 {
     u16 species = GetBoxMonData(mon, MON_DATA_SPECIES);
-    const u16 *learnset;
+    const u16 *learnsets[] =
+    {
+        GetFrontierFullLearnset(species),
+        GetFrontierEventLearnset(species),
+    };
     u32 count = 0;
 
     if (species >= NUM_SPECIES)
         return 0;
 
-    learnset = sFrontierFullLearnsets[species];
-    if (learnset == NULL)
-        return count;
-
-    for (u32 i = 0; learnset[i] != MOVE_UNAVAILABLE; i++)
+    for (u32 learnsetId = 0; learnsetId < ARRAY_COUNT(learnsets); learnsetId++)
     {
-        enum Move move = learnset[i];
+        const u16 *learnset = learnsets[learnsetId];
 
-        if (move == MOVE_NONE || move == MOVE_UNAVAILABLE)
+        if (learnset == NULL)
             continue;
 
-        if (BoxMonKnowsMove(mon, move))
-            continue;
+        for (u32 i = 0; learnset[i] != MOVE_UNAVAILABLE; i++)
+        {
+            enum Move move = learnset[i];
+            bool32 alreadyListed = FALSE;
 
-        moves[count++] = move;
+            if (move == MOVE_NONE || move == MOVE_UNAVAILABLE)
+                continue;
 
-        if (count >= MAX_RELEARNER_MOVES)
-            break;
+            if (BoxMonKnowsMove(mon, move))
+                continue;
+
+            for (u32 j = 0; j < count; j++)
+            {
+                if (moves[j] == move)
+                {
+                    alreadyListed = TRUE;
+                    break;
+                }
+            }
+            if (alreadyListed)
+                continue;
+
+            moves[count++] = move;
+            if (count >= MAX_RELEARNER_MOVES)
+                return count;
+        }
     }
 
     return count;
@@ -1122,7 +1148,7 @@ static bool32 HasRelearnerLevelUpMoves(struct BoxPokemon *boxMon)
     {
         const struct LevelUpMove *learnset = GetSpeciesLevelUpLearnset(species);
 
-        for (u32 i = 0; i < MAX_LEVEL_UP_MOVES && learnset[i].move != LEVEL_UP_MOVE_END; i++)
+        for (u32 i = 0; learnset[i].move != LEVEL_UP_MOVE_END; i++)
         {
             if (learnset[i].level > level)
                 break;
@@ -1203,24 +1229,32 @@ static bool32 HasRelearnerTutorMoves(struct BoxPokemon *boxMon)
 static bool32 HasRelearnerFrontierFullMoves(struct BoxPokemon *boxMon)
 {
     u16 species = GetBoxMonData(boxMon, MON_DATA_SPECIES);
-    const u16 *learnset;
+    const u16 *learnsets[] =
+    {
+        GetFrontierFullLearnset(species),
+        GetFrontierEventLearnset(species),
+    };
 
     if (species >= NUM_SPECIES)
         return FALSE;
 
-    learnset = sFrontierFullLearnsets[species];
-    if (learnset == NULL)
-        return FALSE;
-
-    for (u32 i = 0; learnset[i] != MOVE_UNAVAILABLE; i++)
+    for (u32 learnsetId = 0; learnsetId < ARRAY_COUNT(learnsets); learnsetId++)
     {
-        enum Move move = learnset[i];
+        const u16 *learnset = learnsets[learnsetId];
 
-        if (move == MOVE_NONE || move == MOVE_UNAVAILABLE)
+        if (learnset == NULL)
             continue;
 
-        if (!BoxMonKnowsMove(boxMon, move))
-            return TRUE;
+        for (u32 i = 0; learnset[i] != MOVE_UNAVAILABLE; i++)
+        {
+            enum Move move = learnset[i];
+
+            if (move == MOVE_NONE || move == MOVE_UNAVAILABLE)
+                continue;
+
+            if (!BoxMonKnowsMove(boxMon, move))
+                return TRUE;
+        }
     }
 
     return FALSE;

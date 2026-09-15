@@ -7,6 +7,7 @@
 #include "battle_interface.h"
 #include "battle_message.h"
 #include "battle_z_move.h"
+#include "battle_gimmick_extra.h"
 #include "battle_scripts.h"
 #include "battle_stat_change.h"
 #include "graphics.h"
@@ -113,12 +114,9 @@ bool32 IsZMove(enum Move move)
 bool32 CanUseZMove(enum BattlerId battler)
 {
     enum HoldEffect holdEffect = GetBattlerHoldEffectIgnoreNegation(battler);
-    enum BattlerPosition position = GetBattlerPosition(battler);
 
     // Check if Player has Z-Power Ring.
-    if (!TESTING && (position == B_POSITION_PLAYER_LEFT
-        || (!(gBattleTypeFlags & BATTLE_TYPE_MULTI) && position == B_POSITION_PLAYER_RIGHT))
-        && !CheckBagHasItem(ITEM_Z_POWER_RING, 1))
+    if (!TESTING && BattlerIsPlayer(battler) && !CheckBagHasItem(ITEM_Z_POWER_RING, 1))
         return FALSE;
 
     // Add '| BATTLE_TYPE_FRONTIER' to below if issues occur
@@ -127,6 +125,10 @@ bool32 CanUseZMove(enum BattlerId battler)
 
     // Check if Trainer has already used a Z-Move.
     if (HasTrainerUsedGimmick(battler, GIMMICK_Z_MOVE))
+        return FALSE;
+
+    // Check if this Pokemon has already used another gimmick.
+    if (HasBattlerUsedAnyGimmick(battler))
         return FALSE;
 
     // Check if battler has another gimmick active.
@@ -181,10 +183,8 @@ bool32 IsViableZMove(enum BattlerId battler, enum Move move)
             return FALSE;
     }
 
-    enum BattlerPosition position = GetBattlerPosition(battler);
     // Check if Player has Z-Power Ring.
-    if ((position == B_POSITION_PLAYER_LEFT || (!(gBattleTypeFlags & BATTLE_TYPE_MULTI) && position == B_POSITION_PLAYER_RIGHT))
-        && !CheckBagHasItem(ITEM_Z_POWER_RING, 1))
+    if (BattlerIsPlayer(battler) && !CheckBagHasItem(ITEM_Z_POWER_RING, 1))
     {
         return FALSE;
     }

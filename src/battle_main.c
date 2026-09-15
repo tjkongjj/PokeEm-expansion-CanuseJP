@@ -6,16 +6,19 @@
 #include "battle_arena.h"
 #include "battle_controllers.h"
 #include "battle_end_turn.h"
+#include "battle_frontier.h"
 #include "battle_hold_effects.h"
 #include "battle_interface.h"
 #include "battle_main.h"
 #include "battle_message.h"
 #include "battle_pyramid.h"
+#include "battle_script_commands.h"
 #include "battle_scripts.h"
 #include "battle_setup.h"
 #include "battle_tower.h"
 #include "battle_z_move.h"
 #include "battle_gimmick.h"
+#include "battle_gimmick_extra.h"
 #include "berry.h"
 #include "bg.h"
 #include "data.h"
@@ -89,6 +92,8 @@ static void CB2_PreInitIngamePlayerPartnerBattle(void);
 static void CB2_HandleStartMultiPartnerBattle(void);
 static void CB2_HandleStartMultiBattle(void);
 static void CB2_HandleStartBattle(void);
+static void AbortIncompatibleLinkBattleStart(void);
+static void FinishIncompatibleLinkBattleAbort(void);
 static void TryCorrectJapaneseNicknameLanguage(struct Pokemon *mon);
 static enum BattleTrainer GetBattlerTrainerFromParty(struct Pokemon *party);
 static u8 CreateNPCTrainerParty(struct Pokemon *party, u16 trainerNum);
@@ -476,6 +481,7 @@ void CB2_InitBattle(void)
     if (!gTestRunnerEnabled)
         MoveSaveBlocks_ResetHeap();
     AllocateBattleResources();
+    MarkFrontierOpponentPartyGimmicks();
     AllocateBattleSpritesData();
     AllocateMonSpritesGfx();
     RecordedBattle_ClearFrontierPassFlag();
@@ -874,6 +880,27 @@ static void FindLinkBattleMaster(u8 numPlayers, u8 multiPlayerId)
     }
 }
 
+#define LINK_BATTLE_COMPAT_ABORT_STATE 0xFE
+
+static void AbortIncompatibleLinkBattleStart(void)
+{
+    gSpecialVar_Result = LINKUP_INCOMPATIBLE;
+    CloseLinkForIncompatibility();
+    gBattleCommunication[MULTIUSE_STATE] = LINK_BATTLE_COMPAT_ABORT_STATE;
+}
+
+static void FinishIncompatibleLinkBattleAbort(void)
+{
+    gScanlineEffect.state = 3;
+    gMain.inBattle = FALSE;
+    FreeMonSpritesGfx();
+    FreeBattleSpritesData();
+    FreeBattleResources();
+    FreeAllWindowBuffers();
+    ResetDynamicAiFunctions();
+    SetMainCallback2(CB2_ReturnToFieldFromLinkIncompatible);
+}
+
 static void CB2_HandleStartBattle(void)
 {
     u8 playerMultiplayerId;
@@ -907,6 +934,11 @@ static void CB2_HandleStartBattle(void)
         {
             if (gReceivedRemoteLinkPlayers)
             {
+                if (!AreAllLinkPlayersCompatible())
+                {
+                    AbortIncompatibleLinkBattleStart();
+                    break;
+                }
                 if (IsLinkTaskFinished())
                 {
                     // 0x300
@@ -1065,6 +1097,10 @@ static void CB2_HandleStartBattle(void)
                 gBattleTypeFlags |= BATTLE_TYPE_LINK_IN_BATTLE;
         }
         break;
+    case LINK_BATTLE_COMPAT_ABORT_STATE:
+        if (!gReceivedRemoteLinkPlayers)
+            FinishIncompatibleLinkBattleAbort();
+        break;
     // Introduce short delays between sending party Pokemon for link
     case 5:
     case 9:
@@ -1113,6 +1149,11 @@ static void CB2_HandleStartMultiPartnerBattle(void)
         {
             if (gReceivedRemoteLinkPlayers)
             {
+                if (!AreAllLinkPlayersCompatible())
+                {
+                    AbortIncompatibleLinkBattleStart();
+                    break;
+                }
                 u8 language;
 
                 gLinkPlayers[0].id = 0;
@@ -1360,6 +1401,10 @@ static void CB2_HandleStartMultiPartnerBattle(void)
                 gBattleTypeFlags |= BATTLE_TYPE_LINK_IN_BATTLE;
         }
         break;
+    case LINK_BATTLE_COMPAT_ABORT_STATE:
+        if (!gReceivedRemoteLinkPlayers)
+            FinishIncompatibleLinkBattleAbort();
+        break;
     }
 }
 
@@ -1553,6 +1598,11 @@ static void CB2_HandleStartMultiBattle(void)
         {
             if (gReceivedRemoteLinkPlayers)
             {
+                if (!AreAllLinkPlayersCompatible())
+                {
+                    AbortIncompatibleLinkBattleStart();
+                    break;
+                }
                 if (IsLinkTaskFinished())
                 {
                     // 0x300
@@ -1745,8 +1795,14 @@ static void CB2_HandleStartMultiBattle(void)
             }
         }
         break;
+    case LINK_BATTLE_COMPAT_ABORT_STATE:
+        if (!gReceivedRemoteLinkPlayers)
+            FinishIncompatibleLinkBattleAbort();
+        break;
     }
 }
+
+#undef LINK_BATTLE_COMPAT_ABORT_STATE
 
 void BattleMainCB2(void)
 {
@@ -3585,6 +3641,27 @@ static void DoBattleIntro(void)
             }
         }
         break;
+    case BATTLE_INTRO_STATE_FRONTIER_NICKNAME_SEND_OUT_TEXT:
+        if (TryPrepareFrontierNicknameSendOutMessage(GetBattlerAtPosition(B_POSITION_OPPONENT_LEFT)))
+            gBattleStruct->eventState.battleIntro++;
+        else
+            gBattleStruct->eventState.battleIntro += 2;
+        break;
+    case BATTLE_INTRO_STATE_WAIT_FOR_FRONTIER_NICKNAME_SEND_OUT_TEXT:
+        if (!gBattleControllerExecFlags)
+            gBattleStruct->eventState.battleIntro++;
+        break;
+    case BATTLE_INTRO_STATE_FRONTIER_NICKNAME_SEND_OUT_TEXT_2:
+        battler = GetBattlerAtPosition(B_POSITION_OPPONENT_RIGHT);
+        if (IsDoubleBattle() && TryPrepareFrontierNicknameSendOutMessage(battler))
+            gBattleStruct->eventState.battleIntro++;
+        else
+            gBattleStruct->eventState.battleIntro += 2;
+        break;
+    case BATTLE_INTRO_STATE_WAIT_FOR_FRONTIER_NICKNAME_SEND_OUT_TEXT_2:
+        if (!gBattleControllerExecFlags)
+            gBattleStruct->eventState.battleIntro++;
+        break;
     case BATTLE_INTRO_STATE_TRAINER_SEND_OUT_TEXT:
         if (gBattleTypeFlags & BATTLE_TYPE_RECORDED_LINK && !(gBattleTypeFlags & BATTLE_TYPE_RECORDED_IS_MASTER))
             PrepareStringBattle(STRINGID_INTROSENDOUT, GetBattlerAtPosition(B_POSITION_PLAYER_LEFT));
@@ -4076,6 +4153,62 @@ void SwitchPartyOrder(enum BattlerId battler)
     }
 }
 
+STATIC_ASSERT(GIMMICKS_COUNT <= 8, GimmickSelectionMaskMustFitInOneByte)
+
+static u32 GetMoveSelectionResponse(enum BattlerId battler)
+{
+    return (u32)gBattleResources->bufferB[battler][2]
+         | ((u32)gBattleResources->bufferB[battler][3] << 8)
+         | ((u32)gBattleResources->bufferB[battler][4] << 16)
+         | ((u32)gBattleResources->bufferB[battler][5] << 24);
+}
+
+static void ApplyChosenGimmickFromController(enum BattlerId battler)
+{
+    u32 response = GetMoveSelectionResponse(battler);
+    enum Gimmick gimmick = RET_GIMMICK_ID(response);
+    u8 movePosition = response & RET_MOVE_POSITION_MASK;
+
+    gBattleStruct->gimmick.playerSelect[battler] = FALSE;
+    gBattleStruct->gimmick.toActivate &= ~(1u << battler);
+
+    if (!(response & RET_GIMMICK))
+        return;
+
+    // Non-link AI, recorded battles, and the test runner historically return
+    // only the lower 16 bits. Their chosen gimmick was already validated and
+    // stored locally, so only decode the extended response in link battles.
+    if (!(gBattleTypeFlags & BATTLE_TYPE_LINK))
+    {
+        gimmick = gBattleStruct->gimmick.usableGimmick[battler];
+        if (gimmick > GIMMICK_NONE && gimmick < GIMMICKS_COUNT)
+        {
+            gBattleStruct->gimmick.toActivate |= 1u << battler;
+            return;
+        }
+        goto invalid;
+    }
+
+    if (gimmick <= GIMMICK_NONE || gimmick >= GIMMICKS_COUNT)
+        goto invalid;
+
+    // Controller data is only a selection request. The link master decides
+    // against its complete battle state before scheduling the activation.
+    if (!CanActivateGimmick(battler, gimmick))
+        goto invalid;
+    if (gimmick == GIMMICK_Z_MOVE
+     && GetUsableZMove(battler, gBattleMons[battler].moves[movePosition]) == MOVE_NONE)
+        goto invalid;
+
+    gBattleStruct->gimmick.usableGimmick[battler] = gimmick;
+    gBattleStruct->gimmick.toActivate |= 1u << battler;
+    return;
+
+invalid:
+    gBattleStruct->gimmick.usableGimmick[battler] = GIMMICK_NONE;
+    gBattleResources->bufferB[battler][2] &= ~RET_GIMMICK;
+}
+
 enum
 {
     STATE_TURN_START_RECORD,
@@ -4195,22 +4328,41 @@ static void HandleTurnActionSelectionState(void)
                     }
                     else
                     {
-                        struct ChooseMoveStruct moveInfo;
+                        struct ChooseMoveStruct moveInfo = {0};
 
                         moveInfo.zmove = gBattleStruct->zmove;
                         moveInfo.species = gBattleMons[battler].species;
                         moveInfo.monTypes[0] = gBattleMons[battler].types[0];
                         moveInfo.monTypes[1] = gBattleMons[battler].types[1];
                         moveInfo.monTypes[2] = gBattleMons[battler].types[2];
+                        for (enum BattlerId typeBattler = 0; typeBattler < MAX_BATTLERS_COUNT; typeBattler++)
+                        {
+                            moveInfo.battlerTypes[typeBattler][0] = gBattleMons[typeBattler].types[0];
+                            moveInfo.battlerTypes[typeBattler][1] = gBattleMons[typeBattler].types[1];
+                            moveInfo.battlerTypes[typeBattler][2] = gBattleMons[typeBattler].types[2];
+                        }
+                        moveInfo.usableGimmick = gBattleStruct->gimmick.usableGimmick[battler];
+                        if (gBattleTypeFlags & BATTLE_TYPE_LINK)
+                        {
+                            moveInfo.usableGimmickMask = GetUsableGimmickMask(battler);
+                            moveInfo.zmove.possibleZMoves[battler] = 0;
+                        }
 
                         for (i = 0; i < MAX_MON_MOVES; i++)
                         {
                             moveInfo.moves[i] = gBattleMons[battler].moves[i];
+                            if ((gBattleTypeFlags & BATTLE_TYPE_LINK)
+                             && (moveInfo.usableGimmickMask & (1u << GIMMICK_Z_MOVE)))
+                                moveInfo.zMoves[i] = GetUsableZMove(battler, moveInfo.moves[i]);
                             moveInfo.currentPP[i] = gBattleMons[battler].pp[i];
                             moveInfo.maxPP[i] = CalculatePPWithBonus(
                                                             gBattleMons[battler].moves[i],
                                                             gBattleMons[battler].ppBonuses,
                                                             i);
+                            if ((gBattleTypeFlags & BATTLE_TYPE_LINK)
+                             && moveInfo.zMoves[i] != MOVE_NONE
+                             && moveInfo.currentPP[i] != 0)
+                                moveInfo.zmove.possibleZMoves[battler] |= 1u << i;
                         }
 
                         BtlController_EmitChooseMove(battler, B_COMM_TO_CONTROLLER, IsDoubleBattle() != 0, FALSE, &moveInfo);
@@ -4400,6 +4552,8 @@ static void HandleTurnActionSelectionState(void)
                         return;
                     default:
                         RecordedBattle_CheckMovesetChanges(B_RECORD_MODE_PLAYBACK);
+                        if ((gBattleResources->bufferB[battler][2] | (gBattleResources->bufferB[battler][3] << 8)) != 0xFFFF)
+                            ApplyChosenGimmickFromController(battler);
                         if ((gBattleResources->bufferB[battler][2] | (gBattleResources->bufferB[battler][3] << 8)) == 0xFFFF)
                         {
                             gBattleCommunication[battler] = STATE_BEFORE_ACTION_CHOSEN;
@@ -4430,10 +4584,6 @@ static void HandleTurnActionSelectionState(void)
                                 gProtectStructs[battler].myceliumMight = TRUE;
                             if (GetBattlerHoldEffect(battler) == HOLD_EFFECT_LAGGING_TAIL)
                                 gProtectStructs[battler].laggingTail = TRUE;
-
-                            // Check to see if any gimmicks need to be prepared.
-                            if (gBattleResources->bufferB[battler][2] & RET_GIMMICK)
-                                gBattleStruct->gimmick.toActivate |= 1u << battler;
 
                             // Max Move check
                             if (GetActiveGimmick(battler) == GIMMICK_DYNAMAX || IsGimmickSelected(battler, GIMMICK_DYNAMAX))
@@ -5106,6 +5256,8 @@ static bool32 TryActivateGimmick(enum BattlerId battler)
     {
         gBattlerAttacker = gBattleScripting.battler = battler;
         gBattleStruct->gimmick.toActivate &= ~(1u << battler);
+        if (!CanUseSelectedGimmickWithMove(battler, gChosenMoveByBattler[battler]))
+            return FALSE;
         if (gGimmicksInfo[gBattleStruct->gimmick.usableGimmick[battler]].ActivateGimmick != NULL)
         {
             gGimmicksInfo[gBattleStruct->gimmick.usableGimmick[battler]].ActivateGimmick(battler);

@@ -2,7 +2,7 @@
   "map_sections": [
     {
       "id": "MAPSEC_LITTLEROOT_TOWN",
-      "name": "{JPN}ミシロタウン",
+      "name": "ミシロタウン",
       "x": 4,
       "y": 11,
       "width": 1,
@@ -10,7 +10,7 @@
     },
     {
       "id": "MAPSEC_OLDALE_TOWN",
-      "name": "{JPN}コトキタウン",
+      "name": "コトキタウン",
       "x": 4,
       "y": 9,
       "width": 1,
@@ -18,7 +18,7 @@
     },
     {
       "id": "MAPSEC_DEWFORD_TOWN",
-      "name": "{JPN}ムロタウン",
+      "name": "ムロタウン",
       "x": 2,
       "y": 14,
       "width": 1,
@@ -26,7 +26,7 @@
     },
     {
       "id": "MAPSEC_LAVARIDGE_TOWN",
-      "name": "{JPN}フエンタウン",
+      "name": "フエンタウン",
       "x": 5,
       "y": 3,
       "width": 1,
@@ -34,7 +34,7 @@
     },
     {
       "id": "MAPSEC_FALLARBOR_TOWN",
-      "name": "{JPN}ハジツゲタウン",
+      "name": "ハジツゲタウン",
       "x": 3,
       "y": 0,
       "width": 1,
@@ -42,7 +42,7 @@
     },
     {
       "id": "MAPSEC_VERDANTURF_TOWN",
-      "name": "{JPN}シダケタウン",
+      "name": "シダケタウン",
       "x": 4,
       "y": 6,
       "width": 1,
@@ -50,7 +50,7 @@
     },
     {
       "id": "MAPSEC_PACIFIDLOG_TOWN",
-      "name": "{JPN}キナギタウン",
+      "name": "キナギタウン",
       "x": 17,
       "y": 10,
       "width": 1,
@@ -58,7 +58,7 @@
     },
     {
       "id": "MAPSEC_PETALBURG_CITY",
-      "name": "{JPN}トウカシティ",
+      "name": "トウカシティ",
       "x": 1,
       "y": 9,
       "width": 1,
@@ -66,7 +66,7 @@
     },
     {
       "id": "MAPSEC_SLATEPORT_CITY",
-      "name": "{JPN}カイナシティ",
+      "name": "カイナシティ",
       "x": 8,
       "y": 10,
       "width": 1,
@@ -74,7 +74,7 @@
     },
     {
       "id": "MAPSEC_MAUVILLE_CITY",
-      "name": "{JPN}キンセツシティ",
+      "name": "キンセツシティ",
       "x": 8,
       "y": 6,
       "width": 2,
@@ -82,7 +82,7 @@
     },
     {
       "id": "MAPSEC_RUSTBORO_CITY",
-      "name": "{JPN}カナズミシティ",
+      "name": "カナズミシティ",
       "x": 0,
       "y": 5,
       "width": 1,
@@ -90,7 +90,7 @@
     },
     {
       "id": "MAPSEC_FORTREE_CITY",
-      "name": "{JPN}ヒワマキシティ",
+      "name": "ヒワマキシティ",
       "x": 12,
       "y": 0,
       "width": 1,
@@ -98,7 +98,7 @@
     },
     {
       "id": "MAPSEC_LILYCOVE_CITY",
-      "name": "{JPN}ミナモシティ",
+      "name": "ミナモシティ",
       "x": 18,
       "y": 3,
       "width": 2,
@@ -106,7 +106,7 @@
     },
     {
       "id": "MAPSEC_MOSSDEEP_CITY",
-      "name": "{JPN}トクサネシティ",
+      "name": "なぞのばしょ",
       "x": 24,
       "y": 5,
       "width": 2,
@@ -114,7 +114,7 @@
     },
     {
       "id": "MAPSEC_SOOTOPOLIS_CITY",
-      "name": "{JPN}ルネシティ",
+      "name": "ルネシティ",
       "x": 21,
       "y": 7,
       "width": 1,
@@ -122,7 +122,7 @@
     },
     {
       "id": "MAPSEC_EVER_GRANDE_CITY",
-      "name": "{JPN}サイユウシティ",
+      "name": "サイユウシティ",
       "x": 27,
       "y": 8,
       "width": 1,
@@ -130,7 +130,7 @@
     },
     {
       "id": "MAPSEC_ROUTE_101",
-      "name": "{JPN}101ばん どうろ",
+      "name": "101ばん どうろ",
       "x": 4,
       "y": 10,
       "width": 1,
@@ -138,7 +138,7 @@
     },
     {
       "id": "MAPSEC_ROUTE_102",
-      "name": "{JPN}102ばん どうろ",
+      "name": "102ばん どうろ",
       "x": 2,
       "y": 9,
       "width": 2,
@@ -146,7 +146,7 @@
     },
     {
       "id": "MAPSEC_ROUTE_103",
-      "name": "{JPN}103ばん どうろ",
+      "name": "103ばん どうろ",
       "x": 4,
       "y": 8,
       "width": 4,
@@ -154,7 +154,7 @@
     },
     {
       "id": "MAPSEC_ROUTE_104",
-      "name": "{JPN}104ばん どうろ",
+      "name": "104ばん どうろ",
       "x": 0,
       "y": 7,
       "width": 1,
@@ -162,7 +162,7 @@
     },
     {
       "id": "MAPSEC_ROUTE_105",
-      "name": "{JPN}105ばん すいどう",
+      "name": "105ばん すいどう",
       "x": 0,
       "y": 10,
       "width": 1,
@@ -170,7 +170,7 @@
     },
     {
       "id": "MAPSEC_ROUTE_106",
-      "name": "{JPN}106ばん すいどう",
+      "name": "106ばん すいどう",
       "x": 0,
       "y": 13,
       "width": 2,
@@ -178,7 +178,7 @@
     },
     {
       "id": "MAPSEC_ROUTE_107",
-      "name": "{JPN}107ばん すいどう",
+      "name": "107ばん すいどう",
       "x": 3,
       "y": 14,
       "width": 3,
@@ -186,7 +186,7 @@
     },
     {
       "id": "MAPSEC_ROUTE_108",
-      "name": "{JPN}108ばん すいどう",
+      "name": "108ばん すいどう",
       "x": 6,
       "y": 14,
       "width": 2,
@@ -194,7 +194,7 @@
     },
     {
       "id": "MAPSEC_ROUTE_109",
-      "name": "{JPN}109ばん すいどう",
+      "name": "109ばん すいどう",
       "x": 8,
       "y": 12,
       "width": 1,
@@ -202,7 +202,7 @@
     },
     {
       "id": "MAPSEC_ROUTE_110",
-      "name": "{JPN}110ばん どうろ",
+      "name": "110ばん どうろ",
       "x": 8,
       "y": 7,
       "width": 1,
@@ -210,7 +210,7 @@
     },
     {
       "id": "MAPSEC_ROUTE_111",
-      "name": "{JPN}111ばん どうろ",
+      "name": "111ばん どうろ",
       "x": 8,
       "y": 0,
       "width": 1,
@@ -218,7 +218,7 @@
     },
     {
       "id": "MAPSEC_ROUTE_112",
-      "name": "{JPN}112ばん どうろ",
+      "name": "112ばん どうろ",
       "x": 6,
       "y": 3,
       "width": 2,
@@ -226,7 +226,7 @@
     },
     {
       "id": "MAPSEC_ROUTE_113",
-      "name": "{JPN}113ばん どうろ",
+      "name": "113ばん どうろ",
       "x": 4,
       "y": 0,
       "width": 4,
@@ -234,7 +234,7 @@
     },
     {
       "id": "MAPSEC_ROUTE_114",
-      "name": "{JPN}114ばん どうろ",
+      "name": "114ばん どうろ",
       "x": 1,
       "y": 0,
       "width": 2,
@@ -242,7 +242,7 @@
     },
     {
       "id": "MAPSEC_ROUTE_115",
-      "name": "{JPN}115ばん どうろ",
+      "name": "115ばん どうろ",
       "x": 0,
       "y": 2,
       "width": 1,
@@ -250,7 +250,7 @@
     },
     {
       "id": "MAPSEC_ROUTE_116",
-      "name": "{JPN}116ばん どうろ",
+      "name": "116ばん どうろ",
       "x": 1,
       "y": 5,
       "width": 4,
@@ -258,7 +258,7 @@
     },
     {
       "id": "MAPSEC_ROUTE_117",
-      "name": "{JPN}117ばん どうろ",
+      "name": "117ばん どうろ",
       "x": 5,
       "y": 6,
       "width": 3,
@@ -266,7 +266,7 @@
     },
     {
       "id": "MAPSEC_ROUTE_118",
-      "name": "{JPN}118ばん どうろ",
+      "name": "118ばん どうろ",
       "x": 10,
       "y": 6,
       "width": 2,
@@ -274,7 +274,7 @@
     },
     {
       "id": "MAPSEC_ROUTE_119",
-      "name": "{JPN}119ばん どうろ",
+      "name": "119ばん どうろ",
       "x": 11,
       "y": 0,
       "width": 1,
@@ -282,7 +282,7 @@
     },
     {
       "id": "MAPSEC_ROUTE_120",
-      "name": "{JPN}120ばん どうろ",
+      "name": "120ばん どうろ",
       "x": 13,
       "y": 0,
       "width": 1,
@@ -290,7 +290,7 @@
     },
     {
       "id": "MAPSEC_ROUTE_121",
-      "name": "{JPN}121ばん どうろ",
+      "name": "121ばん どうろ",
       "x": 14,
       "y": 3,
       "width": 4,
@@ -298,7 +298,7 @@
     },
     {
       "id": "MAPSEC_ROUTE_122",
-      "name": "{JPN}122ばん すいどう",
+      "name": "122ばん すいどう",
       "x": 16,
       "y": 4,
       "width": 1,
@@ -306,7 +306,7 @@
     },
     {
       "id": "MAPSEC_ROUTE_123",
-      "name": "{JPN}123ばん どうろ",
+      "name": "123ばん どうろ",
       "x": 12,
       "y": 6,
       "width": 5,
@@ -314,7 +314,7 @@
     },
     {
       "id": "MAPSEC_ROUTE_124",
-      "name": "{JPN}124ばん すいどう",
+      "name": "124ばん すいどう",
       "x": 20,
       "y": 3,
       "width": 4,
@@ -322,7 +322,7 @@
     },
     {
       "id": "MAPSEC_ROUTE_125",
-      "name": "{JPN}125ばん すいどう",
+      "name": "125ばん すいどう",
       "x": 24,
       "y": 3,
       "width": 2,
@@ -330,7 +330,7 @@
     },
     {
       "id": "MAPSEC_ROUTE_126",
-      "name": "{JPN}126ばん すいどう",
+      "name": "126ばん すいどう",
       "x": 20,
       "y": 6,
       "width": 3,
@@ -338,7 +338,7 @@
     },
     {
       "id": "MAPSEC_ROUTE_127",
-      "name": "{JPN}127ばん すいどう",
+      "name": "127ばん すいどう",
       "x": 23,
       "y": 6,
       "width": 3,
@@ -346,7 +346,7 @@
     },
     {
       "id": "MAPSEC_ROUTE_128",
-      "name": "{JPN}128ばん すいどう",
+      "name": "128ばん すいどう",
       "x": 23,
       "y": 9,
       "width": 4,
@@ -354,7 +354,7 @@
     },
     {
       "id": "MAPSEC_ROUTE_129",
-      "name": "{JPN}129ばん すいどう",
+      "name": "129ばん すいどう",
       "x": 24,
       "y": 10,
       "width": 2,
@@ -362,7 +362,7 @@
     },
     {
       "id": "MAPSEC_ROUTE_130",
-      "name": "{JPN}130ばん すいどう",
+      "name": "130ばん すいどう",
       "x": 21,
       "y": 10,
       "width": 3,
@@ -370,7 +370,7 @@
     },
     {
       "id": "MAPSEC_ROUTE_131",
-      "name": "{JPN}131ばん すいどう",
+      "name": "131ばん すいどう",
       "x": 18,
       "y": 10,
       "width": 3,
@@ -378,7 +378,7 @@
     },
     {
       "id": "MAPSEC_ROUTE_132",
-      "name": "{JPN}132ばん すいどう",
+      "name": "132ばん すいどう",
       "x": 15,
       "y": 10,
       "width": 2,
@@ -386,7 +386,7 @@
     },
     {
       "id": "MAPSEC_ROUTE_133",
-      "name": "{JPN}133ばん すいどう",
+      "name": "133ばん すいどう",
       "x": 12,
       "y": 10,
       "width": 3,
@@ -394,7 +394,7 @@
     },
     {
       "id": "MAPSEC_ROUTE_134",
-      "name": "{JPN}134ばん すいどう",
+      "name": "134ばん すいどう",
       "x": 9,
       "y": 10,
       "width": 3,
@@ -402,7 +402,7 @@
     },
     {
       "id": "MAPSEC_UNDERWATER_124",
-      "name": "{JPN}すいちゅう",
+      "name": "すいちゅう",
       "x": 20,
       "y": 3,
       "width": 4,
@@ -410,7 +410,7 @@
     },
     {
       "id": "MAPSEC_UNDERWATER_126",
-      "name": "{JPN}すいちゅう",
+      "name": "すいちゅう",
       "x": 20,
       "y": 6,
       "width": 3,
@@ -418,7 +418,7 @@
     },
     {
       "id": "MAPSEC_UNDERWATER_127",
-      "name": "{JPN}すいちゅう",
+      "name": "すいちゅう",
       "x": 23,
       "y": 6,
       "width": 3,
@@ -426,7 +426,7 @@
     },
     {
       "id": "MAPSEC_UNDERWATER_128",
-      "name": "{JPN}すいちゅう",
+      "name": "すいちゅう",
       "x": 23,
       "y": 9,
       "width": 4,
@@ -434,7 +434,7 @@
     },
     {
       "id": "MAPSEC_UNDERWATER_SOOTOPOLIS",
-      "name": "{JPN}すいちゅう",
+      "name": "すいちゅう",
       "x": 21,
       "y": 7,
       "width": 1,
@@ -442,7 +442,7 @@
     },
     {
       "id": "MAPSEC_GRANITE_CAVE",
-      "name": "{JPN}いしのどうくつ",
+      "name": "いしのどうくつ",
       "x": 1,
       "y": 13,
       "width": 1,
@@ -450,7 +450,7 @@
     },
     {
       "id": "MAPSEC_MT_CHIMNEY",
-      "name": "{JPN}えんとつやま",
+      "name": "えんとつやま",
       "x": 6,
       "y": 2,
       "width": 1,
@@ -458,7 +458,7 @@
     },
     {
       "id": "MAPSEC_SAFARI_ZONE",
-      "name": "{JPN}サファリゾーン",
+      "name": "サファリゾーン",
       "x": 16,
       "y": 2,
       "width": 1,
@@ -466,7 +466,7 @@
     },
     {
       "id": "MAPSEC_BATTLE_FRONTIER",
-      "name": "{JPN}バトルフロンティア",
+      "name": "バトルフロンティア",
       "x": 22,
       "y": 12,
       "width": 1,
@@ -474,7 +474,7 @@
     },
     {
       "id": "MAPSEC_PETALBURG_WOODS",
-      "name": "{JPN}トウカのもり",
+      "name": "トウカのもり",
       "x": 0,
       "y": 8,
       "width": 1,
@@ -482,7 +482,7 @@
     },
     {
       "id": "MAPSEC_RUSTURF_TUNNEL",
-      "name": "{JPN}カナシダトンネル",
+      "name": "カナシダトンネル",
       "x": 2,
       "y": 5,
       "width": 1,
@@ -490,7 +490,7 @@
     },
     {
       "id": "MAPSEC_ABANDONED_SHIP",
-      "name": "{JPN}すてられぶね",
+      "name": "すてられぶね",
       "x": 6,
       "y": 14,
       "width": 1,
@@ -498,7 +498,7 @@
     },
     {
       "id": "MAPSEC_NEW_MAUVILLE",
-      "name": "{JPN}ニューキンセツ",
+      "name": "ニューキンセツ",
       "x": 8,
       "y": 7,
       "width": 1,
@@ -506,7 +506,7 @@
     },
     {
       "id": "MAPSEC_METEOR_FALLS",
-      "name": "{JPN}りゅうせいのたき",
+      "name": "りゅうせいのたき",
       "x": 0,
       "y": 3,
       "width": 1,
@@ -514,7 +514,7 @@
     },
     {
       "id": "MAPSEC_METEOR_FALLS2",
-      "name": "{JPN}METEOR FALLS",
+      "name": "METEOR FALLS",
       "x": 1,
       "y": 2,
       "width": 1,
@@ -522,7 +522,7 @@
     },
     {
       "id": "MAPSEC_MT_PYRE",
-      "name": "{JPN}おくりびやま",
+      "name": "おくりびやま",
       "x": 16,
       "y": 4,
       "width": 1,
@@ -530,7 +530,7 @@
     },
     {
       "id": "MAPSEC_AQUA_HIDEOUT_OLD",
-      "name": "{JPN}{AQUA} HIDEOUT",
+      "name": "{AQUA} HIDEOUT",
       "x": 19,
       "y": 3,
       "width": 1,
@@ -538,7 +538,7 @@
     },
     {
       "id": "MAPSEC_SHOAL_CAVE",
-      "name": "{JPN}あさせのほらあな",
+      "name": "あさせのほらあな",
       "x": 24,
       "y": 4,
       "width": 1,
@@ -546,7 +546,7 @@
     },
     {
       "id": "MAPSEC_SEAFLOOR_CAVERN",
-      "name": "{JPN}かいていどうくつ",
+      "name": "かいていどうくつ",
       "x": 24,
       "y": 9,
       "width": 1,
@@ -554,7 +554,7 @@
     },
     {
       "id": "MAPSEC_UNDERWATER_SEAFLOOR_CAVERN",
-      "name": "{JPN}すいちゅう",
+      "name": "すいちゅう",
       "x": 24,
       "y": 9,
       "width": 1,
@@ -562,7 +562,7 @@
     },
     {
       "id": "MAPSEC_VICTORY_ROAD",
-      "name": "{JPN}チャンピオンロード",
+      "name": "チャンピオンロード",
       "x": 27,
       "y": 9,
       "width": 1,
@@ -570,7 +570,7 @@
     },
     {
       "id": "MAPSEC_MIRAGE_ISLAND",
-      "name": "{JPN}MIRAGE ISLAND",
+      "name": "MIRAGE ISLAND",
       "x": 17,
       "y": 10,
       "width": 1,
@@ -578,7 +578,7 @@
     },
     {
       "id": "MAPSEC_CAVE_OF_ORIGIN",
-      "name": "{JPN}めざめのほこら",
+      "name": "めざめのほこら",
       "x": 21,
       "y": 7,
       "width": 1,
@@ -586,7 +586,7 @@
     },
     {
       "id": "MAPSEC_SOUTHERN_ISLAND",
-      "name": "{JPN}みなみのことう",
+      "name": "みなみのことう",
       "x": 12,
       "y": 14,
       "width": 1,
@@ -594,7 +594,7 @@
     },
     {
       "id": "MAPSEC_FIERY_PATH",
-      "name": "{JPN}ほのおのぬけみち",
+      "name": "ほのおのぬけみち",
       "x": 6,
       "y": 3,
       "width": 1,
@@ -602,7 +602,7 @@
     },
     {
       "id": "MAPSEC_FIERY_PATH2",
-      "name": "{JPN}FIERY PATH",
+      "name": "FIERY PATH",
       "x": 7,
       "y": 3,
       "width": 1,
@@ -610,7 +610,7 @@
     },
     {
       "id": "MAPSEC_JAGGED_PASS",
-      "name": "{JPN}デコボコさんどう",
+      "name": "デコボコさんどう",
       "x": 6,
       "y": 3,
       "width": 1,
@@ -618,7 +618,7 @@
     },
     {
       "id": "MAPSEC_JAGGED_PASS2",
-      "name": "{JPN}JAGGED PASS",
+      "name": "JAGGED PASS",
       "x": 7,
       "y": 2,
       "width": 1,
@@ -626,7 +626,7 @@
     },
     {
       "id": "MAPSEC_SEALED_CHAMBER",
-      "name": "{JPN}おふれのいせき",
+      "name": "おふれのいせき",
       "x": 11,
       "y": 10,
       "width": 1,
@@ -634,7 +634,7 @@
     },
     {
       "id": "MAPSEC_UNDERWATER_SEALED_CHAMBER",
-      "name": "{JPN}すいちゅう",
+      "name": "すいちゅう",
       "x": 11,
       "y": 10,
       "width": 1,
@@ -642,7 +642,7 @@
     },
     {
       "id": "MAPSEC_SCORCHED_SLAB",
-      "name": "{JPN}ひでりのいわと",
+      "name": "ひでりのいわと",
       "x": 13,
       "y": 0,
       "width": 1,
@@ -650,7 +650,7 @@
     },
     {
       "id": "MAPSEC_ISLAND_CAVE",
-      "name": "{JPN}こじまのよこあな",
+      "name": "こじまのよこあな",
       "x": 0,
       "y": 10,
       "width": 1,
@@ -658,7 +658,7 @@
     },
     {
       "id": "MAPSEC_DESERT_RUINS",
-      "name": "{JPN}さばくいせき",
+      "name": "さばくいせき",
       "x": 8,
       "y": 3,
       "width": 1,
@@ -666,7 +666,7 @@
     },
     {
       "id": "MAPSEC_ANCIENT_TOMB",
-      "name": "{JPN}こだいづか",
+      "name": "こだいづか",
       "x": 13,
       "y": 2,
       "width": 1,
@@ -674,11 +674,11 @@
     },
     {
       "id": "MAPSEC_INSIDE_OF_TRUCK",
-      "name": "{JPN}トラックのなか"
+      "name": "トラックのなか"
     },
     {
       "id": "MAPSEC_SKY_PILLAR",
-      "name": "{JPN}そらのはしら",
+      "name": "そらのはしら",
       "x": 19,
       "y": 10,
       "width": 1,
@@ -686,14 +686,14 @@
     },
     {
       "id": "MAPSEC_SECRET_BASE",
-      "name": "{JPN}ひみつきち"
+      "name": "ひみつきち"
     },
     {
       "id": "MAPSEC_DYNAMIC"
     },
     {
       "id": "MAPSEC_PALLET_TOWN",
-      "name": "{JPN}PALLET TOWN",
+      "name": "PALLET TOWN",
       "x": 4,
       "y": 11,
       "width": 1,
@@ -701,7 +701,7 @@
     },
     {
       "id": "MAPSEC_VIRIDIAN_CITY",
-      "name": "{JPN}VIRIDIAN CITY",
+      "name": "VIRIDIAN CITY",
       "x": 4,
       "y": 8,
       "width": 1,
@@ -709,7 +709,7 @@
     },
     {
       "id": "MAPSEC_PEWTER_CITY",
-      "name": "{JPN}PEWTER CITY",
+      "name": "PEWTER CITY",
       "x": 4,
       "y": 4,
       "width": 1,
@@ -717,7 +717,7 @@
     },
     {
       "id": "MAPSEC_CERULEAN_CITY",
-      "name": "{JPN}CERULEAN CITY",
+      "name": "CERULEAN CITY",
       "x": 14,
       "y": 3,
       "width": 1,
@@ -725,7 +725,7 @@
     },
     {
       "id": "MAPSEC_LAVENDER_TOWN",
-      "name": "{JPN}LAVENDER TOWN",
+      "name": "LAVENDER TOWN",
       "x": 18,
       "y": 6,
       "width": 1,
@@ -733,7 +733,7 @@
     },
     {
       "id": "MAPSEC_VERMILION_CITY",
-      "name": "{JPN}VERMILION CITY",
+      "name": "VERMILION CITY",
       "x": 14,
       "y": 9,
       "width": 1,
@@ -741,7 +741,7 @@
     },
     {
       "id": "MAPSEC_CELADON_CITY",
-      "name": "{JPN}CELADON CITY",
+      "name": "CELADON CITY",
       "x": 11,
       "y": 6,
       "width": 1,
@@ -749,7 +749,7 @@
     },
     {
       "id": "MAPSEC_FUCHSIA_CITY",
-      "name": "{JPN}FUCHSIA CITY",
+      "name": "FUCHSIA CITY",
       "x": 12,
       "y": 12,
       "width": 1,
@@ -757,7 +757,7 @@
     },
     {
       "id": "MAPSEC_CINNABAR_ISLAND",
-      "name": "{JPN}CINNABAR ISLAND",
+      "name": "CINNABAR ISLAND",
       "x": 4,
       "y": 14,
       "width": 1,
@@ -765,7 +765,7 @@
     },
     {
       "id": "MAPSEC_INDIGO_PLATEAU",
-      "name": "{JPN}INDIGO PLATEAU",
+      "name": "INDIGO PLATEAU",
       "x": 2,
       "y": 3,
       "width": 1,
@@ -773,7 +773,7 @@
     },
     {
       "id": "MAPSEC_SAFFRON_CITY",
-      "name": "{JPN}SAFFRON CITY",
+      "name": "SAFFRON CITY",
       "x": 14,
       "y": 6,
       "width": 1,
@@ -781,7 +781,7 @@
     },
     {
       "id": "MAPSEC_ROUTE_4_POKECENTER",
-      "name": "{JPN}ROUTE 4",
+      "name": "ROUTE 4",
       "x": 8,
       "y": 3,
       "width": 1,
@@ -789,7 +789,7 @@
     },
     {
       "id": "MAPSEC_ROUTE_10_POKECENTER",
-      "name": "{JPN}ROUTE 10",
+      "name": "ROUTE 10",
       "x": 18,
       "y": 3,
       "width": 1,
@@ -797,7 +797,7 @@
     },
     {
       "id": "MAPSEC_ROUTE_1",
-      "name": "{JPN}ROUTE 1",
+      "name": "ROUTE 1",
       "x": 4,
       "y": 9,
       "width": 1,
@@ -805,7 +805,7 @@
     },
     {
       "id": "MAPSEC_ROUTE_2",
-      "name": "{JPN}ROUTE 2",
+      "name": "ROUTE 2",
       "x": 4,
       "y": 5,
       "width": 1,
@@ -813,7 +813,7 @@
     },
     {
       "id": "MAPSEC_ROUTE_3",
-      "name": "{JPN}ROUTE 3",
+      "name": "ROUTE 3",
       "x": 5,
       "y": 4,
       "width": 4,
@@ -821,7 +821,7 @@
     },
     {
       "id": "MAPSEC_ROUTE_4",
-      "name": "{JPN}ROUTE 4",
+      "name": "ROUTE 4",
       "x": 8,
       "y": 3,
       "width": 6,
@@ -829,7 +829,7 @@
     },
     {
       "id": "MAPSEC_ROUTE_5",
-      "name": "{JPN}ROUTE 5",
+      "name": "ROUTE 5",
       "x": 14,
       "y": 4,
       "width": 1,
@@ -837,7 +837,7 @@
     },
     {
       "id": "MAPSEC_ROUTE_6",
-      "name": "{JPN}ROUTE 6",
+      "name": "ROUTE 6",
       "x": 14,
       "y": 7,
       "width": 1,
@@ -845,7 +845,7 @@
     },
     {
       "id": "MAPSEC_ROUTE_7",
-      "name": "{JPN}ROUTE 7",
+      "name": "ROUTE 7",
       "x": 12,
       "y": 6,
       "width": 2,
@@ -853,7 +853,7 @@
     },
     {
       "id": "MAPSEC_ROUTE_8",
-      "name": "{JPN}ROUTE 8",
+      "name": "ROUTE 8",
       "x": 15,
       "y": 6,
       "width": 3,
@@ -861,7 +861,7 @@
     },
     {
       "id": "MAPSEC_ROUTE_9",
-      "name": "{JPN}ROUTE 9",
+      "name": "ROUTE 9",
       "x": 15,
       "y": 3,
       "width": 3,
@@ -869,7 +869,7 @@
     },
     {
       "id": "MAPSEC_ROUTE_10",
-      "name": "{JPN}ROUTE 10",
+      "name": "ROUTE 10",
       "x": 18,
       "y": 3,
       "width": 1,
@@ -877,7 +877,7 @@
     },
     {
       "id": "MAPSEC_ROUTE_11",
-      "name": "{JPN}ROUTE 11",
+      "name": "ROUTE 11",
       "x": 15,
       "y": 9,
       "width": 3,
@@ -885,7 +885,7 @@
     },
     {
       "id": "MAPSEC_ROUTE_12",
-      "name": "{JPN}ROUTE 12",
+      "name": "ROUTE 12",
       "x": 18,
       "y": 7,
       "width": 1,
@@ -893,7 +893,7 @@
     },
     {
       "id": "MAPSEC_ROUTE_13",
-      "name": "{JPN}ROUTE 13",
+      "name": "ROUTE 13",
       "x": 16,
       "y": 11,
       "width": 2,
@@ -901,7 +901,7 @@
     },
     {
       "id": "MAPSEC_ROUTE_14",
-      "name": "{JPN}ROUTE 14",
+      "name": "ROUTE 14",
       "x": 15,
       "y": 11,
       "width": 1,
@@ -909,7 +909,7 @@
     },
     {
       "id": "MAPSEC_ROUTE_15",
-      "name": "{JPN}ROUTE 15",
+      "name": "ROUTE 15",
       "x": 13,
       "y": 12,
       "width": 2,
@@ -917,7 +917,7 @@
     },
     {
       "id": "MAPSEC_ROUTE_16",
-      "name": "{JPN}ROUTE 16",
+      "name": "ROUTE 16",
       "x": 7,
       "y": 6,
       "width": 4,
@@ -925,7 +925,7 @@
     },
     {
       "id": "MAPSEC_ROUTE_17",
-      "name": "{JPN}ROUTE 17",
+      "name": "ROUTE 17",
       "x": 7,
       "y": 7,
       "width": 1,
@@ -933,7 +933,7 @@
     },
     {
       "id": "MAPSEC_ROUTE_18",
-      "name": "{JPN}ROUTE 18",
+      "name": "ROUTE 18",
       "x": 7,
       "y": 12,
       "width": 5,
@@ -941,7 +941,7 @@
     },
     {
       "id": "MAPSEC_ROUTE_19",
-      "name": "{JPN}ROUTE 19",
+      "name": "ROUTE 19",
       "x": 12,
       "y": 13,
       "width": 1,
@@ -949,7 +949,7 @@
     },
     {
       "id": "MAPSEC_ROUTE_20",
-      "name": "{JPN}ROUTE 20",
+      "name": "ROUTE 20",
       "x": 5,
       "y": 14,
       "width": 7,
@@ -957,7 +957,7 @@
     },
     {
       "id": "MAPSEC_ROUTE_21",
-      "name": "{JPN}ROUTE 21",
+      "name": "ROUTE 21",
       "x": 4,
       "y": 12,
       "width": 1,
@@ -965,7 +965,7 @@
     },
     {
       "id": "MAPSEC_ROUTE_22",
-      "name": "{JPN}ROUTE 22",
+      "name": "ROUTE 22",
       "x": 2,
       "y": 8,
       "width": 2,
@@ -973,7 +973,7 @@
     },
     {
       "id": "MAPSEC_ROUTE_23",
-      "name": "{JPN}ROUTE 23",
+      "name": "ROUTE 23",
       "x": 2,
       "y": 4,
       "width": 1,
@@ -981,7 +981,7 @@
     },
     {
       "id": "MAPSEC_ROUTE_24",
-      "name": "{JPN}ROUTE 24",
+      "name": "ROUTE 24",
       "x": 14,
       "y": 1,
       "width": 1,
@@ -989,7 +989,7 @@
     },
     {
       "id": "MAPSEC_ROUTE_25",
-      "name": "{JPN}ROUTE 25",
+      "name": "ROUTE 25",
       "x": 15,
       "y": 1,
       "width": 2,
@@ -997,7 +997,7 @@
     },
     {
       "id": "MAPSEC_VIRIDIAN_FOREST",
-      "name": "{JPN}VIRIDIAN FOREST",
+      "name": "VIRIDIAN FOREST",
       "x": 4,
       "y": 6,
       "width": 1,
@@ -1005,7 +1005,7 @@
     },
     {
       "id": "MAPSEC_MT_MOON",
-      "name": "{JPN}MT. MOON",
+      "name": "MT. MOON",
       "x": 9,
       "y": 3,
       "width": 1,
@@ -1013,7 +1013,7 @@
     },
     {
       "id": "MAPSEC_S_S_ANNE",
-      "name": "{JPN}S.S. ANNE",
+      "name": "S.S. ANNE",
       "x": 14,
       "y": 9,
       "width": 1,
@@ -1021,7 +1021,7 @@
     },
     {
       "id": "MAPSEC_UNDERGROUND_PATH",
-      "name": "{JPN}UNDERGROUND PATH",
+      "name": "UNDERGROUND PATH",
       "x": 14,
       "y": 7,
       "width": 1,
@@ -1029,7 +1029,7 @@
     },
     {
       "id": "MAPSEC_UNDERGROUND_PATH_2",
-      "name": "{JPN}UNDERGROUND PATH",
+      "name": "UNDERGROUND PATH",
       "x": 12,
       "y": 6,
       "width": 1,
@@ -1037,7 +1037,7 @@
     },
     {
       "id": "MAPSEC_DIGLETTS_CAVE",
-      "name": "{JPN}DIGLETT'S CAVE",
+      "name": "DIGLETT'S CAVE",
       "x": 15,
       "y": 9,
       "width": 1,
@@ -1045,7 +1045,7 @@
     },
     {
       "id": "MAPSEC_KANTO_VICTORY_ROAD",
-      "name": "{JPN}VICTORY ROAD",
+      "name": "VICTORY ROAD",
       "x": 2,
       "y": 4,
       "width": 1,
@@ -1053,7 +1053,7 @@
     },
     {
       "id": "MAPSEC_ROCKET_HIDEOUT",
-      "name": "{JPN}ROCKET HIDEOUT",
+      "name": "ROCKET HIDEOUT",
       "x": 11,
       "y": 6,
       "width": 1,
@@ -1061,7 +1061,7 @@
     },
     {
       "id": "MAPSEC_SILPH_CO",
-      "name": "{JPN}SILPH CO.",
+      "name": "SILPH CO.",
       "x": 14,
       "y": 6,
       "width": 1,
@@ -1069,7 +1069,7 @@
     },
     {
       "id": "MAPSEC_POKEMON_MANSION",
-      "name": "{JPN}POKEMON MANSION",
+      "name": "POKEMON MANSION",
       "x": 4,
       "y": 14,
       "width": 1,
@@ -1077,7 +1077,7 @@
     },
     {
       "id": "MAPSEC_KANTO_SAFARI_ZONE",
-      "name": "{JPN}SAFARI ZONE",
+      "name": "SAFARI ZONE",
       "x": 12,
       "y": 12,
       "width": 1,
@@ -1085,7 +1085,7 @@
     },
     {
       "id": "MAPSEC_POKEMON_LEAGUE",
-      "name": "{JPN}POKEMON LEAGUE",
+      "name": "POKEMON LEAGUE",
       "x": 2,
       "y": 3,
       "width": 1,
@@ -1093,7 +1093,7 @@
     },
     {
       "id": "MAPSEC_ROCK_TUNNEL",
-      "name": "{JPN}ROCK TUNNEL",
+      "name": "ROCK TUNNEL",
       "x": 18,
       "y": 5,
       "width": 1,
@@ -1101,7 +1101,7 @@
     },
     {
       "id": "MAPSEC_SEAFOAM_ISLANDS",
-      "name": "{JPN}SEAFOAM ISLANDS",
+      "name": "SEAFOAM ISLANDS",
       "x": 8,
       "y": 14,
       "width": 1,
@@ -1109,7 +1109,7 @@
     },
     {
       "id": "MAPSEC_POKEMON_TOWER",
-      "name": "{JPN}POKEMON TOWER",
+      "name": "POKEMON TOWER",
       "x": 18,
       "y": 6,
       "width": 1,
@@ -1117,7 +1117,7 @@
     },
     {
       "id": "MAPSEC_CERULEAN_CAVE",
-      "name": "{JPN}CERULEAN CAVE",
+      "name": "CERULEAN CAVE",
       "x": 13,
       "y": 3,
       "width": 1,
@@ -1125,7 +1125,7 @@
     },
     {
       "id": "MAPSEC_POWER_PLANT",
-      "name": "{JPN}POWER PLANT",
+      "name": "POWER PLANT",
       "x": 18,
       "y": 4,
       "width": 1,
@@ -1133,7 +1133,7 @@
     },
     {
       "id": "MAPSEC_ONE_ISLAND",
-      "name": "{JPN}ONE ISLAND",
+      "name": "ONE ISLAND",
       "x": 1,
       "y": 8,
       "width": 1,
@@ -1141,7 +1141,7 @@
     },
     {
       "id": "MAPSEC_TWO_ISLAND",
-      "name": "{JPN}TWO ISLAND",
+      "name": "TWO ISLAND",
       "x": 9,
       "y": 9,
       "width": 1,
@@ -1149,7 +1149,7 @@
     },
     {
       "id": "MAPSEC_THREE_ISLAND",
-      "name": "{JPN}THREE ISLAND",
+      "name": "THREE ISLAND",
       "x": 18,
       "y": 12,
       "width": 1,
@@ -1157,7 +1157,7 @@
     },
     {
       "id": "MAPSEC_FOUR_ISLAND",
-      "name": "{JPN}FOUR ISLAND",
+      "name": "FOUR ISLAND",
       "x": 3,
       "y": 4,
       "width": 1,
@@ -1165,7 +1165,7 @@
     },
     {
       "id": "MAPSEC_FIVE_ISLAND",
-      "name": "{JPN}FIVE ISLAND",
+      "name": "FIVE ISLAND",
       "x": 16,
       "y": 11,
       "width": 1,
@@ -1173,7 +1173,7 @@
     },
     {
       "id": "MAPSEC_SEVEN_ISLAND",
-      "name": "{JPN}SEVEN ISLAND",
+      "name": "SEVEN ISLAND",
       "x": 5,
       "y": 8,
       "width": 1,
@@ -1181,7 +1181,7 @@
     },
     {
       "id": "MAPSEC_SIX_ISLAND",
-      "name": "{JPN}SIX ISLAND",
+      "name": "SIX ISLAND",
       "x": 17,
       "y": 5,
       "width": 1,
@@ -1189,7 +1189,7 @@
     },
     {
       "id": "MAPSEC_KINDLE_ROAD",
-      "name": "{JPN}KINDLE ROAD",
+      "name": "KINDLE ROAD",
       "x": 2,
       "y": 3,
       "width": 1,
@@ -1197,7 +1197,7 @@
     },
     {
       "id": "MAPSEC_TREASURE_BEACH",
-      "name": "{JPN}TREASURE BEACH",
+      "name": "TREASURE BEACH",
       "x": 1,
       "y": 9,
       "width": 1,
@@ -1205,7 +1205,7 @@
     },
     {
       "id": "MAPSEC_CAPE_BRINK",
-      "name": "{JPN}CAPE BRINK",
+      "name": "CAPE BRINK",
       "x": 9,
       "y": 7,
       "width": 1,
@@ -1213,7 +1213,7 @@
     },
     {
       "id": "MAPSEC_BOND_BRIDGE",
-      "name": "{JPN}BOND BRIDGE",
+      "name": "BOND BRIDGE",
       "x": 13,
       "y": 12,
       "width": 4,
@@ -1221,7 +1221,7 @@
     },
     {
       "id": "MAPSEC_THREE_ISLE_PORT",
-      "name": "{JPN}THREE ISLE PORT",
+      "name": "THREE ISLE PORT",
       "x": 18,
       "y": 13,
       "width": 2,
@@ -1229,7 +1229,7 @@
     },
     {
       "id": "MAPSEC_RESORT_GORGEOUS",
-      "name": "{JPN}RESORT GORGEOUS",
+      "name": "RESORT GORGEOUS",
       "x": 16,
       "y": 9,
       "width": 3,
@@ -1237,7 +1237,7 @@
     },
     {
       "id": "MAPSEC_WATER_LABYRINTH",
-      "name": "{JPN}WATER LABYRINTH",
+      "name": "WATER LABYRINTH",
       "x": 14,
       "y": 10,
       "width": 3,
@@ -1245,7 +1245,7 @@
     },
     {
       "id": "MAPSEC_FIVE_ISLE_MEADOW",
-      "name": "{JPN}FIVE ISLE MEADOW",
+      "name": "FIVE ISLE MEADOW",
       "x": 17,
       "y": 10,
       "width": 1,
@@ -1253,7 +1253,7 @@
     },
     {
       "id": "MAPSEC_MEMORIAL_PILLAR",
-      "name": "{JPN}MEMORIAL PILLAR",
+      "name": "MEMORIAL PILLAR",
       "x": 18,
       "y": 12,
       "width": 1,
@@ -1261,7 +1261,7 @@
     },
     {
       "id": "MAPSEC_OUTCAST_ISLAND",
-      "name": "{JPN}OUTCAST ISLAND",
+      "name": "OUTCAST ISLAND",
       "x": 15,
       "y": 0,
       "width": 1,
@@ -1269,7 +1269,7 @@
     },
     {
       "id": "MAPSEC_GREEN_PATH",
-      "name": "{JPN}GREEN PATH",
+      "name": "GREEN PATH",
       "x": 15,
       "y": 3,
       "width": 3,
@@ -1277,7 +1277,7 @@
     },
     {
       "id": "MAPSEC_WATER_PATH",
-      "name": "{JPN}WATER PATH",
+      "name": "WATER PATH",
       "x": 18,
       "y": 3,
       "width": 1,
@@ -1285,7 +1285,7 @@
     },
     {
       "id": "MAPSEC_RUIN_VALLEY",
-      "name": "{JPN}RUIN VALLEY",
+      "name": "RUIN VALLEY",
       "x": 16,
       "y": 7,
       "width": 2,
@@ -1293,7 +1293,7 @@
     },
     {
       "id": "MAPSEC_TRAINER_TOWER",
-      "name": "{JPN}TRAINER TOWER",
+      "name": "TRAINER TOWER",
       "x": 5,
       "y": 6,
       "width": 1,
@@ -1301,7 +1301,7 @@
     },
     {
       "id": "MAPSEC_CANYON_ENTRANCE",
-      "name": "{JPN}CANYON ENTRANCE",
+      "name": "CANYON ENTRANCE",
       "x": 5,
       "y": 9,
       "width": 1,
@@ -1309,7 +1309,7 @@
     },
     {
       "id": "MAPSEC_SEVAULT_CANYON",
-      "name": "{JPN}SEVAULT CANYON",
+      "name": "SEVAULT CANYON",
       "x": 6,
       "y": 9,
       "width": 1,
@@ -1317,7 +1317,7 @@
     },
     {
       "id": "MAPSEC_TANOBY_RUINS",
-      "name": "{JPN}TANOBY RUINS",
+      "name": "TANOBY RUINS",
       "x": 3,
       "y": 12,
       "width": 7,
@@ -1325,7 +1325,7 @@
     },
     {
       "id": "MAPSEC_SEVII_ISLE_22",
-      "name": "{JPN}SEVII ISLE 22",
+      "name": "SEVII ISLE 22",
       "x": 9,
       "y": 12,
       "width": 1,
@@ -1333,7 +1333,7 @@
     },
     {
       "id": "MAPSEC_SEVII_ISLE_23",
-      "name": "{JPN}SEVII ISLE 23",
+      "name": "SEVII ISLE 23",
       "x": 3,
       "y": 14,
       "width": 6,
@@ -1341,7 +1341,7 @@
     },
     {
       "id": "MAPSEC_SEVII_ISLE_24",
-      "name": "{JPN}SEVII ISLE 24",
+      "name": "SEVII ISLE 24",
       "x": 2,
       "y": 12,
       "width": 1,
@@ -1349,7 +1349,7 @@
     },
     {
       "id": "MAPSEC_NAVEL_ROCK_FRLG",
-      "name": "{JPN}NAVEL ROCK",
+      "name": "NAVEL ROCK",
       "x": 10,
       "y": 8,
       "width": 1,
@@ -1357,7 +1357,7 @@
     },
     {
       "id": "MAPSEC_MT_EMBER",
-      "name": "{JPN}MT. EMBER",
+      "name": "MT. EMBER",
       "x": 2,
       "y": 3,
       "width": 1,
@@ -1365,7 +1365,7 @@
     },
     {
       "id": "MAPSEC_BERRY_FOREST",
-      "name": "{JPN}BERRY FOREST",
+      "name": "BERRY FOREST",
       "x": 14,
       "y": 12,
       "width": 1,
@@ -1373,7 +1373,7 @@
     },
     {
       "id": "MAPSEC_ICEFALL_CAVE",
-      "name": "{JPN}ICEFALL CAVE",
+      "name": "ICEFALL CAVE",
       "x": 3,
       "y": 4,
       "width": 1,
@@ -1381,7 +1381,7 @@
     },
     {
       "id": "MAPSEC_ROCKET_WAREHOUSE",
-      "name": "{JPN}ROCKET WAREHOUSE",
+      "name": "ROCKET WAREHOUSE",
       "x": 17,
       "y": 11,
       "width": 1,
@@ -1389,7 +1389,7 @@
     },
     {
       "id": "MAPSEC_TRAINER_TOWER_2",
-      "name": "{JPN}TRAINER TOWER",
+      "name": "TRAINER TOWER",
       "x": 5,
       "y": 6,
       "width": 1,
@@ -1397,7 +1397,7 @@
     },
     {
       "id": "MAPSEC_DOTTED_HOLE",
-      "name": "{JPN}DOTTED HOLE",
+      "name": "DOTTED HOLE",
       "x": 16,
       "y": 8,
       "width": 1,
@@ -1405,7 +1405,7 @@
     },
     {
       "id": "MAPSEC_LOST_CAVE",
-      "name": "{JPN}LOST CAVE",
+      "name": "LOST CAVE",
       "x": 18,
       "y": 9,
       "width": 1,
@@ -1413,7 +1413,7 @@
     },
     {
       "id": "MAPSEC_PATTERN_BUSH",
-      "name": "{JPN}PATTERN BUSH",
+      "name": "PATTERN BUSH",
       "x": 17,
       "y": 3,
       "width": 1,
@@ -1421,7 +1421,7 @@
     },
     {
       "id": "MAPSEC_ALTERING_CAVE_FRLG",
-      "name": "{JPN}ALTERING CAVE",
+      "name": "ALTERING CAVE",
       "x": 15,
       "y": 0,
       "width": 1,
@@ -1429,7 +1429,7 @@
     },
     {
       "id": "MAPSEC_TANOBY_CHAMBERS",
-      "name": "{JPN}TANOBY CHAMBERS",
+      "name": "TANOBY CHAMBERS",
       "x": 9,
       "y": 12,
       "width": 1,
@@ -1437,7 +1437,7 @@
     },
     {
       "id": "MAPSEC_THREE_ISLE_PATH",
-      "name": "{JPN}THREE ISLE PATH",
+      "name": "THREE ISLE PATH",
       "x": 18,
       "y": 13,
       "width": 1,
@@ -1445,7 +1445,7 @@
     },
     {
       "id": "MAPSEC_TANOBY_KEY",
-      "name": "{JPN}TANOBY KEY",
+      "name": "TANOBY KEY",
       "x": 6,
       "y": 9,
       "width": 1,
@@ -1453,7 +1453,7 @@
     },
     {
       "id": "MAPSEC_BIRTH_ISLAND_FRLG",
-      "name": "{JPN}BIRTH ISLAND",
+      "name": "BIRTH ISLAND",
       "x": 18,
       "y": 13,
       "width": 1,
@@ -1461,7 +1461,7 @@
     },
     {
       "id": "MAPSEC_MONEAN_CHAMBER",
-      "name": "{JPN}MONEAN CHAMBER",
+      "name": "MONEAN CHAMBER",
       "x": 9,
       "y": 12,
       "width": 1,
@@ -1469,7 +1469,7 @@
     },
     {
       "id": "MAPSEC_LIPTOO_CHAMBER",
-      "name": "{JPN}LIPTOO CHAMBER",
+      "name": "LIPTOO CHAMBER",
       "x": 9,
       "y": 12,
       "width": 1,
@@ -1477,7 +1477,7 @@
     },
     {
       "id": "MAPSEC_WEEPTH_CHAMBER",
-      "name": "{JPN}WEEPTH CHAMBER",
+      "name": "WEEPTH CHAMBER",
       "x": 9,
       "y": 12,
       "width": 1,
@@ -1485,7 +1485,7 @@
     },
     {
       "id": "MAPSEC_DILFORD_CHAMBER",
-      "name": "{JPN}DILFORD CHAMBER",
+      "name": "DILFORD CHAMBER",
       "x": 9,
       "y": 12,
       "width": 1,
@@ -1493,7 +1493,7 @@
     },
     {
       "id": "MAPSEC_SCUFIB_CHAMBER",
-      "name": "{JPN}SCUFIB CHAMBER",
+      "name": "SCUFIB CHAMBER",
       "x": 9,
       "y": 12,
       "width": 1,
@@ -1501,7 +1501,7 @@
     },
     {
       "id": "MAPSEC_RIXY_CHAMBER",
-      "name": "{JPN}RIXY CHAMBER",
+      "name": "RIXY CHAMBER",
       "x": 9,
       "y": 12,
       "width": 1,
@@ -1509,7 +1509,7 @@
     },
     {
       "id": "MAPSEC_VIAPOIS_CHAMBER",
-      "name": "{JPN}VIAPOIS CHAMBER",
+      "name": "VIAPOIS CHAMBER",
       "x": 9,
       "y": 12,
       "width": 1,
@@ -1517,15 +1517,15 @@
     },
     {
       "id": "MAPSEC_EMBER_SPA",
-      "name": "{JPN}EMBER SPA"
+      "name": "EMBER SPA"
     },
     {
       "id": "MAPSEC_SPECIAL_AREA",
-      "name": "{JPN}ミニミニキャンプ"
+      "name": "{JPN}ミニミニリゾート"
     },
     {
       "id": "MAPSEC_AQUA_HIDEOUT",
-      "name": "{JPN}アクアだん アジト",
+      "name": "アクアだん アジト",
       "x": 19,
       "y": 3,
       "width": 1,
@@ -1533,7 +1533,7 @@
     },
     {
       "id": "MAPSEC_MAGMA_HIDEOUT",
-      "name": "{JPN}マグマだん アジト",
+      "name": "マグマだん アジト",
       "x": 6,
       "y": 3,
       "width": 1,
@@ -1541,7 +1541,7 @@
     },
     {
       "id": "MAPSEC_MIRAGE_TOWER",
-      "name": "{JPN}げんえいのとう",
+      "name": "げんえいのとう",
       "x": 8,
       "y": 2,
       "width": 1,
@@ -1549,15 +1549,15 @@
     },
     {
       "id": "MAPSEC_BIRTH_ISLAND",
-      "name": "{JPN}たんじょうのしま"
+      "name": "たんじょうのしま"
     },
     {
       "id": "MAPSEC_FARAWAY_ISLAND",
-      "name": "{JPN}さいはてのことう"
+      "name": "さいはてのことう"
     },
     {
       "id": "MAPSEC_ARTISAN_CAVE",
-      "name": "{JPN}アトリエのあな",
+      "name": "アトリエのあな",
       "x": 22,
       "y": 12,
       "width": 1,
@@ -1565,19 +1565,19 @@
     },
     {
       "id": "MAPSEC_MARINE_CAVE",
-      "name": "{JPN}うみのどうくつ"
+      "name": "うみのどうくつ"
     },
     {
       "id": "MAPSEC_UNDERWATER_MARINE_CAVE",
-      "name": "{JPN}すいちゅう"
+      "name": "すいちゅう"
     },
     {
       "id": "MAPSEC_TERRA_CAVE",
-      "name": "{JPN}りくのどうくつ"
+      "name": "りくのどうくつ"
     },
     {
       "id": "MAPSEC_UNDERWATER_105",
-      "name": "{JPN}すいちゅう",
+      "name": "すいちゅう",
       "x": 0,
       "y": 10,
       "width": 1,
@@ -1585,7 +1585,7 @@
     },
     {
       "id": "MAPSEC_UNDERWATER_125",
-      "name": "{JPN}すいちゅう",
+      "name": "すいちゅう",
       "x": 24,
       "y": 3,
       "width": 2,
@@ -1593,7 +1593,7 @@
     },
     {
       "id": "MAPSEC_UNDERWATER_129",
-      "name": "{JPN}すいちゅう",
+      "name": "すいちゅう",
       "x": 24,
       "y": 10,
       "width": 2,
@@ -1601,7 +1601,7 @@
     },
     {
       "id": "MAPSEC_DESERT_UNDERPASS",
-      "name": "{JPN}さばくのちかどう",
+      "name": "さばくのちかどう",
       "x": 2,
       "y": 0,
       "width": 1,
@@ -1609,7 +1609,7 @@
     },
     {
       "id": "MAPSEC_ALTERING_CAVE",
-      "name": "{JPN}へんげのどうくつ",
+      "name": "へんげのどうくつ",
       "x": 6,
       "y": 8,
       "width": 1,
@@ -1617,11 +1617,11 @@
     },
     {
       "id": "MAPSEC_NAVEL_ROCK",
-      "name": "{JPN}へそのいわ"
+      "name": "へそのいわ"
     },
     {
       "id": "MAPSEC_TRAINER_HILL",
-      "name": "{JPN}トレーナーヒル",
+      "name": "トレーナーヒル",
       "x": 8,
       "y": 4,
       "width": 1,

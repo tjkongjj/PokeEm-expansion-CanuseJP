@@ -641,8 +641,24 @@ gSpecials::
 	def_special UpdateTrainerCardPhotoIcons
 	def_special StickerManGetBragFlags
 	def_special CheckAddCoins
+	def_special Special_OpenFrontierPokemonCreator
+	def_special Special_SetupFrontierHubState
+	def_special Special_OpenFrontierItemGiver
+	def_special Special_SetFrontierAiNormal
+	def_special Special_SetFrontierAiHard
+	def_special Special_SetFrontierAiStrongest
+	def_special Special_SetFrontierAllowBannedSpecies
+	def_special Special_ClearFrontierAllowBannedSpecies
+	def_special Special_GetFrontierAllowBannedSpecies
 	def_special Special_SpawnPartyRoamerMons
 	def_special Special_RefreshPartyRoamerMons
 	def_special Special_BufferPartyRoamerMessage
 	def_special Special_OpenInfoViewer, waitstate=1
 	def_special ultra_help, waitstate=1
+	def_special Special_StartPartyBathTimeFriendship
+	def_special ChooseNonEggPartyMon, waitstate=1
+	def_special Special_TeishokuyaChangeTeraType
+	def_special Special_TeishokuyaToggleGigantamax
+	def_special Special_TeishokuyaIncreasePartyFriendship
+	def_special Special_TeishokuyaCanToggleGigantamax
+	def_special Special_TeishokuyaPlayMealScene, waitstate=1

@@ -463,7 +463,7 @@ struct DynamaxData
 struct BattleGimmickData
 {
     u8 usableGimmick[MAX_BATTLERS_COUNT];                // first usable gimmick that can be selected for each battler
-    bool8 playerSelect;                                  // used to toggle trigger and update battle UI
+    bool8 playerSelect[MAX_BATTLERS_COUNT];               // used to toggle trigger and update battle UI
     u8 triggerSpriteId;
     u8 indicatorSpriteId[MAX_BATTLERS_COUNT];
     u8 toActivate;                                       // stores whether a battler should transform at start of turn as bitfield
@@ -548,7 +548,8 @@ struct PartyState
     u32 changedSpecies:11; // For forms when multiple mons can change into the same Pokémon.
     u32 sentOut:1;
     u32 isKnockedOff:1;
-    u32 padding:5;
+    u32 frontierNicknameSendOutMsgShown:1;
+    u32 padding:4;
     u16 usedHeldItem;
 };
 

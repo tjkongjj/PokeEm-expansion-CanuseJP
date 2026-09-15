@@ -30,6 +30,7 @@
 #include "constants/moves.h"
 #include "constants/items.h"
 #include "constants/trainers.h"
+#include "constants/vars.h"
 
 #if TESTING
 #include "test/battle.h"
@@ -149,7 +150,7 @@ void AIDebugTimerStart()
     // Set delay timer to count how long it takes for AI to choose action/move
     if ((TESTING && gBattleTurnCounter == 0) || DEBUG_AI_DELAY_TIMER)
         gBattleStruct->aiDelayTimer = gMain.vblankCounter1;
-    if (!TESTING && DEBUG_AI_DELAY_TIMER)
+    if (!TESTING && DEBUG_AI_DELAY_TIMER && !(gBattleTypeFlags & BATTLE_TYPE_LINK))
         CycleCountStart();
 }
 
@@ -158,7 +159,7 @@ void AIDebugTimerEnd()
     // We add to existing to compound multiple calls
     if ((TESTING && gBattleTurnCounter == 0) || DEBUG_AI_DELAY_TIMER)
         gBattleStruct->aiDelayFrames += gMain.vblankCounter1 - gBattleStruct->aiDelayTimer;
-    if (!TESTING && DEBUG_AI_DELAY_TIMER)
+    if (!TESTING && DEBUG_AI_DELAY_TIMER && !(gBattleTypeFlags & BATTLE_TYPE_LINK))
         gBattleStruct->aiDelayCycles += CycleCountEnd();
 }
 
@@ -251,6 +252,49 @@ static bool32 IsSmartBattle(void)
     return gBattleTypeFlags & BATTLE_TYPE_HAS_AI || IsWildMonSmart();
 }
 
+static u64 GetFrontierHackAiFlags(u64 flags)
+{
+    switch (VarGet(VAR_FRONTIER_AI_LEVEL))
+    {
+    case 2: // さいきょう
+        flags |= AI_FLAG_CHECK_BAD_MOVE;
+        flags |= AI_FLAG_CHECK_VIABILITY;
+        flags |= AI_FLAG_TRY_TO_FAINT;
+        flags |= AI_FLAG_TRY_TO_2HKO;
+        flags |= AI_FLAG_HP_AWARE;
+        flags |= AI_FLAG_RISKY;
+        flags |= AI_FLAG_SMART_SWITCHING;
+        flags |= AI_FLAG_OMNISCIENT;
+        flags |= AI_FLAG_SMART_MON_CHOICES;
+        flags |= AI_FLAG_PP_STALL_PREVENTION;
+        flags |= AI_FLAG_SMART_TERA;
+        flags |= AI_FLAG_PREDICT_SWITCH;
+        flags |= AI_FLAG_PREDICT_INCOMING_MON;
+        flags |= AI_FLAG_PREDICT_MOVE;
+        flags |= AI_FLAG_PREFER_HIGHEST_DAMAGE_MOVE;
+        flags |= AI_FLAG_ASSUME_STAB;
+        flags |= AI_FLAG_WEIGH_ABILITY_PREDICTION;
+        break;
+
+    case 1: // むずかしい
+        flags |= AI_FLAG_CHECK_BAD_MOVE;
+        flags |= AI_FLAG_CHECK_VIABILITY;
+        flags |= AI_FLAG_TRY_TO_FAINT;
+        flags |= AI_FLAG_TRY_TO_2HKO;
+        flags |= AI_FLAG_HP_AWARE;
+        flags |= AI_FLAG_SMART_SWITCHING;
+        flags |= AI_FLAG_SMART_TERA;
+        flags |= AI_FLAG_PP_STALL_PREVENTION;
+        break;
+
+    case 0:
+    default: // いつもの
+        break;
+    }
+
+    return flags;
+}
+
 static u64 GetAiFlags(u16 trainerId, enum BattlerId battler)
 {
     u64 flags = 0;
@@ -275,8 +319,13 @@ static u64 GetAiFlags(u16 trainerId, enum BattlerId battler)
             flags = AI_FLAG_FIRST_BATTLE;
         else if (gBattleTypeFlags & BATTLE_TYPE_FACTORY)
             flags = GetAiScriptsInBattleFactory();
-        else if (gBattleTypeFlags & (BATTLE_TYPE_FRONTIER | BATTLE_TYPE_EREADER_TRAINER | BATTLE_TYPE_TRAINER_HILL | BATTLE_TYPE_SECRET_BASE))
-            flags = AI_FLAG_CHECK_BAD_MOVE | AI_FLAG_CHECK_VIABILITY | AI_FLAG_TRY_TO_FAINT;
+else if (gBattleTypeFlags & (BATTLE_TYPE_FRONTIER | BATTLE_TYPE_EREADER_TRAINER | BATTLE_TYPE_TRAINER_HILL | BATTLE_TYPE_SECRET_BASE))
+{
+    flags = AI_FLAG_CHECK_BAD_MOVE | AI_FLAG_CHECK_VIABILITY | AI_FLAG_TRY_TO_FAINT;
+
+    if (gBattleTypeFlags & BATTLE_TYPE_FRONTIER)
+        flags = GetFrontierHackAiFlags(flags);
+}
         else
             flags = GetTrainerAIFlagsFromId(trainerId);
     }
@@ -539,7 +588,8 @@ u32 BattleAI_ChooseMoveIndex(enum BattlerId battler)
     SetAIUsingGimmick(battler, USE_GIMMICK);
     SetupRandomRollsForAIMoveSelection(battler);
 
-    if (gBattleStruct->gimmick.usableGimmick[battler] == GIMMICK_TERA && (gAiThinkingStruct->aiFlags[battler] & AI_FLAG_SMART_TERA))
+    if (gBattleStruct->gimmick.usableGimmick[battler] == GIMMICK_TERA
+     && (gAiThinkingStruct->aiFlags[battler] & AI_FLAG_SMART_TERA))
         DecideTerastal(battler);
 
     chosenMoveIndex = ChooseMoveOrAction(battler);

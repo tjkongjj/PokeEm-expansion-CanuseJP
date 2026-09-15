@@ -27,6 +27,7 @@
 #include "link_rfu.h"
 #include "constants/rgb.h"
 #include "constants/trade.h"
+#include "config/link_compat.h"
 
 // Window IDs for the link error screens
 enum {
@@ -58,7 +59,8 @@ static u32 sBlockSendDelayCounter;
 static u32 sPlayerDataExchangeStatus;
 static u8 sLinkTestLastBlockSendPos;
 static u8 sLinkTestLastBlockRecvPos[MAX_LINK_PLAYERS];
-static u8 sNumVBlanksWithoutSerialIntr;
+static u16 sNumVBlanksWithoutSerialIntr;
+static u16 sNumVBlanksWithIncompleteSerialIntr;
 static bool8 sSendBufferEmpty;
 static u16 sSendNonzeroCheck;
 static u16 sRecvNonzeroCheck;
@@ -108,6 +110,7 @@ static EWRAM_DATA struct {
     u32 status;
     u8 lastRecvQueueCount;
     u8 lastSendQueueCount;
+    u8 queueFullType;
     bool8 disconnected;
 } sLinkErrorBuffer = {};
 static EWRAM_DATA u16 sReadyCloseLinkAttempts = 0; // never read
@@ -221,6 +224,21 @@ static const struct WindowTemplate sLinkErrorWindowTemplates[] = {
 
 static const u8 sTextColors[] = { TEXT_COLOR_TRANSPARENT, TEXT_COLOR_WHITE, TEXT_COLOR_DARK_GRAY };
 static const u8 sUnusedData[] = {0x00, 0xFF, 0xFE, 0xFF, 0x00};
+static const u8 sText_LinkErrorPrefix[] = _("ERR: ");
+static const u8 sText_LinkErrorHardware[] = _("HW ");
+static const u8 sText_LinkErrorChecksum[] = _("CHECKSUM ");
+static const u8 sText_LinkErrorQueueFull[] = _("QUEUE ");
+static const u8 sText_LinkErrorQueueFullSend[] = _("QUEUE-S ");
+static const u8 sText_LinkErrorQueueFullRecv[] = _("QUEUE-R ");
+static const u8 sText_LinkErrorLagMaster[] = _("LAG-M ");
+static const u8 sText_LinkErrorInvalidId[] = _("ID ");
+static const u8 sText_LinkErrorLagSlave[] = _("LAG-S ");
+static const u8 sText_LinkErrorUnknown[] = _("UNKNOWN");
+static const u8 sText_LinkErrorStatus[] = _("STATUS: ");
+static const u8 sText_LinkErrorSend[] = _("SEND: ");
+static const u8 sText_LinkErrorRecv[] = _("  RECV: ");
+
+#define LINK_LAG_TIMEOUT_FRAMES (5 * 60)
 
 bool8 IsWirelessAdapterConnected(void)
 {
@@ -316,7 +334,8 @@ static void InitLocalLinkPlayer(void)
     gLocalLinkPlayer.linkType = gLinkType;
     gLocalLinkPlayer.language = gGameLanguage;
     gLocalLinkPlayer.version = gGameVersion + 0x4000;
-    gLocalLinkPlayer.lp_field_2 = 0x8000;
+    gLocalLinkPlayer.lp_field_2 = LINK_PROJECT_ID;
+    gLocalLinkPlayer.neverRead = LINK_PACKED_VERSIONS;
     gLocalLinkPlayer.progressFlags = IsNationalPokedexEnabled();
     if (FlagGet(FLAG_IS_CHAMPION))
     {
@@ -769,6 +788,69 @@ bool32 Link_AnyPartnersPlayingFRLG_JP(void)
     return (i >= 0 && gLinkPlayers[i].language == LANGUAGE_JAPANESE);
 }
 
+enum LinkCompatibilityStatus GetLinkPlayerCompatibilityStatus(const struct LinkPlayer *player)
+{
+    if (player->lp_field_2 != LINK_PROJECT_ID)
+        return LINK_COMPATIBILITY_PROJECT_MISMATCH;
+    if (LINK_UNPACK_COMPAT_VERSION(player->neverRead) != LINK_COMPAT_VERSION)
+        return LINK_COMPATIBILITY_VERSION_MISMATCH;
+    if (LINK_UNPACK_DATA_VERSION(player->neverRead) != LINK_DATA_LAYOUT_VERSION)
+        return LINK_COMPATIBILITY_DATA_LAYOUT_MISMATCH;
+
+    return LINK_COMPATIBILITY_OK;
+}
+
+bool32 AreAllLinkPlayersCompatible(void)
+{
+    u32 i;
+    u32 playerCount;
+
+    if (!gReceivedRemoteLinkPlayers)
+        return FALSE;
+
+    playerCount = GetLinkPlayerCount();
+    if (playerCount < 2 || playerCount > MAX_RFU_PLAYERS)
+        return FALSE;
+
+    for (i = 0; i < playerCount; i++)
+    {
+        if (GetLinkPlayerCompatibilityStatus(&gLinkPlayers[i]) != LINK_COMPATIBILITY_OK)
+            return FALSE;
+    }
+
+    return TRUE;
+}
+
+bool32 DoesLinkTypeRequireCompatibility(u32 linkType)
+{
+    switch (linkType)
+    {
+    case LINKTYPE_TRADE:
+    case LINKTYPE_TRADE_CONNECTING:
+    case LINKTYPE_TRADE_SETUP:
+    case LINKTYPE_BATTLE:
+    case LINKTYPE_SINGLE_BATTLE:
+    case LINKTYPE_DOUBLE_BATTLE:
+    case LINKTYPE_MULTI_BATTLE:
+    case LINKTYPE_BATTLE_TOWER_50:
+    case LINKTYPE_BATTLE_TOWER_OPEN:
+    case LINKTYPE_BATTLE_TOWER:
+    case LINKTYPE_CONTEST_GMODE:
+    case LINKTYPE_CONTEST_EMODE:
+        return TRUE;
+    default:
+        return FALSE;
+    }
+}
+
+void CloseLinkForIncompatibility(void)
+{
+    // A foreign peer will not enter the graceful ready-to-close handshake.
+    // Shut down locally so compatibility rejection cannot wait forever.
+    if (gReceivedRemoteLinkPlayers)
+        CloseLink();
+}
+
 void OpenLinkTimed(void)
 {
     sPlayerDataExchangeStatus = EXCHANGE_NOT_STARTED;
@@ -800,6 +882,12 @@ u8 GetLinkPlayerDataExchangeStatusTimed(int minPlayers, int maxPlayers)
             {
                 gLinkErrorOccurred = TRUE;
                 CloseLink();
+            }
+            if (DoesLinkTypeRequireCompatibility(gLinkType) && !AreAllLinkPlayersCompatible())
+            {
+                sPlayerDataExchangeStatus = EXCHANGE_INCOMPATIBLE;
+                CloseLinkForIncompatibility();
+                return sPlayerDataExchangeStatus;
             }
             for (i = 0, index = 0; i < GetLinkPlayerCount(); index++, i++)
             {
@@ -1310,7 +1398,9 @@ void CheckLinkPlayersMatchSaved(void)
     for (i = 0; i < gSavedLinkPlayerCount; i++)
     {
         if (sSavedLinkPlayers[i].trainerId != gLinkPlayers[i].trainerId
-         || StringCompare(sSavedLinkPlayers[i].name, gLinkPlayers[i].name) != 0)
+         || StringCompare(sSavedLinkPlayers[i].name, gLinkPlayers[i].name) != 0
+         || sSavedLinkPlayers[i].lp_field_2 != gLinkPlayers[i].lp_field_2
+         || sSavedLinkPlayers[i].neverRead != gLinkPlayers[i].neverRead)
         {
             gLinkErrorOccurred = TRUE;
             CloseLink();
@@ -1521,6 +1611,7 @@ static void TrySetLinkErrorBuffer(void)
             sLinkErrorBuffer.status = gLinkStatus;
             sLinkErrorBuffer.lastRecvQueueCount = gLastRecvQueueCount;
             sLinkErrorBuffer.lastSendQueueCount = gLastSendQueueCount;
+            sLinkErrorBuffer.queueFullType = gLink.queueFull;
             SetMainCallback2(CB2_LinkError);
         }
         gLinkErrorOccurred = TRUE;
@@ -1533,6 +1624,7 @@ void SetLinkErrorBuffer(u32 status, u8 lastSendQueueCount, u8 lastRecvQueueCount
     sLinkErrorBuffer.status = status;
     sLinkErrorBuffer.lastSendQueueCount = lastSendQueueCount;
     sLinkErrorBuffer.lastRecvQueueCount = lastRecvQueueCount;
+    sLinkErrorBuffer.queueFullType = QUEUE_FULL_NONE;
     sLinkErrorBuffer.disconnected = disconnected;
 }
 
@@ -1604,6 +1696,51 @@ static void ErrorMsg_MoveCloserToPartner(void)
     CopyWindowToVram(WIN_LINK_ERROR_BOTTOM, COPYWIN_FULL);
 }
 
+static void PrintLinkErrorDetails(u8 windowId)
+{
+    u32 status = sLinkErrorBuffer.status;
+    u8 *str;
+
+    FillWindowPixelBuffer(windowId, PIXEL_FILL(0));
+
+    str = StringCopy(gStringVar4, sText_LinkErrorPrefix);
+    if (status & LINK_STAT_ERROR_HARDWARE)
+        str = StringCopy(str, sText_LinkErrorHardware);
+    if (status & LINK_STAT_ERROR_CHECKSUM)
+        str = StringCopy(str, sText_LinkErrorChecksum);
+    if (status & LINK_STAT_ERROR_QUEUE_FULL)
+    {
+        if (sLinkErrorBuffer.queueFullType == QUEUE_FULL_SEND)
+            str = StringCopy(str, sText_LinkErrorQueueFullSend);
+        else if (sLinkErrorBuffer.queueFullType == QUEUE_FULL_RECV)
+            str = StringCopy(str, sText_LinkErrorQueueFullRecv);
+        else
+            str = StringCopy(str, sText_LinkErrorQueueFull);
+    }
+    if (status & LINK_STAT_ERROR_LAG_MASTER)
+        str = StringCopy(str, sText_LinkErrorLagMaster);
+    if (status & LINK_STAT_ERROR_INVALID_ID)
+        str = StringCopy(str, sText_LinkErrorInvalidId);
+    if (status & LINK_STAT_ERROR_LAG_SLAVE)
+        str = StringCopy(str, sText_LinkErrorLagSlave);
+    if (!(status & LINK_STAT_ERRORS))
+        StringCopy(str, sText_LinkErrorUnknown);
+    AddTextPrinterParameterized3(windowId, FONT_SHORT_COPY_1, 2, 0, sTextColors, 0, gStringVar4);
+
+    str = StringCopy(gStringVar4, sText_LinkErrorStatus);
+    ConvertIntToHexStringN(str, status, STR_CONV_MODE_LEADING_ZEROS, 8);
+    AddTextPrinterParameterized3(windowId, FONT_SHORT_COPY_1, 2, 16, sTextColors, 0, gStringVar4);
+
+    str = StringCopy(gStringVar4, sText_LinkErrorSend);
+    str = ConvertIntToDecimalStringN(str, sLinkErrorBuffer.lastSendQueueCount, STR_CONV_MODE_LEFT_ALIGN, 2);
+    str = StringCopy(str, sText_LinkErrorRecv);
+    ConvertIntToDecimalStringN(str, sLinkErrorBuffer.lastRecvQueueCount, STR_CONV_MODE_LEFT_ALIGN, 2);
+    AddTextPrinterParameterized3(windowId, FONT_SHORT_COPY_1, 2, 32, sTextColors, 0, gStringVar4);
+
+    PutWindowTilemap(windowId);
+    CopyWindowToVram(windowId, COPYWIN_FULL);
+}
+
 static void ErrorMsg_CheckConnections(void)
 {
     LoadBgTiles(0, sCommErrorBg_Gfx, 0x20, 0);
@@ -1614,6 +1751,7 @@ static void ErrorMsg_CheckConnections(void)
     PutWindowTilemap(WIN_LINK_ERROR_BOTTOM);
     CopyWindowToVram(WIN_LINK_ERROR_MID, COPYWIN_NONE); // Does nothing
     CopyWindowToVram(WIN_LINK_ERROR_BOTTOM, COPYWIN_FULL);
+    PrintLinkErrorDetails(WIN_LINK_ERROR_BOTTOM);
 }
 
 static void CB2_PrintErrorMessage(void)
@@ -1624,7 +1762,10 @@ static void CB2_PrintErrorMessage(void)
         // Below is only true for the RFU, so the other error
         // type is inferred to be from a wired connection
         if (sLinkErrorBuffer.disconnected)
+        {
             ErrorMsg_MoveCloserToPartner();
+            PrintLinkErrorDetails(WIN_LINK_ERROR_MID);
+        }
         else
             ErrorMsg_CheckConnections();
         break;
@@ -1825,6 +1966,7 @@ static void EnableSerial(void)
     REG_SIOMLT_SEND = 0;
     CpuFill32(0, &gLink, sizeof(gLink));
     sNumVBlanksWithoutSerialIntr = 0;
+    sNumVBlanksWithIncompleteSerialIntr = 0;
     sSendNonzeroCheck = 0;
     sRecvNonzeroCheck = 0;
     sChecksumAvailable = 0;
@@ -2048,7 +2190,8 @@ void LinkVSync(void)
             {
                 if (gLink.hardwareError != TRUE)
                 {
-                    gLink.lag = LAG_MASTER;
+                    if (++sNumVBlanksWithIncompleteSerialIntr > LINK_LAG_TIMEOUT_FRAMES)
+                        gLink.lag = LAG_MASTER;
                 }
                 else
                 {
@@ -2057,6 +2200,7 @@ void LinkVSync(void)
             }
             else if (gLink.lag != LAG_MASTER)
             {
+                sNumVBlanksWithIncompleteSerialIntr = 0;
                 gLink.serialIntrCounter = 0;
                 StartTransfer();
             }
@@ -2068,7 +2212,7 @@ void LinkVSync(void)
     }
     else if (gLink.state == LINK_STATE_CONN_ESTABLISHED || gLink.state == LINK_STATE_HANDSHAKE)
     {
-        if (++sNumVBlanksWithoutSerialIntr > 10)
+        if (++sNumVBlanksWithoutSerialIntr > LINK_LAG_TIMEOUT_FRAMES)
         {
             if (gLink.state == LINK_STATE_CONN_ESTABLISHED)
             {

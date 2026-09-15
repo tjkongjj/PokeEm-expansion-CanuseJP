@@ -2,7 +2,10 @@
 #include "battle.h"
 #include "battle_controllers.h"
 #include "battle_ai_main.h"
+#include "battle_ai_util.h"
 #include "battle_anim.h"
+#include "battle_gimmick.h"
+#include "battle_gimmick_extra.h"
 #include "constants/battle_anim.h"
 #include "battle_interface.h"
 #include "main.h"
@@ -140,8 +143,29 @@ void FreeBattleSpritesData(void)
     FREE_AND_SET_NULL(gBattleSpritesDataPtr);
 }
 
+static u32 TryAddBattlePalaceGimmick(enum BattlerId battler, u32 moveChoice)
+{
+    enum Gimmick gimmick = gBattleStruct->gimmick.usableGimmick[battler];
+    u32 moveIndex = moveChoice & (MAX_MON_MOVES - 1);
+    enum Move move = gBattleMons[battler].moves[moveIndex];
+
+    if ((gimmick == GIMMICK_MEGA || gimmick == GIMMICK_TERA)
+     && (gAiBattleData->aiUsingGimmick & (1u << battler))
+     && !HasTrainerUsedGimmick(battler, gimmick)
+     && CanUseSelectedGimmickWithMove(battler, move))
+    {
+        gBattleStruct->gimmick.toActivate |= 1u << battler;
+        return moveChoice | RET_GIMMICK
+             | ((u32)gimmick << RET_GIMMICK_ID_SHIFT)
+             | ((u32)(1u << gimmick) << RET_GIMMICK_MASK_SHIFT);
+    }
+
+    SetAIUsingGimmick(battler, NO_GIMMICK);
+    return moveChoice;
+}
+
 // Pokemon chooses move to use in Battle Palace rather than player
-u16 ChooseMoveAndTargetInBattlePalace(enum BattlerId battler)
+u32 ChooseMoveAndTargetInBattlePalace(enum BattlerId battler)
 {
     s32 i, var1, var2;
     s32 chosenMoveIndex = -1;
@@ -286,6 +310,7 @@ u16 ChooseMoveAndTargetInBattlePalace(enum BattlerId battler)
             if (Random() % 100 >= 50)
             {
                 gProtectStructs[battler].palaceUnableToUseMove = TRUE;
+                SetAIUsingGimmick(battler, NO_GIMMICK);
                 return 0;
             }
         }
@@ -293,6 +318,7 @@ u16 ChooseMoveAndTargetInBattlePalace(enum BattlerId battler)
         {
             // All the battler's moves were flagged as unusable.
             gProtectStructs[battler].palaceUnableToUseMove = TRUE;
+            SetAIUsingGimmick(battler, NO_GIMMICK);
             return 0;
         }
     }
@@ -306,7 +332,7 @@ u16 ChooseMoveAndTargetInBattlePalace(enum BattlerId battler)
     else
         chosenMoveIndex |= (GetBattlerLeftFoe(battler) << 8);
 
-    return chosenMoveIndex;
+    return TryAddBattlePalaceGimmick(battler, chosenMoveIndex);
 }
 
 #undef maxGroupNum

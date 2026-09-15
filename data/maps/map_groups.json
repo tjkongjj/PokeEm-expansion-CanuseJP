@@ -93,6 +93,7 @@
     "Underwater_Route129",
     "Underwater_Route105",
     "Underwater_Route125",
+    "ultra_frontie_hub",
     "PartyRoamerPark"
   ],
   "gMapGroup_IndoorLittleroot": [
@@ -260,7 +261,8 @@
     "MossdeepCity_SpaceCenter_1F",
     "MossdeepCity_SpaceCenter_2F",
     "MossdeepCity_GameCorner_1F",
-    "MossdeepCity_GameCorner_B1F"
+    "MossdeepCity_GameCorner_B1F",
+    "ultraflontie_PokemonCenter_2F_2"
   ],
   "gMapGroup_IndoorSootopolis": [
     "SootopolisCity_Gym_1F",
@@ -584,7 +586,9 @@
     "NavelRock_Down10",
     "NavelRock_Down11",
     "NavelRock_Bottom",
-    "TrainerHill_Elevator"
+    "TrainerHill_Elevator",
+    "Partybathtime",
+    "Party_eat_time"
   ],
   "gMapGroup_IndoorRoute104Prototype": [
     "Route104_Prototype",

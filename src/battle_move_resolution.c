@@ -1656,8 +1656,14 @@ static enum CancelerResult CancelerProtean(struct BattleCalcValues *cv)
             gBattleMons[cv->battlerAtk].volatiles.usedProteanLibero = TRUE;
         PREPARE_TYPE_BUFFER(gBattleTextBuff1, moveType);
         gBattlerAbility = cv->battlerAtk;
-        PrepareStringBattle(STRINGID_EMPTYSTRING3, cv->battlerAtk);
-        gBattleCommunication[MSG_DISPLAY] = 1;
+        // Clearing the move text is cosmetic. In link battles this extra controller
+        // round trip can leave the master waiting between the attack string and the
+        // Protean script, so let the actual type-change message replace it instead.
+        if (!(gBattleTypeFlags & BATTLE_TYPE_LINK))
+        {
+            PrepareStringBattle(STRINGID_EMPTYSTRING3, cv->battlerAtk);
+            gBattleCommunication[MSG_DISPLAY] = 1;
+        }
         BattleScriptCall(BattleScript_ProteanActivates);
         return CANCELER_RESULT_RUN_SCRIPT_AND_INCREMENT;
     }

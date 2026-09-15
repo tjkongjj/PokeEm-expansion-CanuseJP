@@ -1684,7 +1684,9 @@ static s32 TryMessage(s32 i, s32 n, const u8 *string)
                 switch (string[j])
                 {
                 case CHAR_SPACE:
+#if CHAR_NBSP != CHAR_SPACE
                 case CHAR_NBSP:
+#endif
                 case CHAR_PROMPT_SCROLL:
                 case CHAR_PROMPT_CLEAR:
                 case CHAR_NEWLINE:
@@ -1754,7 +1756,9 @@ void TestRunner_Battle_RecordMessage(const u8 *string)
                 switch (string[i])
                 {
                 case CHAR_SPACE:
+#if CHAR_NBSP != CHAR_SPACE
                 case CHAR_NBSP:
+#endif
                 case CHAR_PROMPT_SCROLL:
                 case CHAR_PROMPT_CLEAR:
                 case CHAR_NEWLINE:

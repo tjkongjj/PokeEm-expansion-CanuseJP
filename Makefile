@@ -200,6 +200,31 @@ BPEJ_VERIFIED_OK := $(BUILD_GENERATED_DIR)/bpej_verified.ok
 BPEJ_EXTRACTED_SOUND_DIR := $(BUILD_DIR)/extracted_sound
 BPEJ_SOUND_MANIFEST := $(TOOLS_DIR)/data/bpej_sound_manifest.json
 BPEJ_SOUND_EXTRACTED_OK := $(BUILD_GENERATED_DIR)/bpej_sound_extracted.ok
+LINK_COMPAT_TOOL_DIR := $(TOOLS_DIR)/link_compat
+LINK_COMPAT_FINGERPRINT := $(LINK_COMPAT_TOOL_DIR)/fingerprint.json
+LINK_COMPAT_FINGERPRINT_OK := $(BUILD_GENERATED_DIR)/link_compat_fingerprint.ok
+LINK_COMPAT_FINGERPRINT_INPUTS := \
+	$(INCLUDE_DIRS)/config/link_compat.h \
+	$(INCLUDE_DIRS)/config/battle.h \
+	$(INCLUDE_DIRS)/config/species_enabled.h \
+	$(INCLUDE_DIRS)/constants/species.h \
+	$(INCLUDE_DIRS)/constants/moves.h \
+	$(INCLUDE_DIRS)/constants/abilities.h \
+	$(INCLUDE_DIRS)/constants/items.h \
+	$(INCLUDE_DIRS)/constants/global.h \
+	$(INCLUDE_DIRS)/constants/pokemon.h \
+	$(INCLUDE_DIRS)/constants/battle.h \
+	$(INCLUDE_DIRS)/constants/union_room.h \
+	$(INCLUDE_DIRS)/pokemon.h \
+	$(INCLUDE_DIRS)/contest.h \
+	$(INCLUDE_DIRS)/link.h \
+	$(INCLUDE_DIRS)/battle.h \
+	$(INCLUDE_DIRS)/battle_main.h \
+	$(INCLUDE_DIRS)/battle_controllers.h \
+	$(INCLUDE_DIRS)/battle_gimmick.h \
+	$(INCLUDE_DIRS)/trainer_card.h \
+	$(C_SUBDIR)/contest_link.c \
+	$(C_SUBDIR)/link_rfu_2.c
 BPEJ_POKEDEX_SYMBOLS := symbols/bpej/pokedex/symbols.jsonl
 BPEJ_POKEDEX_MANIFEST := $(BUILD_GENERATED_DIR)/bpej_pokedex_manifest.json
 BPEJ_EXTRACTED_POKEDEX_DIR := $(BUILD_DIR)/extracted_pokedex
@@ -251,6 +276,7 @@ MISC_TOOL_DIR := $(TOOLS_DIR)/misc
 AUTO_GEN_TARGETS +=  $(INCLUDE_DIRS)/constants/script_commands.h
 AUTO_GEN_TARGETS += $(BPEJ_VERIFIED_OK)
 AUTO_GEN_TARGETS += $(BPEJ_SOUND_EXTRACTED_OK)
+AUTO_GEN_TARGETS += $(LINK_COMPAT_FINGERPRINT_OK)
 AUTO_GEN_TARGETS += $(BPEJ_POKEDEX_MANIFEST)
 AUTO_GEN_TARGETS += $(BPEJ_POKEDEX_EXTRACTED_OK)
 AUTO_GEN_TARGETS += $(BPEJ_BATTLE_BACKGROUND_MANIFEST)
@@ -270,6 +296,9 @@ $(BPEJ_VERIFIED_OK): baserom.gba $(TOOLS_DIR)/check_baserom_jp.py | $(BUILD_GENE
 
 $(BPEJ_SOUND_EXTRACTED_OK): baserom.gba $(BPEJ_VERIFIED_OK) $(BPEJ_SOUND_MANIFEST) $(TOOLS_DIR)/extract_bpej_sound.py | $(BUILD_GENERATED_DIR)
 	python3 $(TOOLS_DIR)/extract_bpej_sound.py --baserom baserom.gba --manifest $(BPEJ_SOUND_MANIFEST) --out $(BPEJ_EXTRACTED_SOUND_DIR) --stamp $@
+
+$(LINK_COMPAT_FINGERPRINT_OK): $(LINK_COMPAT_TOOL_DIR)/check_fingerprint.py $(LINK_COMPAT_FINGERPRINT) $(LINK_COMPAT_FINGERPRINT_INPUTS) | $(BUILD_GENERATED_DIR)
+	python3 $(LINK_COMPAT_TOOL_DIR)/check_fingerprint.py --root . --baseline $(LINK_COMPAT_FINGERPRINT) --stamp $@
 
 $(BPEJ_POKEDEX_MANIFEST): $(BPEJ_POKEDEX_SYMBOLS) $(TOOLS_DIR)/generate_bpej_pokedex_manifest.py | $(BUILD_GENERATED_DIR)
 	python3 $(TOOLS_DIR)/generate_bpej_pokedex_manifest.py --symbols $< --output $@

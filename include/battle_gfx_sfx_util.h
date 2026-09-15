@@ -3,7 +3,7 @@
 
 void AllocateBattleSpritesData(void);
 void FreeBattleSpritesData(void);
-u16 ChooseMoveAndTargetInBattlePalace(enum BattlerId battler);
+u32 ChooseMoveAndTargetInBattlePalace(enum BattlerId battler);
 void SpriteCB_WaitForBattlerBallReleaseAnim(struct Sprite *sprite);
 void SpriteCB_TrainerSlideIn(struct Sprite *sprite);
 void SpriteCB_TrainerSpawn(struct Sprite *sprite);

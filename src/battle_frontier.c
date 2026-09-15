@@ -19,8 +19,14 @@
 #include "constants/abilities.h"
 #include "constants/battle_frontier.h"
 #include "constants/battle_frontier_mons.h"
+#include "constants/flags.h"
 
 static void FillTrainerParty(u16 trainerId, enum BattleTrainer trainer, u8 monCount);
+static u8 GetForcedFrontierMonPoolFilter(u8 partySlot, u8 monCount);
+static bool32 TryGetOpponentPartySlot(const struct Pokemon *mon, enum BattleTrainer *trainer, u32 *slot);
+static void ClearFacilityOpponentGimmickSources(void);
+static void MarkFrontierOpponentPartyGimmicksForTrainer(enum BattleTrainer trainer);
+static void MarkFacilityMonGimmicksForOpponent(const struct TrainerMon *fmon, const struct Pokemon *dst);
 
 // EWRAM vars.
 EWRAM_DATA const struct BattleFrontierTrainer *gFacilityTrainers = NULL;
@@ -28,6 +34,8 @@ EWRAM_DATA const struct TrainerMon *gFacilityTrainerMons = NULL;
 
 // IWRAM common
 COMMON_DATA u16 gFrontierTempParty[MAX_FRONTIER_PARTY_SIZE] = {0};
+
+EWRAM_DATA static const struct TrainerMon *sFacilityOpponentMonSources[MAX_BATTLE_TRAINERS][PARTY_SIZE] = {0};
 
 static void HandleFacilityTrainerBattleEnd(void)
 {
@@ -189,14 +197,37 @@ void FacilityTrainerBattle(struct ScriptContext *ctx)
 void FillFrontierTrainerParty(u8 monsCount)
 {
     ZeroEnemyPartyMons();
+    ClearFacilityOpponentGimmickSources();
     FillTrainerParty(TRAINER_BATTLE_PARAM.opponentA, B_TRAINER_OPPONENT_A, monsCount);
 }
 
 void FillFrontierTrainersParties(u8 monsCount)
 {
     ZeroEnemyPartyMons();
+    ClearFacilityOpponentGimmickSources();
     FillTrainerParty(TRAINER_BATTLE_PARAM.opponentA, B_TRAINER_OPPONENT_A, monsCount);
     FillTrainerParty(TRAINER_BATTLE_PARAM.opponentB, B_TRAINER_OPPONENT_B, monsCount);
+}
+
+static u8 GetForcedFrontierMonPoolFilter(u8 partySlot, u8 monCount)
+{
+    bool8 forceSpecialStone = gSaveBlock2Ptr->frontier.curChallengeBattleNum >= 3;
+    bool8 forceBannedSpecies = forceSpecialStone && FlagGet(FLAG_FRONTIER_ALLOW_BANNED_SPECIES);
+
+    if (!forceSpecialStone)
+        return FRONTIER_MON_FILTER_NONE;
+
+    if (partySlot == 0)
+    {
+        if (forceBannedSpecies && monCount > 1)
+            return FRONTIER_MON_FILTER_SPECIAL_STONE_NOT_BANNED;
+        return FRONTIER_MON_FILTER_SPECIAL_STONE;
+    }
+
+    if (forceBannedSpecies && partySlot == 1)
+        return FRONTIER_MON_FILTER_BANNED_SPECIES;
+
+    return FRONTIER_MON_FILTER_NONE;
 }
 
 static void FillTrainerParty(u16 trainerId, enum BattleTrainer trainer, u8 monCount)
@@ -205,15 +236,12 @@ static void FillTrainerParty(u16 trainerId, enum BattleTrainer trainer, u8 monCo
     u16 chosenMonIndices[MAX_FRONTIER_PARTY_SIZE];
     u8 level = SetFacilityPtrsGetLevel();
     u8 fixedIV = 0;
-    u8 bfMonCount;
-    const u16 *monSet = NULL;
     u32 otID = 0;
 
     if (trainerId < FRONTIER_TRAINERS_COUNT)
     {
         // Normal battle frontier trainer.
         fixedIV = GetFrontierTrainerFixedIvs(trainerId);
-        monSet = gFacilityTrainers[trainerId].monSet;
     }
     else if (trainerId == TRAINER_EREADER)
     {
@@ -253,47 +281,12 @@ static void FillTrainerParty(u16 trainerId, enum BattleTrainer trainer, u8 monCo
     // Attempt to fill the trainer's party with random Pokemon until 3 have been
     // successfully chosen. The trainer's party may not have duplicate Pokemon species
     // or duplicate held items.
-    for (bfMonCount = 0; monSet[bfMonCount] != 0xFFFF; bfMonCount++)
-        ;
     i = 0;
     otID = Random32();
     while (i != monCount)
     {
-        u16 monId = monSet[Random() % bfMonCount];
-
-        // "High tier" Pokemon are only allowed on open level mode
-        // 20 is not a possible value for level here
-        if ((level == FRONTIER_MAX_LEVEL_50 || level == 20) && monId > FRONTIER_MONS_HIGH_TIER)
-            continue;
-
-        // Ensure this Pokemon species isn't a duplicate.
-        for (j = 0; j < i; j++)
-        {
-            if (GetMonData(&gParties[trainer][j], MON_DATA_SPECIES) == gFacilityTrainerMons[monId].species)
-                break;
-        }
-        if (j != i)
-            continue;
-
-        // Ensure this Pokemon's held item isn't a duplicate.
-        for (j = 0; j < i; j++)
-        {
-            if (GetMonData(&gParties[trainer][j], MON_DATA_HELD_ITEM) != ITEM_NONE
-             && GetMonData(&gParties[trainer][j], MON_DATA_HELD_ITEM) == gFacilityTrainerMons[monId].heldItem)
-                break;
-        }
-        if (j != i)
-            continue;
-
-        // Ensure this exact Pokemon index isn't a duplicate. This check doesn't seem necessary
-        // because the species and held items were already checked directly above.
-        for (j = 0; j < i; j++)
-        {
-            if (chosenMonIndices[j] == monId)
-                break;
-        }
-        if (j != i)
-            continue;
+        u8 poolFilter = GetForcedFrontierMonPoolFilter(i, monCount);
+        u16 monId = GetRandomFrontierMonFromFullPoolWithFilter(chosenMonIndices, i, NULL, 0, NULL, 0, poolFilter);
 
         chosenMonIndices[i] = monId;
 
@@ -304,6 +297,82 @@ static void FillTrainerParty(u16 trainerId, enum BattleTrainer trainer, u8 monCo
         // the next party slot.
         i++;
     }
+}
+
+static bool32 TryGetOpponentPartySlot(const struct Pokemon *mon, enum BattleTrainer *trainer, u32 *slot)
+{
+    u32 i;
+
+    for (i = 0; i < PARTY_SIZE; i++)
+    {
+        if (mon == &gParties[B_TRAINER_OPPONENT_A][i])
+        {
+            *trainer = B_TRAINER_OPPONENT_A;
+            *slot = i;
+            return TRUE;
+        }
+        if (mon == &gParties[B_TRAINER_OPPONENT_B][i])
+        {
+            *trainer = B_TRAINER_OPPONENT_B;
+            *slot = i;
+            return TRUE;
+        }
+    }
+
+    return FALSE;
+}
+
+static void ClearFacilityOpponentGimmickSources(void)
+{
+    memset(sFacilityOpponentMonSources, 0, sizeof(sFacilityOpponentMonSources));
+}
+
+static void MarkFrontierOpponentPartyGimmicksForTrainer(enum BattleTrainer trainer)
+{
+    u32 i;
+
+    for (i = 0; i < PARTY_SIZE; i++)
+    {
+        const struct TrainerMon *fmon = sFacilityOpponentMonSources[trainer][i];
+
+        if (fmon == NULL || GetMonData(&gParties[trainer][i], MON_DATA_SPECIES_OR_EGG) == SPECIES_NONE)
+            continue;
+
+        if (fmon->dynamaxLevel > 0 && fmon->shouldUseDynamax)
+            gBattleStruct->opponentMonCanDynamax |= 1 << i;
+        if (fmon->teraType > 0)
+            gBattleStruct->opponentMonCanTera |= 1 << i;
+    }
+}
+
+void MarkFrontierOpponentPartyGimmicks(void)
+{
+    if (gBattleStruct == NULL || !(gBattleTypeFlags & BATTLE_TYPE_FRONTIER) || (gBattleTypeFlags & BATTLE_TYPE_LINK))
+        return;
+
+    gBattleStruct->opponentMonCanDynamax = 0;
+    gBattleStruct->opponentMonCanTera = 0;
+    MarkFrontierOpponentPartyGimmicksForTrainer(B_TRAINER_OPPONENT_A);
+    MarkFrontierOpponentPartyGimmicksForTrainer(B_TRAINER_OPPONENT_B);
+}
+
+static void MarkFacilityMonGimmicksForOpponent(const struct TrainerMon *fmon, const struct Pokemon *dst)
+{
+    enum BattleTrainer trainer;
+    u32 slot;
+
+    if (!TryGetOpponentPartySlot(dst, &trainer, &slot))
+        return;
+
+    sFacilityOpponentMonSources[trainer][slot] = fmon;
+
+    if (gBattleStruct == NULL)
+        return;
+
+    if (fmon->dynamaxLevel > 0 && fmon->shouldUseDynamax)
+        gBattleStruct->opponentMonCanDynamax |= 1 << slot;
+    if (fmon->teraType > 0)
+        gBattleStruct->opponentMonCanTera |= 1 << slot;
 }
 
 void CreateFacilityMon(const struct TrainerMon *fmon, u16 level, u8 fixedIV, u32 otID, u32 flags, struct Pokemon *dst)
@@ -392,6 +461,7 @@ void CreateFacilityMon(const struct TrainerMon *fmon, u16 level, u8 fixedIV, u32
         SetMonData(dst, MON_DATA_TERA_TYPE, &data);
     }
 
+    MarkFacilityMonGimmicksForOpponent(fmon, dst);
 
     SetMonData(dst, MON_DATA_POKEBALL, &ball);
     CalculateMonStats(dst);

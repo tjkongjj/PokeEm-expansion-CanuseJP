@@ -216,6 +216,8 @@ void NewGameInitData(void)
     DeactivateAllRoamers();
     gSaveBlock1Ptr->registeredItem = ITEM_NONE;
     ClearBag();
+    AddBagItem(ITEM_MEGA_RING, 1);
+    AddBagItem(ITEM_BERSERK_GENE, 999);
     NewGameInitPCItems();
     ClearPokeblocks();
     ClearDecorationInventories();

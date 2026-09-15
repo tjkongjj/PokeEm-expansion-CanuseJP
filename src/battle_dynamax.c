@@ -6,6 +6,7 @@
 #include "battle_scripts.h"
 #include "battle_script_commands.h"
 #include "battle_gimmick.h"
+#include "battle_gimmick_extra.h"
 #include "data.h"
 #include "event_data.h"
 #include "graphics.h"
@@ -80,8 +81,7 @@ bool32 CanDynamax(enum BattlerId battler)
         return FALSE;
 
     // Check if Player has a Dynamax Band.
-    if (!TESTING && (GetBattlerPosition(battler) == B_POSITION_PLAYER_LEFT
-        || (!(gBattleTypeFlags & BATTLE_TYPE_MULTI) && GetBattlerPosition(battler) == B_POSITION_PLAYER_RIGHT)))
+    if (!TESTING && BattlerIsPlayer(battler))
     {
         if (!CheckBagHasItem(ITEM_DYNAMAX_BAND, 1))
             return FALSE;
@@ -97,6 +97,10 @@ bool32 CanDynamax(enum BattlerId battler)
 
     // Check if Trainer has already Dynamaxed.
     if (HasTrainerUsedGimmick(battler, GIMMICK_DYNAMAX))
+        return FALSE;
+
+    // Check if this Pokemon has already used another gimmick.
+    if (HasBattlerUsedAnyGimmick(battler))
         return FALSE;
 
     // Check if AI battler is intended to Dynamaxed.

@@ -356,6 +356,8 @@ BattleScript_MoveSwitchOpenPartyScreenReturnWithNoAnim:
 	trytoclearprimalweather
 	printstring STRINGID_EMPTYSTRING3
 	waitmessage 1
+	tryfrontiernicknamesendoutmsg BS_ATTACKER
+	waitmessage B_WAIT_TIME_LONG
 	printstring STRINGID_SWITCHINMON
 	return
 
@@ -1128,6 +1130,8 @@ BattleScript_EffectHealingWishGen4:
 	flushtextbox
 	tryendneutralizinggas
 	flushtextbox
+	tryfrontiernicknamesendoutmsg BS_ATTACKER
+	waitmessage B_WAIT_TIME_LONG
 	printstring STRINGID_SWITCHINMON
 	switchinanim BS_ATTACKER, FALSE, TRUE
 	waitstate
@@ -2262,6 +2266,8 @@ BattleScript_EffectBatonPass::
 	hpthresholds BS_ATTACKER
 	trytoclearprimalweather
 	flushtextbox
+	tryfrontiernicknamesendoutmsg BS_ATTACKER
+	waitmessage B_WAIT_TIME_LONG
 	printstring STRINGID_SWITCHINMON
 	switchinanim BS_ATTACKER, FALSE, TRUE
 	waitstate
@@ -2802,6 +2808,8 @@ BattleScript_FaintedMonTryChoose:
 	hpthresholds BS_ATTACKER
 	trytoclearprimalweather
 	flushtextbox
+	tryfrontiernicknamesendoutmsg BS_ATTACKER
+	waitmessage B_WAIT_TIME_LONG
 	printstring STRINGID_SWITCHINMON
 	hidepartystatussummary BS_ATTACKER
 	switchinanim BS_ATTACKER, FALSE, FALSE
@@ -2814,6 +2822,8 @@ BattleScript_FaintedMonSendOutNew:
 	hpthresholds BS_FAINTED
 	trytoclearprimalweather
 	flushtextbox
+	tryfrontiernicknamesendoutmsg BS_FAINTED
+	waitmessage B_WAIT_TIME_LONG
 	printstring STRINGID_SWITCHINMON
 	hidepartystatussummary BS_FAINTED
 	switchinanim BS_FAINTED, FALSE, FALSE
@@ -2850,6 +2860,8 @@ BattleScript_HandleFaintedMonLoop::
 	hpthresholds BS_FAINTED
 	trytoclearprimalweather
 	flushtextbox
+	tryfrontiernicknamesendoutmsg BS_FAINTED
+	waitmessage B_WAIT_TIME_LONG
 	printstring STRINGID_SWITCHINMON
 	hidepartystatussummary BS_FAINTED
 	switchinanim BS_FAINTED, FALSE, FALSE
@@ -3090,6 +3102,8 @@ BattleScript_DoSwitchOut::
 	hpthresholds BS_ATTACKER
 	trytoclearprimalweather
 	flushtextbox
+	tryfrontiernicknamesendoutmsg BS_ATTACKER
+	waitmessage B_WAIT_TIME_LONG
 	printstring STRINGID_SWITCHINMON
 	hidepartystatussummary BS_ATTACKER
 	switchinanim BS_ATTACKER, FALSE, FALSE
@@ -4556,6 +4570,8 @@ BattleScript_QueuedSwitch::
 	getswitchedmondata BS_SCRIPTING
 	switchindataupdate BS_SCRIPTING
 	hpthresholds BS_SCRIPTING
+	tryfrontiernicknamesendoutmsg BS_SCRIPTING
+	waitmessage B_WAIT_TIME_LONG
 	printstring STRINGID_SWITCHINMON
 	switchinanim BS_SCRIPTING, FALSE, TRUE
 	waitstate

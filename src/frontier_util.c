@@ -17,6 +17,7 @@
 #include "text.h"
 #include "battle_records.h"
 #include "international_string_util.h"
+#include "item.h"
 #include "string_util.h"
 #include "new_game.h"
 #include "link.h"
@@ -35,6 +36,7 @@
 #include "constants/battle_frontier_mons.h"
 #include "constants/battle_move_effects.h"
 #include "constants/battle_pike.h"
+#include "constants/flags.h"
 #include "constants/frontier_util.h"
 #include "constants/trainers.h"
 #include "constants/game_stat.h"
@@ -89,6 +91,9 @@ static void SaveRecordBattle(void);
 static void BufferFrontierTrainerName(void);
 static void ResetSketchedMoves(void);
 static void SetFacilityBrainObjectEvent(void);
+static bool8 ShouldTemporarilyScaleFrontierMonsToLevel50(void);
+static void SetMonExpToLevelAndRecalculate(struct Pokemon *mon, u8 level);
+static void ApplyTemporaryFrontierLevel50ToPlayerParty(void);
 static void ShowTowerResultsWindow(u8);
 static void ShowDomeResultsWindow(u8);
 static void ShowPalaceResultsWindow(u8);
@@ -255,6 +260,16 @@ const struct FrontierBrain gFrontierBrainInfo[NUM_FRONTIER_FACILITIES] =
         .streakAppearances = {21, 70, 35, 0},
     },
 };
+
+bool8 IsFrontierSpeciesBannedByCurrentRules(enum Species species)
+{
+    return gSpeciesInfo[species].isFrontierBanned && !FlagGet(FLAG_FRONTIER_ALLOW_BANNED_SPECIES);
+}
+
+bool8 IsFrontierSpeciesSubjectToBannedLimit(enum Species species)
+{
+    return gSpeciesInfo[species].isFrontierBanned && FlagGet(FLAG_FRONTIER_ALLOW_BANNED_SPECIES);
+}
 
 static const struct FrontierBrainMon sFrontierBrainsMons[][2][FRONTIER_PARTY_SIZE] =
 {
@@ -978,6 +993,7 @@ static void SetSelectedPartyOrder(void)
     for (i = 0; i < gSpecialVar_0x8005; i++)
         gSelectedOrderFromParty[i] = gSaveBlock2Ptr->frontier.selectedPartyMons[i];
     ReducePlayerPartyToSelectedMons();
+    ApplyTemporaryFrontierLevel50ToPlayerParty();
 }
 
 static void DoSoftReset_(void)
@@ -998,8 +1014,70 @@ static void SaveSelectedParty(void)
     {
         u16 monId = gSaveBlock2Ptr->frontier.selectedPartyMons[i] - 1;
         if (monId < PARTY_SIZE)
+        {
+            RestoreTemporaryFrontierLevel50BeforeSave(&gParties[B_TRAINER_PLAYER][i], monId);
             SavePlayerPartyMon(gSaveBlock2Ptr->frontier.selectedPartyMons[i] - 1, &gParties[B_TRAINER_PLAYER][i]);
+        }
     }
+}
+
+static bool8 ShouldTemporarilyScaleFrontierMonsToLevel50(void)
+{
+    return gSaveBlock2Ptr->frontier.lvlMode == FRONTIER_LVL_50
+        && VarGet(VAR_FRONTIER_FACILITY) < NUM_FRONTIER_FACILITIES;
+}
+
+static void SetMonExpToLevelAndRecalculate(struct Pokemon *mon, u8 level)
+{
+    enum Species species = GetMonData(mon, MON_DATA_SPECIES);
+    u32 exp;
+
+    if (species == SPECIES_NONE || species == SPECIES_EGG)
+        return;
+
+    exp = gExperienceTables[gSpeciesInfo[species].growthRate][level];
+    SetMonData(mon, MON_DATA_EXP, &exp);
+    CalculateMonStats(mon);
+}
+
+static void ApplyTemporaryFrontierLevel50ToPlayerParty(void)
+{
+    u32 i;
+
+    if (!ShouldTemporarilyScaleFrontierMonsToLevel50())
+        return;
+
+    for (i = 0; i < MAX_FRONTIER_PARTY_SIZE; i++)
+    {
+        struct Pokemon *mon = &gParties[B_TRAINER_PLAYER][i];
+
+        if (GetMonData(mon, MON_DATA_LEVEL) > FRONTIER_MAX_LEVEL_50)
+            SetMonExpToLevelAndRecalculate(mon, FRONTIER_MAX_LEVEL_50);
+    }
+}
+
+void RestoreTemporaryFrontierLevel50BeforeSave(struct Pokemon *mon, u16 partyIndex)
+{
+    struct Pokemon *savedMon;
+    enum Species species;
+    u32 exp;
+
+    if (!ShouldTemporarilyScaleFrontierMonsToLevel50() || partyIndex >= PARTY_SIZE)
+        return;
+
+    savedMon = GetSavedPlayerPartyMon(partyIndex);
+    species = GetMonData(savedMon, MON_DATA_SPECIES);
+    if (species == SPECIES_NONE
+        || species == SPECIES_EGG
+        || species != GetMonData(mon, MON_DATA_SPECIES)
+        || GetMonData(savedMon, MON_DATA_LEVEL) <= FRONTIER_MAX_LEVEL_50)
+    {
+        return;
+    }
+
+    exp = GetMonData(savedMon, MON_DATA_EXP);
+    SetMonData(mon, MON_DATA_EXP, &exp);
+    CalculateMonStats(mon);
 }
 
 static void ShowFacilityResultsWindow(void)
@@ -2047,11 +2125,12 @@ static void AppendIfValid(enum Species species, u16 heldItem, u16 hp, enum Front
 {
     s32 i = 0;
 
+    (void)lvlMode;
+    (void)monLevel;
+
     if (species == SPECIES_EGG || species == SPECIES_NONE)
         return;
-    if (gSpeciesInfo[species].isFrontierBanned)
-        return;
-    if (lvlMode == FRONTIER_LVL_50 && monLevel > FRONTIER_MAX_LEVEL_50)
+    if (IsFrontierSpeciesBannedByCurrentRules(species))
         return;
 
     for (i = 0; i < *count && speciesArray[i] != species; i++)
@@ -2146,7 +2225,7 @@ static void CheckPartyIneligibility(void)
             if (!IsSpeciesEnabled(i))
                 continue;
             baseSpecies = GET_BASE_SPECIES_ID(i);
-            if (baseSpecies == i && gSpeciesInfo[baseSpecies].isFrontierBanned)
+            if (baseSpecies == i && IsFrontierSpeciesBannedByCurrentRules(baseSpecies))
             {
                 if (GetSetPokedexFlag(SpeciesToNationalPokedexNum(baseSpecies), FLAG_GET_CAUGHT))
                     totalCaughtBanned++;
@@ -2158,7 +2237,7 @@ static void CheckPartyIneligibility(void)
             enum Species species = GetMonData(&gParties[B_TRAINER_PLAYER][i], MON_DATA_SPECIES_OR_EGG);
             if (species == SPECIES_EGG || species == SPECIES_NONE)
                 continue;
-            if (gSpeciesInfo[GET_BASE_SPECIES_ID(species)].isFrontierBanned)
+            if (IsFrontierSpeciesBannedByCurrentRules(GET_BASE_SPECIES_ID(species)))
             {
                 bool32 addToList = TRUE;
                 for (j = 0; j < totalPartyBanned; j++)
@@ -2306,6 +2385,7 @@ static void ResetSketchedMoves(void)
                 if (k == MAX_MON_MOVES)
                     SetMonMoveSlot(&gParties[B_TRAINER_PLAYER][i], MOVE_SKETCH, j);
             }
+            RestoreTemporaryFrontierLevel50BeforeSave(&gParties[B_TRAINER_PLAYER][i], monId);
             SavePlayerPartyMon(gSaveBlock2Ptr->frontier.selectedPartyMons[i] - 1, &gParties[B_TRAINER_PLAYER][i]);
         }
     }
@@ -3213,7 +3293,6 @@ void GetFrontierTrainerName(u8 *dst, u16 trainerId)
 
 u16 GetRandomFrontierMonFromSet(u16 trainerId)
 {
-    u8 level = SetFacilityPtrsGetLevel();
     const u16 *monSet = gFacilityTrainers[trainerId].monSet;
     u8 numMons = 0;
     u32 monId = monSet[numMons];
@@ -3226,14 +3305,197 @@ u16 GetRandomFrontierMonFromSet(u16 trainerId)
             break;
     }
 
-    do
-    {
-        // "High tier" Pokemon are only allowed on open level mode
-        // 20 is not a possible value for level here
-        monId = monSet[Random() % numMons];
-    } while ((level == FRONTIER_MAX_LEVEL_50 || level == 20) && monId > FRONTIER_MONS_HIGH_TIER);
+    return monSet[Random() % numMons];
+}
 
-    return monId;
+static bool8 FrontierMonHeldItemHasSortType(u16 monId, enum ItemSortType sortType)
+{
+    enum Item item = gFacilityTrainerMons[monId].heldItem;
+
+    return item != ITEM_NONE && gItemsInfo[item].sortType == sortType;
+}
+
+static bool8 SelectedFrontierMonsContainBannedSpecies(const u16 *selectedMonIds, u8 selectedCount)
+{
+    u8 i;
+
+    for (i = 0; i < selectedCount; i++)
+    {
+        if (IsFrontierSpeciesSubjectToBannedLimit(gFacilityTrainerMons[selectedMonIds[i]].species))
+            return TRUE;
+    }
+
+    return FALSE;
+}
+
+static bool8 SelectedFrontierMonsContainHeldItemSortType(const u16 *selectedMonIds, u8 selectedCount, enum ItemSortType sortType)
+{
+    u8 i;
+
+    for (i = 0; i < selectedCount; i++)
+    {
+        if (FrontierMonHeldItemHasSortType(selectedMonIds[i], sortType))
+            return TRUE;
+    }
+
+    return FALSE;
+}
+
+static bool8 FrontierMonMatchesPoolFilter(u16 monId, u8 filter)
+{
+    enum Species species = gFacilityTrainerMons[monId].species;
+    bool8 hasSpecialStone = FrontierMonHeldItemHasSortType(monId, ITEM_TYPE_MEGA_STONE)
+        || FrontierMonHeldItemHasSortType(monId, ITEM_TYPE_Z_CRYSTAL);
+
+    switch (filter)
+    {
+    case FRONTIER_MON_FILTER_SPECIAL_STONE:
+        return hasSpecialStone;
+    case FRONTIER_MON_FILTER_BANNED_SPECIES:
+        return IsFrontierSpeciesSubjectToBannedLimit(species);
+    case FRONTIER_MON_FILTER_SPECIAL_STONE_NOT_BANNED:
+        return hasSpecialStone && !gSpeciesInfo[species].isFrontierBanned;
+    default:
+        return TRUE;
+    }
+}
+
+static bool8 IsFrontierMonSelectableForParty(u16 monId, const u16 *selectedMonIds, u8 selectedCount, const u16 *excludedMonIds, u8 excludedMonIdCount, const enum Species *excludedSpecies, u8 excludedSpeciesCount)
+{
+    u8 i;
+    enum Species species = gFacilityTrainerMons[monId].species;
+    enum Item heldItem = gFacilityTrainerMons[monId].heldItem;
+    bool8 hasMegaStone = FrontierMonHeldItemHasSortType(monId, ITEM_TYPE_MEGA_STONE);
+    bool8 hasZCrystal = FrontierMonHeldItemHasSortType(monId, ITEM_TYPE_Z_CRYSTAL);
+
+    if (!FrontierMonMatchesPoolFilter(monId, FRONTIER_MON_FILTER_NONE))
+        return FALSE;
+    if (IsFrontierSpeciesBannedByCurrentRules(species))
+        return FALSE;
+    if (IsFrontierSpeciesSubjectToBannedLimit(species) && SelectedFrontierMonsContainBannedSpecies(selectedMonIds, selectedCount))
+        return FALSE;
+    if (hasMegaStone && SelectedFrontierMonsContainHeldItemSortType(selectedMonIds, selectedCount, ITEM_TYPE_MEGA_STONE))
+        return FALSE;
+    if (hasZCrystal && SelectedFrontierMonsContainHeldItemSortType(selectedMonIds, selectedCount, ITEM_TYPE_Z_CRYSTAL))
+        return FALSE;
+
+    for (i = 0; i < excludedMonIdCount; i++)
+    {
+        if (excludedMonIds[i] == monId)
+            return FALSE;
+    }
+
+    for (i = 0; i < excludedSpeciesCount; i++)
+    {
+        if (excludedSpecies[i] == species)
+            return FALSE;
+    }
+
+    for (i = 0; i < selectedCount; i++)
+    {
+        u16 selectedMonId = selectedMonIds[i];
+
+        if (selectedMonId == monId)
+            return FALSE;
+        if (gFacilityTrainerMons[selectedMonId].species == species)
+            return FALSE;
+        if (heldItem != ITEM_NONE && gFacilityTrainerMons[selectedMonId].heldItem == heldItem)
+            return FALSE;
+    }
+
+    return TRUE;
+}
+
+static u16 CountSelectableFrontierMons(const u16 *selectedMonIds, u8 selectedCount, const u16 *excludedMonIds, u8 excludedMonIdCount, const enum Species *excludedSpecies, u8 excludedSpeciesCount, u8 filter)
+{
+    u16 monId;
+    u16 count = 0;
+
+    for (monId = 0; monId < NUM_FRONTIER_MONS; monId++)
+    {
+        if (FrontierMonMatchesPoolFilter(monId, filter)
+            && IsFrontierMonSelectableForParty(monId, selectedMonIds, selectedCount, excludedMonIds, excludedMonIdCount, excludedSpecies, excludedSpeciesCount))
+            count++;
+    }
+
+    return count;
+}
+
+static bool8 IsFrontierMonSelectableIgnoringSoftPartyClauses(u16 monId, const u16 *selectedMonIds, u8 selectedCount, u8 filter)
+{
+    enum Species species = gFacilityTrainerMons[monId].species;
+
+    if (!FrontierMonMatchesPoolFilter(monId, filter))
+        return FALSE;
+    if (IsFrontierSpeciesBannedByCurrentRules(species))
+        return FALSE;
+    if (IsFrontierSpeciesSubjectToBannedLimit(species) && SelectedFrontierMonsContainBannedSpecies(selectedMonIds, selectedCount))
+        return FALSE;
+    if (FrontierMonHeldItemHasSortType(monId, ITEM_TYPE_MEGA_STONE) && SelectedFrontierMonsContainHeldItemSortType(selectedMonIds, selectedCount, ITEM_TYPE_MEGA_STONE))
+        return FALSE;
+    if (FrontierMonHeldItemHasSortType(monId, ITEM_TYPE_Z_CRYSTAL) && SelectedFrontierMonsContainHeldItemSortType(selectedMonIds, selectedCount, ITEM_TYPE_Z_CRYSTAL))
+        return FALSE;
+
+    return TRUE;
+}
+
+static u16 GetRandomFrontierMonIgnoringSoftPartyClauses(const u16 *selectedMonIds, u8 selectedCount, u8 filter)
+{
+    u16 monId;
+    u16 count = 0;
+    u16 target;
+
+    for (monId = 0; monId < NUM_FRONTIER_MONS; monId++)
+    {
+        if (IsFrontierMonSelectableIgnoringSoftPartyClauses(monId, selectedMonIds, selectedCount, filter))
+            count++;
+    }
+
+    if (count == 0)
+        return Random() % NUM_FRONTIER_MONS;
+
+    target = Random() % count;
+    for (monId = 0; monId < NUM_FRONTIER_MONS; monId++)
+    {
+        if (IsFrontierMonSelectableIgnoringSoftPartyClauses(monId, selectedMonIds, selectedCount, filter))
+        {
+            if (target == 0)
+                return monId;
+            target--;
+        }
+    }
+
+    return 0;
+}
+
+u16 GetRandomFrontierMonFromFullPoolWithFilter(const u16 *selectedMonIds, u8 selectedCount, const u16 *excludedMonIds, u8 excludedMonIdCount, const enum Species *excludedSpecies, u8 excludedSpeciesCount, u8 filter)
+{
+    u16 monId;
+    u16 count;
+    u16 target;
+
+    count = CountSelectableFrontierMons(selectedMonIds, selectedCount, excludedMonIds, excludedMonIdCount, excludedSpecies, excludedSpeciesCount, filter);
+    if (count == 0)
+        return GetRandomFrontierMonIgnoringSoftPartyClauses(selectedMonIds, selectedCount, filter);
+
+    target = Random() % count;
+    for (monId = 0; monId < NUM_FRONTIER_MONS; monId++)
+    {
+        if (FrontierMonMatchesPoolFilter(monId, filter)
+            && IsFrontierMonSelectableForParty(monId, selectedMonIds, selectedCount, excludedMonIds, excludedMonIdCount, excludedSpecies, excludedSpeciesCount))
+        {
+            if (target == 0)
+                return monId;
+            target--;
+        }
+    }
+
+    return GetRandomFrontierMonIgnoringSoftPartyClauses(selectedMonIds, selectedCount, filter);
+}
+
+u16 GetRandomFrontierMonFromFullPool(const u16 *selectedMonIds, u8 selectedCount, const u16 *excludedMonIds, u8 excludedMonIdCount, const enum Species *excludedSpecies, u8 excludedSpeciesCount)
+{
+    return GetRandomFrontierMonFromFullPoolWithFilter(selectedMonIds, selectedCount, excludedMonIds, excludedMonIdCount, excludedSpecies, excludedSpeciesCount, FRONTIER_MON_FILTER_NONE);
 }
 
 void FrontierSpeechToString(const u16 *words)
@@ -3356,7 +3618,7 @@ static u16 *MakeCaughtBannesSpeciesList(u32 totalBannedSpecies)
             continue;
 
         enum Species baseSpecies = GET_BASE_SPECIES_ID(i);
-        if (baseSpecies == i && gSpeciesInfo[baseSpecies].isFrontierBanned)
+        if (baseSpecies == i && IsFrontierSpeciesBannedByCurrentRules(baseSpecies))
         {
             if (GetSetPokedexFlag(SpeciesToNationalPokedexNum(baseSpecies), FLAG_GET_CAUGHT))
             {

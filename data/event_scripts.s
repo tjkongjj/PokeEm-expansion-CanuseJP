@@ -1316,4 +1316,12 @@ EventScript_PalletTown_PlayersHouse_2F_TurnOnPC::
 	.include "data/scripts/battle_frontier.inc"
 	.include "data/scripts/apricorn_tree.inc"
 	.include "data/scripts/wild_encounter.inc"
+
+	.include "data/maps/ultra_frontie_hub/scripts.inc"
 	.include "data/maps/PartyRoamerPark/scripts.inc"
+
+	.include "data/maps/Partybathtime/scripts.inc"
+
+	.include "data/maps/Party_eat_time/scripts.inc"
+
+	.include "data/maps/ultraflontie_PokemonCenter_2F_2/scripts.inc"

@@ -10,6 +10,7 @@
 #include "battle_setup.h"
 #include "battle_z_move.h"
 #include "battle_gimmick.h"
+#include "battle_gimmick_extra.h"
 #include "battle_hold_effects.h"
 #include "battle_stat_change.h"
 #include "config_changes.h"
@@ -5781,8 +5782,8 @@ enum Obedience GetAttackerObedienceForAction(void)
     //  Clear the Z-Move flags if the battler is disobedient as to not waste the Z-Move
     if (GetActiveGimmick(gBattlerAttacker) == GIMMICK_Z_MOVE)
     {
-        gBattleStruct->gimmick.activated[gBattlerAttacker][GIMMICK_Z_MOVE] = FALSE;
-        gBattleStruct->gimmick.activeGimmick[GetBattlerSide(gBattlerAttacker)][gBattlerPartyIndexes[gBattlerAttacker]] = GIMMICK_NONE;
+        ClearGimmickAsActivated(gBattlerAttacker, GIMMICK_Z_MOVE);
+        SetActiveGimmick(gBattlerAttacker, GIMMICK_NONE);
     }
 
     // is not obedient
@@ -8573,16 +8574,20 @@ bool32 DoesSpeciesUseHoldItemToChangeForm(enum Species species, u16 heldItemId)
 bool32 CanMegaEvolve(enum BattlerId battler)
 {
     enum HoldEffect holdEffect = GetBattlerHoldEffectIgnoreNegation(battler);
-    enum BattlerPosition position = GetBattlerPosition(battler);
 
     // Check if Player has a Mega Ring.
     if (!TESTING
-        && (position == B_POSITION_PLAYER_LEFT || (!(gBattleTypeFlags & BATTLE_TYPE_MULTI) && position == B_POSITION_PLAYER_RIGHT))
+        && BattlerIsPlayer(battler)
+        && !(gBattleTypeFlags & BATTLE_TYPE_FRONTIER)
         && !CheckBagHasItem(ITEM_MEGA_RING, 1))
         return FALSE;
 
     // Check if Trainer has already Mega Evolved.
     if (HasTrainerUsedGimmick(battler, GIMMICK_MEGA))
+        return FALSE;
+
+    // Check if this Pokemon has already used another gimmick.
+    if (HasBattlerUsedAnyGimmick(battler))
         return FALSE;
 
     // Check if battler has another gimmick active.
@@ -8614,16 +8619,17 @@ bool32 CanMegaEvolve(enum BattlerId battler)
 bool32 CanUltraBurst(enum BattlerId battler)
 {
     enum HoldEffect holdEffect = GetBattlerHoldEffectIgnoreNegation(battler);
-    enum BattlerPosition position = GetBattlerPosition(battler);
 
     // Check if Player has a Z-Ring
-    if (!TESTING && (position == B_POSITION_PLAYER_LEFT
-        || (!(gBattleTypeFlags & BATTLE_TYPE_MULTI) && position == B_POSITION_PLAYER_RIGHT))
-        && !CheckBagHasItem(ITEM_Z_POWER_RING, 1))
+    if (!TESTING && BattlerIsPlayer(battler) && !CheckBagHasItem(ITEM_Z_POWER_RING, 1))
         return FALSE;
 
     // Check if Trainer has already Ultra Bursted.
     if (HasTrainerUsedGimmick(battler, GIMMICK_ULTRA_BURST))
+        return FALSE;
+
+    // Check if this Pokemon has already used another gimmick.
+    if (HasBattlerUsedAnyGimmick(battler))
         return FALSE;
 
     // Check if battler has another gimmick active.

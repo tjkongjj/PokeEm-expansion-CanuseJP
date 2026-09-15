@@ -14,6 +14,8 @@
 #include "wild_encounter_ow.h"
 #include "constants/event_objects.h"
 #include "constants/field_effects.h"
+#include "constants/map_groups.h"
+#include "constants/maps.h"
 #include "constants/rgb.h"
 #include "constants/songs.h"
 #include "constants/species.h"
@@ -988,28 +990,71 @@ u32 FldEff_Ripple(void)
 }
 
 // Sprite data for FLDEFF_HOT_SPRINGS_WATER
-#define sLocalId  data[0]
-#define sMapNum   data[1]
-#define sMapGroup data[2]
-#define sPrevX    data[3]
-#define sPrevY    data[4]
+#define HOT_SPRINGS_WATER_SPRITE_WIDTH 16
+#define MAX_HOT_SPRINGS_WATER_SPRITES 4
+#define sLocalId       data[0]
+#define sMapNum        data[1]
+#define sMapGroup      data[2]
+#define sWaterXOffset  data[3]
+#define sIsChildSprite data[4]
+
+static bool8 IsPartyBathTimePlayerHotSpringsWater(const struct ObjectEvent *objectEvent)
+{
+    return objectEvent->isPlayer
+        && gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(MAP_PARTYBATHTIME)
+        && gSaveBlock1Ptr->location.mapNum == MAP_NUM(MAP_PARTYBATHTIME);
+}
+
+static u8 CreateHotSpringsWaterSprite(struct ObjectEvent *objectEvent, s16 xOffset, bool8 isChildSprite)
+{
+    u8 spriteId = CreateSpriteAtEnd(gFieldEffectObjectTemplatePointers[FLDEFFOBJ_HOT_SPRINGS_WATER], 0, 0, 0);
+
+    if (spriteId != MAX_SPRITES)
+    {
+        struct Sprite *sprite = &gSprites[spriteId];
+
+        sprite->coordOffsetEnabled = TRUE;
+        sprite->oam.priority = gSprites[objectEvent->spriteId].oam.priority;
+        sprite->sLocalId = objectEvent->localId;
+        sprite->sMapNum = objectEvent->mapNum;
+        sprite->sMapGroup = objectEvent->mapGroup;
+        sprite->sWaterXOffset = xOffset;
+        sprite->sIsChildSprite = isChildSprite;
+    }
+
+    return spriteId;
+}
 
 u32 FldEff_HotSpringsWater(void)
 {
     u8 objectEventId = GetObjectEventIdByLocalIdAndMap(gFieldEffectArguments[0], gFieldEffectArguments[1], gFieldEffectArguments[2]);
     struct ObjectEvent *objectEvent = &gObjectEvents[objectEventId];
-    u8 spriteId = CreateSpriteAtEnd(gFieldEffectObjectTemplatePointers[FLDEFFOBJ_HOT_SPRINGS_WATER], 0, 0, 0);
-    if (spriteId != MAX_SPRITES)
+    const struct ObjectEventGraphicsInfo *graphicsInfo;
+    u8 waterSpriteCount;
+    s16 baseXOffset;
+    u8 i;
+
+    if (objectEventId == OBJECT_EVENTS_COUNT)
+        return 0;
+
+    graphicsInfo = GetObjectEventGraphicsInfo(objectEvent->graphicsId);
+    if (IsPartyBathTimePlayerHotSpringsWater(objectEvent))
+        waterSpriteCount = 1;
+    else
+        waterSpriteCount = (graphicsInfo->width + HOT_SPRINGS_WATER_SPRITE_WIDTH - 1) / HOT_SPRINGS_WATER_SPRITE_WIDTH;
+    if (waterSpriteCount < 1)
+        waterSpriteCount = 1;
+    if (waterSpriteCount > MAX_HOT_SPRINGS_WATER_SPRITES)
+        waterSpriteCount = MAX_HOT_SPRINGS_WATER_SPRITES;
+
+    baseXOffset = -((s16)(waterSpriteCount - 1) * (HOT_SPRINGS_WATER_SPRITE_WIDTH / 2));
+
+    for (i = 0; i < waterSpriteCount; i++)
     {
-        struct Sprite *sprite = &gSprites[spriteId];
-        sprite->coordOffsetEnabled = TRUE;
-        sprite->oam.priority = gSprites[objectEvent->spriteId].oam.priority;
-        sprite->sLocalId = gFieldEffectArguments[0];
-        sprite->sMapNum = gFieldEffectArguments[1];
-        sprite->sMapGroup = gFieldEffectArguments[2];
-        sprite->sPrevX = gSprites[objectEvent->spriteId].x; // Unused
-        sprite->sPrevY = gSprites[objectEvent->spriteId].y; // Unused
+        if (CreateHotSpringsWaterSprite(objectEvent, baseXOffset + i * HOT_SPRINGS_WATER_SPRITE_WIDTH, i != 0) == MAX_SPRITES)
+            break;
     }
+
     return 0;
 }
 
@@ -1019,15 +1064,21 @@ void UpdateHotSpringsWaterFieldEffect(struct Sprite *sprite)
 
     if (TryGetObjectEventIdByLocalIdAndMap(sprite->sLocalId, sprite->sMapNum, sprite->sMapGroup, &objectEventId) || !gObjectEvents[objectEventId].inHotSprings)
     {
-        FieldEffectStop(sprite, FLDEFF_HOT_SPRINGS_WATER);
+        if (sprite->sIsChildSprite)
+            FieldEffectFreeGraphicsResources(sprite);
+        else
+            FieldEffectStop(sprite, FLDEFF_HOT_SPRINGS_WATER);
     }
     else
     {
         const struct ObjectEventGraphicsInfo *graphicsInfo = GetObjectEventGraphicsInfo(gObjectEvents[objectEventId].graphicsId);
         struct Sprite *linkedSprite = &gSprites[gObjectEvents[objectEventId].spriteId];
-        sprite->x = linkedSprite->x;
+        sprite->x = linkedSprite->x + sprite->sWaterXOffset;
         sprite->y = (graphicsInfo->height >> 1) + linkedSprite->y - 8;
-        sprite->subpriority = linkedSprite->subpriority - 1;
+        if (IsPartyBathTimePlayerHotSpringsWater(&gObjectEvents[objectEventId]))
+            sprite->subpriority = linkedSprite->subpriority;
+        else
+            sprite->subpriority = linkedSprite->subpriority - 1;
         UpdateObjectEventSpriteInvisibility(sprite, FALSE);
     }
 }
@@ -1035,8 +1086,10 @@ void UpdateHotSpringsWaterFieldEffect(struct Sprite *sprite)
 #undef sLocalId
 #undef sMapNum
 #undef sMapGroup
-#undef sPrevX
-#undef sPrevY
+#undef sWaterXOffset
+#undef sIsChildSprite
+#undef HOT_SPRINGS_WATER_SPRITE_WIDTH
+#undef MAX_HOT_SPRINGS_WATER_SPRITES
 
 u32 FldEff_ShakingGrass(void)
 {

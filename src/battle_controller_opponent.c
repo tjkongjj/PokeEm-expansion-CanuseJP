@@ -11,6 +11,7 @@
 #include "battle_interface.h"
 #include "battle_setup.h"
 #include "battle_special.h"
+#include "battle_util.h"
 #include "battle_tv.h"
 #include "battle_z_move.h"
 #include "bg.h"
@@ -437,7 +438,8 @@ static void OpponentHandleChooseMove(enum BattlerId battler)
     {
         if (gBattleTypeFlags & BATTLE_TYPE_PALACE)
         {
-            BtlController_EmitTwoReturnValues(battler, B_COMM_TO_ENGINE, B_ACTION_EXEC_SCRIPT, ChooseMoveAndTargetInBattlePalace(battler));
+            u32 chosenMoveAndTarget = ChooseMoveAndTargetInBattlePalace(battler);
+            BtlController_EmitTwoReturnValues(battler, B_COMM_TO_ENGINE, B_ACTION_EXEC_SCRIPT, chosenMoveAndTarget);
         }
         else if (gAiBattleData->actionFlee)
         {

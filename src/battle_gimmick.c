@@ -4,6 +4,7 @@
 #include "battle_controllers.h"
 #include "battle_interface.h"
 #include "battle_gimmick.h"
+#include "battle_gimmick_extra.h"
 #include "battle_z_move.h"
 #include "battle_setup.h"
 #include "battle_util.h"
@@ -12,9 +13,13 @@
 #include "pokemon.h"
 #include "sprite.h"
 #include "util.h"
+#include "window.h"
 #include "test_runner.h"
 
 #include "data/gimmicks.h"
+
+#define ACTIVE_GIMMICK_MASK (0x0F)
+#define USED_ANY_GIMMICK_FLAG (0x80)
 
 // Populates gBattleStruct->gimmick.usableGimmick for each battler.
 void AssignUsableGimmicks(void)
@@ -33,33 +38,49 @@ void AssignUsableGimmicks(void)
     }
 }
 
+u8 GetUsableGimmickMask(enum BattlerId battler)
+{
+    u8 mask = 0;
+
+    for (enum Gimmick gimmick = GIMMICK_NONE + 1; gimmick < GIMMICKS_COUNT; ++gimmick)
+    {
+        if (CanActivateGimmick(battler, gimmick))
+            mask |= 1u << gimmick;
+    }
+
+    return mask;
+}
+
 // Returns whether a battler is able to use a gimmick. Checks consumption and gimmick specific functions.
 bool32 CanActivateGimmick(enum BattlerId battler, enum Gimmick gimmick)
 {
+    if ((gBattleTypeFlags & BATTLE_TYPE_PALACE)
+     && gimmick != GIMMICK_MEGA
+     && gimmick != GIMMICK_TERA)
+        return FALSE;
+
     return gGimmicksInfo[gimmick].CanActivate != NULL && gGimmicksInfo[gimmick].CanActivate(battler);
 }
 
 // Returns whether the player has a gimmick selected while in the move selection menu.
 bool32 IsGimmickSelected(enum BattlerId battler, enum Gimmick gimmick)
 {
-    // There's no player select in tests, but some gimmicks need to test choice before they are fully activated.
-    #if TESTING
-    return (gBattleStruct->gimmick.toActivate & (1u << battler)) && gBattleStruct->gimmick.usableGimmick[battler] == gimmick;
-    #else
-    return gBattleStruct->gimmick.usableGimmick[battler] == gimmick && gBattleStruct->gimmick.playerSelect;
-    #endif
+    return gBattleStruct->gimmick.usableGimmick[battler] == gimmick
+        && (gBattleStruct->gimmick.playerSelect[battler]
+         || (gBattleStruct->gimmick.toActivate & (1u << battler)));
 }
 
 // Sets a battler as having a gimmick active using their party index.
 void SetActiveGimmick(enum BattlerId battler, enum Gimmick gimmick)
 {
-    gBattleStruct->gimmick.activeGimmick[GetBattlerTrainer(battler)][gBattlerPartyIndexes[battler]] = gimmick;
+    u8 *state = &gBattleStruct->gimmick.activeGimmick[GetBattlerTrainer(battler)][gBattlerPartyIndexes[battler]];
+    *state = (*state & USED_ANY_GIMMICK_FLAG) | gimmick;
 }
 
 // Returns a battler's active gimmick, if any.
 enum Gimmick GetActiveGimmick(enum BattlerId battler)
 {
-    return gBattleStruct->gimmick.activeGimmick[GetBattlerTrainer(battler)][gBattlerPartyIndexes[battler]];
+    return gBattleStruct->gimmick.activeGimmick[GetBattlerTrainer(battler)][gBattlerPartyIndexes[battler]] & ACTIVE_GIMMICK_MASK;
 }
 
 // Returns whether a trainer mon is intended to use an unrestrictive gimmick via .useGimmick (i.e Tera).
@@ -69,8 +90,16 @@ bool32 ShouldTrainerBattlerUseGimmick(enum BattlerId battler, enum Gimmick gimmi
     #if TESTING
     return gimmick == TestRunner_Battle_GetChosenGimmick(GetBattlerTrainer(battler), gBattlerPartyIndexes[battler]);
     #else
+    // Every linked human chooses on their own console. On the other consoles
+    // that battler uses a link controller rather than the player controller.
+    if ((gBattleTypeFlags & BATTLE_TYPE_LINK) && (BattlerIsPlayer(battler) || BattlerIsLink(battler)))
+        return TRUE;
+
     // The player can bypass these checks because they can choose through the controller.
-    if (IsOnPlayerSide(battler) && !((gBattleTypeFlags & BATTLE_TYPE_MULTI) && GetBattlerPosition(battler) == B_POSITION_PLAYER_RIGHT))
+    if (IsOnPlayerSide(battler)
+     && (!(gBattleTypeFlags & BATTLE_TYPE_MULTI)
+      || (gBattleTypeFlags & BATTLE_TYPE_LINK)
+      || GetBattlerPosition(battler) != B_POSITION_PLAYER_RIGHT))
     {
         return TRUE;
     }
@@ -101,12 +130,43 @@ bool32 HasTrainerUsedGimmick(enum BattlerId battler, enum Gimmick gimmick)
     return gBattleStruct->gimmick.activated[battler][gimmick];
 }
 
+bool32 HasBattlerUsedAnyGimmick(enum BattlerId battler)
+{
+    if (gBattleStruct->gimmick.activeGimmick[GetBattlerTrainer(battler)][gBattlerPartyIndexes[battler]] & USED_ANY_GIMMICK_FLAG)
+        return TRUE;
+
+    return FALSE;
+}
+
+bool32 CanUseSelectedGimmickWithMove(enum BattlerId battler, enum Move move)
+{
+    enum Gimmick gimmick = gBattleStruct->gimmick.usableGimmick[battler];
+
+    if (gimmick == GIMMICK_NONE)
+        return FALSE;
+    if (!CanActivateGimmick(battler, gimmick))
+        return FALSE;
+    if (gimmick == GIMMICK_Z_MOVE && (GetUsableZMove(battler, move) == MOVE_NONE || !IsViableZMove(battler, move)))
+        return FALSE;
+
+    return TRUE;
+}
+
 // Sets a gimmick as used by a trainer with checks for Multi Battles.
 void SetGimmickAsActivated(enum BattlerId battler, enum Gimmick gimmick)
 {
     gBattleStruct->gimmick.activated[battler][gimmick] = TRUE;
+    gBattleStruct->gimmick.activeGimmick[GetBattlerTrainer(battler)][gBattlerPartyIndexes[battler]] |= USED_ANY_GIMMICK_FLAG;
     if (IsDoubleBattle() && (IsPartnerMonFromSameTrainer(battler) || (gimmick == GIMMICK_DYNAMAX)))
         gBattleStruct->gimmick.activated[GetPartnerBattler(battler)][gimmick] = TRUE;
+}
+
+void ClearGimmickAsActivated(enum BattlerId battler, enum Gimmick gimmick)
+{
+    gBattleStruct->gimmick.activated[battler][gimmick] = FALSE;
+    gBattleStruct->gimmick.activeGimmick[GetBattlerTrainer(battler)][gBattlerPartyIndexes[battler]] &= ~USED_ANY_GIMMICK_FLAG;
+    if (IsDoubleBattle() && (IsPartnerMonFromSameTrainer(battler) || (gimmick == GIMMICK_DYNAMAX)))
+        gBattleStruct->gimmick.activated[GetPartnerBattler(battler)][gimmick] = FALSE;
 }
 
 #define SINGLES_GIMMICK_TRIGGER_POS_X_OPTIMAL (30)
@@ -322,6 +382,64 @@ u32 GetIndicatorPalTag(enum BattlerId battler)
 }
 
 #define INDICATOR_SIZE (8 * 16 / 2)
+
+static u16 GetTeraIndicatorTileTag(enum Type type)
+{
+    if (type > TYPE_NONE && type <= TYPE_STELLAR)
+        return TAG_NORMAL_INDICATOR_TILE + type - TYPE_NORMAL;
+    return TAG_NORMAL_INDICATOR_TILE;
+}
+
+u8 CreateGimmickIndicatorSpriteAt(enum Gimmick gimmick, enum Type teraType, s16 x, s16 y, u8 subpriority)
+{
+    const u8 *src = NULL;
+    u16 tileTag = TAG_NONE;
+    u16 paletteTag = TAG_NONE;
+    struct SpriteSheet sheet;
+    struct SpriteTemplate template;
+
+    switch (gimmick)
+    {
+    case GIMMICK_MEGA:
+        src = sMegaIndicatorGfx;
+        tileTag = TAG_MEGA_INDICATOR_TILE;
+        paletteTag = TAG_MEGA_INDICATOR_PAL;
+        LoadSpritePalette(&sSpritePalette_MegaIndicator);
+        break;
+    case GIMMICK_DYNAMAX:
+        src = sDynamaxIndicatorGfx;
+        tileTag = TAG_DYNAMAX_INDICATOR_TILE;
+        paletteTag = TAG_MISC_INDICATOR_PAL;
+        LoadSpritePalette(&sSpritePalette_MiscIndicator);
+        break;
+    case GIMMICK_TERA:
+        if (teraType <= TYPE_NONE || teraType > TYPE_STELLAR)
+            teraType = TYPE_NORMAL;
+        src = sTeraIndicatorDataPtrs[teraType];
+        tileTag = GetTeraIndicatorTileTag(teraType);
+        paletteTag = TAG_TERA_INDICATOR_PAL;
+        LoadSpritePalette(&sSpritePalette_TeraIndicator);
+        break;
+    default:
+        return SPRITE_NONE;
+    }
+
+    sheet = (struct SpriteSheet){src, INDICATOR_SIZE, tileTag};
+    if (GetSpriteTileStartByTag(tileTag) == 0xFFFF)
+        LoadSpriteSheet(&sheet);
+
+    template = (struct SpriteTemplate)
+    {
+        .tileTag = tileTag,
+        .paletteTag = paletteTag,
+        .oam = &sOamData_GimmickIndicator,
+        .anims = gDummySpriteAnimTable,
+        .affineAnims = gDummySpriteAffineAnimTable,
+        .callback = SpriteCallbackDummy,
+    };
+
+    return CreateSprite(&template, x, y, subpriority);
+}
 
 void UpdateIndicatorVisibilityAndType(u32 healthboxId, bool32 invisible)
 {
