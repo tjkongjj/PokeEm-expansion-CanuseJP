@@ -3,6 +3,7 @@
 
 #include "sprite.h"
 #include "constants/field_weather.h"
+#include "constants/weather.h"
 
 #define TAG_WEATHER_START 0x1200
 enum {
@@ -229,9 +230,9 @@ bool8 Bubbles_Finish(void);
 u8 GetSavedWeather(void);
 bool32 TryGetFieldWeatherForEncounters(u8 *weather);
 bool32 TryGetRandomFrontierLogicalWeather(u8 *weather);
-void SetSavedWeather(u32 weather);
+void SetSavedWeather(enum OverworldWeather weather);
 void SetSavedWeatherFromCurrMapHeader(void);
-void SetWeather(u32 weather);
+void SetWeather(enum OverworldWeather weather);
 void DoCurrentWeather(void);
 void UpdateWeatherPerDay(u16 increment);
 void ResumePausedWeather(void);

@@ -5,6 +5,7 @@
 #include "battle_ai_record.h"
 #include "battle_controllers.h"
 #include "battle_interface.h"
+#include "battle_gimmick.h"
 #include "battle_message.h"
 #include "battle_z_move.h"
 #include "battle_gimmick_extra.h"
@@ -113,6 +114,9 @@ bool32 IsZMove(enum Move move)
 
 bool32 CanUseZMove(enum BattlerId battler)
 {
+    if (IsBattlerInMegaOrPrimalForm(battler))
+        return FALSE;
+
     enum HoldEffect holdEffect = GetBattlerHoldEffectIgnoreNegation(battler);
 
     // Check if Player has Z-Power Ring.
@@ -251,7 +255,7 @@ enum Move GetTypeBasedZMove(enum Move move)
 
     // Z-Weather Ball changes types, however Revelation Dance, -ate ability affected moves, and Hidden Power do not
     if (gBattleStruct->dynamicMoveType && GetMoveEffect(move) == EFFECT_WEATHER_BALL)
-        moveType = gBattleStruct->dynamicMoveType & DYNAMIC_TYPE_MASK;
+        moveType = gBattleStruct->dynamicMoveType;
 
     // Get Z-Move from type
     if (gTypesInfo[moveType].zMove == MOVE_NONE) // failsafe

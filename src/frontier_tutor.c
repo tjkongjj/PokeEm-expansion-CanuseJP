@@ -4,6 +4,7 @@
 #include "pokemon.h"
 #include "data/pokemon/frontier_full_learnsets.h"
 #include "data/pokemon/frontier_event_learnsets.h"
+#include "data/pokemon/frontier_za_dlc_learnsets.h"
 
 static const u16 *GetFrontierLearnsetWithFormFallback(const u16 *const *learnsets, u16 species)
 {
@@ -30,4 +31,9 @@ const u16 *GetFrontierFullLearnset(u16 species)
 const u16 *GetFrontierEventLearnset(u16 species)
 {
     return GetFrontierLearnsetWithFormFallback(sFrontierEventLearnsets, species);
+}
+
+const u16 *GetFrontierZaDlcLearnset(u16 species)
+{
+    return GetFrontierLearnsetWithFormFallback(sFrontierZaDlcLearnsets, species);
 }

@@ -111,7 +111,7 @@ MoveRelearner_EventScript_AnythingElse::
 	end
 
 MoveRelearner_Text_FrontierFullMoves::
-	.string "FRONTIER MOVES$"
+	.string "{JPN}フロンティアわざ$"
 
 MoveRelearner_Text_FrontierFullMoveLWR::
-	.string "frontier move$"
+	.string "{JPN}フロンティアわざ$"

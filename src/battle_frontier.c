@@ -16,6 +16,7 @@
 #include "string_util.h"
 #include "task.h"
 #include "text.h"
+#include "trainer_util.h"
 #include "constants/abilities.h"
 #include "constants/battle_frontier.h"
 #include "constants/battle_frontier_mons.h"
@@ -26,7 +27,8 @@ static u8 GetForcedFrontierMonPoolFilter(u8 partySlot, u8 monCount);
 static bool32 TryGetOpponentPartySlot(const struct Pokemon *mon, enum BattleTrainer *trainer, u32 *slot);
 static void ClearFacilityOpponentGimmickSources(void);
 static void MarkFrontierOpponentPartyGimmicksForTrainer(enum BattleTrainer trainer);
-static void MarkFacilityMonGimmicksForOpponent(const struct TrainerMon *fmon, const struct Pokemon *dst);
+static void SetFacilityMonGimmickAvailability(const struct TrainerMon *fmon, struct Pokemon *mon);
+static void MarkFacilityMonGimmicksForOpponent(const struct TrainerMon *fmon, struct Pokemon *dst);
 
 // EWRAM vars.
 EWRAM_DATA const struct BattleFrontierTrainer *gFacilityTrainers = NULL;
@@ -188,10 +190,9 @@ void DoFacilityTrainerBattle(struct ScriptContext *ctx)
 
 void FacilityTrainerBattle(struct ScriptContext *ctx)
 {
-    InitTrainerBattleParameter();
-
     u8 facility = ScriptReadByte(ctx);
-    ctx->scriptPtr = BattleSetup_ConfigureFacilityTrainerBattle(facility, ctx->scriptPtr);
+
+    ConfigureFacilityTrainerBattle(facility, ctx->scriptPtr);
 }
 
 void FillFrontierTrainerParty(u8 monsCount)
@@ -338,10 +339,7 @@ static void MarkFrontierOpponentPartyGimmicksForTrainer(enum BattleTrainer train
         if (fmon == NULL || GetMonData(&gParties[trainer][i], MON_DATA_SPECIES_OR_EGG) == SPECIES_NONE)
             continue;
 
-        if (fmon->dynamaxLevel > 0 && fmon->shouldUseDynamax)
-            gBattleStruct->opponentMonCanDynamax |= 1 << i;
-        if (fmon->teraType > 0)
-            gBattleStruct->opponentMonCanTera |= 1 << i;
+        SetFacilityMonGimmickAvailability(fmon, &gParties[trainer][i]);
     }
 }
 
@@ -350,13 +348,20 @@ void MarkFrontierOpponentPartyGimmicks(void)
     if (gBattleStruct == NULL || !(gBattleTypeFlags & BATTLE_TYPE_FRONTIER) || (gBattleTypeFlags & BATTLE_TYPE_LINK))
         return;
 
-    gBattleStruct->opponentMonCanDynamax = 0;
-    gBattleStruct->opponentMonCanTera = 0;
     MarkFrontierOpponentPartyGimmicksForTrainer(B_TRAINER_OPPONENT_A);
     MarkFrontierOpponentPartyGimmicksForTrainer(B_TRAINER_OPPONENT_B);
 }
 
-static void MarkFacilityMonGimmicksForOpponent(const struct TrainerMon *fmon, const struct Pokemon *dst)
+static void SetFacilityMonGimmickAvailability(const struct TrainerMon *fmon, struct Pokemon *mon)
+{
+    u32 dynamaxLevel = (fmon->dynamaxLevel > 0 && fmon->shouldUseDynamax) ? fmon->dynamaxLevel : BLOCK_AI_DYNAMAX;
+    u32 teraType = fmon->teraType > 0 ? fmon->teraType : TYPE_MYSTERY;
+
+    SetMonData(mon, MON_DATA_DYNAMAX_LEVEL, &dynamaxLevel);
+    SetMonData(mon, MON_DATA_TERA_TYPE, &teraType);
+}
+
+static void MarkFacilityMonGimmicksForOpponent(const struct TrainerMon *fmon, struct Pokemon *dst)
 {
     enum BattleTrainer trainer;
     u32 slot;
@@ -365,29 +370,23 @@ static void MarkFacilityMonGimmicksForOpponent(const struct TrainerMon *fmon, co
         return;
 
     sFacilityOpponentMonSources[trainer][slot] = fmon;
-
-    if (gBattleStruct == NULL)
-        return;
-
-    if (fmon->dynamaxLevel > 0 && fmon->shouldUseDynamax)
-        gBattleStruct->opponentMonCanDynamax |= 1 << slot;
-    if (fmon->teraType > 0)
-        gBattleStruct->opponentMonCanTera |= 1 << slot;
+    SetFacilityMonGimmickAvailability(fmon, dst);
 }
 
 void CreateFacilityMon(const struct TrainerMon *fmon, u16 level, u8 fixedIV, u32 otID, u32 flags, struct Pokemon *dst)
 {
     enum PokeBall ball = (fmon->ball == 0xFF) ? Random() % POKEBALL_COUNT : fmon->ball;
     enum Move move;
-    u32 personality = 0, ability, friendship, j;
+    u32 personality = 0, friendship, j;
+    enum Ability ability;
 
     if (fmon->gender == TRAINER_MON_MALE)
     {
-        personality = GeneratePersonalityForGender(MON_MALE, fmon->species);
+        personality = GeneratePersonalityForGender(MON_MALE, fmon->species) + 0x1000;
     }
     else if (fmon->gender == TRAINER_MON_FEMALE)
     {
-        personality = GeneratePersonalityForGender(MON_FEMALE, fmon->species);
+        personality = GeneratePersonalityForGender(MON_FEMALE, fmon->species) + 0x1000;
     }
 
     ModifyPersonalityForNature(&personality, fmon->nature);

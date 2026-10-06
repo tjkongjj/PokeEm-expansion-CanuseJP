@@ -113,7 +113,7 @@ static void CalcDomeMonStats(const struct TrainerMon *fmon, int level, u8 ivs, i
 static void CreateDomeOpponentMons(u16);
 static int SelectOpponentMons_Good(u16, bool8);
 static int SelectOpponentMons_Bad(u16, bool8);
-static int GetTypeEffectivenessPoints(enum Move, int, int);
+static int GetTypeEffectivenessPoints(enum Move, enum Species, int);
 static int SelectOpponentMonsFromParty(int *, bool8);
 static void Task_ShowTourneyInfoCard(u8);
 static void Task_HandleInfoCardInput(u8);
@@ -2360,7 +2360,7 @@ static int SelectOpponentMonsFromParty(int *partyMovePoints, bool8 allowRandom)
 #define TYPE_x2     40
 #define TYPE_x4     80
 
-static int GetTypeEffectivenessPoints(enum Move move, int targetSpecies, int mode)
+static int GetTypeEffectivenessPoints(enum Move move, enum Species targetSpecies, int mode)
 {
     enum Type defType1, defType2, moveType;
     int typePower = TYPE_x1;
@@ -2374,7 +2374,7 @@ static int GetTypeEffectivenessPoints(enum Move move, int targetSpecies, int mod
     defAbility = GetSpeciesAbility(targetSpecies, 0);
     moveType = GetMoveType(move);
 
-    if (defAbility == ABILITY_LEVITATE && moveType == TYPE_GROUND)
+    if ((defAbility == ABILITY_LEVITATE || defAbility == ABILITY_EELEVATE) && moveType == TYPE_GROUND)
     {
         // They likely meant to return here, as 8 is the number of points normally used in this mode for moves with no effect.
         // Because there's no return the value instead gets interpreted by the switch, and the number of points becomes 0.
@@ -4024,10 +4024,7 @@ static bool32 IsDomeComboMove(enum Move move)
     // Weather moves
     case EFFECT_WEATHER:
     // Terrain moves
-    case EFFECT_GRASSY_TERRAIN:
-    case EFFECT_ELECTRIC_TERRAIN:
-    case EFFECT_MISTY_TERRAIN:
-    case EFFECT_PSYCHIC_TERRAIN:
+    case EFFECT_TERRAIN:
     // Moves dependent on weather
     case EFFECT_SYNTHESIS:
     case EFFECT_MORNING_SUN:
@@ -5701,6 +5698,8 @@ static void InitRandomTourneyTreeResults(void)
 
     if ((gSaveBlock2Ptr->frontier.domeLvlMode != -gSaveBlock2Ptr->frontier.domeBattleMode) && gSaveBlock2Ptr->frontier.challengeStatus != CHALLENGE_STATUS_SAVING)
         return;
+
+    SetFacilityTrainerAndMonPtrs();
 
     statSums = AllocZeroed(sizeof(u16) * DOME_TOURNAMENT_TRAINERS_COUNT);
     statValues = AllocZeroed(sizeof(int) * NUM_STATS);

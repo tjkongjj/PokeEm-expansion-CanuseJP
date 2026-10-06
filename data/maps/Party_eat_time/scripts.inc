@@ -9,19 +9,31 @@ Party_eat_time_OnTransition:
 
 #define TEISHOKUYA_MENU_GIGANTAMAX 21
 #define TEISHOKUYA_MENU_CANCEL 22
+#define TEISHOKUYA_MENU_PP_MAX 23
 
 PartyEatTime_EventScript_RocketCook::
 	lock
 	faceplayer
 	msgbox PartyEatTime_Text_RocketCookGreeting, MSGBOX_DEFAULT
 	dynmultipush PartyEatTime_Text_Order, 0
-	dynmultipush PartyEatTime_Text_Cancel, 1
-	dynmultistack 0, 0, FALSE, 2, 0, 0, DYN_MULTICHOICE_CB_NONE
+	dynmultipush PartyEatTime_Text_AfterMealMint, 1
+	dynmultipush PartyEatTime_Text_Cancel, 2
+	dynmultistack 0, 0, FALSE, 3, 0, 0, DYN_MULTICHOICE_CB_NONE
 	closemessage
 	switch VAR_RESULT
 	case 0, PartyEatTime_EventScript_Order
-	case 1, PartyEatTime_EventScript_Cancel
+	case 1, PartyEatTime_EventScript_AfterMealMint
+	case 2, PartyEatTime_EventScript_Cancel
 	case MULTI_B_PRESSED, PartyEatTime_EventScript_Cancel
+	release
+	end
+
+PartyEatTime_EventScript_AfterMealMint::
+	msgbox PartyEatTime_Text_AfterMealMintPrompt, MSGBOX_DEFAULT
+	closemessage
+	special Special_OpenMintItemGiver
+	waitstate
+	msgbox PartyEatTime_Text_AfterMealMintDone, MSGBOX_DEFAULT
 	release
 	end
 
@@ -42,12 +54,14 @@ PartyEatTime_EventScript_Order::
 PartyEatTime_EventScript_ShowMenuWithGigantamax::
 	call PartyEatTime_EventScript_PushTeraTypeMenu
 	dynmultipush PartyEatTime_Text_Gigantamax, TEISHOKUYA_MENU_GIGANTAMAX
+	dynmultipush PartyEatTime_Text_FullPowerPointPudding, TEISHOKUYA_MENU_PP_MAX
 	dynmultipush PartyEatTime_Text_Cancel, TEISHOKUYA_MENU_CANCEL
 	dynmultistack 0, 0, FALSE, 8, 0, 0, DYN_MULTICHOICE_CB_NONE
 	goto PartyEatTime_EventScript_HandleMenuResult
 
 PartyEatTime_EventScript_ShowMenu::
 	call PartyEatTime_EventScript_PushTeraTypeMenu
+	dynmultipush PartyEatTime_Text_FullPowerPointPudding, TEISHOKUYA_MENU_PP_MAX
 	dynmultipush PartyEatTime_Text_Cancel, TEISHOKUYA_MENU_CANCEL
 	dynmultistack 0, 0, FALSE, 8, 0, 0, DYN_MULTICHOICE_CB_NONE
 	goto PartyEatTime_EventScript_HandleMenuResult
@@ -79,11 +93,16 @@ PartyEatTime_EventScript_HandleMenuResult::
 	goto_if_eq VAR_RESULT, MULTI_B_PRESSED, PartyEatTime_EventScript_Cancel
 	goto_if_eq VAR_RESULT, TEISHOKUYA_MENU_CANCEL, PartyEatTime_EventScript_Cancel
 	goto_if_eq VAR_RESULT, TEISHOKUYA_MENU_GIGANTAMAX, PartyEatTime_EventScript_ToggleGigantamax
+	goto_if_eq VAR_RESULT, TEISHOKUYA_MENU_PP_MAX, PartyEatTime_EventScript_MaxMovePP
 	special Special_TeishokuyaChangeTeraType
 	goto PartyEatTime_EventScript_AfterOrder
 
 PartyEatTime_EventScript_ToggleGigantamax::
 	special Special_TeishokuyaToggleGigantamax
+	goto PartyEatTime_EventScript_AfterOrder
+
+PartyEatTime_EventScript_MaxMovePP::
+	special Special_TeishokuyaMaxMovePP
 	goto PartyEatTime_EventScript_AfterOrder
 
 PartyEatTime_EventScript_AfterOrder::
@@ -111,6 +130,15 @@ PartyEatTime_Text_RocketCookGreeting:
 
 PartyEatTime_Text_Order:
 	.string "{JPN}ちゅうもんする$"
+
+PartyEatTime_Text_AfterMealMint:
+	.string "{JPN}しょくごのミント$"
+
+PartyEatTime_Text_AfterMealMintPrompt:
+	.string "{JPN}……ブレスケア だからな？$"
+
+PartyEatTime_Text_AfterMealMintDone:
+	.string "{JPN}ありゃーしゃー$"
 
 PartyEatTime_Text_Cancel:
 	.string "{JPN}やめる$"
@@ -189,3 +217,6 @@ PartyEatTime_Text_TypeStellar:
 
 PartyEatTime_Text_Gigantamax:
 	.string "{JPN}マックスやくぜんなべ$"
+
+PartyEatTime_Text_FullPowerPointPudding:
+	.string "{JPN}フルパワーポイントプリン$"

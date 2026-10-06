@@ -37,7 +37,7 @@ Route114_FossilManiacsHouse_Text_HaveThisToDigLikeMyBrother:
 	.string "この あなも じぶんで ほったんだ{0xB0}{0xB0}\p"
 	.string "これを あげるから{0xB0}{0xB0}\n"
 	.string "きみも にいちゃん みたいに\l"
-	.stirng "あなを ほってみなよ{0xB0}{0xB0}$"
+	.string "あなを ほってみなよ{0xB0}{0xB0}$"
 
 Route114_FossilManiacsHouse_Text_DigReturnsYouToEntrance:
 	.string "{JPN}ちなみに ポケモンが あなをほると\n"
@@ -53,4 +53,3 @@ Route114_FossilManiacsHouse_Text_CrammedWithBooks:
 	.string "『あめ ふって じめん かたまる』\l"
 	.string "『いしと つちと がんせきと』\p"
 	.string "たくさんの ほんが ならんでる！$"
-

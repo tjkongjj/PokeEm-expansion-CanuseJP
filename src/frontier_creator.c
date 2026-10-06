@@ -61,6 +61,7 @@ struct FrontierCreatorData
 {
     enum Species species;
     u8 level;
+    u8 gender;
     u8 nature;
     u8 abilityNum;
     u8 teraType;
@@ -95,8 +96,24 @@ static EWRAM_DATA struct FrontierCreatorData *sFrontierCreatorData = NULL;
 #define tStatId   data[3]
 #define tPreviewSpriteId data[4]
 #define tPreviewSpecies  data[5]
+#define tSpeciesSortMode data[6]
+#define tItemGiverList          data[3]
+#define tItemGiverSelectedIndex data[4]
+
+enum FrontierItemGiverList
+{
+    FRONTIER_ITEM_GIVER_LIST_HUB,
+    FRONTIER_ITEM_GIVER_LIST_MINTS,
+};
+
+enum FrontierCreatorSpeciesSortMode
+{
+    FRONTIER_CREATOR_SORT_SPECIES_ID,
+    FRONTIER_CREATOR_SORT_PRIMARY_TYPE,
+};
 
 static void Task_FrontierCreator_SelectSpecies(u8 taskId);
+static void Task_FrontierCreator_SelectGender(u8 taskId);
 static void Task_FrontierCreator_SelectLevel(u8 taskId);
 static void Task_FrontierCreator_SelectNature(u8 taskId);
 static void Task_FrontierCreator_SelectAbility(u8 taskId);
@@ -108,11 +125,16 @@ static void Task_FrontierCreator_SelectEVs(u8 taskId);
 static void FrontierCreator_DestroyAndReturn(u8 taskId);
 static void FrontierCreator_CreateMonAndGive(void);
 static void FrontierCreator_InitDefaultData(void);
+static void FrontierCreator_DrawGenderScreen(u8 taskId);
 static void FrontierCreator_DrawAbilityScreen(u8 taskId);
 
 static void Task_FrontierItemGiver_SelectItem(u8 taskId);
+static void Task_FrontierItemGiver_SelectQuantity(u8 taskId);
 static void FrontierItemGiver_DrawScreen(u8 taskId);
-static u16 FrontierItemGiver_GetItemCount(void);
+static void FrontierItemGiver_DrawQuantityScreen(u8 taskId);
+static const enum Item *FrontierItemGiver_GetItemList(u16 listId);
+static u16 FrontierItemGiver_GetItemCount(u16 listId);
+static void FrontierItemGiver_Open(u16 listId);
 static void FrontierItemGiver_DestroyAndReturn(u8 taskId);
 static void FrontierHub_GiveGimmickKeyItems(void);
 static void FrontierHub_GiveAutoItems(void);
@@ -122,6 +144,8 @@ static u8 FrontierHub_GetAbilityNum(enum Species species, enum Ability ability);
 
 static enum Species FrontierCreator_GetFirstAllowedSpecies(void);
 static enum Species FrontierCreator_GetNextAllowedSpecies(enum Species species, s16 delta);
+static enum Species FrontierCreator_GetNextAllowedSpeciesByType(enum Species species, s16 delta);
+static enum Species FrontierCreator_GetNextAllowedPrimaryType(enum Species species, s16 delta);
 static void FrontierCreator_HandleSpeciesInput(u8 taskId);
 static void FrontierCreator_UpdateSpeciesPreview(u8 taskId, enum Species species, bool8 playCry);
 static void FrontierCreator_DestroySpeciesPreview(u8 taskId);
@@ -1781,6 +1805,8 @@ static const enum Species sFrontierCreatorAllowedBaseSpecies[] =
     SPECIES_SPEWPA_JUNGLE,
     SPECIES_SPEWPA_FANCY,
     SPECIES_SPEWPA_POKEBALL,
+    SPECIES_PIKACHU_STARTER,
+    SPECIES_EEVEE_STARTER,
     SPECIES_NONE,
 };
 
@@ -1796,6 +1822,7 @@ static const u8 *FrontierCreator_GetTypeName(u32 type)
 }
 
 static const u8 sFrontierCreatorText_Controls[] = _("{CLEAR_TO 90}\n{A_BUTTON}けってい {B_BUTTON}やめる");
+static const u8 sFrontierCreatorText_SpeciesControls[] = _("{CLEAR_TO 90}\n{SELECT_BUTTON}ならびかえ {A_BUTTON}けってい {B_BUTTON}やめる");
 
 static const u16 sFrontierCreatorGmaxCapableSpecies[] =
 {
@@ -2064,11 +2091,46 @@ static const enum Item sFrontierHubGiveItems[] =
     ITEM_NONE,
 };
 
-static u16 FrontierItemGiver_GetItemCount(void)
+static const enum Item sFrontierMintGiveItems[] =
 {
+    ITEM_LONELY_MINT,
+    ITEM_ADAMANT_MINT,
+    ITEM_NAUGHTY_MINT,
+    ITEM_BRAVE_MINT,
+    ITEM_BOLD_MINT,
+    ITEM_IMPISH_MINT,
+    ITEM_LAX_MINT,
+    ITEM_RELAXED_MINT,
+    ITEM_MODEST_MINT,
+    ITEM_MILD_MINT,
+    ITEM_RASH_MINT,
+    ITEM_QUIET_MINT,
+    ITEM_CALM_MINT,
+    ITEM_GENTLE_MINT,
+    ITEM_CAREFUL_MINT,
+    ITEM_SASSY_MINT,
+    ITEM_TIMID_MINT,
+    ITEM_HASTY_MINT,
+    ITEM_JOLLY_MINT,
+    ITEM_NAIVE_MINT,
+    ITEM_SERIOUS_MINT,
+    ITEM_NONE,
+};
+
+static const enum Item *FrontierItemGiver_GetItemList(u16 listId)
+{
+    if (listId == FRONTIER_ITEM_GIVER_LIST_MINTS)
+        return sFrontierMintGiveItems;
+
+    return sFrontierHubGiveItems;
+}
+
+static u16 FrontierItemGiver_GetItemCount(u16 listId)
+{
+    const enum Item *items = FrontierItemGiver_GetItemList(listId);
     u16 count = 0;
 
-    while (sFrontierHubGiveItems[count] != ITEM_NONE)
+    while (items[count] != ITEM_NONE)
         count++;
 
     return count;
@@ -2100,26 +2162,47 @@ static bool32 FrontierCreator_IsAllowedBaseSpecies(enum Species species)
     return FALSE;
 }
 
-static bool32 FrontierCreator_IsBannedSpecies(enum Species species)
+static bool32 FrontierCreator_IsSelectableAllowedSpecies(enum Species species)
 {
     if (species == SPECIES_NONE || species >= NUM_SPECIES)
-        return TRUE;
+        return FALSE;
 
 #ifdef SPECIES_CUSTOM_START
     if (species >= SPECIES_CUSTOM_START)
-        return TRUE;
+        return FALSE;
 #endif
 
-    if (species == SPECIES_PIKACHU_STARTER || species == SPECIES_EEVEE_STARTER)
+    return IsSpeciesEnabled(species);
+}
+
+static bool32 FrontierCreator_IsBannedSpecies(enum Species species)
+{
+    if (!FrontierCreator_IsSelectableAllowedSpecies(species))
         return TRUE;
 
     if (!FrontierCreator_IsAllowedBaseSpecies(species))
         return TRUE;
 
-    if (!IsSpeciesEnabled(species))
-        return TRUE;
-
     return FALSE;
+}
+
+static bool32 FrontierCreator_HasMultipleGenders(enum Species species)
+{
+    u8 genderRatio = gSpeciesInfo[species].genderRatio;
+
+    return genderRatio != MON_MALE
+        && genderRatio != MON_FEMALE
+        && genderRatio != MON_GENDERLESS;
+}
+
+static u8 FrontierCreator_GetDefaultGender(enum Species species)
+{
+    u8 genderRatio = gSpeciesInfo[species].genderRatio;
+
+    if (FrontierCreator_HasMultipleGenders(species))
+        return MON_MALE;
+
+    return genderRatio;
 }
 
 static void FrontierCreator_InitDefaultData(void)
@@ -2128,6 +2211,7 @@ static void FrontierCreator_InitDefaultData(void)
 
     sFrontierCreatorData->species = SPECIES_BULBASAUR;
     sFrontierCreatorData->level = 50;
+    sFrontierCreatorData->gender = FrontierCreator_GetDefaultGender(sFrontierCreatorData->species);
     sFrontierCreatorData->abilityNum = 0;
     sFrontierCreatorData->nature = NATURE_HARDY;
     sFrontierCreatorData->teraType = TYPE_NORMAL;
@@ -2243,6 +2327,21 @@ static void FrontierCreator_HandleSpeciesInput(u8 taskId)
     s32 value = oldValue;
     s16 direction = 1;
 
+    if (gTasks[taskId].tSpeciesSortMode == FRONTIER_CREATOR_SORT_PRIMARY_TYPE)
+    {
+        if (JOY_NEW(DPAD_UP))
+            value = FrontierCreator_GetNextAllowedSpeciesByType(oldValue, 1);
+        else if (JOY_NEW(DPAD_DOWN))
+            value = FrontierCreator_GetNextAllowedSpeciesByType(oldValue, -1);
+        else if (JOY_NEW(DPAD_LEFT))
+            value = FrontierCreator_GetNextAllowedPrimaryType(oldValue, -1);
+        else if (JOY_NEW(DPAD_RIGHT))
+            value = FrontierCreator_GetNextAllowedPrimaryType(oldValue, 1);
+
+        gTasks[taskId].tInput = value;
+        return;
+    }
+
     if (JOY_NEW(DPAD_UP))
     {
         value += sFrontierCreatorPowersOfTen[gTasks[taskId].tDigit];
@@ -2357,12 +2456,15 @@ static void FrontierCreator_DrawSpeciesScreen(u8 taskId)
 {
     u8 windowId = gTasks[taskId].tWindowId;
     enum Species species = gTasks[taskId].tInput;
+    enum Type primaryType;
 
     if (FrontierCreator_IsBannedSpecies(species))
     {
         species = FrontierCreator_GetNextAllowedSpecies(species, 1);
         gTasks[taskId].tInput = species;
     }
+
+    primaryType = GetSpeciesType(species, 0);
 
     FrontierCreator_ClearWindow(windowId);
 
@@ -2371,20 +2473,54 @@ static void FrontierCreator_DrawSpeciesScreen(u8 taskId)
     StringAppend(gStringVar4, COMPOUND_STRING("No."));
     ConvertIntToDecimalStringN(gStringVar1, species, STR_CONV_MODE_LEADING_ZEROS, 4);
     StringAppend(gStringVar4, gStringVar1);
-    StringAppend(gStringVar4, COMPOUND_STRING("{CLEAR_TO 90}\n"));
-
-    StringAppend(gStringVar4, COMPOUND_STRING("なまえ: "));
+    StringAppend(gStringVar4, COMPOUND_STRING(" "));
     StringAppend(gStringVar4, GetSpeciesName(species));
     StringAppend(gStringVar4, COMPOUND_STRING("{CLEAR_TO 90}\n"));
 
-    StringAppend(gStringVar4, COMPOUND_STRING("このしゅるいは OK{CLEAR_TO 90}\n"));
-
-    StringAppend(gStringVar4, COMPOUND_STRING("けた: 10 "));
-    ConvertIntToDecimalStringN(gStringVar1, gTasks[taskId].tDigit, STR_CONV_MODE_LEADING_ZEROS, 1);
-    StringAppend(gStringVar4, gStringVar1);
+    StringAppend(gStringVar4, COMPOUND_STRING("タイプ1: "));
+    StringAppend(gStringVar4, FrontierCreator_GetTypeName(primaryType));
     StringAppend(gStringVar4, COMPOUND_STRING("{CLEAR_TO 90}\n"));
 
-    StringAppend(gStringVar4, COMPOUND_STRING("{UP_ARROW}{DOWN_ARROW}へんこう {LEFT_ARROW}{RIGHT_ARROW}けた"));
+    if (gTasks[taskId].tSpeciesSortMode == FRONTIER_CREATOR_SORT_PRIMARY_TYPE)
+    {
+        StringAppend(gStringVar4, COMPOUND_STRING("ならび: タイプ1"));
+    }
+    else
+    {
+        StringAppend(gStringVar4, COMPOUND_STRING("ならび: No. けた: "));
+        ConvertIntToDecimalStringN(gStringVar1, gTasks[taskId].tDigit, STR_CONV_MODE_LEADING_ZEROS, 1);
+        StringAppend(gStringVar4, gStringVar1);
+    }
+    StringAppend(gStringVar4, COMPOUND_STRING("{CLEAR_TO 90}\n"));
+
+    if (gTasks[taskId].tSpeciesSortMode == FRONTIER_CREATOR_SORT_PRIMARY_TYPE)
+        StringAppend(gStringVar4, COMPOUND_STRING("{UP_ARROW}{DOWN_ARROW}しゅるい {LEFT_ARROW}{RIGHT_ARROW}タイプ"));
+    else
+        StringAppend(gStringVar4, COMPOUND_STRING("{UP_ARROW}{DOWN_ARROW}へんこう {LEFT_ARROW}{RIGHT_ARROW}けた"));
+    StringAppend(gStringVar4, sFrontierCreatorText_SpeciesControls);
+
+    FrontierCreator_PrintWindow(windowId);
+}
+
+static void FrontierCreator_DrawGenderScreen(u8 taskId)
+{
+    u8 windowId = gTasks[taskId].tWindowId;
+
+    FrontierCreator_ClearWindow(windowId);
+
+    StringCopy(gStringVar4, COMPOUND_STRING("せいべつを えらぶ{CLEAR_TO 90}\n"));
+    StringAppend(gStringVar4, COMPOUND_STRING("ポケモン: "));
+    StringAppend(gStringVar4, GetSpeciesName(sFrontierCreatorData->species));
+    StringAppend(gStringVar4, COMPOUND_STRING("{CLEAR_TO 90}\n"));
+
+    StringAppend(gStringVar4, COMPOUND_STRING("せいべつ: "));
+    if (sFrontierCreatorData->gender == MON_FEMALE)
+        StringAppend(gStringVar4, COMPOUND_STRING("♀"));
+    else
+        StringAppend(gStringVar4, COMPOUND_STRING("♂"));
+
+    StringAppend(gStringVar4, COMPOUND_STRING("{CLEAR_TO 90}\n"));
+    StringAppend(gStringVar4, COMPOUND_STRING("{UP_ARROW}{DOWN_ARROW}きりかえ"));
     StringAppend(gStringVar4, sFrontierCreatorText_Controls);
 
     FrontierCreator_PrintWindow(windowId);
@@ -2575,6 +2711,119 @@ static enum Species FrontierCreator_GetNextAllowedSpecies(enum Species species, 
     return species;
 }
 
+static bool32 FrontierCreator_IsSpeciesBeforeByPrimaryType(enum Species lhs, enum Species rhs)
+{
+    enum Type lhsType = GetSpeciesType(lhs, 0);
+    enum Type rhsType = GetSpeciesType(rhs, 0);
+
+    if (lhsType != rhsType)
+        return lhsType < rhsType;
+
+    return lhs < rhs;
+}
+
+static enum Species FrontierCreator_GetTypeSortedBoundary(bool32 getLast)
+{
+    enum Species candidate = SPECIES_NONE;
+    u32 i;
+
+    for (i = 0; sFrontierCreatorAllowedBaseSpecies[i] != SPECIES_NONE; i++)
+    {
+        enum Species listedSpecies = sFrontierCreatorAllowedBaseSpecies[i];
+
+        if (!FrontierCreator_IsSelectableAllowedSpecies(listedSpecies))
+            continue;
+
+        if (candidate == SPECIES_NONE
+         || (!getLast && FrontierCreator_IsSpeciesBeforeByPrimaryType(listedSpecies, candidate))
+         || (getLast && FrontierCreator_IsSpeciesBeforeByPrimaryType(candidate, listedSpecies)))
+            candidate = listedSpecies;
+    }
+
+    if (candidate == SPECIES_NONE)
+        return FrontierCreator_GetFirstAllowedSpecies();
+
+    return candidate;
+}
+
+static enum Species FrontierCreator_GetNextAllowedSpeciesByType(enum Species species, s16 delta)
+{
+    enum Species candidate = SPECIES_NONE;
+    u32 i;
+
+    for (i = 0; sFrontierCreatorAllowedBaseSpecies[i] != SPECIES_NONE; i++)
+    {
+        enum Species listedSpecies = sFrontierCreatorAllowedBaseSpecies[i];
+
+        if (!FrontierCreator_IsSelectableAllowedSpecies(listedSpecies))
+            continue;
+
+        if (delta > 0)
+        {
+            if (FrontierCreator_IsSpeciesBeforeByPrimaryType(species, listedSpecies)
+             && (candidate == SPECIES_NONE
+              || FrontierCreator_IsSpeciesBeforeByPrimaryType(listedSpecies, candidate)))
+                candidate = listedSpecies;
+        }
+        else
+        {
+            if (FrontierCreator_IsSpeciesBeforeByPrimaryType(listedSpecies, species)
+             && (candidate == SPECIES_NONE
+              || FrontierCreator_IsSpeciesBeforeByPrimaryType(candidate, listedSpecies)))
+                candidate = listedSpecies;
+        }
+    }
+
+    if (candidate == SPECIES_NONE)
+        candidate = FrontierCreator_GetTypeSortedBoundary(delta < 0);
+
+    return candidate;
+}
+
+static enum Species FrontierCreator_GetFirstAllowedSpeciesOfType(enum Type type)
+{
+    enum Species candidate = SPECIES_NONE;
+    u32 i;
+
+    for (i = 0; sFrontierCreatorAllowedBaseSpecies[i] != SPECIES_NONE; i++)
+    {
+        enum Species listedSpecies = sFrontierCreatorAllowedBaseSpecies[i];
+
+        if (!FrontierCreator_IsSelectableAllowedSpecies(listedSpecies)
+         || GetSpeciesType(listedSpecies, 0) != type)
+            continue;
+
+        if (candidate == SPECIES_NONE || listedSpecies < candidate)
+            candidate = listedSpecies;
+    }
+
+    return candidate;
+}
+
+static enum Species FrontierCreator_GetNextAllowedPrimaryType(enum Species species, s16 delta)
+{
+    s32 type = GetSpeciesType(species, 0);
+    s32 direction = delta < 0 ? -1 : 1;
+    u32 i;
+
+    for (i = 0; i < NUMBER_OF_MON_TYPES; i++)
+    {
+        enum Species candidate;
+
+        type += direction;
+        if (type < TYPE_NONE)
+            type = NUMBER_OF_MON_TYPES - 1;
+        else if (type >= NUMBER_OF_MON_TYPES)
+            type = TYPE_NONE;
+
+        candidate = FrontierCreator_GetFirstAllowedSpeciesOfType(type);
+        if (candidate != SPECIES_NONE)
+            return candidate;
+    }
+
+    return species;
+}
+
 static void FrontierCreator_CreateMonAndGive(void)
 {
     struct Pokemon mon;
@@ -2593,7 +2842,7 @@ static void FrontierCreator_CreateMonAndGive(void)
 
     personality = GetMonPersonality(
         sFrontierCreatorData->species,
-        MON_GENDER_RANDOM,
+        sFrontierCreatorData->gender,
         sFrontierCreatorData->nature,
         RANDOM_UNOWN_LETTER
     );
@@ -2659,6 +2908,14 @@ static void FrontierCreator_DestroyAndReturn(u8 taskId)
 
 static void Task_FrontierCreator_SelectSpecies(u8 taskId)
 {
+    if (JOY_NEW(SELECT_BUTTON))
+    {
+        PlaySE(SE_SELECT);
+        gTasks[taskId].tSpeciesSortMode ^= 1;
+        FrontierCreator_DrawSpeciesScreen(taskId);
+        return;
+    }
+
     if (JOY_NEW(DPAD_ANY))
     {
         enum Species oldSpecies = gTasks[taskId].tInput;
@@ -2684,8 +2941,44 @@ static void Task_FrontierCreator_SelectSpecies(u8 taskId)
 
         PlaySE(SE_SELECT);
         sFrontierCreatorData->species = gTasks[taskId].tInput;
+        sFrontierCreatorData->gender = FrontierCreator_GetDefaultGender(sFrontierCreatorData->species);
 
         FrontierCreator_DestroySpeciesPreview(taskId);
+        if (FrontierCreator_HasMultipleGenders(sFrontierCreatorData->species))
+        {
+            FrontierCreator_DrawGenderScreen(taskId);
+            gTasks[taskId].func = Task_FrontierCreator_SelectGender;
+        }
+        else
+        {
+            FrontierCreator_DrawLevelScreen(taskId);
+            gTasks[taskId].func = Task_FrontierCreator_SelectLevel;
+        }
+    }
+    else if (JOY_NEW(B_BUTTON))
+    {
+        PlaySE(SE_SELECT);
+        gSpecialVar_Result = FALSE;
+        FrontierCreator_DestroyAndReturn(taskId);
+    }
+}
+
+static void Task_FrontierCreator_SelectGender(u8 taskId)
+{
+    if (JOY_NEW(DPAD_UP | DPAD_DOWN))
+    {
+        PlaySE(SE_SELECT);
+        if (sFrontierCreatorData->gender == MON_MALE)
+            sFrontierCreatorData->gender = MON_FEMALE;
+        else
+            sFrontierCreatorData->gender = MON_MALE;
+
+        FrontierCreator_DrawGenderScreen(taskId);
+    }
+
+    if (JOY_NEW(A_BUTTON))
+    {
+        PlaySE(SE_SELECT);
         FrontierCreator_DrawLevelScreen(taskId);
         gTasks[taskId].func = Task_FrontierCreator_SelectLevel;
     }
@@ -2995,7 +3288,9 @@ static void FrontierHub_GiveGimmickKeyItems(void)
 static void FrontierItemGiver_DrawScreen(u8 taskId)
 {
     u8 windowId = gTasks[taskId].tWindowId;
-    u16 itemCount = FrontierItemGiver_GetItemCount();
+    u16 listId = gTasks[taskId].tItemGiverList;
+    const enum Item *items = FrontierItemGiver_GetItemList(listId);
+    u16 itemCount = FrontierItemGiver_GetItemCount(listId);
     u16 index = gTasks[taskId].tInput;
     enum Item itemId;
 
@@ -3004,7 +3299,7 @@ static void FrontierItemGiver_DrawScreen(u8 taskId)
     else if (index >= itemCount)
         index = itemCount - 1;
 
-    itemId = sFrontierHubGiveItems[index];
+    itemId = items[index];
 
     FrontierCreator_ClearWindow(windowId);
 
@@ -3023,7 +3318,14 @@ static void FrontierItemGiver_DrawScreen(u8 taskId)
     StringAppend(gStringVar4, gItemsInfo[itemId].name);
     StringAppend(gStringVar4, COMPOUND_STRING("{CLEAR_TO 90}\n"));
 
-    if (CheckBagHasItem(itemId, 1))
+    if (listId == FRONTIER_ITEM_GIVER_LIST_MINTS)
+    {
+        StringAppend(gStringVar4, COMPOUND_STRING("もっている: "));
+        ConvertIntToDecimalStringN(gStringVar1, CountTotalItemQuantityInBag(itemId), STR_CONV_MODE_RIGHT_ALIGN, 3);
+        StringAppend(gStringVar4, gStringVar1);
+        StringAppend(gStringVar4, COMPOUND_STRING(" / 999{CLEAR_TO 90}\n"));
+    }
+    else if (CheckBagHasItem(itemId, 1))
         StringAppend(gStringVar4, COMPOUND_STRING("もう もっています{CLEAR_TO 90}\n"));
     else if (!CheckBagHasSpace(itemId, 1))
         StringAppend(gStringVar4, COMPOUND_STRING("バッグが いっぱいです{CLEAR_TO 90}\n"));
@@ -3038,7 +3340,41 @@ static void FrontierItemGiver_DrawScreen(u8 taskId)
         FRONTIER_ITEM_GIVER_DIGITS
     );
     StringAppend(gStringVar4, gStringVar1);
-    StringAppend(gStringVar4, COMPOUND_STRING("\n{A_BUTTON}もらう {B_BUTTON}やめる"));
+    if (listId == FRONTIER_ITEM_GIVER_LIST_MINTS)
+        StringAppend(gStringVar4, COMPOUND_STRING("\n{A_BUTTON}こすう {B_BUTTON}やめる"));
+    else
+        StringAppend(gStringVar4, COMPOUND_STRING("\n{A_BUTTON}もらう {B_BUTTON}やめる"));
+
+    FrontierCreator_PrintWindow(windowId);
+}
+
+static void FrontierItemGiver_DrawQuantityScreen(u8 taskId)
+{
+    u8 windowId = gTasks[taskId].tWindowId;
+    const enum Item *items = FrontierItemGiver_GetItemList(gTasks[taskId].tItemGiverList);
+    enum Item itemId = items[gTasks[taskId].tItemGiverSelectedIndex];
+    u16 ownedQuantity = CountTotalItemQuantityInBag(itemId);
+    u16 maxQuantity = MAX_BAG_ITEM_CAPACITY - ownedQuantity;
+
+    if (gTasks[taskId].tInput > maxQuantity)
+        gTasks[taskId].tInput = maxQuantity;
+
+    FrontierCreator_ClearWindow(windowId);
+
+    StringCopy(gStringVar4, COMPOUND_STRING("ミントの こすうを えらぶ{CLEAR_TO 90}\n"));
+    StringAppend(gStringVar4, COMPOUND_STRING("なまえ: "));
+    StringAppend(gStringVar4, gItemsInfo[itemId].name);
+    StringAppend(gStringVar4, COMPOUND_STRING("{CLEAR_TO 90}\n"));
+    StringAppend(gStringVar4, COMPOUND_STRING("もっている: "));
+    ConvertIntToDecimalStringN(gStringVar1, ownedQuantity, STR_CONV_MODE_RIGHT_ALIGN, 3);
+    StringAppend(gStringVar4, gStringVar1);
+    StringAppend(gStringVar4, COMPOUND_STRING(" / 999{CLEAR_TO 90}\n"));
+    StringAppend(gStringVar4, COMPOUND_STRING("もらう こすう: "));
+    ConvertIntToDecimalStringN(gStringVar1, gTasks[taskId].tInput, STR_CONV_MODE_RIGHT_ALIGN, 3);
+    StringAppend(gStringVar4, gStringVar1);
+    StringAppend(gStringVar4, COMPOUND_STRING("{CLEAR_TO 90}\n"));
+    StringAppend(gStringVar4, COMPOUND_STRING("{UP_ARROW}{DOWN_ARROW}ぞうげん {LEFT_ARROW}{RIGHT_ARROW}けたいどう\n"));
+    StringAppend(gStringVar4, COMPOUND_STRING("{A_BUTTON}もらう {B_BUTTON}もどる"));
 
     FrontierCreator_PrintWindow(windowId);
 }
@@ -3056,7 +3392,9 @@ static void FrontierItemGiver_DestroyAndReturn(u8 taskId)
 
 static void Task_FrontierItemGiver_SelectItem(u8 taskId)
 {
-    u16 itemCount = FrontierItemGiver_GetItemCount();
+    u16 listId = gTasks[taskId].tItemGiverList;
+    const enum Item *items = FrontierItemGiver_GetItemList(listId);
+    u16 itemCount = FrontierItemGiver_GetItemCount(listId);
     enum Item itemId;
     s32 index;
 
@@ -3101,7 +3439,25 @@ static void Task_FrontierItemGiver_SelectItem(u8 taskId)
 
     if (JOY_NEW(A_BUTTON))
     {
-        itemId = sFrontierHubGiveItems[gTasks[taskId].tInput];
+        itemId = items[gTasks[taskId].tInput];
+
+        if (listId == FRONTIER_ITEM_GIVER_LIST_MINTS)
+        {
+            if (!CheckBagHasSpace(itemId, 1))
+            {
+                PlaySE(SE_PC_OFF);
+                FrontierItemGiver_DrawScreen(taskId);
+                return;
+            }
+
+            PlaySE(SE_SELECT);
+            gTasks[taskId].tItemGiverSelectedIndex = gTasks[taskId].tInput;
+            gTasks[taskId].tInput = 1;
+            gTasks[taskId].tDigit = 0;
+            gTasks[taskId].func = Task_FrontierItemGiver_SelectQuantity;
+            FrontierItemGiver_DrawQuantityScreen(taskId);
+            return;
+        }
 
         if (CheckBagHasItem(itemId, 1))
         {
@@ -3127,6 +3483,56 @@ static void Task_FrontierItemGiver_SelectItem(u8 taskId)
         PlaySE(SE_SELECT);
         gSpecialVar_Result = FALSE;
         FrontierItemGiver_DestroyAndReturn(taskId);
+    }
+}
+
+static void Task_FrontierItemGiver_SelectQuantity(u8 taskId)
+{
+    const enum Item *items = FrontierItemGiver_GetItemList(gTasks[taskId].tItemGiverList);
+    enum Item itemId = items[gTasks[taskId].tItemGiverSelectedIndex];
+    u16 ownedQuantity = CountTotalItemQuantityInBag(itemId);
+    u16 maxQuantity = MAX_BAG_ITEM_CAPACITY - ownedQuantity;
+
+    if (maxQuantity == 0)
+    {
+        PlaySE(SE_PC_OFF);
+        gTasks[taskId].tInput = gTasks[taskId].tItemGiverSelectedIndex;
+        gTasks[taskId].tDigit = 0;
+        gTasks[taskId].func = Task_FrontierItemGiver_SelectItem;
+        FrontierItemGiver_DrawScreen(taskId);
+        return;
+    }
+
+    if (JOY_NEW(DPAD_ANY))
+    {
+        PlaySE(SE_SELECT);
+        FrontierCreator_HandleNumericInput(taskId, 1, maxQuantity, FRONTIER_ITEM_GIVER_DIGITS);
+        FrontierItemGiver_DrawQuantityScreen(taskId);
+    }
+
+    if (JOY_NEW(A_BUTTON))
+    {
+        if (!AddBagItem(itemId, gTasks[taskId].tInput))
+        {
+            PlaySE(SE_PC_OFF);
+            FrontierItemGiver_DrawQuantityScreen(taskId);
+            return;
+        }
+
+        PlaySE(SE_SELECT);
+        gSpecialVar_Result = TRUE;
+        gTasks[taskId].tInput = gTasks[taskId].tItemGiverSelectedIndex;
+        gTasks[taskId].tDigit = 0;
+        gTasks[taskId].func = Task_FrontierItemGiver_SelectItem;
+        FrontierItemGiver_DrawScreen(taskId);
+    }
+    else if (JOY_NEW(B_BUTTON))
+    {
+        PlaySE(SE_SELECT);
+        gTasks[taskId].tInput = gTasks[taskId].tItemGiverSelectedIndex;
+        gTasks[taskId].tDigit = 0;
+        gTasks[taskId].func = Task_FrontierItemGiver_SelectItem;
+        FrontierItemGiver_DrawScreen(taskId);
     }
 }
 
@@ -3275,12 +3681,12 @@ static u8 FrontierHub_GetAbilityNum(enum Species species, enum Ability ability)
     return 0;
 }
 
-void Special_OpenFrontierItemGiver(void)
+static void FrontierItemGiver_Open(u16 listId)
 {
     u8 taskId;
     u8 windowId;
 
-    if (FrontierItemGiver_GetItemCount() == 0)
+    if (FrontierItemGiver_GetItemCount(listId) == 0)
     {
         gSpecialVar_Result = FALSE;
         return;
@@ -3299,9 +3705,20 @@ void Special_OpenFrontierItemGiver(void)
     gTasks[taskId].tWindowId = windowId;
     gTasks[taskId].tInput = 0;
     gTasks[taskId].tDigit = 0;
-    gTasks[taskId].tStatId = 0;
+    gTasks[taskId].tItemGiverList = listId;
+    gTasks[taskId].tItemGiverSelectedIndex = 0;
 
     FrontierItemGiver_DrawScreen(taskId);
+}
+
+void Special_OpenFrontierItemGiver(void)
+{
+    FrontierItemGiver_Open(FRONTIER_ITEM_GIVER_LIST_HUB);
+}
+
+void Special_OpenMintItemGiver(void)
+{
+    FrontierItemGiver_Open(FRONTIER_ITEM_GIVER_LIST_MINTS);
 }
 
 void Special_OpenFrontierPokemonCreator(void)
@@ -3324,6 +3741,7 @@ void Special_OpenFrontierPokemonCreator(void)
 
     FrontierCreator_InitDefaultData();
     sFrontierCreatorData->species = FrontierCreator_GetFirstAllowedSpecies();
+    sFrontierCreatorData->gender = FrontierCreator_GetDefaultGender(sFrontierCreatorData->species);
 
     LockPlayerFieldControls();
     FreezeObjectEvents();
@@ -3341,6 +3759,7 @@ void Special_OpenFrontierPokemonCreator(void)
     gTasks[taskId].tStatId = 0;
     gTasks[taskId].tPreviewSpriteId = FRONTIER_CREATOR_PREVIEW_NONE;
     gTasks[taskId].tPreviewSpecies = SPECIES_NONE;
+    gTasks[taskId].tSpeciesSortMode = FRONTIER_CREATOR_SORT_SPECIES_ID;
 
     FrontierCreator_DrawSpeciesScreen(taskId);
     FrontierCreator_UpdateSpeciesPreview(taskId, gTasks[taskId].tInput, FALSE);
@@ -3352,3 +3771,6 @@ void Special_OpenFrontierPokemonCreator(void)
 #undef tStatId
 #undef tPreviewSpriteId
 #undef tPreviewSpecies
+#undef tSpeciesSortMode
+#undef tItemGiverList
+#undef tItemGiverSelectedIndex

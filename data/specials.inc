@@ -71,7 +71,6 @@ gSpecials::
 	def_special ObjectEventInteractionWaterBerryTree
 	def_special PlayerHasBerries
 	def_special IsEnigmaBerryValid
-	def_special GetTrainerBattleMode
 	def_special ShowTrainerIntroSpeech
 	def_special ShowTrainerCantBattleSpeech
 	def_special GetTrainerFlag
@@ -91,7 +90,6 @@ gSpecials::
 	def_special InterviewAfter
 	def_special IsLeadMonNicknamedOrNotEnglish
 	def_special SetContestCategoryStringVarForInterview
-	def_special GetNextActiveShowIfMassOutbreak
 	def_special IsTVShowAlreadyInQueue
 	def_special CheckForPlayersHouseNews
 	def_special GetMomOrDadStringForTVMessage
@@ -542,6 +540,7 @@ gSpecials::
 	def_special IsLastMonThatKnowsSurf
 	def_special CountPartyAliveNonEggMons
 	def_special TryPrepareSecondApproachingTrainer
+	def_special PrepareSecondApproachingTrainer
 	def_special RemoveRecordsWindow
 	def_special CloseDeptStoreElevatorWindow
 	def_special TrySetBattleTowerLinkType
@@ -644,6 +643,7 @@ gSpecials::
 	def_special Special_OpenFrontierPokemonCreator
 	def_special Special_SetupFrontierHubState
 	def_special Special_OpenFrontierItemGiver
+	def_special Special_OpenMintItemGiver
 	def_special Special_SetFrontierAiNormal
 	def_special Special_SetFrontierAiHard
 	def_special Special_SetFrontierAiStrongest
@@ -659,6 +659,7 @@ gSpecials::
 	def_special ChooseNonEggPartyMon, waitstate=1
 	def_special Special_TeishokuyaChangeTeraType
 	def_special Special_TeishokuyaToggleGigantamax
+	def_special Special_TeishokuyaMaxMovePP
 	def_special Special_TeishokuyaIncreasePartyFriendship
 	def_special Special_TeishokuyaCanToggleGigantamax
 	def_special Special_TeishokuyaPlayMealScene, waitstate=1

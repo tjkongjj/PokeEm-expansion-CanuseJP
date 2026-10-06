@@ -111,6 +111,7 @@ static const u8 sText_GoTwoPkmn [] = _("{JPN}ゆけっ！ {B_PLAYER_MON1_NAME}�
 static const u8 sText_GoPkmn2 [] = _("{JPN}ゆけっ！ {B_BUFF1}！");
 static const u8 sText_DoItPkmn [] = _("{JPN}いってこい！ {B_BUFF1}！");
 static const u8 sText_GoForItPkmn [] = _("{JPN}がんばれ！ {B_BUFF1}！");
+static const u8 sText_BeCarefulPkmn [] = _("{JPN}きをつけろ！ {B_PLAYER_MON1_NAME}！");
 static const u8 sText_JustALittleMorePkmn [] = _("{JPN}もうすこしだ！ がんばれ {B_BUFF1}！"); //currently unused, will require code changes
 static const u8 sText_YourFoesWeakGetEmPkmn [] = _("{JPN}あいてが よわっている!\nチャンスだ！ {B_BUFF1}！");
 static const u8 sText_LinkPartnerSentOutPkmn1GoPkmn [] = _("{JPN}{B_LINK_PARTNER_NAME}は {B_LINK_PLAYER_MON1_NAME}を\nくりだした！ ゆけっ！ {B_LINK_PLAYER_MON2_NAME}！");
@@ -587,7 +588,7 @@ const u8 *const gBattleStringsTable[STRINGID_COUNT] =
     [STRINGID_SLOWSTARTENTERS]                      = COMPOUND_STRING("{JPN}{B_SCR_NAME_WITH_PREFIX}は スロースタートだ！"),
     [STRINGID_SLOWSTARTEND]                         = COMPOUND_STRING("{JPN}{B_ATK_NAME_WITH_PREFIX}は ちょうしを とりもどした！"),
     [STRINGID_SOLARPOWERHPDROP]                     = COMPOUND_STRING("{JPN}{B_ATK_NAME_WITH_PREFIX}は {B_ATK_ABILITY}で\nHPを けずられた！"), // Not in Gen 5+
-    [STRINGID_AFTERMATHDMG]                         = COMPOUND_STRING("{JPN}{B_ATK_NAME_WITH_PREFIX}は ダメージを うけた！"),
+    [STRINGID_PKMNWASHURT]                          = COMPOUND_STRING("{JPN}{B_ATK_NAME_WITH_PREFIX}は\nきずついた！"),
     [STRINGID_ANTICIPATIONACTIVATES]                = COMPOUND_STRING("{JPN}{B_SCR_NAME_WITH_PREFIX}は みぶるいした！"),
     [STRINGID_FOREWARNACTIVATES]                    = COMPOUND_STRING("{JPN}{B_SCR_ABILITY}で\n{B_EFF_NAME_WITH_PREFIX2}の {B_BUFF1}を よちした！"),
     [STRINGID_ICEBODYHPGAIN]                        = COMPOUND_STRING("{JPN}{B_ATK_NAME_WITH_PREFIX}の {B_ATK_ABILITY}で\nHPが すこし かいふくした！"), // Not in Gen 5+
@@ -838,6 +839,9 @@ const u8 *const gBattleStringsTable[STRINGID_COUNT] =
     [STRINGID_PKMNMADESHELLGLEAM]                   = COMPOUND_STRING("{JPN}{B_DEF_NAME_WITH_PREFIX}は\nこうらを かがやかせた！ タイプあいしょうを ゆがめる！"),
     [STRINGID_FICKLEBEAMDOUBLED]                    = COMPOUND_STRING("{JPN}{B_ATK_NAME_WITH_PREFIX}は\nこの こうげきに ぜんりょくを そそいだ！"),
     [STRINGID_COMMANDERACTIVATES]                   = COMPOUND_STRING("{JPN}{B_SCR_NAME_WITH_PREFIX}は しれいとう として\n{B_BUFF1}に のみこまれた！"),
+    [STRINGID_FRONTIERNICKNAMEPRESSURE]             = COMPOUND_STRING("{JPN}すさまじい いあつかんを かんじる！"),
+    [STRINGID_FRONTIERNICKNAMEBRACED]               = COMPOUND_STRING("{JPN}{B_BUFF2}は みをひきしめた！"),
+    [STRINGID_FRONTIERNICKNAMEGREATMON]             = COMPOUND_STRING("{JPN}すごい ポケモンの おでましだ！"),
     [STRINGID_POKEFLUTECATCHY]                      = COMPOUND_STRING("{JPN}{B_PLAYER_NAME}は {B_LAST_ITEM} ふいた！\pうーん！\nすばらしい ねいろだ！"),
     [STRINGID_POKEFLUTE]                            = COMPOUND_STRING("{JPN}{B_PLAYER_NAME}は\n{B_LAST_ITEM}を ふいた！"),
     [STRINGID_MONHEARINGFLUTEAWOKE]                 = COMPOUND_STRING("{JPN}ふえのねを きいた\nポケモンは めを さました！\n"),
@@ -852,6 +856,7 @@ const u8 *const gBattleStringsTable[STRINGID_COUNT] =
     [STRINGID_BLOCKEDBYSLEEPCLAUSE]                 = COMPOUND_STRING("{JPN}ルールにより\n{B_DEF_NAME_WITH_PREFIX2}は ねむらなかった!"),
     [STRINGID_SUPEREFFECTIVETWOFOES]                = COMPOUND_STRING("{JPN}{B_DEF_NAME_WITH_PREFIX2}と {B_DEF_PARTNER_NAME}には こうかばつぐんだ！"),
     [STRINGID_NOTVERYEFFECTIVETWOFOES]              = COMPOUND_STRING("{JPN}{B_DEF_NAME_WITH_PREFIX2}と {B_DEF_PARTNER_NAME}には\nこうかは いまひとつだ..."),
+    [STRINGID_ITDOESNTAFFECTTWOFOES]                = COMPOUND_STRING("{JPN}{B_DEF_NAME_WITH_PREFIX2}と {B_DEF_PARTNER_NAME}には\nこうかが ない ようだ……"),
     [STRINGID_SENDCAUGHTMONPARTYORBOX]              = COMPOUND_STRING("{JPN}{B_DEF_NAME}を てもちに くわえますか？"),
     [STRINGID_PKMNSENTTOPCAFTERCATCH]               = gText_PkmnSentToPCAfterCatch,
     [STRINGID_PKMNDYNAMAXED]                        = COMPOUND_STRING("{JPN}{B_ATK_NAME_WITH_PREFIX}は ダイマックスした！"),
@@ -886,10 +891,23 @@ const u8 *const gBattleStringsTable[STRINGID_COUNT] =
     [STRINGID_PARTYCUREDFREEZE]                     = COMPOUND_STRING("{JPN}{B_BUFF1}の こおりが とけた！"),
     [STRINGID_PARTYCUREDFROSTBITE]                  = COMPOUND_STRING("{JPN}{B_BUFF1}の しもやけが なおった！"),
     [STRINGID_PKMNATKNOTLOWERED]                    = COMPOUND_STRING("{JPN}{B_SCR_NAME_WITH_PREFIX}の こうげきは さがらない！"),
+    [STRINGID_VICTORYCATCH]                         = COMPOUND_STRING("{JPN}{B_DEF_NAME}は よわっている！\nいまこそ ボールを なげる チャンス！"),
+    [STRINGID_CANTUSEMOVE]                          = COMPOUND_STRING("{JPN}この わざは つかえない！\p"),
     [STRINGID_REFLECTWOREOFF]                       = COMPOUND_STRING("{JPN}{B_DEF_TEAM1} リフレクター　がきえた！"),
     [STRINGID_LIGHTSCREENWOREOFF]                   = COMPOUND_STRING("{JPN}{B_DEF_TEAM1} ひかりのかべが　きえた！"),
     [STRINGID_AURORAVEILWOREOFF]                    = COMPOUND_STRING("{JPN}{B_DEF_TEAM1} オーロラベール　がきえた！"),
-    [STRINGID_STICKYWEBDISAPPEAREDFROMYOU]          = COMPOUND_STRING("{JPN}こちらの まわりの\nねばねばネットが きえた！"),
+    [STRINGID_MOSTLYINEFFECTIVE]                    = COMPOUND_STRING("{JPN}こうかは ほとんど ない……"),
+    [STRINGID_EXTREMELYEFFECTIVE]                   = COMPOUND_STRING("{JPN}こうかは ものすごく ばつぐんだ！"),
+    [STRINGID_NOTVERYEFFECTIVEONDEF]                = COMPOUND_STRING("{JPN}{B_DEF_NAME_WITH_PREFIX2}には\nこうかは いまひとつの ようだ"),
+    [STRINGID_SUPEREFFECTIVEONDEF]                  = COMPOUND_STRING("{JPN}{B_DEF_NAME_WITH_PREFIX2}には\nこうかは ばつぐんだ！"),
+    [STRINGID_MOSTLYINEFFECTIVEONDEF]               = COMPOUND_STRING("{JPN}{B_DEF_NAME_WITH_PREFIX2}には\nこうかが ほとんど ない……"),
+    [STRINGID_EXTREMELYEFFECTIVEONDEF]              = COMPOUND_STRING("{JPN}{B_DEF_NAME_WITH_PREFIX2}には\nこうかが ものすごく ばつぐんだ！"),
+    [STRINGID_EXTREMELYEFFECTIVETWOFOES]            = COMPOUND_STRING("{JPN}{B_DEF_NAME_WITH_PREFIX2}と {B_DEF_PARTNER_NAME}には\nこうかが ものすごく ばつぐんだ！"),
+    [STRINGID_MOSTLYINEFFECTIVETWOFOES]             = COMPOUND_STRING("{JPN}{B_DEF_NAME_WITH_PREFIX2}と {B_DEF_PARTNER_NAME}には\nこうかが ほとんど ない……"),
+    [STRINGID_CRITICALHITONDEF]                     = COMPOUND_STRING("{JPN}{B_DEF_NAME_WITH_PREFIX2}の\nきゅうしょに あたった！"),
+    [STRINGID_S]                                    = gText_EmptyString3,
+    [STRINGID_LOSTSOMEOFITSHP]                      = COMPOUND_STRING("{JPN}{B_ATK_NAME_WITH_PREFIX}は\nたいりょくを すこし うしなった！"),
+    [STRINGID_BELCHCANTUSE]                         = COMPOUND_STRING("{JPN}{B_ATK_NAME_WITH_PREFIX}は ゲップが でない！\p"),
 
 };
 
@@ -1068,8 +1086,8 @@ const u16 gProtectLikeUsedStringIds[] =
 
 const u16 gBrokeProtectionStringIds[] =
 {
-    [B_MSG_FEINT]           = STRINGID_FELLFORFEINT,
-    [B_MSG_HYPERSPACE_FURY] = STRINGID_BROKETHROUGHPROTECTION,
+    [B_MSG_FEINT]                 = STRINGID_FELLFORFEINT,
+    [B_MSG_BROKE_THROUGH_PROTECT] = STRINGID_BROKETHROUGHPROTECTION,
 };
 
 const u16 gReflectLightScreenSafeguardStringIds[] =
@@ -1440,7 +1458,7 @@ const u16 gPartyCureStatusStringIds[] =
 
 const u16 gHurtByStringIds[] =
 {
-    [B_MSG_HURT] = STRINGID_AFTERMATHDMG,
+    [B_MSG_HURT] = STRINGID_PKMNWASHURT,
     [B_MSG_HURT_BY_ITEM] = STRINGID_PKMNHURTSWITH,
 };
 
@@ -1468,6 +1486,7 @@ const u8 gText_MoveInterfacePPType [] = _("{JPN}{PALETTE 5}{BACKGROUND DYNAMIC_C
 const u8 gText_MoveInterfaceDynamicColors [] = _("{JPN}{PALETTE 5}{BACKGROUND DYNAMIC_COLOR5}{TEXT_COLORS DYNAMIC_COLOR4 DYNAMIC_COLOR6 DYNAMIC_COLOR5}");
 const u8 gText_WhichMoveToForget4 [] = _("{JPN}{PALETTE 5}{BACKGROUND DYNAMIC_COLOR5}{TEXT_COLORS DYNAMIC_COLOR4 DYNAMIC_COLOR6 DYNAMIC_COLOR5}どの わざを\nわすれますか？");
 const u8 gText_BattleYesNoChoice [] = _("{JPN}{PALETTE 5}{BACKGROUND DYNAMIC_COLOR5}{TEXT_COLORS DYNAMIC_COLOR4 DYNAMIC_COLOR6 DYNAMIC_COLOR5}はい\nいいえ");
+const u8 gText_BattleCatchOrNot [] = _("{JPN}{PALETTE 5}{BACKGROUND DYNAMIC_COLOR5}{TEXT_COLORS DYNAMIC_COLOR4 DYNAMIC_COLOR6 DYNAMIC_COLOR5}つかまえる\nつかまえない");
 const u8 gText_BattleSwitchWhich [] = _("{JPN}{PALETTE 5}{BACKGROUND DYNAMIC_COLOR5}{TEXT_COLORS DYNAMIC_COLOR4 DYNAMIC_COLOR6 DYNAMIC_COLOR5}どのこに\nする？");
 const u8 gText_BattleSwitchWhich2 [] = _("{JPN}{PALETTE 5}{BACKGROUND DYNAMIC_COLOR5}{TEXT_COLORS DYNAMIC_COLOR4 DYNAMIC_COLOR6 DYNAMIC_COLOR5}");
 const u8 gText_BattleSwitchWhich3 [] = _("{JPN}{UP_ARROW}");
@@ -1832,6 +1851,17 @@ static const struct BattleWindowText sTextOnWindowsInfo_Normal[] =
         .color.background = TEXT_DYNAMIC_COLOR_5,
         .color.accent = TEXT_DYNAMIC_COLOR_5,
         .color.shadow = TEXT_DYNAMIC_COLOR_6,
+    },
+    [B_CATCH_OR_NOT] = {
+        .fillValue = PIXEL_FILL(0xE),
+        .fontId = FONT_NORMAL,
+        .x = 0,
+        .y = 1,
+        .speed = 0,
+        .color.foreground = 13,
+        .color.background = 14,
+        .color.accent = 14,
+        .color.shadow = 15,
     },
 };
 
@@ -2511,6 +2541,10 @@ void BufferStringBattle(enum StringID stringID, enum BattlerId battler)
                         stringPtr = sText_InGamePartnerSentOutZGoN; // Player is on left
                     else
                         stringPtr = sText_InGamePartnerSentOutNGoZ; // Partner on left
+                }
+                else if (gBattleTypeFlags & BATTLE_TYPE_RAID)
+                {
+                    stringPtr = sText_BeCarefulPkmn;
                 }
                 else
                 {

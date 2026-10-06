@@ -83,6 +83,31 @@ static EWRAM_DATA struct {
 EWRAM_DATA enum MoveRelearnerStates gMoveRelearnerState = MOVE_RELEARNER_LEVEL_UP_MOVES;
 EWRAM_DATA enum RelearnMode gRelearnMode = RELEARN_MODE_NONE;
 
+// Keep LGPE partner moves relearner-only so they do not alter the starter's
+// initial moves or normal level-up progression.
+static const u16 sPikachuStarterRelearnerMoves[] =
+{
+    MOVE_ZIPPY_ZAP,
+    MOVE_SPLISHY_SPLASH,
+    MOVE_FLOATY_FALL,
+    MOVE_PIKA_PAPOW,
+    MOVE_UNAVAILABLE,
+};
+
+static const u16 sEeveeStarterRelearnerMoves[] =
+{
+    MOVE_BOUNCY_BUBBLE,
+    MOVE_BUZZY_BUZZ,
+    MOVE_SIZZLY_SLIDE,
+    MOVE_GLITZY_GLOW,
+    MOVE_BADDY_BAD,
+    MOVE_SAPPY_SEED,
+    MOVE_FREEZY_FROST,
+    MOVE_SPARKLY_SWIRL,
+    MOVE_VEEVEE_VOLLEY,
+    MOVE_UNAVAILABLE,
+};
+
 static const u16 sUI_Pal[] = INCGFX_U16("graphics/interface/ui_learn_move.png", ".gbapal");
 
 // The arrow sprites in this spritesheet aren't used. The scroll-arrow system provides its own
@@ -272,6 +297,7 @@ static u32 GetRelearnerFrontierFullMoves(struct BoxPokemon *mon, u16 *moves);
 static u32 GetRelearnerEggMoves(struct BoxPokemon *mon, u16 *moves);
 static u32 GetRelearnerTMMoves(struct BoxPokemon *mon, u16 *moves);
 static u32 GetRelearnerTutorMoves(struct BoxPokemon *mon, u16 *moves);
+static const u16 *GetStarterPartnerRelearnerMoves(enum Species species);
 
 static void Task_MoveRelearner_HandleInput(u8 taskId);
 static void Task_MoveRelearner_LearnMove(u8 taskId);
@@ -451,10 +477,18 @@ static void CB2_InitLearnMoveReturnFromSelectMove(void)
     SetMainCallback2(CB2_InitLearnMove_Basic);
 }
 
+static bool32 GameHasDifferentRelearners(void)
+{
+    if (P_ENABLE_MOVE_RELEARNERS || P_TM_MOVES_RELEARNER)
+        return TRUE;
+    if (P_FLAG_EGG_MOVES || P_FLAG_TUTOR_MOVES)
+        return TRUE;
+    return FALSE;
+}
+
 static void StoreMoveText(void)
 {
-    if (P_ENABLE_MOVE_RELEARNERS || P_TM_MOVES_RELEARNER
-    || FlagGet(P_FLAG_EGG_MOVES) || FlagGet(P_FLAG_TUTOR_MOVES))
+    if (GameHasDifferentRelearners() || gRelearnMode == RELEARN_MODE_SCRIPT)
         StringCopy(gStringVar3, sRelearnTypes[gMoveRelearnerState].moveText);
     else
         StringCopy(gStringVar3, MoveRelearner_Text_MoveLWR);
@@ -539,6 +573,16 @@ static void UIShowMoveList(u8 taskId)
     ShowSelectMovePokemonSummaryScreen(gParties[B_TRAINER_PLAYER], partyIndex, CB2_InitLearnMoveReturnFromSelectMove, move);
 }
 
+static void RedrawMoveList(void)
+{
+    CreateLearnableMovesList();
+    if (sMoveRelearnerScrollState.listOffset > sMoveRelearnerStruct->numMenuChoices - sMoveRelearnerStruct->numToShowAtOnce)
+        sMoveRelearnerScrollState.listOffset = sMoveRelearnerStruct->numMenuChoices - sMoveRelearnerStruct->numToShowAtOnce;
+    DestroyListMenuTask(sMoveRelearnerStruct->moveListMenuTask, NULL, NULL);
+    sMoveRelearnerStruct->moveListMenuTask = ListMenuInit(&gMultiuseListMenuTemplate, sMoveRelearnerScrollState.listOffset, sMoveRelearnerScrollState.listRow);
+    ShowTeachMoveText();
+}
+
 static void UIEndTask(u8 taskId)
 {
     if (gSpecialVar_Result == TRUE && ShouldConsumeTmItem(gTasks[taskId].tMove))
@@ -554,17 +598,9 @@ static void UIEndTask(u8 taskId)
         return;
     }
     if (gSpecialVar_Result == TRUE)
-    {
-        DestroyListMenuTask(sMoveRelearnerStruct->moveListMenuTask, &sMoveRelearnerScrollState.listOffset, &sMoveRelearnerScrollState.listRow);
-        CreateLearnableMovesList();
-        if (sMoveRelearnerScrollState.listOffset + sMoveRelearnerScrollState.listRow >= sMoveRelearnerStruct->numMenuChoices)
-        {
-            sMoveRelearnerScrollState.listOffset = 0;
-            sMoveRelearnerScrollState.listRow = 0;
-        }
-        sMoveRelearnerStruct->moveListMenuTask = ListMenuInit(&gMultiuseListMenuTemplate, sMoveRelearnerScrollState.listOffset, sMoveRelearnerScrollState.listRow);
-    }
-    ShowTeachMoveText();
+        RedrawMoveList();
+    else
+        ShowTeachMoveText();
     AddScrollArrows();
     gTasks[taskId].func = Task_MoveRelearner_HandleInput;
 }
@@ -639,6 +675,23 @@ static void Task_MoveRelearner_LearnMove(u8 taskId)
     gTasks[taskId].tState = LearnMove(&sMoveLearnUI, taskId);
 }
 
+static bool32 UpdateMoveRelearnerState(void)
+{
+    u32 state;
+    struct BoxPokemon *boxmon = GetSelectedBoxMonFromPcOrParty();
+    for (u32 i = 1; i < MOVE_RELEARNER_COUNT; i++)
+    {
+        state = (gMoveRelearnerState + i) % MOVE_RELEARNER_COUNT;
+        if (CanBoxMonRelearnMoves(boxmon, state))
+        {
+            gMoveRelearnerState = state;
+            StoreMoveText();
+            return TRUE;
+        }
+    }
+    return FALSE;
+}
+
 static void Task_MoveRelearner_HandleInput(u8 taskId)
 {
     s32 itemId = ListMenu_ProcessInput(sMoveRelearnerStruct->moveListMenuTask);
@@ -665,28 +718,46 @@ static void Task_MoveRelearner_HandleInput(u8 taskId)
     switch (itemId)
     {
     case LIST_NOTHING_CHOSEN:
-        if (!(JOY_NEW(DPAD_LEFT | DPAD_RIGHT)) && !GetLRKeysPressed())
-            break;
-
-        PlaySE(SE_SELECT);
-
-        if (gTasks[taskId].tCategory == BATTLE_INFO)
+        if (JOY_NEW(SELECT_BUTTON) && gRelearnMode != RELEARN_MODE_SCRIPT)
         {
-            PutWindowTilemap(RELEARNERWIN_DESC_CONTEST);
-            gTasks[taskId].tCategory = CONTEST_INFO;
+            if (UpdateMoveRelearnerState())
+            {
+                PlaySE(SE_SUCCESS);
+                sMoveRelearnerScrollState.listOffset = 0;
+                sMoveRelearnerScrollState.listRow = 0;
+                RedrawMoveList();
+            }
+            else if (GameHasDifferentRelearners())
+            {
+                PlaySE(SE_FAILURE);
+            }
         }
-        else
+        else if (!C_HIDE_CONTEST_DATA)
         {
-            PutWindowTilemap(RELEARNERWIN_DESC_BATTLE);
-            gTasks[taskId].tCategory = BATTLE_INFO;
+            if (!(JOY_NEW(DPAD_LEFT | DPAD_RIGHT)) && !GetLRKeysPressed())
+                break;
+
+            PlaySE(SE_SELECT);
+
+            if (gTasks[taskId].tCategory == BATTLE_INFO)
+            {
+                PutWindowTilemap(RELEARNERWIN_DESC_CONTEST);
+                gTasks[taskId].tCategory = CONTEST_INFO;
+            }
+            else
+            {
+                PutWindowTilemap(RELEARNERWIN_DESC_BATTLE);
+                gTasks[taskId].tCategory = BATTLE_INFO;
+            }
+
+            MoveRelearnerShowHideHearts(GetCurrentSelectedMove());
+
+            ScheduleBgCopyTilemapToVram(1);
+
+            if (B_SHOW_CATEGORY_ICON == TRUE)
+                MoveRelearnerShowHideCategoryIcon(GetCurrentSelectedMove());
+            AddScrollArrows();
         }
-
-        MoveRelearnerShowHideHearts(GetCurrentSelectedMove());
-
-        ScheduleBgCopyTilemapToVram(1);
-        if (B_SHOW_CATEGORY_ICON == TRUE)
-            MoveRelearnerShowHideCategoryIcon(GetCurrentSelectedMove());
-        AddScrollArrows();
         break;
     case LIST_CANCEL:
         PlaySE(SE_SELECT);
@@ -759,7 +830,7 @@ static void CreateUISprites(void)
 
 static void AddScrollArrows(void)
 {
-    if (sMoveRelearnerStruct->moveDisplayArrowTask == TASK_NONE)
+    if (!C_HIDE_CONTEST_DATA && sMoveRelearnerStruct->moveDisplayArrowTask == TASK_NONE)
         sMoveRelearnerStruct->moveDisplayArrowTask = AddScrollIndicatorArrowPair(&sDisplayModeArrowsTemplate, &sMoveRelearnerStruct->scrollOffset);
 
     if (sMoveRelearnerStruct->moveListScrollArrowTask == TASK_NONE)
@@ -772,7 +843,7 @@ static void AddScrollArrows(void)
 
 static void RemoveScrollArrows(void)
 {
-    if (sMoveRelearnerStruct->moveDisplayArrowTask != TASK_NONE)
+    if (!C_HIDE_CONTEST_DATA && sMoveRelearnerStruct->moveDisplayArrowTask != TASK_NONE)
     {
         RemoveScrollIndicatorArrowPair(sMoveRelearnerStruct->moveDisplayArrowTask);
         sMoveRelearnerStruct->moveDisplayArrowTask = TASK_NONE;
@@ -952,9 +1023,23 @@ static void CycleFrontierMoveFilter(void)
         sFrontierMoveFilter = FRONTIER_MOVE_FILTER_ALL;
 }
 
+static const u16 *GetStarterPartnerRelearnerMoves(enum Species species)
+{
+    switch (species)
+    {
+    case SPECIES_PIKACHU_STARTER:
+        return sPikachuStarterRelearnerMoves;
+    case SPECIES_EEVEE_STARTER:
+        return sEeveeStarterRelearnerMoves;
+    default:
+        return NULL;
+    }
+}
+
 static u32 GetRelearnerLevelUpMoves(struct BoxPokemon *mon, u16 *moves)
 {
     enum Species species = GetBoxMonData(mon, MON_DATA_SPECIES);
+    const u16 *partnerMoves = GetStarterPartnerRelearnerMoves(species);
     u32 level = (P_ENABLE_ALL_LEVEL_UP_MOVES ? MAX_LEVEL : GetLevelFromBoxMonExp(mon));
     u32 numMoves = 0;
     do
@@ -981,6 +1066,29 @@ static u32 GetRelearnerLevelUpMoves(struct BoxPokemon *mon, u16 *moves)
 
         species = (P_PRE_EVO_MOVES ? GetSpeciesPreEvolution(species) : SPECIES_NONE);
     } while (species != SPECIES_NONE && numMoves < MAX_RELEARNER_MOVES);
+
+    if (partnerMoves != NULL)
+    {
+        for (u32 i = 0; partnerMoves[i] != MOVE_UNAVAILABLE; i++)
+        {
+            bool32 alreadyInList = FALSE;
+
+            if (BoxMonKnowsMove(mon, partnerMoves[i]))
+                continue;
+
+            for (u32 j = 0; j < numMoves; j++)
+            {
+                if (partnerMoves[i] == moves[j])
+                {
+                    alreadyInList = TRUE;
+                    break;
+                }
+            }
+
+            if (!alreadyInList && numMoves < MAX_RELEARNER_MOVES)
+                moves[numMoves++] = partnerMoves[i];
+        }
+    }
 
     return numMoves;
 }
@@ -1058,6 +1166,7 @@ static u32 GetRelearnerFrontierFullMoves(struct BoxPokemon *mon, u16 *moves)
     {
         GetFrontierFullLearnset(species),
         GetFrontierEventLearnset(species),
+        GetFrontierZaDlcLearnset(species),
     };
     u32 count = 0;
 
@@ -1111,20 +1220,6 @@ void Special_HasMoveToRelearn(void)
         gSpecialVar_Result = FALSE;
 }
 
-bool32 CanBoxMonRelearnAnyMove(struct BoxPokemon *boxMon)
-{
-    if (GetBoxMonData(boxMon, MON_DATA_IS_EGG))
-        return FALSE;
-    for (u32 i = MOVE_RELEARNER_LEVEL_UP_MOVES; i < MOVE_RELEARNER_COUNT; i++)
-    {
-        if (!sRelearnTypes[i].isActive())
-            continue;
-        if (sRelearnTypes[i].hasMoveToRelearn(boxMon))
-            return TRUE;
-    }
-    return FALSE;
-}
-
 bool32 CanBoxMonRelearnMoves(struct BoxPokemon *boxMon, enum MoveRelearnerStates state)
 {
     if (!sRelearnTypes[state].isActive())
@@ -1142,7 +1237,17 @@ bool32 HasMoveToRelearn(struct BoxPokemon *boxMon, enum MoveRelearnerStates stat
 static bool32 HasRelearnerLevelUpMoves(struct BoxPokemon *boxMon)
 {
     enum Species species = GetBoxMonData(boxMon, MON_DATA_SPECIES);
+    const u16 *partnerMoves = GetStarterPartnerRelearnerMoves(species);
     u32 level = (P_ENABLE_ALL_LEVEL_UP_MOVES == TRUE) ? MAX_LEVEL : GetLevelFromBoxMonExp(boxMon);
+
+    if (partnerMoves != NULL)
+    {
+        for (u32 i = 0; partnerMoves[i] != MOVE_UNAVAILABLE; i++)
+        {
+            if (!BoxMonKnowsMove(boxMon, partnerMoves[i]))
+                return TRUE;
+        }
+    }
 
     do
     {
@@ -1233,6 +1338,7 @@ static bool32 HasRelearnerFrontierFullMoves(struct BoxPokemon *boxMon)
     {
         GetFrontierFullLearnset(species),
         GetFrontierEventLearnset(species),
+        GetFrontierZaDlcLearnset(species),
     };
 
     if (species >= NUM_SPECIES)

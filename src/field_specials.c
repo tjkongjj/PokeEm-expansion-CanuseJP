@@ -31,6 +31,7 @@
 #include "main.h"
 #include "match_call.h"
 #include "menu.h"
+#include "move.h"
 #include "metatile_behavior.h"
 #include "mystery_gift.h"
 #include "overworld.h"
@@ -541,7 +542,7 @@ u8 GetLinkPartnerNames(void)
     {
         if (myLinkPlayerNumber != i)
         {
-            StringCopy(gTVStringVarPtrs[j], gLinkPlayers[i].name);
+            StringCopy(GetStringVar(j), gLinkPlayers[i].name);
             j++;
         }
     }
@@ -1646,12 +1647,6 @@ u8 GetLeadMonIndex(void)
 enum Species ScriptGetPartyMonSpecies(void)
 {
     return GetMonData(&gParties[B_TRAINER_PLAYER][gSpecialVar_0x8004], MON_DATA_SPECIES_OR_EGG, NULL);
-}
-
-enum Species ScriptGetSelectedMonSpecies(void)
-{
-    struct BoxPokemon *boxmon = GetSelectedBoxMonFromPcOrParty();
-    return GetBoxMonData(boxmon, MON_DATA_SPECIES_OR_EGG);
 }
 
 // Removed for Emerald
@@ -4622,7 +4617,7 @@ void SetHiddenNature(void)
 
 void SetAbility(void)
 {
-    u32 ability = gSpecialVar_Result;
+    enum Ability ability = gSpecialVar_Result;
     SetMonData(&gParties[B_TRAINER_PLAYER][gSpecialVar_0x8004], MON_DATA_ABILITY_NUM, &ability);
 }
 
@@ -4988,6 +4983,33 @@ void Special_TeishokuyaToggleGigantamax(void)
     gSpecialVar_Result = TRUE;
 }
 
+void Special_TeishokuyaMaxMovePP(void)
+{
+    struct Pokemon *mon;
+    u32 i;
+    u8 ppBonuses;
+
+    if (!Teishokuya_IsValidSelectedPartyMon())
+    {
+        gSpecialVar_Result = FALSE;
+        return;
+    }
+
+    mon = &gParties[B_TRAINER_PLAYER][gSpecialVar_0x8004];
+    ppBonuses = GetMonData(mon, MON_DATA_PP_BONUSES);
+    for (i = 0; i < MAX_MON_MOVES; i++)
+    {
+        enum Move move = GetMonData(mon, MON_DATA_MOVE1 + i);
+
+        if (move != MOVE_NONE && GetMovePP(move) >= 5)
+            ppBonuses |= gPPUpGetMask[i];
+    }
+
+    // Increase only the PP limits, leaving current PP untouched.
+    SetMonData(mon, MON_DATA_PP_BONUSES, &ppBonuses);
+    gSpecialVar_Result = TRUE;
+}
+
 void Special_TeishokuyaIncreasePartyFriendship(void)
 {
     u32 i;
@@ -5065,7 +5087,8 @@ bool8 CapeBrinkGetMoveToTeachLeadPokemon(void)
     //   8007 = Index of lead mon
     //   to specialvar = whether a move can be taught in the first place
     u8 i, leadMonSlot, moveCount = 0;
-    u16 moveId, tutorFlag;
+    enum Move moveId;
+    u16 tutorFlag;
     struct Pokemon *leadMon;
 
     leadMonSlot = GetLeadMonIndex();
@@ -5915,14 +5938,6 @@ static void Task_CancelPokemonLeagueLightingEffect(u8 taskId)
             BlendPalettes(0x00000080, 16, RGB_BLACK);
         }
         DestroyTask(taskId);
-    }
-}
-
-void StopPokemonLeagueLightingEffectTask(void)
-{
-    if (FuncIsActiveTask(Task_RunPokemonLeagueLightingEffect) == TRUE)
-    {
-        DestroyTask(FindTaskIdByFunc(Task_RunPokemonLeagueLightingEffect));
     }
 }
 

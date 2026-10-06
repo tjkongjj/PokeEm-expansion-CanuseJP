@@ -53,18 +53,7 @@ struct FrontierBrainMon
     u8 fixedIV;
     u8 nature;
     u8 evs[NUM_STATS];
-    u16 moves[MAX_MON_MOVES];
-};
-
-struct FrontierBrain
-{
-    u16 trainerId;
-    u8 objEventGfx;
-    u8 isFemale;
-    const u8 *lostTexts[2];
-    const u8 *wonTexts[2];
-    u16 battledBit[2];
-    u8 streakAppearances[4];
+    enum Move moves[MAX_MON_MOVES];
 };
 
 // This file's functions.
@@ -103,7 +92,7 @@ static void ShowArenaResultsWindow(void);
 static void ShowPyramidResultsWindow(void);
 static void ShowLinkContestResultsWindow(void);
 static void CopyFrontierBrainText(bool8 playerWonText);
-static u16 *MakeCaughtBannesSpeciesList(u32 totalBannedSpecies);
+static u16 *MakeCaughtBannedSpeciesList(u32 totalBannedSpecies);
 static void PrintBannedSpeciesName(u8 windowId, u32 itemId, u8 y);
 static void Task_BannedSpeciesWindowInput(u8 taskId);
 
@@ -117,15 +106,17 @@ const struct FrontierBrain gFrontierBrainInfo[NUM_FRONTIER_FACILITIES] =
         .objEventGfx = OBJ_EVENT_GFX_ANABEL,
         .isFemale = TRUE,
         .lostTexts = {
-            COMPOUND_STRING("{JPN}そう…… わかったわ……"), //Silver
+            COMPOUND_STRING("{JPN}なるほどね……"), //Silver
             COMPOUND_STRING("{JPN}ありがとう……")           //Gold
         },
         .wonTexts = {
-            COMPOUND_STRING("{JPN}とても ざんねん……"), //Silver
-            COMPOUND_STRING("{JPN}ほんとうに ごめんなさい……")       //Gold
+            COMPOUND_STRING("{JPN}ざんねん だよ……"), //Silver
+            COMPOUND_STRING("{JPN}ごめんね……")       //Gold
         },
         .battledBit = {1 << 0, 1 << 1},
         .streakAppearances = {35, 70, 35, 1},
+        .goldSymbolFlag = FLAG_SYS_TOWER_GOLD,
+        .silverSymbolFlag = FLAG_SYS_TOWER_SILVER,
     },
     [FRONTIER_FACILITY_DOME] =
     {
@@ -133,21 +124,17 @@ const struct FrontierBrain gFrontierBrainInfo[NUM_FRONTIER_FACILITIES] =
         .objEventGfx = OBJ_EVENT_GFX_TUCKER,
         .isFemale = FALSE,
         .lostTexts = {
-            COMPOUND_STRING(
-                "{JPN}ぐっ……\n"
-                "なんだと……"),        //Silver
-            COMPOUND_STRING(
-                "{JPN}アハハハ！\n"
-                "きみは すばらしい！") //Gold
+            COMPOUND_STRING("{JPN}クッ…… なんて こと……"), //Silver
+            COMPOUND_STRING("{JPN}アッハッハッ!! ステキっ!!") //Gold
         },
         .wonTexts = {
-            COMPOUND_STRING(
-                "{JPN}アハハハ！ はずかしくないのかい？\n"
-                "みんなが みているぞ！"),                              //Silver
-            COMPOUND_STRING("{JPN}ドームエースの なは だてじゃない！") //Gold
+            COMPOUND_STRING("{JPN}アッハッハッ!! はずかしく ないのっ!?\nみんなが みてるよっ!!"), //Silver
+            COMPOUND_STRING("{JPN}ドームスーパースターの\nなまえは かざりじゃ ないっ!!") //Gold
         },
         .battledBit = {1 << 2, 1 << 3},
         .streakAppearances = {4, 9, 5, 0},
+        .goldSymbolFlag = FLAG_SYS_DOME_GOLD,
+        .silverSymbolFlag = FLAG_SYS_DOME_SILVER,
     },
     [FRONTIER_FACILITY_PALACE] =
     {
@@ -155,23 +142,17 @@ const struct FrontierBrain gFrontierBrainInfo[NUM_FRONTIER_FACILITIES] =
         .objEventGfx = OBJ_EVENT_GFX_SPENSER,
         .isFemale = FALSE,
         .lostTexts = {
-            COMPOUND_STRING(
-                "{JPN}ほう……\n"
-                "これは たいしたものじゃ……"), //Silver
-            COMPOUND_STRING(
-                "{JPN}ぐわっ！\n"
-                "ハハハハ！")                    //Gold
+            COMPOUND_STRING("{JPN}ほほぅ……\nこれは これは……"), //Silver
+            COMPOUND_STRING("{JPN}ぐわーーーはっはっは!!") //Gold
         },
         .wonTexts = {
-            COMPOUND_STRING(
-                "{JPN}おぬしの ポケモンが よわいのは\n"
-                "おぬしが よわいからじゃ！"),           //Silver
-            COMPOUND_STRING(
-                "{JPN}ぐわははは！\n"
-                "おそれるものなど なにもない！") //Gold
+            COMPOUND_STRING("{JPN}ポケモンが なんじゃく なのは\nトレーナーが なんじゃく だからだ!!"), //Silver
+            COMPOUND_STRING("{JPN}ぐわはっはっは!!\nわが きょうだいの まえに てき なし!!") //Gold
         },
         .battledBit = {1 << 4, 1 << 5},
         .streakAppearances = {21, 42, 21, 1},
+        .goldSymbolFlag = FLAG_SYS_PALACE_GOLD,
+        .silverSymbolFlag = FLAG_SYS_PALACE_SILVER,
     },
     [FRONTIER_FACILITY_ARENA] =
     {
@@ -179,23 +160,17 @@ const struct FrontierBrain gFrontierBrainInfo[NUM_FRONTIER_FACILITIES] =
         .objEventGfx = OBJ_EVENT_GFX_GRETA,
         .isFemale = TRUE,
         .lostTexts = {
-            COMPOUND_STRING(
-                "{JPN}まさか！\n"
-                "やるじゃない！"),        //Silver
-            COMPOUND_STRING(
-                "{JPN}えっ？\n"
-                "ほんきなの！？") //Gold
+            COMPOUND_STRING("{JPN}うっそ! やるじゃんー!!"), //Silver
+            COMPOUND_STRING("{JPN}いーっ!? マジっ!?") //Gold
         },
         .wonTexts = {
-            COMPOUND_STRING(
-                "{JPN}もう！\n"
-                "もっと しっかりしなさい！"), //Silver
-            COMPOUND_STRING(
-                "{JPN}へへっ！\n"
-                "まあ こんなものよ！")               //Gold
+            COMPOUND_STRING("{JPN}ちょっと ちょっとぉー!\nもっと がんばってよねー!!"), //Silver
+            COMPOUND_STRING("{JPN}ウィーッス! とうぜん!!") //Gold
         },
         .battledBit = {1 << 6, 1 << 7},
         .streakAppearances = {28, 56, 28, 1},
+        .goldSymbolFlag = FLAG_SYS_ARENA_GOLD,
+        .silverSymbolFlag = FLAG_SYS_ARENA_SILVER,
     },
     [FRONTIER_FACILITY_FACTORY] =
     {
@@ -203,21 +178,17 @@ const struct FrontierBrain gFrontierBrainInfo[NUM_FRONTIER_FACILITIES] =
         .objEventGfx = OBJ_EVENT_GFX_NOLAND,
         .isFemale = FALSE,
         .lostTexts = {
-            COMPOUND_STRING(
-                "{JPN}やるねえ！\n"
-                "わかってるじゃないか！"),    //Silver
-            COMPOUND_STRING("{JPN}いったい どうなってるんだ？") //Gold
+            COMPOUND_STRING("{JPN}イイねぇー!\nおめえ わかってる ねぇー!"),    //Silver
+            COMPOUND_STRING("{JPN}なんだとぉ……") //Gold
         },
         .wonTexts = {
-            COMPOUND_STRING(
-                "{JPN}よく やった！\n"
-                "いい べんきょうに なったろ？"), //Silver
-            COMPOUND_STRING(
-                "{JPN}おいおいおい！\n"
-                "もう おしまいか？")     //Gold
+            COMPOUND_STRING("{JPN}おつかれさん!\nイイ べんきょうに なったろ?"), //Silver
+            COMPOUND_STRING("{JPN}おいおいおいーー!!\nもう おしまいかー?") //Gold
         },
         .battledBit = {1 << 8, 1 << 9},
         .streakAppearances = {21, 42, 21, 1},
+        .goldSymbolFlag = FLAG_SYS_FACTORY_GOLD,
+        .silverSymbolFlag = FLAG_SYS_FACTORY_SILVER,
     },
     [FRONTIER_FACILITY_PIKE] =
     {
@@ -226,14 +197,16 @@ const struct FrontierBrain gFrontierBrainInfo[NUM_FRONTIER_FACILITIES] =
         .isFemale = TRUE,
         .lostTexts = {
             COMPOUND_STRING("{JPN}くっ……"), //Silver
-            COMPOUND_STRING("{JPN}ちっ！") //Gold
+            COMPOUND_STRING("{JPN}ちくしょおぉぉぉっーーー!!") //Gold
         },
         .wonTexts = {
-            COMPOUND_STRING("{JPN}ふん……"), //Silver
-            COMPOUND_STRING("{JPN}はっ！")    //Gold
+            COMPOUND_STRING("{JPN}フン……"), //Silver
+            COMPOUND_STRING("{JPN}ハッ!!") //Gold
         },
         .battledBit = {1 << 10, 1 << 11},
         .streakAppearances = {28, 140, 56, 1},
+        .goldSymbolFlag = FLAG_SYS_PIKE_GOLD,
+        .silverSymbolFlag = FLAG_SYS_PIKE_SILVER,
     },
     [FRONTIER_FACILITY_PYRAMID] =
     {
@@ -241,23 +214,17 @@ const struct FrontierBrain gFrontierBrainInfo[NUM_FRONTIER_FACILITIES] =
         .objEventGfx = OBJ_EVENT_GFX_BRANDON,
         .isFemale = FALSE,
         .lostTexts = {
-            COMPOUND_STRING(
-                "{JPN}それでいい！ よくやった！\n"
-                "ここまで よく きたな！"), //Silver
-            COMPOUND_STRING(
-                "{JPN}それでいい！ やりとげたな！\n"
-                "よく ここまで きた！")    //Gold
+            COMPOUND_STRING("{JPN}よおしっ! がんばった!\nよく がんばったぞ!!"), //Silver
+            COMPOUND_STRING("{JPN}よおしっ! よく やったぞ!\nがんばった! がんばった じゃないか!!")  //Gold
         },
         .wonTexts = {
-            COMPOUND_STRING(
-                "{JPN}おい！ どうした！\n"
-                "こんじょうを みせろ！ たて！"),       //Silver
-            COMPOUND_STRING(
-                "{JPN}おい！ あきらめるな！\n"
-                "たて！ じぶんを しんじろ！") //Gold
+            COMPOUND_STRING("{JPN}おい! なにを やってるんだ!\nほら がんばれ! たちあがるんだ!!"), //Silver
+            COMPOUND_STRING("{JPN}おい! あきらめるんじゃ ない!\nさあ たつんだ! がんばるんだ!!") //Gold
         },
         .battledBit = {1 << 12, 1 << 13},
         .streakAppearances = {21, 70, 35, 0},
+        .goldSymbolFlag = FLAG_SYS_PYRAMID_GOLD,
+        .silverSymbolFlag = FLAG_SYS_PYRAMID_SILVER,
     },
 };
 
@@ -2121,7 +2088,7 @@ static void AppendCaughtBannedMonSpeciesName(enum Species species, u8 count, s32
     StringAppend(gStringVar1, GetSpeciesName(species));
 }
 
-static void AppendIfValid(enum Species species, u16 heldItem, u16 hp, enum FrontierLevelMode lvlMode, u8 monLevel, u16 *speciesArray, u16 *itemsArray, u8 *count)
+static void AppendIfValid(enum Species species, enum Item heldItem, u16 hp, enum FrontierLevelMode lvlMode, u8 monLevel, enum Species *speciesArray, enum Item *itemsArray, u8 *count)
 {
     s32 i = 0;
 
@@ -2156,7 +2123,7 @@ static void AppendIfValid(enum Species species, u16 heldItem, u16 hp, enum Front
 // The names of ineligible Pokemon that have been caught are also buffered to print
 static void CheckPartyIneligibility(void)
 {
-    u16 speciesArray[PARTY_SIZE];
+    enum Species speciesArray[PARTY_SIZE];
     enum Item itemArray[PARTY_SIZE];
     s32 monId = 0;
     s32 toChoose = 0;
@@ -3608,11 +3575,11 @@ u16 FacilityClassToGraphicsId(u8 facilityClass)
 #define tScrollOffset data[3]
 #define tListPointerElemId 4
 
-static u16 *MakeCaughtBannesSpeciesList(u32 totalBannedSpecies)
+static u16 *MakeCaughtBannedSpeciesList(u32 totalBannedSpecies)
 {
     u32 count = 0;
     u16 *list = AllocZeroed(sizeof(u16) * totalBannedSpecies);
-    for (u32 i = 0; i < NUM_SPECIES; i++)
+    for (enum Species i = 0; i < NUM_SPECIES; i++)
     {
         if (!IsSpeciesEnabled(i))
             continue;
@@ -3658,7 +3625,7 @@ void ShowBattleFrontierCaughtBannedSpecies(void)
     DrawStdWindowFrame(windowId, FALSE);
     listTemplate.windowId = windowId;
 
-    u16 *listItems = MakeCaughtBannesSpeciesList(totalCaughtBanned);
+    u16 *listItems = MakeCaughtBannedSpeciesList(totalCaughtBanned);
     u32 inputTaskId = CreateTask(Task_BannedSpeciesWindowInput, 3);
     gTasks[inputTaskId].tWindowId = windowId;
     gSpecialVar_0x8006 = inputTaskId;

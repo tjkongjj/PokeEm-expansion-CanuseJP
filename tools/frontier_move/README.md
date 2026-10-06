@@ -1,9 +1,10 @@
 # Frontier Move data maintenance
 
-`frontier_move` combines two independent tables at runtime:
+`frontier_move` combines three independent tables at runtime:
 
 - `frontier_full_learnsets.h`: regular level, TM, egg, and tutor sources
 - `frontier_event_learnsets.h`: event-distribution additions
+- `frontier_za_dlc_learnsets.h`: Legends Z-A Mega Dimension additions
 
 The event data is stored canonically in
 `src/data/pokemon/frontier_event_moves.json`. Its metadata records the exact
@@ -45,6 +46,24 @@ python3 tools/frontier_move/generate_event_learnsets.py --check
 
 Showdown-only species that have no Expansion species mapping are listed in the
 JSON metadata and intentionally omitted.
+
+## Refresh Legends Z-A DLC moves
+
+The Z-A DLC overlay is derived from the `za.json` data immediately before and
+after Expansion's Mega Dimension update. Only species/move pairs absent from
+the regular and event Frontier tables are retained.
+
+```sh
+python3 tools/frontier_move/update_za_dlc_moves.py
+python3 tools/frontier_move/generate_za_dlc_learnsets.py
+```
+
+Verify the checked-in files with:
+
+```sh
+python3 tools/frontier_move/update_za_dlc_moves.py --check
+python3 tools/frontier_move/generate_za_dlc_learnsets.py --check
+```
 
 ## Form fallback
 
