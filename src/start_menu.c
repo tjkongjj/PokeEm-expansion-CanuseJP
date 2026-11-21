@@ -245,13 +245,14 @@ static const u8 sStartMenuActionIcons[] =
     [MENU_ACTION_DEXNAV]          = START_MENU_ICON_DEXNAV,
 };
 
-static void BlitStartMenuIcon(u8 action, u16 x, u16 y)
+static void BlitStartMenuIcon(u8 action, u16 x, u16 y, bool32 grayed)
 {
     u8 iconId = sStartMenuActionIcons[action];
     // Sheet is 64px wide (8 tiles per row); each icon is a 2x2 tile block
     u16 tileOffset = ((iconId / 4) * 16) + ((iconId % 4) * 2);
+    const u8 *sheet = grayed ? gStartMenuIconsGray_Gfx : gStartMenuIcons_Gfx;
 
-    BlitBitmapRectToWindow(GetStartMenuWindowId(), &gStartMenuIcons_Gfx[tileOffset * 32], 0, 0, 64, 48, x, y, 16, 16);
+    BlitBitmapRectToWindow(GetStartMenuWindowId(), &sheet[tileOffset * 32], 0, 0, 64, 48, x, y, 16, 16);
 }
 
 static const struct BgTemplate sBgTemplates_LinkBattleSave[] =
@@ -541,7 +542,7 @@ static bool32 PrintStartMenuActions(s8 *pIndex, u32 count)
             StringExpandPlaceholders(gStringVar4, sStartMenuItems[sCurrentStartMenuActions[index]].text);
             AddTextPrinterParameterized(GetStartMenuWindowId(), FONT_NORMAL, gStringVar4, 25, (index << 4) + 9, TEXT_SKIP_DRAW, NULL);
         }
-        BlitStartMenuIcon(sCurrentStartMenuActions[index], 8, (index << 4) + 8);
+        BlitStartMenuIcon(sCurrentStartMenuActions[index], 8, (index << 4) + 8, index != sStartMenuCursorPos);
 
         index++;
         if (index >= sNumStartMenuActions)
@@ -678,14 +679,30 @@ static bool8 HandleStartMenuInput(void)
 {
     if (JOY_NEW(DPAD_UP))
     {
+        u8 prevPos = sStartMenuCursorPos;
+
         PlaySE(SE_SELECT);
         sStartMenuCursorPos = Menu_MoveCursor(-1);
+        if (sStartMenuCursorPos != prevPos)
+        {
+            BlitStartMenuIcon(sCurrentStartMenuActions[prevPos], 8, (prevPos << 4) + 8, TRUE);
+            BlitStartMenuIcon(sCurrentStartMenuActions[sStartMenuCursorPos], 8, (sStartMenuCursorPos << 4) + 8, FALSE);
+            CopyWindowToVram(GetStartMenuWindowId(), COPYWIN_GFX);
+        }
     }
 
     if (JOY_NEW(DPAD_DOWN))
     {
+        u8 prevPos = sStartMenuCursorPos;
+
         PlaySE(SE_SELECT);
         sStartMenuCursorPos = Menu_MoveCursor(1);
+        if (sStartMenuCursorPos != prevPos)
+        {
+            BlitStartMenuIcon(sCurrentStartMenuActions[prevPos], 8, (prevPos << 4) + 8, TRUE);
+            BlitStartMenuIcon(sCurrentStartMenuActions[sStartMenuCursorPos], 8, (sStartMenuCursorPos << 4) + 8, FALSE);
+            CopyWindowToVram(GetStartMenuWindowId(), COPYWIN_GFX);
+        }
     }
 
     if (JOY_NEW(A_BUTTON))

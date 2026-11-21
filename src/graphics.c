@@ -1864,6 +1864,7 @@ const u16 gMenuInfoElements3_Pal[] = INCGFX_U16("graphics/interface/menu_info3.p
 const u8 gMenuInfoElements_Gfx[] = INCGFX_U8("graphics/interface/menu_info.png", ".4bpp");
 const u16 gStartMenuIcons_Pal[] = INCGFX_U16("graphics/interface/start_menu_icons.pal", ".gbapal");
 const u8 gStartMenuIcons_Gfx[] = INCGFX_U8("graphics/interface/start_menu_icons.png", ".4bpp");
+const u8 gStartMenuIconsGray_Gfx[] = INCGFX_U8("graphics/interface/start_menu_icons_gray.png", ".4bpp");
 
 const u8 gBagMenuHMIcon_Gfx[] = INCGFX_U8("graphics/bag/hm.png", ".4bpp");
 
