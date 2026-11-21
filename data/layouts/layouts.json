@@ -9336,6 +9336,29 @@
       "border_height": 2,
       "border_width": 2,
       "layout_version": "emerald"
+    },
+    {
+      "id": "LAYOUT_PARTY_EAT_TIME",
+      "name": "Party_eat_time_Layout",
+      "width": 15,
+      "height": 10,
+      "primary_tileset": "gTileset_Building",
+      "secondary_tileset": "gTileset_ResortHouse",
+      "border_filepath": "data/layouts/Party_eat_time/border.bin",
+      "blockdata_filepath": "data/layouts/Party_eat_time/map.bin",
+      "border_height": 2,
+      "border_width": 2
+    },
+    {
+      "id": "LAYOUT_PARTY_RESORT_GATE",
+      "name": "PartyResortGate_Layout",
+      "width": 16,
+      "height": 11,
+      "primary_tileset": "gTileset_Building",
+      "secondary_tileset": "gTileset_ResortHouse",
+      "border_filepath": "data/layouts/PartyResortGate/border.bin",
+      "blockdata_filepath": "data/layouts/PartyResortGate/map.bin",
+      "layout_version": "emerald"
     }
   ]
 }
