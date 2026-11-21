@@ -8,7 +8,7 @@
 #define DEBUG_OVERWORLD_IN_MENU         TRUE               // ボタンの組み合わせによる起動を、STARTメニュー内の項目（図鑑の上）に置き換える。
 
 // 戦闘のデバッグメニュー
-#define DEBUG_BATTLE_MENU               DISABLED_ON_RELEASE // TRUEなら、戦闘中にSELECTで開けるデバッグメニューを有効にする。
+#define DEBUG_BATTLE_MENU               DISABLED_ON_RELEASE // TRUEなら、戦闘中にSTARTで開けるデバッグメニューを有効にする。
 #define DEBUG_AI_DELAY_TIMER            TRUE // TRUEなら、AIが技を選ぶまでにかかったフレーム数を行動選択時のメッセージの代わりに表示する。AI変更時の処理時間確認に使用できる。
 
 // ポケモンのデバッグ

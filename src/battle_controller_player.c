@@ -399,11 +399,14 @@ static void HandleInputChooseAction(enum BattlerId battler)
             }
         }
     }
+    /*
+    // STARTはデバッグメニュー用に割り当て直したため、元の処理はコメントアウトして退避
     else if (JOY_NEW(START_BUTTON))
     {
         SwapHpBarsWithHpText();
     }
-    else if (DEBUG_BATTLE_MENU == TRUE && JOY_NEW(SELECT_BUTTON))
+    */
+    else if (DEBUG_BATTLE_MENU == TRUE && JOY_NEW(START_BUTTON))
     {
         BtlController_EmitTwoReturnValues(battler, B_COMM_TO_ENGINE, B_ACTION_DEBUG, 0);
         BtlController_Complete(battler);
