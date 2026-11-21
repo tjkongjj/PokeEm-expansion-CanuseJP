@@ -1780,6 +1780,8 @@ extern const u16 gMenuInfoElements1_Pal[16];
 extern const u16 gMenuInfoElements2_Pal[16];
 extern const u16 gMenuInfoElements3_Pal[16];
 extern const u8 gMenuInfoElements_Gfx[];
+extern const u16 gStartMenuIcons_Pal[16];
+extern const u8 gStartMenuIcons_Gfx[];
 
 // item menu graphics
 extern const u32 gBagScreen_Gfx[];

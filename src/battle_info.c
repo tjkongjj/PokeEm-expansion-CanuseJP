@@ -713,7 +713,7 @@ bool32 BattleInfo_HandleInput(enum BattlerId battler, bool32 canOpen)
         }
         return TRUE;
     }
-    if (canOpen && JOY_NEW(SELECT_BUTTON) && !(DEBUG_BATTLE_MENU && JOY_HELD(L_BUTTON)))
+    if (canOpen && JOY_NEW(SELECT_BUTTON))
     {
         if (!IsDma3ManagerBusyWithBgCopy())
         {

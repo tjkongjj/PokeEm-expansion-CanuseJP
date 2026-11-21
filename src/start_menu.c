@@ -18,6 +18,7 @@
 #include "frontier_pass.h"
 #include "frontier_util.h"
 #include "gpu_regs.h"
+#include "graphics.h"
 #include "international_string_util.h"
 #include "item_menu.h"
 #include "link.h"
@@ -207,6 +208,51 @@ static const struct MenuAction sStartMenuItems[] =
     [MENU_ACTION_DEBUG]           = {sText_MenuDebug,   {.u8_void = StartMenuDebugCallback}},
     [MENU_ACTION_DEXNAV]          = {gText_MenuDexNav,  {.u8_void = StartMenuDexNavCallback}},
 };
+
+// Icons in graphics/interface/start_menu_icons.png (4x3 grid of 16x16 icons)
+enum
+{
+    START_MENU_ICON_POKEDEX,
+    START_MENU_ICON_DEXNAV,
+    START_MENU_ICON_POKEMON,
+    START_MENU_ICON_BAG,
+    START_MENU_ICON_POKENAV,
+    START_MENU_ICON_PLAYER,
+    START_MENU_ICON_SAVE,
+    START_MENU_ICON_OPTION,
+    START_MENU_ICON_EXIT,
+    START_MENU_ICON_RETIRE,
+    START_MENU_ICON_REST,
+    START_MENU_ICON_DEBUG,
+};
+
+static const u8 sStartMenuActionIcons[] =
+{
+    [MENU_ACTION_POKEDEX]         = START_MENU_ICON_POKEDEX,
+    [MENU_ACTION_POKEMON]         = START_MENU_ICON_POKEMON,
+    [MENU_ACTION_BAG]             = START_MENU_ICON_BAG,
+    [MENU_ACTION_POKENAV]         = START_MENU_ICON_POKENAV,
+    [MENU_ACTION_PLAYER]          = START_MENU_ICON_PLAYER,
+    [MENU_ACTION_SAVE]            = START_MENU_ICON_SAVE,
+    [MENU_ACTION_OPTION]          = START_MENU_ICON_OPTION,
+    [MENU_ACTION_EXIT]            = START_MENU_ICON_EXIT,
+    [MENU_ACTION_RETIRE_SAFARI]   = START_MENU_ICON_RETIRE,
+    [MENU_ACTION_PLAYER_LINK]     = START_MENU_ICON_PLAYER,
+    [MENU_ACTION_REST_FRONTIER]   = START_MENU_ICON_REST,
+    [MENU_ACTION_RETIRE_FRONTIER] = START_MENU_ICON_RETIRE,
+    [MENU_ACTION_PYRAMID_BAG]     = START_MENU_ICON_BAG,
+    [MENU_ACTION_DEBUG]           = START_MENU_ICON_DEBUG,
+    [MENU_ACTION_DEXNAV]          = START_MENU_ICON_DEXNAV,
+};
+
+static void BlitStartMenuIcon(u8 action, u16 x, u16 y)
+{
+    u8 iconId = sStartMenuActionIcons[action];
+    // Sheet is 64px wide (8 tiles per row); each icon is a 2x2 tile block
+    u16 tileOffset = ((iconId / 4) * 16) + ((iconId % 4) * 2);
+
+    BlitBitmapRectToWindow(GetStartMenuWindowId(), &gStartMenuIcons_Gfx[tileOffset * 32], 0, 0, 64, 48, x, y, 16, 16);
+}
 
 static const struct BgTemplate sBgTemplates_LinkBattleSave[] =
 {
@@ -488,13 +534,14 @@ static bool32 PrintStartMenuActions(s8 *pIndex, u32 count)
     {
         if (sStartMenuItems[sCurrentStartMenuActions[index]].func.u8_void == StartMenuPlayerNameCallback)
         {
-            PrintPlayerNameOnWindow(GetStartMenuWindowId(), sStartMenuItems[sCurrentStartMenuActions[index]].text, 8, (index << 4) + 9);
+            PrintPlayerNameOnWindow(GetStartMenuWindowId(), sStartMenuItems[sCurrentStartMenuActions[index]].text, 25, (index << 4) + 9);
         }
         else
         {
             StringExpandPlaceholders(gStringVar4, sStartMenuItems[sCurrentStartMenuActions[index]].text);
-            AddTextPrinterParameterized(GetStartMenuWindowId(), FONT_NORMAL, gStringVar4, 8, (index << 4) + 9, TEXT_SKIP_DRAW, NULL);
+            AddTextPrinterParameterized(GetStartMenuWindowId(), FONT_NORMAL, gStringVar4, 25, (index << 4) + 9, TEXT_SKIP_DRAW, NULL);
         }
+        BlitStartMenuIcon(sCurrentStartMenuActions[index], 8, (index << 4) + 8);
 
         index++;
         if (index >= sNumStartMenuActions)
@@ -527,6 +574,8 @@ static bool32 InitStartMenuStep(void)
     case 2:
         LoadMessageBoxAndBorderGfx();
         DrawStdWindowFrame(AddStartMenuWindow(sNumStartMenuActions), FALSE);
+        // Shares the window palette: entries 1-3 keep the text colors, the rest hold the icon colors
+        LoadPalette(gStartMenuIcons_Pal, BG_PLTT_ID(DLG_WINDOW_PALETTE_NUM), PLTT_SIZE_4BPP);
         sInitStartMenuData[1] = 0;
         sInitStartMenuData[0]++;
         break;
@@ -543,6 +592,7 @@ static bool32 InitStartMenuStep(void)
         break;
     case 5:
         sStartMenuCursorPos = InitMenuNormal(GetStartMenuWindowId(), FONT_NORMAL, 0, 9, 16, sNumStartMenuActions, sStartMenuCursorPos);
+        CopyWindowToVram(GetStartMenuWindowId(), COPYWIN_GFX);
         CopyWindowToVram(GetStartMenuWindowId(), COPYWIN_MAP);
         return TRUE;
     }
@@ -1482,6 +1532,8 @@ static void HideStartMenuWindow(void)
 {
     ClearStdWindowAndFrame(GetStartMenuWindowId(), TRUE);
     RemoveStartMenuWindow();
+    // Restore the message box palette overwritten by the start menu icon palette
+    LoadPalette(gMessageBox_Pal, BG_PLTT_ID(DLG_WINDOW_PALETTE_NUM), PLTT_SIZE_4BPP);
     ScriptUnfreezeObjectEvents();
     UnlockPlayerFieldControls();
 }
