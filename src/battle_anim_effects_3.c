@@ -2612,12 +2612,12 @@ void AnimTask_MorningSunLightBeam(u8 taskId)
         SetGpuReg(REG_OFFSET_BLDALPHA, BLDALPHA_BLEND(0, 16));
         SetAnimBgAttribute(1, BG_ANIM_SCREEN_SIZE, 0);
         SetAnimBgAttribute(1, BG_ANIM_PRIORITY, 1);
-        if (!IsContest())
+        if (!BattleAnim_UseContestBgLayout())
             SetAnimBgAttribute(1, BG_ANIM_CHAR_BASE_BLOCK, 1);
 
         GetBattleAnimBg1Data(&animBg);
         AnimLoadCompressedBgTilemapHandleContest(&animBg, &gBattleAnimMaskTilemap_LightBeam, FALSE);
-        if (IsContest())
+        if (BattleAnim_UseContestBgLayout())
         {
             gBattle_BG1_X = -56;
             gBattle_BG1_Y = 0;
@@ -2680,7 +2680,7 @@ void AnimTask_MorningSunLightBeam(u8 taskId)
     case 4:
         GetBattleAnimBg1Data(&animBg);
         ClearBattleAnimBg(animBg.bgId);
-        if (!IsContest())
+        if (!BattleAnim_UseContestBgLayout())
             SetAnimBgAttribute(1, BG_ANIM_CHAR_BASE_BLOCK, 0);
 
         SetAnimBgAttribute(1, BG_ANIM_PRIORITY, 1);
@@ -2793,12 +2793,12 @@ void AnimTask_DoomDesireLightBeam(u8 taskId)
         SetGpuReg(REG_OFFSET_BLDALPHA, BLDALPHA_BLEND(3, 13));
         SetAnimBgAttribute(1, BG_ANIM_SCREEN_SIZE, 0);
         SetAnimBgAttribute(1, BG_ANIM_PRIORITY, 1);
-        if (!IsContest())
+        if (!BattleAnim_UseContestBgLayout())
             SetAnimBgAttribute(1, BG_ANIM_CHAR_BASE_BLOCK, 1);
 
         GetBattleAnimBg1Data(&animBg);
         AnimLoadCompressedBgTilemapHandleContest(&animBg, &gBattleAnimMaskTilemap_LightBeam, FALSE);
-        if (IsContest())
+        if (BattleAnim_UseContestBgLayout())
         {
             gBattle_BG1_X = -56;
             gBattle_BG1_Y = 0;
@@ -2869,7 +2869,7 @@ void AnimTask_DoomDesireLightBeam(u8 taskId)
     case 5:
         GetBattleAnimBg1Data(&animBg);
         ClearBattleAnimBg(animBg.bgId);
-        if (!IsContest())
+        if (!BattleAnim_UseContestBgLayout())
             SetAnimBgAttribute(1, BG_ANIM_CHAR_BASE_BLOCK, 0);
 
         SetAnimBgAttribute(1, BG_ANIM_PRIORITY, 1);
@@ -5030,7 +5030,9 @@ void AnimTask_MonToSubstitute(u8 taskId)
         LoadBattleMonGfxAndAnimate(gBattleAnimAttacker, FALSE, spriteId);
         if (IsContest())
         {
-            gSprites[gBattlerSpriteIds[gBattleAnimAttacker]].affineAnims = gAffineAnims_BattleSpriteContest;
+            // A move cutaway shows the attacker as an opponent; the old contest view showed it flipped
+            gSprites[gBattlerSpriteIds[gBattleAnimAttacker]].affineAnims = BattleAnim_IsContestCutawayActive()
+                ? gAffineAnims_BattleSpriteOpponentSide : gAffineAnims_BattleSpriteContest;
             StartSpriteAffineAnim(&gSprites[gBattlerSpriteIds[gBattleAnimAttacker]], BATTLER_AFFINE_NORMAL);
         }
 

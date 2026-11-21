@@ -179,8 +179,6 @@ static void ApplyContestCutawayPendingFormInternal(u8 contestant, bool8 targetSe
 static void ApplyContestCutawayPendingForm(u8 contestant);
 static void SetupContestCutawayAnimContext(u8 contestant, enum Move effectMove, bool8 targetSelf);
 static void ContestCutawaySyncAnimState(u8 contestant, bool8 targetSelf);
-void BattleAnim_CleanupContestCutawayMonBg(void);
-bool32 BattleAnim_IsContestCutawayBusy(void);
 static bool8 ContestCutawayAttackerSpriteNeedsRecreate(void);
 static void NormalizeContestCutawayAttackerSprite(u8 contestant, enum Species species);
 static u8 CreateContestCutawayTargetSprite(void);
@@ -965,6 +963,8 @@ static const struct BgTemplate sContestBgTemplates[] =
     }
 };
 
+// Cutaways skip the battle intro, which normally resets the BG1/BG2 software
+// character bases to zero. Animation tile offsets already include those bases.
 static const struct BgTemplate sContestCutawayBattleBgTemplates[] =
 {
     {
@@ -978,7 +978,7 @@ static const struct BgTemplate sContestCutawayBattleBgTemplates[] =
     },
     {
         .bg = 1,
-        .charBaseIndex = 1,
+        .charBaseIndex = 0,
         .mapBaseIndex = 28,
         .screenSize = 2,
         .paletteMode = 0,
@@ -987,7 +987,7 @@ static const struct BgTemplate sContestCutawayBattleBgTemplates[] =
     },
     {
         .bg = 2,
-        .charBaseIndex = 1,
+        .charBaseIndex = 0,
         .mapBaseIndex = 30,
         .screenSize = 1,
         .paletteMode = 0,
@@ -2639,6 +2639,7 @@ static void NormalizeContestCutawayAttackerSprite(u8 contestant, enum Species sp
     gSprites[spriteId].affineAnimPaused = FALSE;
     gSprites[spriteId].oam.objMode = ST_OAM_OBJ_NORMAL;
     gSprites[spriteId].oam.affineMode = ST_OAM_AFFINE_NORMAL;
+    CalcCenterToCornerVec(&gSprites[spriteId], gSprites[spriteId].oam.shape, gSprites[spriteId].oam.size, gSprites[spriteId].oam.affineMode);
     gSprites[spriteId].oam.mosaic = FALSE;
     gSprites[spriteId].oam.paletteNum = gBattlerAttacker;
     gSprites[spriteId].oam.priority = 2;
@@ -2711,10 +2712,20 @@ static void ContestCutawaySyncAnimState(u8 contestant, bool8 targetSelf)
 
 static u8 CreateContestCutawayTargetSprite(void)
 {
-    u8 spriteId = CreateInvisibleSpriteWithCallback(SpriteCallbackDummy);
+    u8 spriteId;
+
+    // Some move animations reveal, clone or scale the target. Give the dummy its
+    // own transparent mon-sized tiles and affine matrix, never the attacker's.
+    CpuFill32(0, gMonSpritesGfxPtr->spritesGfx[B_POSITION_PLAYER_LEFT], MON_PIC_SIZE);
+    SetMultiuseSpriteTemplateToPokemon(SPECIES_NONE, B_POSITION_PLAYER_LEFT);
+    spriteId = CreateSprite(&gMultiuseSpriteTemplate,
+                            GetBattlerSpriteCoord(gBattlerTarget, BATTLER_COORD_X),
+                            GetBattlerSpriteCoord(gBattlerTarget, BATTLER_COORD_Y),
+                            30);
 
     if (spriteId == MAX_SPRITES)
         return SPRITE_NONE;
+    CpuFill32(0, (void *)(OBJ_VRAM0 + gSprites[spriteId].oam.tileNum * TILE_SIZE_4BPP), MON_PIC_SIZE);
     gSprites[spriteId].x = GetBattlerSpriteCoord(gBattlerTarget, BATTLER_COORD_X);
     gSprites[spriteId].y = GetBattlerSpriteCoord(gBattlerTarget, BATTLER_COORD_Y);
     gSprites[spriteId].x2 = 0;
@@ -2778,7 +2789,7 @@ static void PrepareContestCutawayAnimBattlers(u8 contestant, enum Move effectMov
 
     CreateContestCutawayAttackerSprite(contestant, gContestMons[contestant].species);
     CreateContestCutawayTargetSprite();
-    SetMoveTargetPosition(effectMove);
+    SetMoveTargetPosition(GetContestAnimMove(contestant, effectMove));
     gBattleAnimAttacker = gBattlerAttacker;
     gBattleAnimTarget = gBattlerTarget;
     ContestCutawaySyncAnimState(contestant, FALSE);
@@ -2787,7 +2798,10 @@ static void PrepareContestCutawayAnimBattlers(u8 contestant, enum Move effectMov
 static void RecreateContestCutawayAttackerSprite(u8 contestant, enum Species species)
 {
     if (sContestCutawayAttackerSpriteId < MAX_SPRITES && gSprites[sContestCutawayAttackerSpriteId].inUse)
+    {
+        FreeSpriteOamMatrix(&gSprites[sContestCutawayAttackerSpriteId]);
         DestroySprite(&gSprites[sContestCutawayAttackerSpriteId]);
+    }
     sContestCutawayAttackerSpriteId = SPRITE_NONE;
     CreateContestCutawayAttackerSprite(contestant, species);
 }
@@ -2854,7 +2868,7 @@ static void SetupContestCutawayAnimContext(u8 contestant, enum Move effectMove, 
     if (targetSelf)
         ClearBattleAnimationVars();
     else
-        SetMoveSpecificAnimData(contestant, effectMove);
+        SetMoveSpecificAnimData(contestant, sContestCutawayAnimSandbox.animMove);
     SetMoveAnimAttackerData(contestant);
 
     if (targetSelf)
@@ -2865,7 +2879,7 @@ static void SetupContestCutawayAnimContext(u8 contestant, enum Move effectMove, 
     }
     else
     {
-        SetMoveTargetPosition(effectMove);
+        SetMoveTargetPosition(sContestCutawayAnimSandbox.animMove);
     }
 
     sContestCutawayAnimSandbox.attackerSpecies = gContestResources->moveAnim->species;
@@ -2944,9 +2958,15 @@ static void EndContestMoveAnimCutaway(u8 contestant)
     SetVBlankCallback(NULL);
     BattleAnim_CleanupContestCutawayMonBg();
     if (sContestCutawayAttackerSpriteId < MAX_SPRITES && gSprites[sContestCutawayAttackerSpriteId].inUse)
+    {
+        FreeSpriteOamMatrix(&gSprites[sContestCutawayAttackerSpriteId]);
         DestroySprite(&gSprites[sContestCutawayAttackerSpriteId]);
+    }
     if (sContestCutawayTargetSpriteId < MAX_SPRITES && gSprites[sContestCutawayTargetSpriteId].inUse)
+    {
+        FreeSpriteOamMatrix(&gSprites[sContestCutawayTargetSpriteId]);
         DestroySprite(&gSprites[sContestCutawayTargetSpriteId]);
+    }
     sContestCutawayAttackerSpriteId = SPRITE_NONE;
     sContestCutawayTargetSpriteId = SPRITE_NONE;
 
@@ -7607,7 +7627,7 @@ static enum Species SanitizeSpecies(enum Species species)
 
 static void SetMoveSpecificAnimData(u8 contestant, enum Move effectMove)
 {
-    enum Move move = SanitizeMove(effectMove);
+    enum Move move = effectMove < MOVES_COUNT_ALL ? effectMove : MOVE_POUND;
     enum Species species = SanitizeSpecies(gContestMons[contestant].species);
     u8 targetContestant;
 

@@ -577,8 +577,10 @@ static enum CancelerResult CancelerCallSubmove(struct BattleCalcValues *cv)
         return CANCELER_RESULT_SUCCESS;
     }
 
-    if (calledMove != MOVE_NONE)
+    if (calledMove != MOVE_NONE && !IsGimmickMove(calledMove))
     {
+        // Retain the called move's power and category through Z-Move conversion.
+        gBattleStruct->baseMove = calledMove;
         if (GetActiveGimmick(cv->battlerAtk) == GIMMICK_Z_MOVE && !IsBattleMoveStatus(calledMove))
             calledMove = GetTypeBasedZMove(calledMove);
         if (cv->moveEffect == EFFECT_COPYCAT && IsMaxMove(calledMove))
@@ -990,7 +992,7 @@ static enum CancelerResult CancelerSetTargets(struct BattleCalcValues *cv)
         return CANCELER_RESULT_FAILURE;
     }
 
-    SetDynamicMoveCategory(cv->battlerAtk, cv->battlerDef, cv->move);
+    SetDynamicMoveCategory(cv->battlerAtk, cv->battlerDef, cv->move, gBattleStruct->baseMove);
     return CANCELER_RESULT_SUCCESS;
 }
 
@@ -1072,6 +1074,7 @@ static enum CancelerResult CancelerPPDeduction(struct BattleCalcValues *cv)
 
             // Possibly better to just move type setting and redirection to attackcanceler as a new case at this point
             SetTypeBeforeUsingMove(cv->move, cv->battlerAtk, cv->abilities[cv->battlerAtk], cv->holdEffects[cv->battlerAtk]);
+            SetDynamicMoveCategory(cv->battlerAtk, cv->battlerDef, cv->move, gBattleStruct->baseMove);
             gBattlescriptCurrInstr = GetMoveBattleScript(cv->move);
             return CANCELER_RESULT_RUN_SCRIPT_AND_INCREMENT;
         }
@@ -2751,6 +2754,7 @@ static enum CancelerResult CancelerPreAnimActivations(struct BattleCalcValues *c
             }
 
             gBattleScripting.battler = battlerDef;
+            gLastUsedItem = gBattleMons[battlerDef].item;
             BattleScriptCall(BattleScript_BerryReduceAnimation);
             return CANCELER_RESULT_RUN_SCRIPT;
         }
@@ -2944,14 +2948,18 @@ static enum CancelerResult CancelerHealthBarUpdate(struct BattleCalcValues *cv)
 {
     for (enum BattlerId battlerDef = 0; battlerDef < gBattlersCount; battlerDef++)
     {
-        if (DoesSubstituteBlockMove(cv->battlerAtk, battlerDef, cv->move))
+        if (ShouldSkipBattlerForDamage(cv->battlerAtk, battlerDef))
+            continue;
+
+        if (gBattleMons[battlerDef].volatiles.substituteHP != 0
+         && DoesSubstituteBlockMove(cv->battlerAtk, battlerDef, cv->move))
         {
+            gBattleScripting.battler = battlerDef;
             PrepareStringBattle(STRINGID_SUBSTITUTEDAMAGED, battlerDef);
             continue;
         }
 
-        if (ShouldSkipBattlerForDamage(cv->battlerAtk, battlerDef)
-         || DoesDisguiseBlockMove(battlerDef, cv->move)
+        if (DoesDisguiseBlockMove(battlerDef, cv->move)
          || DoesIceFaceBlockMove(battlerDef, cv->move))
             continue;
 
@@ -4359,6 +4367,9 @@ static enum MoveEndResult MoveEndMoveBlock(struct BattleCalcValues *cv)
             }
             break;
         case EFFECT_HIT_SWITCH_TARGET:
+            if (gBattleTypeFlags & BATTLE_TYPE_ARENA)
+                break;
+
             battlerDef = gBattlerTarget;
             if (IsBattlerTurnDamaged(battlerDef , EXCLUDING_SUBSTITUTES)
              && IsBattlerAlive(battlerDef)
@@ -4797,7 +4808,8 @@ static enum MoveEndResult MoveEndHitEscape(struct BattleCalcValues *cv)
     switch (GetMoveEffect(cv->move))
     {
     case EFFECT_HIT_ESCAPE:
-        if (!HasAnyBattlerQueuedSwitch()
+        if (!(gBattleTypeFlags & BATTLE_TYPE_ARENA)
+         && !HasAnyBattlerQueuedSwitch()
          && gBattleStruct->battlerState[cv->battlerAtk].originalBattlerPartyId == PARTY_SIZE
          && !gBattleStruct->unableToUseMove
          && IsAnyTargetTurnDamaged(cv->battlerAtk, INCLUDING_SUBSTITUTES)

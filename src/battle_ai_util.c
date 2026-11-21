@@ -3,6 +3,7 @@
 #include "malloc.h"
 #include "battle.h"
 #include "battle_anim.h"
+#include "battle_dynamax.h"
 #include "battle_ai_field_statuses.h"
 #include "battle_ai_util.h"
 #include "battle_ai_main.h"
@@ -883,12 +884,6 @@ struct SimulatedDamage AI_CalcDamage(struct AiCalcValues *aiCalc, enum BattlerId
         return simDamage;
     }
 
-    if (moveEffect == EFFECT_NATURE_POWER)
-    {
-        move = baseMove = GetNaturePowerMove();
-        moveEffect = GetMoveEffect(move);
-    }
-
     // Temporarily enable gimmicks for damage calcs if planned
     if (aiCalc->gimmickAtk != GIMMICK_NONE && GetActiveGimmick(battlerAtk) == GIMMICK_NONE)
     {
@@ -901,6 +896,23 @@ struct SimulatedDamage AI_CalcDamage(struct AiCalcValues *aiCalc, enum BattlerId
         toggledGimmickDef = TRUE;
         SetActiveGimmick(battlerDef, aiCalc->gimmickDef);
     }
+
+    // Resolve the move that will actually hit, including its effect and fixed power.
+    gBattleStruct->dynamicMoveType = TYPE_NONE;
+    enum Gimmick gimmick = GetActiveGimmick(battlerAtk);
+    if (gimmick == GIMMICK_DYNAMAX && !IsMaxMove(move))
+        move = GetMaxMove(battlerAtk, baseMove);
+    else if (moveEffect == EFFECT_NATURE_POWER)
+        move = baseMove = GetNaturePowerMove();
+
+    if (gimmick == GIMMICK_Z_MOVE && !IsZMove(move) && GetMoveCategory(move) != DAMAGE_CATEGORY_STATUS)
+    {
+        SetTypeBeforeUsingMove(move, battlerAtk, aiData->abilities[battlerAtk], aiData->holdEffects[battlerAtk]);
+        enum Move zMove = GetUsableZMove(battlerAtk, aiCalc->move);
+        if (zMove != MOVE_NONE)
+            move = moveEffect == EFFECT_NATURE_POWER ? GetTypeBasedZMove(baseMove) : zMove;
+    }
+    moveEffect = GetMoveEffect(move);
 
     // We can set those globals because they are going to get rerolled on attack execution
     gBattleStruct->magnitudeBasePower = 70;
@@ -929,8 +941,8 @@ struct SimulatedDamage AI_CalcDamage(struct AiCalcValues *aiCalc, enum BattlerId
         ctx.holdEffects[battler] = aiData->holdEffects[battler];
     }
 
-    SetDynamicMoveCategory(battlerAtk, battlerDef, move);
     SetTypeBeforeUsingMove(move, battlerAtk, ctx.abilities[battlerAtk], ctx.holdEffects[battlerAtk]);
+    SetDynamicMoveCategory(battlerAtk, battlerDef, move, baseMove);
 
     ctx.moveType = GetBattleMoveType(move);
     ctx.isCrit = ShouldCalcCritDamage(&ctx);
@@ -987,7 +999,7 @@ struct SimulatedDamage AI_CalcDamage(struct AiCalcValues *aiCalc, enum BattlerId
             simDamage.random = AI_ApplyModifiersAfterDmgRoll(&ctx, simDamage.random);
         }
 
-        if (GetActiveGimmick(battlerAtk) != GIMMICK_Z_MOVE)
+        if (!IsGimmickMove(move))
             CalcDynamicMoveDamage(&ctx, &simDamage);
 
         AI_RestoreBattlerTypes(battlerAtk, types);
@@ -1314,10 +1326,13 @@ u32 GetNoOfHitsToKOBattlerDmg(u32 dmg, enum BattlerId battlerDef)
 
 u32 GetNoOfHitsToKOBattler(enum BattlerId battlerAtk, enum BattlerId battlerDef, u32 moveIndex, enum DamageCalcContext calcContext, enum AiConsiderEndure considerEndure)
 {
-    u32 hitsToKO = GetNoOfHitsToKOBattlerDmg(AI_GetDamage(battlerAtk, battlerDef, moveIndex, calcContext, gAiLogicData), battlerDef);
-    enum Move *moves = GetMovesArray(battlerAtk);
+    // A last-used Max or Z-Move may not have a slot in the moveset.
+    if (moveIndex >= MAX_MON_MOVES)
+        return 0;
 
-    if (CanEndureHit(battlerAtk, battlerDef, moves[moveIndex]) && hitsToKO == 1 && considerEndure == CONSIDER_ENDURE)
+    u32 hitsToKO = GetNoOfHitsToKOBattlerDmg(AI_GetDamage(battlerAtk, battlerDef, moveIndex, calcContext, gAiLogicData), battlerDef);
+
+    if (hitsToKO == 1 && considerEndure == CONSIDER_ENDURE && CanEndureHit(battlerAtk, battlerDef, GetMovesArray(battlerAtk)[moveIndex]))
         hitsToKO += 1;
 
     return hitsToKO;

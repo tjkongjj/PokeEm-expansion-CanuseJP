@@ -278,15 +278,16 @@ static u64 GetAiFlags(u16 trainerId, enum BattlerId battler)
             flags = AI_FLAG_ROAMING;
         else if (gBattleTypeFlags & BATTLE_TYPE_FIRST_BATTLE)
             flags = AI_FLAG_FIRST_BATTLE;
-        else if (gBattleTypeFlags & BATTLE_TYPE_FACTORY)
-            flags = GetAiScriptsInBattleFactory();
+        // The Battle Factory too: Emerald's Factory AI grew with the rounds (no move scoring
+        // at all before the second challenge); here it uses the same flags as the other facilities
         else if (gBattleTypeFlags & (BATTLE_TYPE_FRONTIER | BATTLE_TYPE_EREADER_TRAINER | BATTLE_TYPE_TRAINER_HILL | BATTLE_TYPE_SECRET_BASE))
             flags = AI_FLAG_CHECK_BAD_MOVE | AI_FLAG_CHECK_VIABILITY | AI_FLAG_TRY_TO_FAINT;
         else
             flags = GetTrainerAIFlagsFromId(trainerId);
     }
 
-    if (IsDoubleBattle() && flags != 0)
+    // Any Factory battle needs ally scoring in doubles, whatever its flags.
+    if (IsDoubleBattle() && (flags != 0 || (gBattleTypeFlags & BATTLE_TYPE_FACTORY)))
     {
         flags |= AI_FLAG_DOUBLE_BATTLE;
     }
@@ -2794,8 +2795,9 @@ static s32 AI_CheckBadMove(enum BattlerId battlerAtk, enum BattlerId battlerDef,
 
         GetBattlerTypes(battlerDef, FALSE, types);
         if (PartnerMoveIsSameAsAttacker(GetPartnerBattler(battlerAtk), battlerDef, move, aiData->partnerMove)
-            || (types[0] == typeArg && types[1] == typeArg && types[2] == TYPE_MYSTERY))
-            ADJUST_SCORE(-10);    // target type is already the same
+            || (types[0] == typeArg && types[1] == typeArg && types[2] == TYPE_MYSTERY)
+            || GetActiveGimmick(battlerDef) == GIMMICK_TERA)
+            ADJUST_SCORE(-10);    // target is already water-only, or Terastallized (Soak fails)
         break;
     }
     case EFFECT_THIRD_TYPE:
@@ -2953,7 +2955,7 @@ static s32 AI_CheckBadMove(enum BattlerId battlerAtk, enum BattlerId battlerDef,
             ADJUST_SCORE(-10);
         break;
     case EFFECT_REVIVAL_BLESSING:
-        if (GetFirstFaintedPartyIndex(battlerAtk) == PARTY_SIZE)
+        if (GetFirstFaintedPartyIndex(battlerAtk) == PARTY_SIZE || IsFacilityPreventingMove(move))
             ADJUST_SCORE(-10);
         else if (CanAIFaintTarget(battlerAtk, battlerDef, 0))
             ADJUST_SCORE(-10);
@@ -5578,7 +5580,7 @@ static s32 AI_CalcMoveEffectScore(enum BattlerId battlerAtk, enum BattlerId batt
             ADJUST_SCORE(DECENT_EFFECT);
         break;
     case EFFECT_REVIVAL_BLESSING:
-        if (GetFirstFaintedPartyIndex(battlerAtk) != PARTY_SIZE)
+        if (GetFirstFaintedPartyIndex(battlerAtk) != PARTY_SIZE && !IsFacilityPreventingMove(move))
         {
             ADJUST_SCORE(DECENT_EFFECT);
             if (aiData->shouldSwitch & (1u << battlerAtk)) // Bad matchup
@@ -6001,6 +6003,12 @@ static s32 AI_CheckViability(enum BattlerId battlerAtk, enum BattlerId battlerDe
     // Targeting partner, check benefits of doing that instead
     if (IsTargetingPartner(battlerAtk, battlerDef))
         return score;
+
+    // Extreme Evoboost is a setup move even though Last Resort normally deals damage.
+    if (GetMoveEffect(move) == EFFECT_LAST_RESORT
+     && GetUsableZMove(battlerAtk, move) == MOVE_EXTREME_EVOBOOST
+     && IsConsideringZMove(battlerAtk, battlerDef, move))
+        return score + AI_CalcMoveEffectScore(battlerAtk, battlerDef, move, aiData);
 
     if (GetMovePower(move) != 0)
     {
