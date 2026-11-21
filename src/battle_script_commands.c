@@ -1,5 +1,6 @@
 #include "global.h"
 #include "battle.h"
+#include "battle_info.h"
 #include "battle_hold_effects.h"
 #include "battle_message.h"
 #include "battle_anim.h"
@@ -1620,6 +1621,7 @@ bool32 TrySetReflect(enum BattlerId battler)
             gSideTimers[side].reflectTimer = 8;
         else
             gSideTimers[side].reflectTimer = 5;
+        BattleInfo_RecordDuration(BINFO_REFLECT, side, gSideTimers[side].reflectTimer);
 
         if (IsDoubleBattle() && CountAliveMonsInBattle(BATTLE_ALIVE_SIDE, battler) == 2)
             gBattleCommunication[MULTISTRING_CHOOSER] = B_MSG_SET_REFLECT_DOUBLE;
@@ -1641,6 +1643,7 @@ bool32 TrySetLightScreen(enum BattlerId battler)
             gSideTimers[side].lightscreenTimer = 8;
         else
             gSideTimers[side].lightscreenTimer = 5;
+        BattleInfo_RecordDuration(BINFO_LIGHT_SCREEN, side, gSideTimers[side].lightscreenTimer);
 
         if (IsDoubleBattle() && CountAliveMonsInBattle(BATTLE_ALIVE_SIDE, battler) == 2)
             gBattleCommunication[MULTISTRING_CHOOSER] = B_MSG_SET_LIGHTSCREEN_DOUBLE;
@@ -5101,6 +5104,7 @@ void BS_CourtChangeSwapSideStatuses(void)
     u32 temp;
 
     // Swap timers and statuses
+    BattleInfo_SwapSides();
     COURTCHANGE_SWAP(SIDE_STATUS_REFLECT, reflectTimer, temp)
     COURTCHANGE_SWAP(SIDE_STATUS_LIGHTSCREEN, lightscreenTimer, temp)
     COURTCHANGE_SWAP(SIDE_STATUS_MIST, mistTimer, temp);
@@ -11631,6 +11635,7 @@ void BS_SetAuroraVeil(void)
             gSideTimers[GetBattlerSide(gBattlerAttacker)].auroraVeilTimer = 8;
         else
             gSideTimers[GetBattlerSide(gBattlerAttacker)].auroraVeilTimer = 5;
+        BattleInfo_RecordDuration(BINFO_AURORA_VEIL, side, gSideTimers[side].auroraVeilTimer);
 
         if (IsDoubleBattle() && CountAliveMonsInBattle(BATTLE_ALIVE_SIDE, gBattlerAttacker) == 2)
             gBattleCommunication[MULTISTRING_CHOOSER] = 5;
