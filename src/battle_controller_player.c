@@ -3,6 +3,7 @@
 #include "battle_info.h"
 #include "battle_anim.h"
 #include "battle_arena.h"
+#include "battle_ai_record.h"
 #include "battle_controllers.h"
 #include "battle_dome.h"
 #include "battle_interface.h"
@@ -427,7 +428,10 @@ void HandleInputChooseTarget(enum BattlerId battler)
         B_POSITION_OPPONENT_RIGHT,
         B_POSITION_OPPONENT_LEFT,
     };
-    enum Move move = GetMonData(GetBattlerMon(battler), MON_DATA_MOVE1 + gMoveSelectionCursor[battler]);
+    const struct ChooseMoveStruct *moveInfo = (const void *)&gBattleResources->bufferA[battler][4];
+    enum Move move = (gBattleTypeFlags & BATTLE_TYPE_LINK)
+        ? moveInfo->moves[gMoveSelectionCursor[battler]]
+        : GetMonData(GetBattlerMon(battler), MON_DATA_MOVE1 + gMoveSelectionCursor[battler]);
     enum MoveTarget moveTarget = GetBattlerMoveSelectionTargetType(battler, move);
 
     DoBounceEffect(gMultiUsePlayerCursor, BOUNCE_HEALTHBOX, 15, 1);
@@ -1837,12 +1841,14 @@ static void MoveSelectionDisplayMoveDescription(enum BattlerId battler)
 
     if (GetActiveGimmick(battler) == GIMMICK_DYNAMAX || IsGimmickSelected(battler, GIMMICK_DYNAMAX))
     {
-        pwr = GetMaxMovePower(move, move);
-        move = GetMaxMove(battler, move);
-        acc = 0;
+        enum Move baseMove = move;
+        move = GetMaxMove(battler, baseMove);
+        pwr = IsMaxMove(move) && move != MOVE_MAX_GUARD ? GetMaxMovePower(baseMove, move) : GetMovePower(move);
+        cat = move == MOVE_MAX_GUARD ? DAMAGE_CATEGORY_STATUS : GetMoveCategory(baseMove);
+        acc = GetMoveAccuracy(move);
     }
 
-    u8 pwr_num[3], acc_num[3];
+    u8 pwr_num[4], acc_num[4];
     u8 cat_desc[7] = _("");
     u8 pwr_desc[7] = _("いりょく");
     u8 acc_desc[7] = _("めいちゅう");
@@ -2466,7 +2472,8 @@ static u32 CheckTypeEffectiveness(enum BattlerId battlerAtk, enum BattlerId batt
     ctx.weather = GetWeather();
     ctx.terrain = gFieldTimers.terrain;
     ctx.abilities[ctx.battlerAtk] = GetBattlerAbility(battlerAtk);
-    ctx.abilities[ctx.battlerDef] = GetBattlerAbility(battlerDef);
+    // Leave out an ability the player has not seen, such as Levitate or Wonder Guard.
+    ctx.abilities[ctx.battlerDef] = GetAbilityKnownToPlayer(battlerDef);
     ctx.holdEffects[ctx.battlerAtk] = GetBattlerHoldEffect(battlerAtk);
     ctx.holdEffects[ctx.battlerDef] = GetBattlerHoldEffect(battlerDef);
 

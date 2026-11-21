@@ -1721,7 +1721,7 @@ void SetNonVolatileStatus(enum BattlerId battlerAtk, enum BattlerId effectBattle
         gBattlescriptCurrInstr = BattleScript_MoveEffectBurn;
         break;
     case MOVE_EFFECT_FREEZE:
-        GetBattlerPartyState(effectBattler)->freezeTurns = 2;
+        GetBattlerPartyState(effectBattler)->freezeTurns = 0;
         gBattleMons[effectBattler].status1 |= STATUS1_FREEZE;
         gBattlescriptCurrInstr = BattleScript_MoveEffectFreeze;
         break;
@@ -1833,7 +1833,7 @@ static void Cmd_setadditionaleffects(void)
                     se.effectBattler = additionalEffect->self ? cv.battlerAtk : cv.battlerDef;
                     se.primary = percentChance == 0;
                     se.certain = percentChance >= 100;
-                    se.onSide = additionalEffect->onSide; // TODO
+                    se.onSide = additionalEffect->onSide;
                     SetMoveEffect(&cv, &se);
                 }
             }
@@ -3288,9 +3288,6 @@ static void Cmd_switchindataupdate(void)
 
     SwitchInClearSetData(battler, &oldData.volatiles);
 
-    if (GetMoveEffect(gCurrentMove) == EFFECT_REVIVAL_BLESSING)
-        RestoreGimmickFormAfterRevival(battler);
-
     if (gBattleTypeFlags & BATTLE_TYPE_PALACE
         && gBattleMons[battler].maxHP / 2 >= gBattleMons[battler].hp
         && IsBattlerAlive(battler)
@@ -3321,12 +3318,17 @@ static void Cmd_switchinanim(void)
 
     gAbsentBattlerFlags &= ~(1u << battler);
 
-    BtlController_EmitSwitchInAnim(battler, B_COMM_TO_CONTROLLER, gBattlerPartyIndexes[battler], cmd->dontClearTransform, cmd->dontClearSubstitute);
+    // Keep the substitute doll only for a Pokemon that really comes in behind one (Baton Pass,
+    // Shed Tail). U-turn, Eject Button and the other queued switches also ask to keep it, which
+    // left the previous Pokemon's doll standing in for its replacement.
+    BtlController_EmitSwitchInAnim(battler, B_COMM_TO_CONTROLLER, gBattlerPartyIndexes[battler], cmd->dontClearTransform,
+                                   cmd->dontClearSubstitute && gBattleMons[battler].volatiles.substitute);
     MarkBattlerForControllerExec(battler);
 
     gBattlescriptCurrInstr = cmd->nextInstr;
 
-    if (gBattleTypeFlags & BATTLE_TYPE_ARENA)
+    // Dynamax reuses the send-out animation without replacing either Pokemon.
+    if (gBattleTypeFlags & BATTLE_TYPE_ARENA && !cmd->dontClearTransform)
         BattleArena_InitPoints();
 }
 
@@ -3335,6 +3337,9 @@ bool32 CanBattlerSwitch(enum BattlerId battler)
     s32 lastMonId;
     enum BattlerId battlerIn1, battlerIn2;
     struct Pokemon *party = GetBattlerParty(battler);
+
+    if (gBattleTypeFlags & BATTLE_TYPE_ARENA)
+        return FALSE;
 
     if (BattleSideHasTwoTrainers(GetBattlerSide(battler)) && !AreMultiPartiesFullTeams())
         lastMonId = MULTI_PARTY_SIZE;
@@ -5494,6 +5499,12 @@ static void Cmd_forcerandomswitch(void)
 
     bool32 redCardForcedSwitch = FALSE;
 
+    if (gBattleTypeFlags & BATTLE_TYPE_ARENA)
+    {
+        gBattlescriptCurrInstr = cmd->failInstr;
+        return;
+    }
+
     // Red card checks against wild Pokemon. If we have reached here, the player has a mon to switch into
     // Red card swaps attacker with target to get the animation correct, so here we check attacker which is really the target. Thanks GF...
     if (gBattleScripting.switchCase == B_SWITCH_RED_CARD
@@ -6034,7 +6045,7 @@ static void Cmd_mimicattackcopy(void)
 static void Cmd_setcalledmove(void)
 {
     CMD_ARGS();
-    gCurrentMove = gBattleStruct->baseMove = gCalledMove;
+    gCurrentMove = gCalledMove;
     ClearDamageCalcResults();
     gBattlescriptCurrInstr = cmd->nextInstr;
 }
@@ -6395,6 +6406,9 @@ static void Cmd_healpartystatus(void)
     enum BattlerId partner = GetBattlerAtPosition(GetPartnerPosition(GetBattlerPosition(gBattlerAttacker)));
     struct Pokemon *party = GetBattlerParty(gBattlerAttacker);
     bool32 isSoundMove = IsSoundMove(gCurrentMove);
+    // In a multi battle the partner's Pokemon belongs to another Trainer's party.
+    bool32 partnerSharesParty = BattlersShareParty(gBattlerAttacker, partner);
+    bool32 curePartnerParty = FALSE;
 
     if (GetConfig(B_HEAL_BELL_SOUNDPROOF) == GEN_5
      || GetConfig(B_HEAL_BELL_SOUNDPROOF) >= GEN_8
@@ -6422,6 +6436,7 @@ static void Cmd_healpartystatus(void)
         {
             gBattleMons[partner].status1 = 0;
             gBattleMons[partner].volatiles.nightmare = FALSE;
+            curePartnerParty = !partnerSharesParty;
         }
         else
         {
@@ -6441,7 +6456,7 @@ static void Cmd_healpartystatus(void)
         {
             enum Ability ability;
             bool32 isAttacker = gBattlerPartyIndexes[gBattlerAttacker] == i;
-            bool32 isDoublesPartner = gBattlerPartyIndexes[partner] == i && IsBattlerAlive(partner);
+            bool32 isDoublesPartner = partnerSharesParty && gBattlerPartyIndexes[partner] == i && IsBattlerAlive(partner);
 
             if (GetConfig(B_HEAL_BELL_SOUNDPROOF) == GEN_5
              || (GetConfig(B_HEAL_BELL_SOUNDPROOF) >= GEN_8 && isAttacker))
@@ -6477,6 +6492,15 @@ static void Cmd_healpartystatus(void)
     {
         BtlController_EmitSetMonData(gBattlerAttacker, B_COMM_TO_CONTROLLER, REQUEST_STATUS_BATTLE, toHeal, sizeof(zero), &zero);
         MarkBattlerForControllerExec(gBattlerAttacker);
+    }
+
+    // The loop above only covers the user's party. Cure the multi partner's own party
+    // too, or its status would come back once it switches out.
+    if (curePartnerParty)
+    {
+        TryDeactivateSleepClause(partner, gBattlerPartyIndexes[partner]);
+        BtlController_EmitSetMonData(partner, B_COMM_TO_CONTROLLER, REQUEST_STATUS_BATTLE, 0, sizeof(zero), &zero);
+        MarkBattlerForControllerExec(partner);
     }
 
     gBattlescriptCurrInstr = cmd->nextInstr;
@@ -7629,7 +7653,7 @@ static void Cmd_settypebasedhalvers(void)
         gBattlescriptCurrInstr = cmd->failInstr;
 }
 
-bool32 IsSubstituteProtected(enum BattlerId battlerAtk, enum BattlerId battlerDef, enum Ability abilityAtk, enum Move move)
+bool32 WouldSubstituteBlockMove(enum BattlerId battlerAtk, enum BattlerId battlerDef, enum Ability abilityAtk, enum Move move)
 {
     if (!gBattleMons[battlerDef].volatiles.substitute)
         return FALSE;
@@ -7637,16 +7661,25 @@ bool32 IsSubstituteProtected(enum BattlerId battlerAtk, enum BattlerId battlerDe
         return TRUE;
     else if (IsBattleMoveStatus(move) && battlerAtk == battlerDef)
         return FALSE;
+    else if (IsBattleMoveStatus(move) && (GetMoveTarget(move) == TARGET_FIELD || GetMoveTarget(move) == TARGET_OPPONENTS_FIELD))
+        return FALSE;
     else if (MoveIgnoresSubstitute(move))
         return FALSE;
     else if (GetConfig(B_INFILTRATOR_SUBSTITUTE) < GEN_6)
         return TRUE;
     else if (GetMoveEffect(move) == EFFECT_TRANSFORM || GetMoveEffect(move) == EFFECT_SKY_DROP)
         return TRUE;
-    else if (IsAbilityAndRecord(battlerAtk, abilityAtk, ABILITY_INFILTRATOR))
-        return FALSE;
-    else
-        return TRUE;
+    return abilityAtk != ABILITY_INFILTRATOR;
+}
+
+bool32 IsSubstituteProtected(enum BattlerId battlerAtk, enum BattlerId battlerDef, enum Ability abilityAtk, enum Move move)
+{
+    bool32 blocked = WouldSubstituteBlockMove(battlerAtk, battlerDef, abilityAtk, move);
+
+    if (!blocked && abilityAtk == ABILITY_INFILTRATOR
+     && WouldSubstituteBlockMove(battlerAtk, battlerDef, ABILITY_NONE, move))
+        RecordAbilityBattle(battlerAtk, abilityAtk);
+    return blocked;
 }
 
 bool32 DoesSubstituteBlockMove(enum BattlerId battlerAtk, enum BattlerId battlerDef, enum Move move)
@@ -9240,6 +9273,17 @@ void ApplyExperienceMultipliers(s32 *expAmount, u8 expGetterMonId, u8 faintedBat
     }
 }
 
+// Whether the Pokemon the user picked from its party for a bag item is its partner on the
+// field. In a multi battle the partner's slot number belongs to another Trainer's party.
+static bool32 IsItemRecipientPartnerOnField(void)
+{
+    enum BattlerId partner = GetPartnerBattler(gBattlerAttacker);
+
+    return IsDoubleBattle()
+        && BattlersShareParty(gBattlerAttacker, partner)
+        && gBattleStruct->itemPartyIndex[gBattlerAttacker] == gBattlerPartyIndexes[partner];
+}
+
 void BS_ItemRestoreHP(void)
 {
     NATIVE_ARGS(const u8 *alreadyMaxHpInstr, const u8 *restoreBattlerInstr);
@@ -9266,9 +9310,7 @@ void BS_ItemRestoreHP(void)
         {
             battler = gBattlerAttacker;
         }
-        else if (IsDoubleBattle()
-             && gBattleStruct->itemPartyIndex[gBattlerAttacker] == gBattlerPartyIndexes[GetPartnerBattler(gBattlerAttacker)]
-             && !HasPartnerTrainer(gBattlerAttacker))
+        else if (IsItemRecipientPartnerOnField())
         {
             battler = GetPartnerBattler(gBattlerAttacker);
         }
@@ -9333,9 +9375,7 @@ void BS_ItemCureStatus(void)
         statusChanged = ItemHealMonVolatile(gBattlerAttacker, gLastUsedItem);
         targetBattler = gBattlerAttacker;
     }
-    else if (IsDoubleBattle()
-        && gBattleStruct->itemPartyIndex[gBattlerAttacker] == gBattlerPartyIndexes[GetPartnerBattler(gBattlerAttacker)]
-        && !HasPartnerTrainer(gBattlerAttacker))
+    else if (IsItemRecipientPartnerOnField())
     {
         statusChanged = ItemHealMonVolatile(GetPartnerBattler(gBattlerAttacker), gLastUsedItem);
         targetBattler = GetPartnerBattler(gBattlerAttacker);
@@ -9417,9 +9457,7 @@ void BS_ItemRestorePP(void)
     {
         battler = gBattlerAttacker;
     }
-    else if (IsDoubleBattle()
-        && gBattleStruct->itemPartyIndex[gBattlerAttacker] == gBattlerPartyIndexes[GetPartnerBattler(gBattlerAttacker)]
-        && !HasPartnerTrainer(gBattlerAttacker))
+    else if (IsItemRecipientPartnerOnField())
     {
         battler = GetPartnerBattler(gBattlerAttacker);
     }
@@ -9890,8 +9928,8 @@ void BS_TryRevivalBlessing(void)
     NATIVE_ARGS(const u8 *failInstr);
     u8 index = GetFirstFaintedPartyIndex(gBattlerAttacker);
 
-    // Move fails if there are no battlers to revive.
-    if (index == PARTY_SIZE)
+    // Move fails if there are no battlers to revive, or in the Battle Arena.
+    if (index == PARTY_SIZE || (gBattleTypeFlags & BATTLE_TYPE_ARENA))
     {
         gBattlescriptCurrInstr = cmd->failInstr;
         return;
@@ -9902,14 +9940,17 @@ void BS_TryRevivalBlessing(void)
     {
         struct Pokemon *party = GetBattlerParty(gBattlerAttacker);
 
+        RestoreGimmickFormAfterRevival(gBattlerAttacker);
         u16 hp = GetMonData(&party[gSelectedMonPartyId], MON_DATA_MAX_HP) / 2;
         BtlController_EmitSetMonData(gBattlerAttacker, B_COMM_TO_CONTROLLER, REQUEST_HP_BATTLE, 1u << gSelectedMonPartyId, sizeof(hp), &hp);
         MarkBattlerForControllerExec(gBattlerAttacker);
         PREPARE_SPECIES_BUFFER(gBattleTextBuff1, GetMonData(&party[gSelectedMonPartyId], MON_DATA_SPECIES));
 
-        // If an on-field battler is revived, it needs to be sent out again.
-        if (IsDoubleBattle() &&
-            gBattlerPartyIndexes[GetPartnerBattler(gBattlerAttacker)] == gSelectedMonPartyId)
+        // If an on-field battler is revived, it needs to be sent out again. In a multi battle
+        // the partner's slot number belongs to another Trainer's party.
+        if (IsDoubleBattle()
+         && BattlersShareParty(gBattlerAttacker, GetPartnerBattler(gBattlerAttacker))
+         && gBattlerPartyIndexes[GetPartnerBattler(gBattlerAttacker)] == gSelectedMonPartyId)
         {
             enum BattlerId i = GetPartnerBattler(gBattlerAttacker);
             gAbsentBattlerFlags &= ~(1u << i);
@@ -11994,9 +12035,12 @@ void BS_UpdateDynamax(void)
     enum BattlerId battler = gBattleScripting.battler;
     struct Pokemon *mon = GetBattlerMon(battler);
 
-    if (!IsGigantamaxed(battler)) // RecalcBattlerStats will get called on form change.
-        RecalcBattlerStats(battler, mon, GetActiveGimmick(battler) == GIMMICK_DYNAMAX);
+    if (GetActiveGimmick(battler) == GIMMICK_DYNAMAX && !IsGigantamaxed(battler))
+        ApplyDynamaxHPMultiplier(mon); // Gigantamax applies this during its form change.
 
+    // Do not overwrite battle-only stats such as the speed from Speed Swap.
+    gBattleMons[battler].hp = GetMonData(mon, MON_DATA_HP);
+    gBattleMons[battler].maxHP = GetMonData(mon, MON_DATA_MAX_HP);
     UpdateHealthboxAttribute(gHealthboxSpriteIds[battler], mon, HEALTHBOX_ALL);
     gBattlescriptCurrInstr = cmd->nextInstr;
 }

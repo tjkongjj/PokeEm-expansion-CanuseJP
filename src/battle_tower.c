@@ -1180,6 +1180,7 @@ static void LoadMultiPartnerCandidatesData(void)
     enum Species species1, species2;
     struct ObjectEventTemplate *objEventTemplates;
 
+    SetFacilityPtrsGetLevel();
     objEventTemplates = gSaveBlock1Ptr->objectEventTemplates;
     lvlMode = gSaveBlock2Ptr->frontier.lvlMode;
     battleMode = VarGet(VAR_FRONTIER_BATTLE_MODE);
@@ -1481,8 +1482,8 @@ static void LoadLinkMultiOpponentsData(void)
             challengeNum = gSaveBlock2Ptr->frontier.towerWinStreaks[battleMode][lvlMode] / FRONTIER_STAGES_PER_CHALLENGE;
             if (IsLinkTaskFinished())
             {
-                SendBlock(BitmaskAllOtherLinkPlayers(), &challengeNum, sizeof(challengeNum));
-                gSpecialVar_Result = 1;
+                if (SendBlock(BitmaskAllOtherLinkPlayers(), &challengeNum, sizeof(challengeNum)))
+                    gSpecialVar_Result = 1;
             }
         }
         else
@@ -1518,8 +1519,8 @@ static void LoadLinkMultiOpponentsData(void)
     case 2:
         if (IsLinkTaskFinished())
         {
-            SendBlock(BitmaskAllOtherLinkPlayers(), &gSaveBlock2Ptr->frontier.trainerIds, sizeof(gSaveBlock2Ptr->frontier.trainerIds));
-            gSpecialVar_Result = 3;
+            if (SendBlock(BitmaskAllOtherLinkPlayers(), &gSaveBlock2Ptr->frontier.trainerIds, sizeof(gSaveBlock2Ptr->frontier.trainerIds)))
+                gSpecialVar_Result = 3;
         }
         break;
     case 3:

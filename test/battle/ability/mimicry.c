@@ -158,3 +158,34 @@ MULTI_BATTLE_TEST("Mimicry does not activate if there is no terrain active")
         EXPECT_EQ(opponentRight->types[2], TYPE_MYSTERY);
     }
 }
+
+SINGLE_BATTLE_TEST("Mimicry does nothing when the battler switches in without a terrain")
+{
+    GIVEN {
+        PLAYER(SPECIES_WOBBUFFET);
+        OPPONENT(SPECIES_WOBBUFFET);
+        OPPONENT(SPECIES_STUNFISK_GALAR) { Ability(ABILITY_MIMICRY); }
+    } WHEN {
+        TURN { SWITCH(opponent, 1); }
+    } SCENE {
+        NONE_OF { ABILITY_POPUP(opponent, ABILITY_MIMICRY); }
+    } THEN {
+        EXPECT_EQ(gBattleMons[B_POSITION_OPPONENT_LEFT].types[0], GetSpeciesType(SPECIES_STUNFISK_GALAR, 0));
+        EXPECT_EQ(gBattleMons[B_POSITION_OPPONENT_LEFT].types[1], GetSpeciesType(SPECIES_STUNFISK_GALAR, 1));
+    }
+}
+
+SINGLE_BATTLE_TEST("Mimicry still changes the type once a terrain is set")
+{
+    GIVEN {
+        PLAYER(SPECIES_WOBBUFFET);
+        OPPONENT(SPECIES_STUNFISK_GALAR) { Ability(ABILITY_MIMICRY); }
+    } WHEN {
+        TURN { MOVE(player, MOVE_ELECTRIC_TERRAIN); }
+    } SCENE {
+        ABILITY_POPUP(opponent, ABILITY_MIMICRY);
+    } THEN {
+        EXPECT_EQ(gBattleMons[B_POSITION_OPPONENT_LEFT].types[0], TYPE_ELECTRIC);
+        EXPECT_EQ(gBattleMons[B_POSITION_OPPONENT_LEFT].types[1], TYPE_ELECTRIC);
+    }
+}

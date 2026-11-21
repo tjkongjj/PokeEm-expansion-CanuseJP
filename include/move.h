@@ -529,6 +529,12 @@ static inline bool32 IsMoveGravityBanned(enum Move moveId)
     return gMovesInfo[SanitizeMoveId(moveId)].gravityBanned;
 }
 
+static inline bool32 IsGimmickMove(enum Move moveId)
+{
+    return (moveId >= FIRST_Z_MOVE && moveId <= LAST_Z_MOVE)
+        || (moveId >= FIRST_MAX_MOVE && moveId <= LAST_MAX_MOVE);
+}
+
 static inline bool32 IsMoveMirrorMoveBanned(enum Move moveId)
 {
     return gMovesInfo[SanitizeMoveId(moveId)].mirrorMoveBanned;

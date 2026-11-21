@@ -1,5 +1,6 @@
 #include "global.h"
 #include "battle_anim.h"
+#include "contest.h"
 #include "item_menu_icons.h"
 #include "sprite.h"
 #include "random.h"
@@ -100,6 +101,7 @@ static void SpriteCB_GlacialLance_Step2(struct Sprite* sprite);
 static void SpriteCB_GlacialLance(struct Sprite* sprite);
 static void SpriteCB_TripleArrowKick(struct Sprite* sprite);
 static void SpriteCB_Protect(struct Sprite* sprite);
+static void SpriteCB_StockpileRock(struct Sprite *sprite);
 
 // const data
 // general
@@ -4365,7 +4367,7 @@ const struct SpriteTemplate gContinentalCrushNeedleArmSpriteTemplate =
     .paletteTag = ANIM_TAG_ROCKS,
     .oam = &gOamData_AffineOff_ObjNormal_32x32,
     .anims = gAnims_FlyingRock,
-    .callback = AnimNeedleArmSpike,
+    .callback = SpriteCB_StockpileRock,
 };
 
 const struct SpriteTemplate gContinentalCrushBigRockStompSpriteTemplate =
@@ -7220,6 +7222,21 @@ static void SpriteCB_TranslateAnimSpriteToTargetMonLocationDoubles(struct Sprite
     }
 }
 
+static void SpriteCB_StockpileRock(struct Sprite *sprite)
+{
+    // Reuse all three rock frames without changing shared scripts or battle RNG.
+    if (gAnimMoveIndex == MOVE_MAX_ROCKFALL)
+    {
+        u8 anim = 0;
+        if (gBattleAnimArgs[2] > 0)
+            anim = 1;
+        else if (gBattleAnimArgs[2] < 0)
+            anim = 2;
+        StartSpriteAnim(sprite, anim);
+    }
+    AnimNeedleArmSpike(sprite);
+}
+
 //Causes an object to fall from the sky.
 //arg 0: initial x pixel offset
 //arg 1: initial y pixel offset
@@ -8063,10 +8080,12 @@ void AnimTask_GetTimeOfDay(u8 taskId)
 
 void AnimTask_GetLycanrocForm(u8 taskId)
 {
+    enum Species species = IsContest() ? gContestResources->moveAnim->species : gBattleMons[gBattleAnimAttacker].species;
+
     gBattleAnimArgs[0] = 0;
-    if (gBattleMons[gBattleAnimAttacker].species == SPECIES_LYCANROC_MIDNIGHT)
+    if (species == SPECIES_LYCANROC_MIDNIGHT)
         gBattleAnimArgs[0] = 1;
-    else if (gBattleMons[gBattleAnimAttacker].species == SPECIES_LYCANROC_DUSK)
+    else if (species == SPECIES_LYCANROC_DUSK)
         gBattleAnimArgs[0] = 2;
 
     DestroyAnimVisualTask(taskId);

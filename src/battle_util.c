@@ -487,6 +487,8 @@ void HandleAction_UseMove(void)
     }
 
     gCurrMovePos = gChosenMovePos = gBattleStruct->chosenMovePositions[gBattlerAttacker];
+    enum Gimmick gimmick = GetActiveGimmick(gBattlerAttacker);
+    bool32 enforceEncore = gimmick != GIMMICK_Z_MOVE && gimmick != GIMMICK_DYNAMAX;
 
     // choose move
     if (gProtectStructs[gBattlerAttacker].noValidMoves)
@@ -500,7 +502,7 @@ void HandleAction_UseMove(void)
         gCurrentMove = gChosenMove = gLockedMoves[gBattlerAttacker];
     }
     // encore forces you to use the same move
-    else if (GetActiveGimmick(gBattlerAttacker) != GIMMICK_Z_MOVE && gBattleMons[gBattlerAttacker].volatiles.encoredMove != MOVE_NONE
+    else if (enforceEncore && gBattleMons[gBattlerAttacker].volatiles.encoredMove != MOVE_NONE
              && gBattleMons[gBattlerAttacker].volatiles.encoredMove == gBattleMons[gBattlerAttacker].moves[gBattleMons[gBattlerAttacker].volatiles.encoredMovePos])
     {
         gCurrentMove = gChosenMove = gBattleMons[gBattlerAttacker].volatiles.encoredMove;
@@ -509,7 +511,7 @@ void HandleAction_UseMove(void)
             gBattleStruct->moveTarget[gBattlerAttacker] = GetBattleMoveTarget(gCurrentMove, TARGET_NONE);
     }
     // check if the encored move wasn't overwritten
-    else if (GetActiveGimmick(gBattlerAttacker) != GIMMICK_Z_MOVE && gBattleMons[gBattlerAttacker].volatiles.encoredMove != MOVE_NONE
+    else if (enforceEncore && gBattleMons[gBattlerAttacker].volatiles.encoredMove != MOVE_NONE
           && gBattleMons[gBattlerAttacker].volatiles.encoredMove != gBattleMons[gBattlerAttacker].moves[gBattleMons[gBattlerAttacker].volatiles.encoredMovePos])
     {
         gCurrMovePos = gChosenMovePos = gBattleMons[gBattlerAttacker].volatiles.encoredMovePos;
@@ -541,14 +543,14 @@ void HandleAction_UseMove(void)
     gBattleStruct->baseMove = gCurrentMove;
 
     // check Z-Move used
-    if (GetActiveGimmick(gBattlerAttacker) == GIMMICK_Z_MOVE
+    if (gimmick == GIMMICK_Z_MOVE
      && GetMoveCategory(gCurrentMove) != DAMAGE_CATEGORY_STATUS // Check the actual type, not the dynamic one
      && !IsZMove(gCurrentMove))
     {
         gCurrentMove = gChosenMove = GetUsableZMove(gBattlerAttacker, gCurrentMove);
     }
     // check Max Move used
-    else if (GetActiveGimmick(gBattlerAttacker) == GIMMICK_DYNAMAX)
+    else if (gimmick == GIMMICK_DYNAMAX)
     {
         gCurrentMove = gChosenMove = GetMaxMove(gBattlerAttacker, gCurrentMove);
     }
@@ -1382,6 +1384,15 @@ bool32 IsGravityPreventingMove(enum Move move)
     return IsMoveGravityBanned(move);
 }
 
+// The Battle Arena sends its three Pokémon out in a fixed order, so a fainted one can't be revived.
+bool32 IsFacilityPreventingMove(enum Move move)
+{
+    if (!(gBattleTypeFlags & BATTLE_TYPE_ARENA))
+        return FALSE;
+
+    return GetMoveEffect(move) == EFFECT_REVIVAL_BLESSING;
+}
+
 bool32 IsHealBlockPreventingMove(enum BattlerId battler, enum Move move)
 {
     if (!gBattleMons[battler].volatiles.healBlockTimer)
@@ -1489,6 +1500,13 @@ u32 TrySetCantSelectMoveBattleScript(enum BattlerId battler)
     if (dynamaxBypassCheck && zMoveBypassCheck && IsGravityPreventingMove(move))
     {
         if (SetCantSelectScript(battler, move, BattleScript_SelectingNotAllowedMoveGravityInPalace, BattleScript_SelectingNotAllowedMoveGravity))
+            limitations++;
+    }
+
+    // A Z-Move still carries the revival, so only Dynamax gets past this.
+    if (dynamaxBypassCheck && IsFacilityPreventingMove(move))
+    {
+        if (SetCantSelectScript(battler, move, BattleScript_SelectingCantUseMoveInPalace, BattleScript_SelectingCantUseMove))
             limitations++;
     }
 
@@ -1656,6 +1674,9 @@ u32 CheckMoveLimitations(enum BattlerId battler, u8 unusableMoves, u32 check)
             unusableMoves |= 1u << i;
         // Gravity
         else if (check & MOVE_LIMITATION_GRAVITY && IsGravityPreventingMove(move))
+            unusableMoves |= 1u << i;
+        // Battle Arena
+        else if (check & MOVE_LIMITATION_FACILITY && IsFacilityPreventingMove(move))
             unusableMoves |= 1u << i;
         // Heal Block
         else if (check & MOVE_LIMITATION_HEAL_BLOCK && IsHealBlockPreventingMove(battler, move))
@@ -4928,7 +4949,8 @@ u32 AbilityBattleEffects(enum AbilityEffect caseID, enum BattlerId battler, enum
         switch (gLastUsedAbility)
         {
         case ABILITY_MIMICRY:
-            if (!gBattleMons[battler].volatiles.terrainAbilityDone && ChangeTypeBasedOnTerrain(battler))
+            // Only on a terrain: switched in on a plain field, it keeps its own types (it used to become typeless)
+            if (!gBattleMons[battler].volatiles.terrainAbilityDone && gFieldTimers.terrain != B_TERRAIN_NONE)
             {
                 gBattleMons[battler].volatiles.terrainAbilityDone = TRUE;
                 ChangeTypeBasedOnTerrain(battler);
@@ -6303,15 +6325,14 @@ static inline u32 CalcMoveBasePower(struct DamageContext *ctx)
     u32 moveEffect = GetMoveEffect(move);
     u32 weight, hpFraction, speed;
 
-    switch (GetActiveGimmick(battlerAtk))
-    {
-    case GIMMICK_Z_MOVE:
-        return GetZMovePower(ctx->baseMove);
-    case GIMMICK_DYNAMAX:
-        return GetMaxMovePower(ctx->baseMove, ctx->move);
-    default:
-        break;
-    }
+    // A delayed hit is never converted into a Max or Z Move at impact.
+    if (moveEffect == EFFECT_FUTURE_SIGHT && !ctx->aiCalc)
+        return basePower;
+
+    if (IsZMove(move))
+        return GetZMovePower(ctx->baseMove, move);
+    if (IsMaxMove(move))
+        return GetMaxMovePower(ctx->baseMove, move);
 
     switch (moveEffect)
     {
@@ -6886,7 +6907,8 @@ static inline u32 CalcMoveBasePowerAfterModifiers(struct DamageContext *ctx)
     }
 
     // Terastallization boosts weak, non-priority, non-multi hit moves after modifiers to 60 BP.
-    if (GetActiveGimmick(battlerAtk) == GIMMICK_TERA
+    if (!gSpecialStatuses[battlerAtk].attackerInParty
+        && GetActiveGimmick(battlerAtk) == GIMMICK_TERA
         && (moveType == GetBattlerTeraType(battlerAtk)
         || (GetBattlerTeraType(battlerAtk) == TYPE_STELLAR && IsTypeStellarBoosted(battlerAtk, moveType)))
         && uq4_12_multiply_by_int_half_down(modifier, basePower) < 60
@@ -7443,7 +7465,11 @@ static inline uq4_12_t GetSameTypeAttackBonusModifier(struct DamageContext *ctx)
 {
     if (ctx->moveType != TYPE_MYSTERY)
     {
-        if ((IS_BATTLER_OF_TYPE(ctx->battlerAtk, ctx->moveType) && ctx->move != MOVE_STRUGGLE)
+        // The active slot's Tera Type belongs to the replacement, not the benched caster.
+        bool32 matchesType = gSpecialStatuses[ctx->battlerAtk].attackerInParty
+                           ? IS_BATTLER_OF_BASE_TYPE(ctx->battlerAtk, ctx->moveType)
+                           : IS_BATTLER_OF_TYPE(ctx->battlerAtk, ctx->moveType);
+        if ((matchesType && ctx->move != MOVE_STRUGGLE)
          || (gBattleStruct->pledgeState == PLEDGE_COMBO_ATTACK && IS_BATTLER_OF_TYPE(GetPartnerBattler(ctx->battlerAtk), ctx->moveType)))
         {
             return ctx->abilities[ctx->battlerAtk] == ABILITY_ADAPTABILITY ? UQ_4_12(2.0) : UQ_4_12(1.5);
@@ -7835,7 +7861,7 @@ static inline s32 DoMoveDamageCalcVars(struct DamageContext *ctx)
 
 s32 ApplyModifiersAfterDmgRoll(struct DamageContext *ctx, s32 dmg)
 {
-    if (GetActiveGimmick(ctx->battlerAtk) == GIMMICK_TERA)
+    if (!gSpecialStatuses[ctx->battlerAtk].attackerInParty && GetActiveGimmick(ctx->battlerAtk) == GIMMICK_TERA)
         DAMAGE_APPLY_MODIFIER(GetTeraMultiplier(ctx));
     else
         DAMAGE_APPLY_MODIFIER(GetSameTypeAttackBonusModifier(ctx));
@@ -8892,6 +8918,11 @@ bool32 TryBattleFormChange(enum BattlerId battler, enum FormChanges method, enum
         targetSpecies = battlePartyState->changedSpecies;
     }
 
+    // A Pokemon that began the battle in a form that otherwise only comes about in it (a Battle Frontier set's Complete
+    // Zygarde) has nothing recorded to go back to when the battle ends or it faints: it stays as it is
+    if (targetSpecies == SPECIES_NONE && (method == FORM_CHANGE_END_BATTLE || method == FORM_CHANGE_FAINT))
+        return FALSE;
+
     assertf(targetSpecies != SPECIES_NONE, "form change target returned NONE. cur:%d, method:%d", currentSpecies, method)
     {
         return FALSE;
@@ -9202,9 +9233,16 @@ enum DamageCategory GetBattleMoveCategory(enum Move move)
     return GetMoveCategory(move);
 }
 
-void SetDynamicMoveCategory(enum BattlerId battlerAtk, enum BattlerId battlerDef, enum Move move)
+void SetDynamicMoveCategory(enum BattlerId battlerAtk, enum BattlerId battlerDef, enum Move move, enum Move baseMove)
 {
     gBattleStruct->dynamicMoveCategory = DAMAGE_CATEGORY_NONE;
+
+    if ((IsMaxMove(move) && move != MOVE_MAX_GUARD)
+     || (IsZMove(move) && move < MOVE_CATASTROPIKA))
+    {
+        gBattleStruct->dynamicMoveCategory = GetMoveCategory(baseMove);
+        return;
+    }
 
     switch (GetMoveEffect(move))
     {
@@ -9258,8 +9296,6 @@ void SetDynamicMoveCategory(enum BattlerId battlerAtk, enum BattlerId battlerDef
         break;
     }
     default:
-        if (GetActiveGimmick(battlerAtk) == GIMMICK_DYNAMAX)
-            gBattleStruct->dynamicMoveCategory = GetMoveCategory(GetBattlerChosenMove(battlerAtk));
         break;
     }
 }

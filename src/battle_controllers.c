@@ -35,6 +35,9 @@
 #include "constants/songs.h"
 #include "test/battle.h"
 #include "test/test.h"
+#if TESTING
+#include "test/link.h"
+#endif
 
 static EWRAM_DATA u8 sLinkSendTaskId = 0;
 static EWRAM_DATA u8 sLinkReceiveTaskId = 0;
@@ -603,6 +606,15 @@ static void CreateTasksForSendRecvLinkBuffers(void)
     gTasks[sLinkReceiveTaskId].tCurrentBlock_Start    = 0;
 }
 
+#if TESTING
+void Test_InitLinkBattleBufferTasks(u8 *sendTaskId, u8 *receiveTaskId)
+{
+    CreateTasksForSendRecvLinkBuffers();
+    *sendTaskId = sLinkSendTaskId;
+    *receiveTaskId = sLinkReceiveTaskId;
+}
+#endif
+
 enum
 {
     LINK_BUFF_BUFFER_ID,
@@ -716,8 +728,9 @@ static void Task_HandleSendLinkBuffersData(u8 taskId)
                     gTasks[taskId].tCurrentBlock_Start    = 0;
                 }
                 blockSize = (BYTE_TO_SEND(LINK_BUFF_SIZE_LO) | (BYTE_TO_SEND(LINK_BUFF_SIZE_HI) << 8)) + LINK_BUFF_DATA;
-                SendBlock(BitmaskAllOtherLinkPlayers(), &BYTE_TO_SEND(0), blockSize);
-                gTasks[taskId].tState++;
+                // A busy link has not accepted this packet. Keep it queued for retry.
+                if (IsLinkTaskFinished() && SendBlock(BitmaskAllOtherLinkPlayers(), &BYTE_TO_SEND(0), blockSize))
+                    gTasks[taskId].tState++;
             }
             else
             {
@@ -774,19 +787,36 @@ void TryReceiveLinkBattleData(void)
                     u8 *dest, *src;
                     u16 dataSize = gBlockRecvBuffer[i][2];
 
-                    if (gTasks[sLinkReceiveTaskId].tCurrentBlock_End + 9 + dataSize > 0x1000)
+                    if (dataSize == 0 || (dataSize & 3) != 0
+                     || dataSize + LINK_BUFF_DATA > BLOCK_BUFFER_SIZE
+                     || recvBuffer[LINK_BUFF_ACTIVE_BATTLER] >= gBattlersCount
+                     || recvBuffer[LINK_BUFF_BUFFER_ID] > B_COMM_CONTROLLER_IS_DONE
+                     || (recvBuffer[LINK_BUFF_BUFFER_ID] == B_COMM_CONTROLLER_IS_DONE
+                      && (dataSize != 4 || recvBuffer[LINK_BUFF_DATA] >= GetLinkPlayerCount())))
                     {
-                        gTasks[sLinkReceiveTaskId].tCurrentBlock_WrapFrom = gTasks[sLinkReceiveTaskId].tCurrentBlock_End;
-                        gTasks[sLinkReceiveTaskId].tCurrentBlock_End = 0;
+                        gLink.badChecksum = TRUE;
+                        if (gWirelessCommType)
+                        {
+                            RfuSetStatus(RFU_STATUS_FATAL_ERROR, F_RFU_ERROR_1 | F_RFU_ERROR_8);
+                            RfuSetErrorParams(F_RFU_ERROR_1 | F_RFU_ERROR_8);
+                        }
                     }
+                    else
+                    {
+                        if (gTasks[sLinkReceiveTaskId].tCurrentBlock_End + 9 + dataSize > 0x1000)
+                        {
+                            gTasks[sLinkReceiveTaskId].tCurrentBlock_WrapFrom = gTasks[sLinkReceiveTaskId].tCurrentBlock_End;
+                            gTasks[sLinkReceiveTaskId].tCurrentBlock_End = 0;
+                        }
 
-                    dest = &gLinkBattleRecvBuffer[gTasks[sLinkReceiveTaskId].tCurrentBlock_End];
-                    src = recvBuffer;
+                        dest = &gLinkBattleRecvBuffer[gTasks[sLinkReceiveTaskId].tCurrentBlock_End];
+                        src = recvBuffer;
 
-                    for (j = 0; j < dataSize + 8; j++)
-                        dest[j] = src[j];
+                        for (j = 0; j < dataSize + 8; j++)
+                            dest[j] = src[j];
 
-                    gTasks[sLinkReceiveTaskId].tCurrentBlock_End = gTasks[sLinkReceiveTaskId].tCurrentBlock_End + dataSize + 8;
+                        gTasks[sLinkReceiveTaskId].tCurrentBlock_End = gTasks[sLinkReceiveTaskId].tCurrentBlock_End + dataSize + 8;
+                    }
                 }
             }
         }
@@ -2411,8 +2441,14 @@ void BtlController_HandleSwitchInAnim(enum BattlerId battler)
 
     if (IsControllerPlayer(battler))
     {
-        gActionSelectionCursor[battler] = 0;
-        gMoveSelectionCursor[battler] = 0;
+        // Dynamax sends the same Pokemon out again, keeping its Transform (the only switch-in that
+        // does); only a new Pokemon starts from the first move. The party index can't tell them
+        // apart: the battle has already set it to the incoming Pokemon.
+        if (!gBattleResources->bufferA[battler][2])
+        {
+            gActionSelectionCursor[battler] = 0;
+            gMoveSelectionCursor[battler] = 0;
+        }
     }
     else if (IsControllerOpponent(battler))
     {
@@ -2425,6 +2461,7 @@ void BtlController_HandleSwitchInAnim(enum BattlerId battler)
     if (isPlayerSide)
         BattleLoadMonSpriteGfx(GetBattlerMon(battler), battler);
     StartSendOutAnim(battler, gBattleResources->bufferA[battler][2], gBattleResources->bufferA[battler][3], FALSE);
+    gBattleSpritesDataPtr->battlerData[battler].behindSubstitute = gBattleResources->bufferA[battler][3] != FALSE;
     gBattlerControllerFuncs[battler] = BtlController_HandleSwitchInTryShinyAnim;
 }
 
