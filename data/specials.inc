@@ -647,3 +647,9 @@ gSpecials::
 	def_special ultra_help, waitstate=1
 	def_special ContestShop_BufferProduct
 	def_special ContestShop_Purchase
+	def_special Special_TeishokuyaChangeTeraType
+	def_special Special_TeishokuyaToggleGigantamax
+	def_special Special_TeishokuyaIncreasePartyFriendship
+	def_special Special_TeishokuyaCanToggleGigantamax
+	def_special Special_TeishokuyaPlayMealScene, waitstate=1
+	def_special ChooseNonEggPartyMon, waitstate=1

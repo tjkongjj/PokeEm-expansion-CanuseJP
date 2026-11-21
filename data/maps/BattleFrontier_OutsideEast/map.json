@@ -459,6 +459,14 @@
       "elevation": 0,
       "dest_map": "MAP_ARTISAN_CAVE_1F",
       "dest_warp_id": "0"
+    },
+    {
+      "warp_id": "WARP_ID_FRONTIER_SOUTH_RESORT_GATE",
+      "x": 17,
+      "y": 39,
+      "elevation": 0,
+      "dest_map": "MAP_PARTY_RESORT_GATE",
+      "dest_warp_id": "WARP_ID_RESORT_GATE_FRONTIER"
     }
   ],
   "coord_events": [],

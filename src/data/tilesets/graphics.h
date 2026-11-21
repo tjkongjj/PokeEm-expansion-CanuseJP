@@ -899,6 +899,28 @@ const u16 gTilesetPalettes_LilycoveMuseum[][16] =
     INCGFX_U16("data/tilesets/secondary/lilycove_museum/palettes/15.pal", ".gbapal"),
 };
 
+const u32 gTilesetTiles_ResortHouse[] = INCGFX_U32("data/tilesets/secondary/resort_house/tiles.png", ".4bpp.fastSmol");
+const u16 gTilesetPalettes_ResortHouse[][16] =
+{
+    INCGFX_U16("data/tilesets/secondary/brendans_mays_house/palettes/00.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/brendans_mays_house/palettes/01.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/brendans_mays_house/palettes/02.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/brendans_mays_house/palettes/03.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/brendans_mays_house/palettes/04.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/brendans_mays_house/palettes/05.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/brendans_mays_house/palettes/06.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/brendans_mays_house/palettes/07.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/brendans_mays_house/palettes/08.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/brendans_mays_house/palettes/09.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/brendans_mays_house/palettes/10.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/brendans_mays_house/palettes/11.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/shop/palettes/08.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/brendans_mays_house/palettes/13.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/brendans_mays_house/palettes/14.pal", ".gbapal"),
+    INCGFX_U16("data/tilesets/secondary/brendans_mays_house/palettes/15.pal", ".gbapal"),
+};
+
+
 const u32 gTilesetTiles_BrendansMaysHouse[] = INCGFX_U32("data/tilesets/secondary/brendans_mays_house/tiles.png", ".4bpp.fastSmol");
 
 const u16 gTilesetPalettes_BrendansMaysHouse[][16] =
