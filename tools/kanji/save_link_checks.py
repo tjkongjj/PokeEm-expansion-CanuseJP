@@ -28,6 +28,7 @@ class Rule:
     fields: tuple = ()
     symbols: str | None = None
     macro: tuple | None = None  # (name, argument index, implicit prefix)
+    party: str | None = None  # "trainer_name" or "nickname": parse .party files
     required: bool = True
     hits: list = field(default_factory=list)
 
@@ -40,15 +41,20 @@ RULES = (
     Rule(("src/data/trade.h",), "POKEMON_NAME_LENGTH", "in-game trade nickname (saved)", fields=("nickname",)),
     Rule(("src/data/trade.h",), "PLAYER_NAME_LENGTH",
          "in-game trade OT name and mail sender (saved, sent in union room trades)", fields=("otName",)),
-    Rule(("src/data/trainers.h", "src/data/debug_trainers.h"), "TRAINER_NAME_LENGTH",
+    # Trainer data moved from C headers to Showdown-style .party files in the
+    # 2026-11-18 upstream merge (trainer_rules.mk generates the .h from them),
+    # so these rules parse the .party sources instead of .trainerName fields.
+    Rule(("src/data/trainers.party", "src/data/trainers_frlg.party", "src/data/debug_trainers.party"),
+         "TRAINER_NAME_LENGTH",
          "OT of trainer Pokémon (link multi battles, battle videos) and Frontier Brain names in TV records",
-         fields=("trainerName",)),
-    Rule(("src/data/battle_partners.h",), "PLAYER_NAME_LENGTH",
-         "partner names copied into the Battle Tower interview (saved, record-mixed)", fields=("trainerName",)),
-    Rule(("src/data/trainers.h", "src/data/battle_partners.h", "src/data/debug_trainers.h",
-          "src/data/battle_frontier/battle_frontier_*.h", "src/data/battle_frontier/battle_tent.h"),
+         party="trainer_name"),
+    Rule(("src/data/battle_partners.party",), "PLAYER_NAME_LENGTH",
+         "partner names copied into the Battle Tower interview (saved, record-mixed)", party="trainer_name"),
+    Rule(("src/data/trainers.party", "src/data/trainers_frlg.party", "src/data/debug_trainers.party",
+          "src/data/battle_partners.party", "src/data/battle_frontier/battle_frontier_*.h",
+          "src/data/battle_frontier/battle_tent.h"),
          "POKEMON_NAME_LENGTH", "trainer and Frontier Pokémon nicknames (link battles, rental party, battle videos)",
-         fields=("nickname",), required=False),
+         fields=("nickname",), party="nickname", required=False),
     Rule(("src/data/battle_frontier/battle_frontier_trainers.h", "src/data/battle_frontier/battle_tent.h"),
          "PLAYER_NAME_LENGTH", "Frontier trainer names (Battle Tower interview, partner OT)", fields=("trainerName",)),
     Rule(("src/data/battle_frontier/trainer_hill.h",), "VANILLA_POKEMON_NAME_LENGTH",
@@ -189,7 +195,28 @@ def initializer(text: str, start: int):
     return text[start:]
 
 
-def find_strings(rule: Rule, text: str):
+def find_party_strings(text: str, kind: str):
+    """(offset, contents) of saved/link strings in a trainer .party file.
+
+    Trainer names are `Name: <text>` lines (empty for TRAINER_NONE /
+    PARTNER_NONE). Pokémon nicknames are the text before ` (Species)` on a
+    party line, e.g. `ヴィクトリア (Pheromosa) @ Fightinium Z`; a bare
+    species line has no nickname. Only ever run on .party files: the same
+    shapes would match C declarations in headers.
+    """
+    if kind == "trainer_name":
+        for match in re.finditer(r"^Name:[ \t]*(.+?)[ \t]*$", text, re.M):
+            yield match.start(1), match[1]
+    elif kind == "nickname":
+        for match in re.finditer(r"^([^\s.=\-][^(\n=]*?)[ \t]+\(([^)]+)\)", text, re.M):
+            yield match.start(1), match[1]
+    else:
+        raise ValueError(f"unknown party string kind {kind!r}")
+
+
+def find_strings(rule: Rule, text: str, is_party: bool = False):
+    if rule.party and is_party:
+        yield from find_party_strings(text, rule.party)
     if rule.fields:
         pattern = re.compile(r"\.(?:%s)\s*=" % "|".join(rule.fields))
         for match in pattern.finditer(code_mask(text)):
@@ -230,7 +257,7 @@ def check_save_link_strings(root: Path, ledger_entries, rules=RULES):
             # save fields. Their instantiated EXTRA_NPC names have own rules.
             text = DEFINE.sub(lambda m: re.sub(r"[^\n]", " ", m[0]), text)
             label = path.relative_to(root).as_posix()
-            for offset, value in find_strings(rule, text):
+            for offset, value in find_strings(rule, text, is_party=path.suffix == ".party"):
                 count += 1
                 where = f"{label}:{text.count(chr(10), 0, offset) + 1}"
                 if value is None:

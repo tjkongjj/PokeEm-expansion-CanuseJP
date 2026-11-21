@@ -348,6 +348,36 @@ class SaveLinkChecks(unittest.TestCase):
         rule = self.checks.Rule(("src/none.h",), 7, "gone", fields=("trainerName",))
         self.assertIn("found no strings", self.problems("src/other.h", "", rule)[0])
 
+    def test_party_trainer_names_and_nicknames(self):
+        rule = self.checks.Rule(("src/data/trainers.party",), "TRAINER_NAME_LENGTH", "trainers",
+                                party="trainer_name")
+        text = ("=== TRAINER_TEST ===\nName: ユウキ\nClass: Pkmn Trainer 1\nPic: Brendan\n\n"
+                "ピカチュウ (Pikachu)\nLevel: 5\n")
+        self.assertEqual(self.problems("src/data/trainers.party", text, rule), [])
+        found = self.problems("src/data/trainers.party",
+                              "=== TRAINER_TEST ===\nName: 天\n", rule)
+        self.assertEqual(len(found), 1)
+        self.assertIn("kanji", found[0])
+        found = self.problems("src/data/trainers.party",
+                              "=== TRAINER_TEST ===\nName: あいうえおかきくけこさ\n", rule)
+        self.assertIn("is 11 bytes, limit 10", found[0])
+        # Comment-block examples (Showdown syntax in the file header) are not
+        # trainer data and must not be counted.
+        found = self.problems("src/data/trainers.party",
+                              "/*\nAlfred (Abra) (M) @ Eviolite\n*/\n=== TRAINER_TEST ===\nName: ユウキ\n",
+                              self.checks.Rule(("src/data/trainers.party",), "POKEMON_NAME_LENGTH",
+                                               "nicknames", party="nickname", required=False))
+        self.assertEqual(found, [])
+        nick_rule = self.checks.Rule(("src/data/trainers.party",), "POKEMON_NAME_LENGTH",
+                                     "nicknames", party="nickname")
+        found = self.problems("src/data/trainers.party",
+                              "=== TRAINER_TEST ===\nName: ユウキ\n\n天 (Pikachu)\n", nick_rule)
+        self.assertEqual(len(found), 1)
+        self.assertIn("kanji", found[0])
+        # A required party rule with no Name: lines still reports itself.
+        self.assertIn("found no strings",
+                      self.problems("src/data/trainers.party", "=== TRAINER_NONE ===\nName:\n", rule)[0])
+
     def test_dynamic_or_unresolved_saved_text_is_rejected(self):
         rule = self.species_rule()
         for value in ('_("{PLAYER}")', '_("{STR_VAR_1}")', '_("{NOT_A_TOKEN}")', 'NAME_FROM_OTHER_FILE', '_("a" UNKNOWN_NAME)'):
