@@ -52,6 +52,11 @@ bool8 IsFrontierSpeciesBannedByCurrentRules(enum Species species)
         && !FlagGet(FLAG_FRONTIER_ALLOW_BANNED_SPECIES);
 }
 
+bool8 IsFrontierSpeciesSubjectToBannedLimit(enum Species species)
+{
+    return gSpeciesInfo[species].isFrontierBanned && FlagGet(FLAG_FRONTIER_ALLOW_BANNED_SPECIES);
+}
+
 struct FrontierBrainMon
 {
     enum Species species;
@@ -3210,6 +3215,271 @@ u16 GetRandomFrontierMonFromSet(u16 trainerId)
 
     return monId;
 }
+
+static bool8 FrontierMonHeldItemHasSortType(u16 monId, enum ItemSortType sortType)
+{
+    enum Item item = gFacilityTrainerMons[monId].heldItem;
+
+    return item != ITEM_NONE && gItemsInfo[item].sortType == sortType;
+}
+
+// Set while drawing the party of a Trainer whose side already has a banned species, such as
+// the second opponent of a multi battle, so the one-banned-species rule holds for the side.
+static EWRAM_DATA bool8 sFrontierPoolSideHasBannedSpecies = FALSE;
+
+void SetFrontierPoolSideHasBannedSpecies(bool8 hasBannedSpecies)
+{
+    sFrontierPoolSideHasBannedSpecies = hasBannedSpecies;
+}
+
+static bool8 SelectedFrontierMonsContainBannedSpecies(const u16 *selectedMonIds, u8 selectedCount)
+{
+    u8 i;
+
+    if (sFrontierPoolSideHasBannedSpecies && FlagGet(FLAG_FRONTIER_ALLOW_BANNED_SPECIES))
+        return TRUE;
+
+    for (i = 0; i < selectedCount; i++)
+    {
+        if (IsFrontierSpeciesSubjectToBannedLimit(gFacilityTrainerMons[selectedMonIds[i]].species))
+            return TRUE;
+    }
+
+    return FALSE;
+}
+
+static bool8 SelectedFrontierMonsContainHeldItemSortType(const u16 *selectedMonIds, u8 selectedCount, enum ItemSortType sortType)
+{
+    u8 i;
+
+    for (i = 0; i < selectedCount; i++)
+    {
+        if (FrontierMonHeldItemHasSortType(selectedMonIds[i], sortType))
+            return TRUE;
+    }
+
+    return FALSE;
+}
+
+bool8 IsFrontierMonPoolEntryEnabled(u16 monId)
+{
+    if (monId >= NUM_FRONTIER_MONS)
+        return FALSE;
+
+    // Keep retired Castform IDs readable by existing Factory/Dome saves.
+    switch (monId)
+    {
+    case FRONTIER_MON_CASTFORM_NORMAL_2:
+    case FRONTIER_MON_CASTFORM_NORMAL_3:
+    case FRONTIER_MON_CASTFORM_SUNNY_2:
+    case FRONTIER_MON_CASTFORM_SUNNY_3:
+    case FRONTIER_MON_CASTFORM_RAINY_2:
+    case FRONTIER_MON_CASTFORM_RAINY_3:
+    case FRONTIER_MON_CASTFORM_SNOWY_2:
+    case FRONTIER_MON_CASTFORM_SNOWY_3:
+        return FALSE;
+    default:
+        return TRUE;
+    }
+}
+
+static bool8 FrontierMonMatchesPoolFilter(u16 monId, u8 filter)
+{
+    enum Species species = gFacilityTrainerMons[monId].species;
+    bool8 hasSpecialStone = FrontierMonHeldItemHasSortType(monId, ITEM_TYPE_MEGA_STONE)
+        || FrontierMonHeldItemHasSortType(monId, ITEM_TYPE_Z_CRYSTAL);
+
+    if (gFacilityTrainerMons == gBattleFrontierMons && !IsFrontierMonPoolEntryEnabled(monId))
+        return FALSE;
+
+    if (filter >= FRONTIER_MON_FILTER_TYPE_BASE)
+    {
+        enum Type type = filter - FRONTIER_MON_FILTER_TYPE_BASE;
+        return gSpeciesInfo[species].types[0] == type || gSpeciesInfo[species].types[1] == type;
+    }
+
+    switch (filter)
+    {
+    case FRONTIER_MON_FILTER_SPECIAL_STONE:
+        return hasSpecialStone;
+    case FRONTIER_MON_FILTER_BANNED_SPECIES:
+        return IsFrontierSpeciesSubjectToBannedLimit(species);
+    case FRONTIER_MON_FILTER_SPECIAL_STONE_NOT_BANNED:
+        return hasSpecialStone && !gSpeciesInfo[species].isFrontierBanned;
+    default:
+        return TRUE;
+    }
+}
+
+static bool8 IsFrontierMonSelectableForParty(u16 monId, const u16 *selectedMonIds, u8 selectedCount, const u16 *excludedMonIds, u8 excludedMonIdCount, const enum Species *excludedSpecies, u8 excludedSpeciesCount)
+{
+    u8 i;
+    enum Species species = gFacilityTrainerMons[monId].species;
+    enum Item heldItem = gFacilityTrainerMons[monId].heldItem;
+    bool8 hasMegaStone = FrontierMonHeldItemHasSortType(monId, ITEM_TYPE_MEGA_STONE);
+    bool8 hasZCrystal = FrontierMonHeldItemHasSortType(monId, ITEM_TYPE_Z_CRYSTAL);
+
+    if (!FrontierMonMatchesPoolFilter(monId, FRONTIER_MON_FILTER_NONE))
+        return FALSE;
+    if (IsFrontierSpeciesBannedByCurrentRules(species))
+        return FALSE;
+    if (IsFrontierSpeciesSubjectToBannedLimit(species) && SelectedFrontierMonsContainBannedSpecies(selectedMonIds, selectedCount))
+        return FALSE;
+    if (hasMegaStone && SelectedFrontierMonsContainHeldItemSortType(selectedMonIds, selectedCount, ITEM_TYPE_MEGA_STONE))
+        return FALSE;
+    if (hasZCrystal && SelectedFrontierMonsContainHeldItemSortType(selectedMonIds, selectedCount, ITEM_TYPE_Z_CRYSTAL))
+        return FALSE;
+
+    for (i = 0; i < excludedMonIdCount; i++)
+    {
+        if (excludedMonIds[i] == monId)
+            return FALSE;
+    }
+
+    for (i = 0; i < excludedSpeciesCount; i++)
+    {
+        if (excludedSpecies[i] == species)
+            return FALSE;
+    }
+
+    for (i = 0; i < selectedCount; i++)
+    {
+        u16 selectedMonId = selectedMonIds[i];
+
+        if (selectedMonId == monId)
+            return FALSE;
+        if (gFacilityTrainerMons[selectedMonId].species == species)
+            return FALSE;
+        if (heldItem != ITEM_NONE && gFacilityTrainerMons[selectedMonId].heldItem == heldItem)
+            return FALSE;
+    }
+
+    return TRUE;
+}
+
+static u16 CountSelectableFrontierMons(const u16 *selectedMonIds, u8 selectedCount, const u16 *excludedMonIds, u8 excludedMonIdCount, const enum Species *excludedSpecies, u8 excludedSpeciesCount, u8 filter)
+{
+    u16 monId;
+    u16 count = 0;
+
+    for (monId = 0; monId < NUM_FRONTIER_MONS; monId++)
+    {
+        if (FrontierMonMatchesPoolFilter(monId, filter)
+            && IsFrontierMonSelectableForParty(monId, selectedMonIds, selectedCount, excludedMonIds, excludedMonIdCount, excludedSpecies, excludedSpeciesCount))
+            count++;
+    }
+
+    return count;
+}
+
+static bool8 IsFrontierMonSelectableIgnoringSoftPartyClauses(u16 monId, const u16 *selectedMonIds, u8 selectedCount, u8 filter)
+{
+    enum Species species = gFacilityTrainerMons[monId].species;
+
+    if (!FrontierMonMatchesPoolFilter(monId, filter))
+        return FALSE;
+    if (IsFrontierSpeciesBannedByCurrentRules(species))
+        return FALSE;
+    if (IsFrontierSpeciesSubjectToBannedLimit(species) && SelectedFrontierMonsContainBannedSpecies(selectedMonIds, selectedCount))
+        return FALSE;
+    if (FrontierMonHeldItemHasSortType(monId, ITEM_TYPE_MEGA_STONE) && SelectedFrontierMonsContainHeldItemSortType(selectedMonIds, selectedCount, ITEM_TYPE_MEGA_STONE))
+        return FALSE;
+    if (FrontierMonHeldItemHasSortType(monId, ITEM_TYPE_Z_CRYSTAL) && SelectedFrontierMonsContainHeldItemSortType(selectedMonIds, selectedCount, ITEM_TYPE_Z_CRYSTAL))
+        return FALSE;
+
+    return TRUE;
+}
+
+static u16 GetRandomFrontierMonIgnoringSoftPartyClauses(const u16 *selectedMonIds, u8 selectedCount, u8 filter)
+{
+    u16 monId;
+    u16 count = 0;
+    u16 target;
+
+    for (monId = 0; monId < NUM_FRONTIER_MONS; monId++)
+    {
+        if (IsFrontierMonSelectableIgnoringSoftPartyClauses(monId, selectedMonIds, selectedCount, filter))
+            count++;
+    }
+
+    if (count == 0)
+    {
+        // A forced filter can have no entry left, such as the banned-species slot once the
+        // party already has one. Give up the filter, not the banned-species rule.
+        if (filter != FRONTIER_MON_FILTER_NONE)
+            return GetRandomFrontierMonIgnoringSoftPartyClauses(selectedMonIds, selectedCount, FRONTIER_MON_FILTER_NONE);
+
+        do
+        {
+            monId = Random() % NUM_FRONTIER_MONS;
+        } while (gFacilityTrainerMons == gBattleFrontierMons && !IsFrontierMonPoolEntryEnabled(monId));
+        return monId;
+    }
+
+    target = Random() % count;
+    for (monId = 0; monId < NUM_FRONTIER_MONS; monId++)
+    {
+        if (IsFrontierMonSelectableIgnoringSoftPartyClauses(monId, selectedMonIds, selectedCount, filter))
+        {
+            if (target == 0)
+                return monId;
+            target--;
+        }
+    }
+
+    return 0;
+}
+
+// Draws from the whole pool and keeps the first selectable entry. That is the same uniform choice
+// among selectable entries as counting them first, without testing all of them for every pick:
+// the full pool made the Dome lobby's random results tree take seconds. A narrow filter may miss
+// every draw; the exact count below decides then.
+#define FRONTIER_MON_RANDOM_DRAWS 64
+
+u16 GetRandomFrontierMonFromFullPoolWithFilter(const u16 *selectedMonIds, u8 selectedCount, const u16 *excludedMonIds, u8 excludedMonIdCount, const enum Species *excludedSpecies, u8 excludedSpeciesCount, u8 filter)
+{
+    u16 monId;
+    u16 count;
+    u16 target;
+    u32 draw;
+
+    // The pool checks read species and items through gFacilityTrainerMons. Callers such as the
+    // Dome's tournament setup draw before setting the facility pointers, and a stale pointer
+    // let banned species through the restricted-legendary rule.
+    gFacilityTrainerMons = gBattleFrontierMons;
+
+    for (draw = 0; draw < FRONTIER_MON_RANDOM_DRAWS; draw++)
+    {
+        monId = Random() % NUM_FRONTIER_MONS;
+        if (FrontierMonMatchesPoolFilter(monId, filter)
+            && IsFrontierMonSelectableForParty(monId, selectedMonIds, selectedCount, excludedMonIds, excludedMonIdCount, excludedSpecies, excludedSpeciesCount))
+            return monId;
+    }
+
+    count = CountSelectableFrontierMons(selectedMonIds, selectedCount, excludedMonIds, excludedMonIdCount, excludedSpecies, excludedSpeciesCount, filter);
+    if (count == 0)
+        return GetRandomFrontierMonIgnoringSoftPartyClauses(selectedMonIds, selectedCount, filter);
+
+    target = Random() % count;
+    for (monId = 0; monId < NUM_FRONTIER_MONS; monId++)
+    {
+        if (FrontierMonMatchesPoolFilter(monId, filter)
+            && IsFrontierMonSelectableForParty(monId, selectedMonIds, selectedCount, excludedMonIds, excludedMonIdCount, excludedSpecies, excludedSpeciesCount))
+        {
+            if (target == 0)
+                return monId;
+            target--;
+        }
+    }
+
+    return GetRandomFrontierMonIgnoringSoftPartyClauses(selectedMonIds, selectedCount, filter);
+}
+
+u16 GetRandomFrontierMonFromFullPool(const u16 *selectedMonIds, u8 selectedCount, const u16 *excludedMonIds, u8 excludedMonIdCount, const enum Species *excludedSpecies, u8 excludedSpeciesCount)
+{
+    return GetRandomFrontierMonFromFullPoolWithFilter(selectedMonIds, selectedCount, excludedMonIds, excludedMonIdCount, excludedSpecies, excludedSpeciesCount, FRONTIER_MON_FILTER_NONE);
+}
+
 
 void FrontierSpeechToString(const u16 *words)
 {

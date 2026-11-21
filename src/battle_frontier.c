@@ -199,21 +199,55 @@ void FillFrontierTrainersParties(u8 monsCount)
     FillTrainerParty(TRAINER_BATTLE_PARAM.opponentB, B_TRAINER_OPPONENT_B, monsCount);
 }
 
+static u8 GetForcedFrontierMonPoolFilter(u8 partySlot, u8 monCount)
+{
+    if (gBattleTypeFlags & BATTLE_TYPE_PYRAMID)
+        return FRONTIER_MON_FILTER_NONE;
+
+    bool8 forceSpecialStone = gSaveBlock2Ptr->frontier.curChallengeBattleNum >= 3;
+    bool8 forceBannedSpecies = forceSpecialStone && FlagGet(FLAG_FRONTIER_ALLOW_BANNED_SPECIES);
+
+    if (!forceSpecialStone)
+        return FRONTIER_MON_FILTER_NONE;
+
+    if (partySlot == 0)
+    {
+        if (forceBannedSpecies && monCount > 1)
+            return FRONTIER_MON_FILTER_SPECIAL_STONE_NOT_BANNED;
+        return FRONTIER_MON_FILTER_SPECIAL_STONE;
+    }
+
+    if (forceBannedSpecies && partySlot == 1)
+        return FRONTIER_MON_FILTER_BANNED_SPECIES;
+
+    return FRONTIER_MON_FILTER_NONE;
+}
+
+static bool8 PartyHasSpeciesSubjectToBannedLimit(enum BattleTrainer trainer)
+{
+    u32 i;
+
+    for (i = 0; i < PARTY_SIZE; i++)
+    {
+        if (IsFrontierSpeciesSubjectToBannedLimit(GetMonData(&gParties[trainer][i], MON_DATA_SPECIES)))
+            return TRUE;
+    }
+
+    return FALSE;
+}
+
 static void FillTrainerParty(u16 trainerId, enum BattleTrainer trainer, u8 monCount)
 {
     s32 i, j;
     u16 chosenMonIndices[MAX_FRONTIER_PARTY_SIZE];
     u8 level = SetFacilityPtrsGetLevel();
     u8 fixedIV = 0;
-    u8 bfMonCount;
-    const u16 *monSet = NULL;
     u32 otID = 0;
 
     if (trainerId < FRONTIER_TRAINERS_COUNT)
     {
         // Normal battle frontier trainer.
         fixedIV = GetFrontierTrainerFixedIvs(trainerId);
-        monSet = gFacilityTrainers[trainerId].monSet;
     }
     else if (trainerId == TRAINER_EREADER)
     {
@@ -250,50 +284,22 @@ static void FillTrainerParty(u16 trainerId, enum BattleTrainer trainer, u8 monCo
     }
 
     // Regular battle frontier trainer.
+    // The two opponents of a multi battle (or of the Pike and Pyramid two-Trainer battles) are
+    // one side: the second may not bring a banned species when the first already has one.
+    bool8 sideHasBannedSpecies = trainer == B_TRAINER_OPPONENT_B && PartyHasSpeciesSubjectToBannedLimit(B_TRAINER_OPPONENT_A);
+
     // Attempt to fill the trainer's party with random Pokemon until 3 have been
     // successfully chosen. The trainer's party may not have duplicate Pokemon species
     // or duplicate held items.
-    for (bfMonCount = 0; monSet[bfMonCount] != 0xFFFF; bfMonCount++)
-        ;
     i = 0;
     otID = Random32();
+    SetFrontierPoolSideHasBannedSpecies(sideHasBannedSpecies);
     while (i != monCount)
     {
-        u16 monId = monSet[Random() % bfMonCount];
-
-        // "High tier" Pokemon are only allowed on open level mode
-        // 20 is not a possible value for level here
-        if ((level == FRONTIER_MAX_LEVEL_50 || level == 20) && monId > FRONTIER_MONS_HIGH_TIER)
-            continue;
-
-        // Ensure this Pokemon species isn't a duplicate.
-        for (j = 0; j < i; j++)
-        {
-            if (GetMonData(&gParties[trainer][j], MON_DATA_SPECIES) == gFacilityTrainerMons[monId].species)
-                break;
-        }
-        if (j != i)
-            continue;
-
-        // Ensure this Pokemon's held item isn't a duplicate.
-        for (j = 0; j < i; j++)
-        {
-            if (GetMonData(&gParties[trainer][j], MON_DATA_HELD_ITEM) != ITEM_NONE
-             && GetMonData(&gParties[trainer][j], MON_DATA_HELD_ITEM) == gFacilityTrainerMons[monId].heldItem)
-                break;
-        }
-        if (j != i)
-            continue;
-
-        // Ensure this exact Pokemon index isn't a duplicate. This check doesn't seem necessary
-        // because the species and held items were already checked directly above.
-        for (j = 0; j < i; j++)
-        {
-            if (chosenMonIndices[j] == monId)
-                break;
-        }
-        if (j != i)
-            continue;
+        u8 poolFilter = GetForcedFrontierMonPoolFilter(i, monCount);
+        if (sideHasBannedSpecies && poolFilter == FRONTIER_MON_FILTER_BANNED_SPECIES)
+            poolFilter = FRONTIER_MON_FILTER_NONE;
+        u16 monId = GetRandomFrontierMonFromFullPoolWithFilter(chosenMonIndices, i, NULL, 0, NULL, 0, poolFilter);
 
         chosenMonIndices[i] = monId;
 
@@ -304,6 +310,7 @@ static void FillTrainerParty(u16 trainerId, enum BattleTrainer trainer, u8 monCo
         // the next party slot.
         i++;
     }
+    SetFrontierPoolSideHasBannedSpecies(FALSE);
 }
 
 void CreateFacilityMon(const struct TrainerMon *fmon, u16 level, u8 fixedIV, u32 otID, u32 flags, struct Pokemon *dst)
