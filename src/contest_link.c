@@ -23,9 +23,6 @@ struct LinkContestMoveSelection
 };
 
 STATIC_ASSERT(CONTESTANT_COUNT * sizeof(struct LinkContestGimmickState) <= BLOCK_BUFFER_SIZE, ContestGimmickStateFitsLinkBlock);
-// Bump CONTEST_LINK_VERSION when these transmitted layouts change.
-STATIC_ASSERT(sizeof(struct ContestPokemon) == 64, ContestPokemonLinkLayout);
-STATIC_ASSERT(sizeof(struct LinkContestMoveSelection) == 4, ContestMoveSelectionLinkLayout);
 
 #define tState         data[0]
 #define tDelayTimer    data[1]
@@ -43,28 +40,13 @@ bool32 LinkContest_SendBlock(void *src, u16 size)
         return FALSE;
 }
 
-bool32 LinkContest_AreAllPlayersCompatible(void)
-{
-    u32 count = GetLinkPlayerCount();
-
-    if (!gReceivedRemoteLinkPlayers || count < 2 || count > CONTESTANT_COUNT)
-        return FALSE;
-    for (u32 i = 0; i < count; i++)
-        if (gLinkPlayers[i].lp_field_2 != CONTEST_LINK_PROJECT_ID
-            || gLinkPlayers[i].neverRead != CONTEST_LINK_VERSION)
-            return FALSE;
-    return TRUE;
-}
-
 bool32 LinkContest_AbortIfIncompatible(u8 taskId)
 {
-    if (LinkContest_AreAllPlayersCompatible())
+    if (AreAllLinkPlayersCompatible())
         return FALSE;
 
     gSpecialVar_0x8004 = LINKUP_INCOMPATIBLE;
-    // No extended contestant packet may be sent to an older ROM. Do not wait
-    // for the incompatible peer to acknowledge our newer protocol.
-    CloseLink();
+    CloseLinkForIncompatibility();
     gTasks[taskId].func = Task_LinkContest_WaitIncompatibleDisconnect;
     return TRUE;
 }

@@ -10,7 +10,6 @@
 #include "move.h"
 #include "sprite.h"
 #include "task.h"
-#include "union_room.h"
 #include "test/link.h"
 #include "test/test.h"
 #include "constants/items.h"
@@ -46,62 +45,6 @@ static void FreeContest(void)
     FREE_AND_SET_NULL(gContestResources->excitement);
     FREE_AND_SET_NULL(gContestResources);
     gLinkContestFlags = 0;
-}
-
-TEST("Contest link: only matching contest packets are accepted before contestant transfer")
-{
-    u32 count = 2;
-    for (u32 n = 2; n <= CONTESTANT_COUNT; n++)
-        PARAMETRIZE { count = n; }
-
-    gWirelessCommType = FALSE;
-    gLinkStatus = count << LINK_STAT_PLAYER_COUNT_SHIFT;
-    gReceivedRemoteLinkPlayers = TRUE;
-    memset(gLinkPlayers, 0, sizeof(gLinkPlayers));
-    for (u32 i = 0; i < count; i++)
-    {
-        gLinkPlayers[i].lp_field_2 = CONTEST_LINK_PROJECT_ID;
-        gLinkPlayers[i].neverRead = CONTEST_LINK_VERSION;
-    }
-    EXPECT(LinkContest_AreAllPlayersCompatible());
-    for (u32 i = 0; i < count; i++)
-    {
-        gLinkPlayers[i].lp_field_2 = 0x8000;
-        EXPECT(!LinkContest_AreAllPlayersCompatible());
-        gLinkPlayers[i].lp_field_2 = CONTEST_LINK_PROJECT_ID;
-        gLinkPlayers[i].neverRead = CONTEST_LINK_VERSION + 1;
-        EXPECT(!LinkContest_AreAllPlayersCompatible());
-        gLinkPlayers[i].neverRead = CONTEST_LINK_VERSION;
-    }
-    gReceivedRemoteLinkPlayers = FALSE;
-    EXPECT(!LinkContest_AreAllPlayersCompatible());
-    gLinkStatus = 0;
-}
-
-TEST("Contest link: cable and wireless advertise contest metadata without tagging other activities")
-{
-    const u16 linkTypes[] = {LINKTYPE_CONTEST_GMODE, LINKTYPE_CONTEST_EMODE, LINKTYPE_TRADE};
-    for (u32 wireless = 0; wireless <= 1; wireless++)
-    {
-        gWirelessCommType = wireless;
-        for (u32 i = 0; i < ARRAY_COUNT(linkTypes); i++)
-        {
-            gLinkType = linkTypes[i];
-            gPlayerCurrActivity = i < 2 ? ACTIVITY_CONTEST_COOL : ACTIVITY_TRADE;
-            LocalLinkPlayerToBlock();
-            EXPECT_EQ(gLocalLinkPlayer.lp_field_2, i < 2 ? CONTEST_LINK_PROJECT_ID : 0x8000);
-            EXPECT_EQ(gLocalLinkPlayer.neverRead, i < 2 ? CONTEST_LINK_VERSION : 0);
-        }
-    }
-    gWirelessCommType = TRUE;
-    gLinkType = LINKTYPE_CONTEST_EMODE;
-    gPlayerCurrActivity = ACTIVITY_TRADE;
-    LocalLinkPlayerToBlock();
-    EXPECT_EQ(gLocalLinkPlayer.lp_field_2, 0x8000);
-    EXPECT_EQ(gLocalLinkPlayer.neverRead, 0);
-    gWirelessCommType = FALSE;
-    gLinkType = 0;
-    gPlayerCurrActivity = 0;
 }
 
 TEST("Link audit: contest gameplay snapshot preserves local sprite IDs and animation caches")

@@ -6,7 +6,6 @@ void Task_LinkContest_CommunicateFinalStandings(u8 taskId);
 void Task_LinkContest_Init(u8 taskId);
 void Task_LinkContest_CommunicateMonsRS(u8 taskId);
 bool32 LinkContest_AbortIfIncompatible(u8 taskId);
-bool32 LinkContest_AreAllPlayersCompatible(void);
 void Task_LinkContest_CommunicateRngRS(u8 taskId);
 void Task_LinkContest_CommunicateLeaderIdsRS(u8 taskId);
 void Task_LinkContest_CommunicateCategoryRS(u8 taskId);

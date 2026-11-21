@@ -855,23 +855,15 @@ LilycoveCity_ContestLobby_EventScript_TrySetUpLinkContest::
 	goto_if_eq VAR_RESULT, LINKUP_FAILED, LilycoveCity_ContestLobby_EventScript_CancelLinkContest
 	goto_if_eq VAR_RESULT, LINKUP_CONNECTION_ERROR, LilycoveCity_ContestLobby_EventScript_CancelLinkError
 	goto_if_eq VAR_RESULT, LINKUP_FAILED_CONTEST_GMODE, LilycoveCity_ContestLobby_EventScript_CancelLinkModeDifference
+	goto_if_eq VAR_RESULT, LINKUP_INCOMPATIBLE, CableClub_EventScript_AbortLinkIncompatible
 	messageinstant LilycoveCity_ContestLobby_Text_Transmitting
 	contestlinktransfer
 	switch VAR_0x8004
 	case 0, LilycoveCity_ContestLobby_EventScript_StartLinkContest
 	case 1, LilycoveCity_ContestLobby_EventScript_CancelLinkDifferentContest
 	case 2, LilycoveCity_ContestLobby_EventScript_CancelLinkTransmissionError
-	case LINKUP_INCOMPATIBLE, LilycoveCity_ContestLobby_EventScript_CancelIncompatibleContest
+	case LINKUP_INCOMPATIBLE, CableClub_EventScript_AbortLinkIncompatible
 	end
-
-LilycoveCity_ContestLobby_EventScript_CancelIncompatibleContest::
-	lockall
-	msgbox LilycoveCity_ContestLobby_Text_IncompatibleContest, MSGBOX_DEFAULT
-	releaseall
-	end
-
-LilycoveCity_ContestLobby_Text_IncompatibleContest:
-	.string "おなじ バージョンの ROMで\nコンテストに さんか してください。$"
 
 LilycoveCity_ContestLobby_EventScript_TryLinkEMode::
 	special TryContestEModeLinkup
@@ -971,6 +963,7 @@ LilycoveCity_ContestLobby_EventScript_DecideLinkLeader::
 LilycoveCity_ContestLobby_EventScript_TryLeadGroup::
 	call LilycoveCity_ContestLobby_EventScript_TryBecomeLinkLeader
 	goto_if_eq VAR_RESULT, LINKUP_SUCCESS, LilycoveCity_ContestLobby_EventScript_LinkLeaderDecided
+	goto_if_eq VAR_RESULT, LINKUP_INCOMPATIBLE, CableClub_EventScript_AbortLinkIncompatible
 	goto_if_eq VAR_RESULT, LINKUP_FAILED, LilycoveCity_ContestLobby_EventScript_DecideLinkLeader
 	goto_if_eq VAR_RESULT, LINKUP_RETRY_ROLE_ASSIGN, LilycoveCity_ContestLobby_EventScript_TryLeadGroup
 	release
@@ -979,6 +972,7 @@ LilycoveCity_ContestLobby_EventScript_TryLeadGroup::
 LilycoveCity_ContestLobby_EventScript_TryJoinGroup::
 	call LilycoveCity_ContestLobby_EventScript_TryJoinLinkGroup
 	goto_if_eq VAR_RESULT, LINKUP_SUCCESS, LilycoveCity_ContestLobby_EventScript_LinkLeaderDecided
+	goto_if_eq VAR_RESULT, LINKUP_INCOMPATIBLE, CableClub_EventScript_AbortLinkIncompatible
 	goto_if_eq VAR_RESULT, LINKUP_FAILED, LilycoveCity_ContestLobby_EventScript_DecideLinkLeader
 	goto_if_eq VAR_RESULT, LINKUP_RETRY_ROLE_ASSIGN, LilycoveCity_ContestLobby_EventScript_TryJoinGroup
 	release
@@ -995,7 +989,6 @@ LilycoveCity_ContestLobby_EventScript_TryJoinLinkGroup::
 LilycoveCity_ContestLobby_EventScript_LinkLeaderDecided::
 	messageinstant LilycoveCity_ContestLobby_Text_Transmitting
 	contestlinktransfer
-	goto_if_eq VAR_0x8004, LINKUP_INCOMPATIBLE, LilycoveCity_ContestLobby_EventScript_CancelIncompatibleContest
 	goto LilycoveCity_ContestLobby_EventScript_StartLinkContest
 	end
 

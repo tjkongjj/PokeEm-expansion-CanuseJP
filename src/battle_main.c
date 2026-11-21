@@ -875,6 +875,27 @@ void Test_RunLinkBattleStartState(bool32 preview)
 }
 #endif
 
+#define LINK_BATTLE_COMPAT_ABORT_STATE 0xFE
+
+static void AbortIncompatibleLinkBattleStart(void)
+{
+    gSpecialVar_Result = LINKUP_INCOMPATIBLE;
+    CloseLinkForIncompatibility();
+    gBattleCommunication[MULTIUSE_STATE] = LINK_BATTLE_COMPAT_ABORT_STATE;
+}
+
+static void FinishIncompatibleLinkBattleAbort(void)
+{
+    gScanlineEffect.state = 3;
+    gMain.inBattle = FALSE;
+    FreeMonSpritesGfx();
+    FreeBattleSpritesData();
+    FreeBattleResources();
+    FreeAllWindowBuffers();
+    ResetDynamicAiFunctions();
+    SetMainCallback2(CB2_ReturnToFieldFromLinkIncompatible);
+}
+
 static void CB2_HandleStartBattle(void)
 {
     u8 playerMultiplayerId;
@@ -908,6 +929,11 @@ static void CB2_HandleStartBattle(void)
         {
             if (gReceivedRemoteLinkPlayers)
             {
+                if (!AreAllLinkPlayersCompatible())
+                {
+                    AbortIncompatibleLinkBattleStart();
+                    break;
+                }
                 if (IsLinkTaskFinished())
                 {
                     // 0x300
@@ -1071,6 +1097,10 @@ static void CB2_HandleStartBattle(void)
                 gBattleTypeFlags |= BATTLE_TYPE_LINK_IN_BATTLE;
         }
         break;
+    case LINK_BATTLE_COMPAT_ABORT_STATE:
+        if (!gReceivedRemoteLinkPlayers)
+            FinishIncompatibleLinkBattleAbort();
+        break;
     // Introduce short delays between sending party Pokemon for link
     case 5:
     case 9:
@@ -1119,6 +1149,11 @@ static void CB2_HandleStartMultiPartnerBattle(void)
         {
             if (gReceivedRemoteLinkPlayers)
             {
+                if (!AreAllLinkPlayersCompatible())
+                {
+                    AbortIncompatibleLinkBattleStart();
+                    break;
+                }
                 u8 language;
 
                 gLinkPlayers[0].id = 0;
@@ -1376,6 +1411,10 @@ static void CB2_HandleStartMultiPartnerBattle(void)
                 gBattleTypeFlags |= BATTLE_TYPE_LINK_IN_BATTLE;
         }
         break;
+    case LINK_BATTLE_COMPAT_ABORT_STATE:
+        if (!gReceivedRemoteLinkPlayers)
+            FinishIncompatibleLinkBattleAbort();
+        break;
     }
 }
 
@@ -1571,6 +1610,11 @@ static void CB2_HandleStartMultiBattle(void)
         {
             if (gReceivedRemoteLinkPlayers)
             {
+                if (!AreAllLinkPlayersCompatible())
+                {
+                    AbortIncompatibleLinkBattleStart();
+                    break;
+                }
                 if (IsLinkTaskFinished())
                 {
                     // 0x300
@@ -1767,8 +1811,14 @@ static void CB2_HandleStartMultiBattle(void)
             }
         }
         break;
+    case LINK_BATTLE_COMPAT_ABORT_STATE:
+        if (!gReceivedRemoteLinkPlayers)
+            FinishIncompatibleLinkBattleAbort();
+        break;
     }
 }
+
+#undef LINK_BATTLE_COMPAT_ABORT_STATE
 
 void BattleMainCB2(void)
 {

@@ -6,11 +6,6 @@
 #define CONTEST_LAST_APPEAL (CONTEST_NUM_APPEALS - 1)
 #define MAX_CONTEST_MOVE_HEARTS 8
 
-// Contest-only wire format for this Japanese base. Do not advertise the
-// Frontierhack branch's broader battle/trade protocol as compatible.
-#define CONTEST_LINK_PROJECT_ID 0x4A43
-#define CONTEST_LINK_VERSION 1
-
 #define CONTEST_SHOP_PRICE 10
 #define CONTEST_SHOP_RAINBOW_POKEBLOCK 0
 #define CONTEST_SHOP_RED_SCARF 1
