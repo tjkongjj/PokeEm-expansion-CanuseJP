@@ -230,6 +230,7 @@ gSpecials::
 	def_special GetPokeblockFeederInFront
 	def_special OpenPokeblockCaseOnFeeder, waitstate=1
 	def_special IsMirageIslandPresent
+	def_special SetMirageIslandVisibility
 	def_special UpdateShoalTideFlag
 	def_special InitBirchState
 	def_special ScriptGetPokedexInfo

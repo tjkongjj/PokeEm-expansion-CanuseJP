@@ -42,16 +42,19 @@ void UpdateMirageRnd(u16 days)
     SetMirageRnd(rnd);
 }
 
+void SetMirageIslandVisibility(void)
+{
+    // Rolled every time Route 130 is entered, like Mirage Tower on Route 111,
+    // instead of the vanilla daily personality-value match.
+    if ((Random() & 0xF) == 0)
+        FlagSet(FLAG_MIRAGE_ISLAND_VISIBLE);
+    else
+        FlagClear(FLAG_MIRAGE_ISLAND_VISIBLE);
+}
+
 bool8 IsMirageIslandPresent(void)
 {
-    u16 rnd = GetMirageRnd() >> 16;
-    int i;
-
-    for (i = 0; i < PARTY_SIZE; i++)
-        if (GetMonData(&gParties[B_TRAINER_PLAYER][i], MON_DATA_SPECIES) && (GetMonData(&gParties[B_TRAINER_PLAYER][i], MON_DATA_PERSONALITY) & 0xFFFF) == rnd)
-            return TRUE;
-
-    return FALSE;
+    return FlagGet(FLAG_MIRAGE_ISLAND_VISIBLE);
 }
 
 void UpdateShoalTideFlag(void)
