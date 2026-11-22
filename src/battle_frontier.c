@@ -30,9 +30,81 @@ EWRAM_DATA const struct TrainerMon *gFacilityTrainerMons = NULL;
 // IWRAM common
 COMMON_DATA u16 gFrontierTempParty[MAX_FRONTIER_PARTY_SIZE] = {0};
 
+static EWRAM_DATA u8 sFactoryOpponentOriginalEVs[FRONTIER_PARTY_SIZE][NUM_STATS] = {0};
+static EWRAM_DATA bool8 sRestoreFactoryOpponentEVs = FALSE;
+
+static const enum BattleTrainer sFrontierOpponents[] = {B_TRAINER_OPPONENT_A, B_TRAINER_OPPONENT_B};
+
+// Opponent handicaps only apply to local Frontier trainer battles.
+static bool32 CanHandicapFrontierOpponents(u32 facility, u32 mode)
+{
+    return (gBattleTypeFlags & BATTLE_TYPE_FRONTIER)
+        && (gBattleTypeFlags & BATTLE_TYPE_TRAINER)
+        && !(gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_RECORDED | BATTLE_TYPE_RECORDED_LINK))
+        && facility < NUM_FRONTIER_FACILITIES
+        && mode < FRONTIER_MODE_LINK_MULTIS
+        && (facility == FRONTIER_FACILITY_TOWER || mode <= FRONTIER_MODE_DOUBLES)
+        && gSaveBlock2Ptr->frontier.lvlMode < FRONTIER_LVL_MODE_COUNT;
+}
+
+// かんたん: Frontier opponents battle without EVs. The player's own Pokemon,
+// including Factory rentals, keep theirs.
+static void ApplyFrontierEasyOpponentEVs(void)
+{
+    u32 facility = VarGet(VAR_FRONTIER_FACILITY);
+    u32 mode = VarGet(VAR_FRONTIER_BATTLE_MODE);
+    u32 trainer, slot, stat;
+    u8 zero = 0;
+
+    sRestoreFactoryOpponentEVs = FALSE;
+    if (VarGet(VAR_FRONTIER_AI_LEVEL) != FRONTIER_AI_LEVEL_EASY || !CanHandicapFrontierOpponents(facility, mode))
+        return;
+
+    for (trainer = 0; trainer < ARRAY_COUNT(sFrontierOpponents); trainer++)
+    {
+        for (slot = 0; slot < PARTY_SIZE; slot++)
+        {
+            struct Pokemon *mon = &gParties[sFrontierOpponents[trainer]][slot];
+            if (GetMonData(mon, MON_DATA_SPECIES_OR_EGG) == SPECIES_NONE
+                || GetMonData(mon, MON_DATA_IS_EGG))
+                continue;
+
+            for (stat = 0; stat < NUM_STATS; stat++)
+            {
+                if (facility == FRONTIER_FACILITY_FACTORY && sFrontierOpponents[trainer] == B_TRAINER_OPPONENT_A && slot < FRONTIER_PARTY_SIZE)
+                    sFactoryOpponentOriginalEVs[slot][stat] = GetMonData(mon, MON_DATA_HP_EV + stat);
+                SetMonData(mon, MON_DATA_HP_EV + stat, &zero);
+            }
+            CalculateMonStats(mon);
+        }
+    }
+    sRestoreFactoryOpponentEVs = facility == FRONTIER_FACILITY_FACTORY;
+}
+
+// Factory opponents can be swapped into the player's rentals after the battle.
+static void RestoreFactoryOpponentEVs(void)
+{
+    u32 slot, stat;
+    if (!sRestoreFactoryOpponentEVs)
+        return;
+    sRestoreFactoryOpponentEVs = FALSE;
+    for (slot = 0; slot < FRONTIER_PARTY_SIZE; slot++)
+    {
+        struct Pokemon *mon = &gParties[B_TRAINER_OPPONENT_A][slot];
+        if (GetMonData(mon, MON_DATA_SPECIES_OR_EGG) == SPECIES_NONE)
+            continue;
+        for (stat = 0; stat < NUM_STATS; stat++)
+            SetMonData(mon, MON_DATA_HP_EV + stat, &sFactoryOpponentOriginalEVs[slot][stat]);
+        CalculateMonStats(mon);
+    }
+    memset(sFactoryOpponentOriginalEVs, 0, sizeof(sFactoryOpponentOriginalEVs));
+}
+
 static void HandleFacilityTrainerBattleEnd(void)
 {
     u8 facility = gBattleScripting.specialTrainerBattleType;
+    if (facility == FACILITY_BATTLE_FACTORY)
+        RestoreFactoryOpponentEVs();
     switch (facility)
     {
     case FACILITY_BATTLE_TOWER:
@@ -170,6 +242,9 @@ static void DoFacilityTrainerBattleInternal(u8 facility)
     default:
         break;
     }
+
+    if (facility <= FACILITY_BATTLE_PYRAMID)
+        ApplyFrontierEasyOpponentEVs();
 }
 
 void DoFacilityTrainerBattle(struct ScriptContext *ctx)

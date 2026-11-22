@@ -15,6 +15,7 @@
 #include "text_window.h"
 #include "window.h"
 #include "gba/m4a_internal.h"
+#include "constants/battle_frontier.h"
 #include "constants/rgb.h"
 
 #define tMenuSelection data[0]
@@ -25,6 +26,7 @@
 #define tButtonMode data[5]
 #define tWindowFrameType data[6]
 #define tBannedSpecies data[7]
+#define tFrontierAi data[8]    // index in sFrontierAiLevels, easiest first
 
 enum
 {
@@ -35,6 +37,7 @@ enum
     MENUITEM_BUTTONMODE,
     MENUITEM_FRAMETYPE,
     MENUITEM_BANNEDSPECIES,
+    MENUITEM_FRONTIERAI,
     MENUITEM_CANCEL,
     MENUITEM_COUNT,
 };
@@ -57,6 +60,7 @@ enum
 #define YPOS_BUTTONMODE   ((MENUITEM_BUTTONMODE - sScrollOffset) * 16)
 #define YPOS_FRAMETYPE    ((MENUITEM_FRAMETYPE - sScrollOffset) * 16)
 #define YPOS_BANNEDSPECIES ((MENUITEM_BANNEDSPECIES - sScrollOffset) * 16)
+#define YPOS_FRONTIERAI   ((MENUITEM_FRONTIERAI - sScrollOffset) * 16)
 
 static void Task_OptionMenuFadeIn(u8 taskId);
 static void Task_OptionMenuProcessInput(u8 taskId);
@@ -77,6 +81,8 @@ static u8 ButtonMode_ProcessInput(u8 selection);
 static void ButtonMode_DrawChoices(u8 selection);
 static u8 BannedSpecies_ProcessInput(u8 selection);
 static void BannedSpecies_DrawChoices(u8 selection);
+static u8 FrontierAi_ProcessInput(u8 selection);
+static void FrontierAi_DrawChoices(u8 selection);
 static void AdjustOptionMenuScroll(u8 taskId);
 static void RedrawOptionMenu(u8 taskId);
 static void DrawOptionMenuTexts(void);
@@ -103,6 +109,43 @@ static const u8 gText_ButtonTypeLR[]       = _("{COLOR GREEN}{SHADOW LIGHT_GREEN
 static const u8 gText_ButtonTypeLEqualsA[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}L=A");
 static const u8 gText_BannedSpeciesDeny[]  = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}みとめない");
 static const u8 gText_BannedSpeciesAllow[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}みとめる");
+static const u8 gText_FrontierAiEasy[]      = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}かんたん");
+static const u8 gText_FrontierAiNormal[]    = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}いつもの");
+static const u8 gText_FrontierAiHard[]      = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}むずかしい");
+static const u8 gText_FrontierAiStrongest[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}さいきょう");
+static const u8 gText_FrontierAiLeftArrow[]  = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}{LEFT_ARROW}");
+static const u8 gText_FrontierAiRightArrow[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}{RIGHT_ARROW}");
+
+static const u8 *const sText_FrontierAiLevels[] =
+{
+    gText_FrontierAiEasy,
+    gText_FrontierAiNormal,
+    gText_FrontierAiHard,
+    gText_FrontierAiStrongest,
+};
+
+// The frontier AI difficulty settings, easiest first. The values match VAR_FRONTIER_AI_LEVEL.
+static const u16 sFrontierAiLevels[] =
+{
+    FRONTIER_AI_LEVEL_EASY,
+    FRONTIER_AI_LEVEL_NORMAL,
+    FRONTIER_AI_LEVEL_HARD,
+    FRONTIER_AI_LEVEL_STRONGEST,
+};
+STATIC_ASSERT(ARRAY_COUNT(sText_FrontierAiLevels) == ARRAY_COUNT(sFrontierAiLevels), FrontierAiLevelNames);
+
+static u8 GetFrontierAiIndex(void)
+{
+    u16 level = VarGet(VAR_FRONTIER_AI_LEVEL);
+    u32 i;
+
+    for (i = 0; i < ARRAY_COUNT(sFrontierAiLevels); i++)
+    {
+        if (sFrontierAiLevels[i] == level)
+            return i;
+    }
+    return 1; // FRONTIER_AI_LEVEL_NORMAL
+}
 
 static const u16 sOptionMenuText_Pal[] = INCGFX_U16("graphics/interface/option_menu_text.pal", ".gbapal");
 // note: this is only used in the Japanese release
@@ -117,6 +160,7 @@ static const u8 *const sOptionMenuItemsNames[MENUITEM_COUNT] =
     [MENUITEM_BUTTONMODE]  = COMPOUND_STRING("ボタンモード"),
     [MENUITEM_FRAMETYPE]   = COMPOUND_STRING("ウィンドウ"),
     [MENUITEM_BANNEDSPECIES] = COMPOUND_STRING("きんしポケモン"),
+    [MENUITEM_FRONTIERAI]  = COMPOUND_STRING("AIの つよさ"),
     [MENUITEM_CANCEL]      = COMPOUND_STRING("もどる"),
 };
 
@@ -269,6 +313,7 @@ void CB2_InitOptionMenu(void)
         gTasks[taskId].tButtonMode = gSaveBlock2Ptr->optionsButtonMode;
         gTasks[taskId].tWindowFrameType = gSaveBlock2Ptr->optionsWindowFrameType;
         gTasks[taskId].tBannedSpecies = FlagGet(FLAG_FRONTIER_ALLOW_BANNED_SPECIES);
+        gTasks[taskId].tFrontierAi = GetFrontierAiIndex();
 
         TextSpeed_DrawChoices(gTasks[taskId].tTextSpeed);
         BattleScene_DrawChoices(gTasks[taskId].tBattleSceneOff);
@@ -277,6 +322,7 @@ void CB2_InitOptionMenu(void)
         ButtonMode_DrawChoices(gTasks[taskId].tButtonMode);
         FrameType_DrawChoices(gTasks[taskId].tWindowFrameType);
         BannedSpecies_DrawChoices(gTasks[taskId].tBannedSpecies);
+        FrontierAi_DrawChoices(gTasks[taskId].tFrontierAi);
         HighlightOptionMenuItem(gTasks[taskId].tMenuSelection);
 
         CopyWindowToVram(WIN_OPTIONS, COPYWIN_FULL);
@@ -381,6 +427,13 @@ static void Task_OptionMenuProcessInput(u8 taskId)
             if (previousOption != gTasks[taskId].tBannedSpecies)
                 BannedSpecies_DrawChoices(gTasks[taskId].tBannedSpecies);
             break;
+        case MENUITEM_FRONTIERAI:
+            previousOption = gTasks[taskId].tFrontierAi;
+            gTasks[taskId].tFrontierAi = FrontierAi_ProcessInput(gTasks[taskId].tFrontierAi);
+
+            if (previousOption != gTasks[taskId].tFrontierAi)
+                FrontierAi_DrawChoices(gTasks[taskId].tFrontierAi);
+            break;
         default:
             return;
         }
@@ -406,6 +459,8 @@ static void Task_OptionMenuSave(u8 taskId)
         FlagSet(FLAG_FRONTIER_ALLOW_BANNED_SPECIES);
     else
         FlagClear(FLAG_FRONTIER_ALLOW_BANNED_SPECIES);
+
+    VarSet(VAR_FRONTIER_AI_LEVEL, sFrontierAiLevels[gTasks[taskId].tFrontierAi]);
 
     BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 16, RGB_BLACK);
     gTasks[taskId].func = Task_OptionMenuFadeOut;
@@ -467,6 +522,8 @@ static void RedrawOptionMenu(u8 taskId)
         FrameType_DrawChoices(gTasks[taskId].tWindowFrameType);
     if (IsOptionMenuItemVisible(MENUITEM_BANNEDSPECIES))
         BannedSpecies_DrawChoices(gTasks[taskId].tBannedSpecies);
+    if (IsOptionMenuItemVisible(MENUITEM_FRONTIERAI))
+        FrontierAi_DrawChoices(gTasks[taskId].tFrontierAi);
 
     CopyWindowToVram(WIN_OPTIONS, COPYWIN_GFX);
 }
@@ -730,6 +787,33 @@ static void BannedSpecies_DrawChoices(u8 selection)
 
     DrawOptionMenuChoice(gText_BannedSpeciesDeny, 104, YPOS_BANNEDSPECIES, styles[0]);
     DrawOptionMenuChoice(gText_BannedSpeciesAllow, GetStringRightAlignXOffset(FONT_NORMAL, gText_BannedSpeciesAllow, 198), YPOS_BANNEDSPECIES, styles[1]);
+}
+
+static u8 FrontierAi_ProcessInput(u8 selection)
+{
+    if (JOY_NEW(DPAD_RIGHT))
+    {
+        selection = selection < ARRAY_COUNT(sFrontierAiLevels) - 1 ? selection + 1 : 0;
+        sArrowPressed = TRUE;
+    }
+    if (JOY_NEW(DPAD_LEFT))
+    {
+        selection = selection != 0 ? selection - 1 : ARRAY_COUNT(sFrontierAiLevels) - 1;
+        sArrowPressed = TRUE;
+    }
+    return selection;
+}
+
+static void FrontierAi_DrawChoices(u8 selection)
+{
+    if (YPOS_FRONTIERAI < 0 || YPOS_FRONTIERAI >= MENUITEM_VISIBLE_COUNT * 16)
+        return;
+    FillWindowPixelRect(WIN_OPTIONS, PIXEL_FILL(1), 104, YPOS_FRONTIERAI, 198 - 104, 16);
+    DrawOptionMenuChoice(gText_FrontierAiLeftArrow, 104, YPOS_FRONTIERAI, 0);
+    DrawOptionMenuChoice(sText_FrontierAiLevels[selection],
+        GetStringCenterAlignXOffset(FONT_NORMAL, sText_FrontierAiLevels[selection], 198 - 104) + 104, YPOS_FRONTIERAI, 1);
+    DrawOptionMenuChoice(gText_FrontierAiRightArrow,
+        GetStringRightAlignXOffset(FONT_NORMAL, COMPOUND_STRING("{RIGHT_ARROW}"), 198), YPOS_FRONTIERAI, 0);
 }
 
 static void DrawHeaderText(void)
