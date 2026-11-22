@@ -59,6 +59,7 @@
 #include "trainer.h"
 #include "trainer_pokemon_sprites.h"
 #include "tv.h"
+#include "util.h"
 #include "wallclock.h"
 #include "window.h"
 #include "constants/battle_frontier.h"
