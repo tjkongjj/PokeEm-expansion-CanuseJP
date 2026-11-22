@@ -88,6 +88,7 @@ COMMON_DATA bool8 (*gMenuCallback)(void) = NULL;
 EWRAM_DATA static u8 sSafariBallsWindowId = 0;
 EWRAM_DATA static u8 sBattlePyramidFloorWindowId = 0;
 EWRAM_DATA static u8 sStartMenuCursorPos = 0;
+EWRAM_DATA static u8 sStartMenuScrollOffset = 0;
 EWRAM_DATA static u8 sNumStartMenuActions = 0;
 EWRAM_DATA static u8 sCurrentStartMenuActions[9] = {0};
 EWRAM_DATA static s8 sInitStartMenuData[2] = {0};
@@ -208,6 +209,12 @@ static const struct MenuAction sStartMenuItems[] =
     [MENU_ACTION_DEBUG]           = {sText_MenuDebug,   {.u8_void = StartMenuDebugCallback}},
     [MENU_ACTION_DEXNAV]          = {gText_MenuDexNav,  {.u8_void = StartMenuDexNavCallback}},
 };
+
+// The start menu window shows at most this many rows; longer menus scroll
+#define START_MENU_VISIBLE_ROWS 7
+
+static const u8 sText_StartMenuArrowUp[] = _("{UP_ARROW}");
+static const u8 sText_StartMenuArrowDown[] = _("{DOWN_ARROW}");
 
 // Icons in graphics/interface/start_menu_icons.png (4x3 grid of 16x16 icons)
 enum
@@ -527,22 +534,62 @@ static void RemoveExtraStartMenuWindows(void)
     }
 }
 
+static u8 GetStartMenuVisibleRows(void)
+{
+    return (sNumStartMenuActions < START_MENU_VISIBLE_ROWS) ? sNumStartMenuActions : START_MENU_VISIBLE_ROWS;
+}
+
+// Prints one action if it is inside the visible (scrolled) range; coordinates are row-relative
+static void PrintStartMenuAction(u8 index)
+{
+    u8 row;
+
+    if (index < sStartMenuScrollOffset || index >= sStartMenuScrollOffset + START_MENU_VISIBLE_ROWS)
+        return;
+
+    row = index - sStartMenuScrollOffset;
+    if (sStartMenuItems[sCurrentStartMenuActions[index]].func.u8_void == StartMenuPlayerNameCallback)
+    {
+        PrintPlayerNameOnWindow(GetStartMenuWindowId(), sStartMenuItems[sCurrentStartMenuActions[index]].text, 25, (row << 4) + 1);
+    }
+    else
+    {
+        StringExpandPlaceholders(gStringVar4, sStartMenuItems[sCurrentStartMenuActions[index]].text);
+        AddTextPrinterParameterized(GetStartMenuWindowId(), FONT_NORMAL, gStringVar4, 25, (row << 4) + 1, TEXT_SKIP_DRAW, NULL);
+    }
+    BlitStartMenuIcon(sCurrentStartMenuActions[index], 8, row << 4, index != sStartMenuCursorPos);
+}
+
+// Up/down markers in the bottom padding row, shown only when more actions are hidden that way
+static void DrawStartMenuScrollArrows(void)
+{
+    u16 y = GetStartMenuVisibleRows() << 4;
+
+    if (sStartMenuScrollOffset > 0)
+        AddTextPrinterParameterized(GetStartMenuWindowId(), FONT_NORMAL, sText_StartMenuArrowUp, 54, y, TEXT_SKIP_DRAW, NULL);
+    if (sStartMenuScrollOffset + GetStartMenuVisibleRows() < sNumStartMenuActions)
+        AddTextPrinterParameterized(GetStartMenuWindowId(), FONT_NORMAL, sText_StartMenuArrowDown, 63, y, TEXT_SKIP_DRAW, NULL);
+}
+
+static void RedrawStartMenuWindow(void)
+{
+    u8 i;
+
+    FillWindowPixelBuffer(GetStartMenuWindowId(), PIXEL_FILL(1));
+    for (i = 0; i < sNumStartMenuActions; i++)
+        PrintStartMenuAction(i);
+    DrawStartMenuScrollArrows();
+    RedrawMenuCursor(sStartMenuCursorPos - sStartMenuScrollOffset, sStartMenuCursorPos - sStartMenuScrollOffset);
+    CopyWindowToVram(GetStartMenuWindowId(), COPYWIN_GFX);
+}
+
 static bool32 PrintStartMenuActions(s8 *pIndex, u32 count)
 {
     s8 index = *pIndex;
 
     do
     {
-        if (sStartMenuItems[sCurrentStartMenuActions[index]].func.u8_void == StartMenuPlayerNameCallback)
-        {
-            PrintPlayerNameOnWindow(GetStartMenuWindowId(), sStartMenuItems[sCurrentStartMenuActions[index]].text, 25, (index << 4) + 9);
-        }
-        else
-        {
-            StringExpandPlaceholders(gStringVar4, sStartMenuItems[sCurrentStartMenuActions[index]].text);
-            AddTextPrinterParameterized(GetStartMenuWindowId(), FONT_NORMAL, gStringVar4, 25, (index << 4) + 9, TEXT_SKIP_DRAW, NULL);
-        }
-        BlitStartMenuIcon(sCurrentStartMenuActions[index], 8, (index << 4) + 8, index != sStartMenuCursorPos);
+        PrintStartMenuAction(index);
 
         index++;
         if (index >= sNumStartMenuActions)
@@ -570,6 +617,11 @@ static bool32 InitStartMenuStep(void)
         break;
     case 1:
         BuildStartMenuActions();
+        if (sStartMenuCursorPos >= sNumStartMenuActions)
+            sStartMenuCursorPos = 0;
+        // Start scrolled so the restored cursor position is visible
+        sStartMenuScrollOffset = (sStartMenuCursorPos >= START_MENU_VISIBLE_ROWS)
+            ? sStartMenuCursorPos - (START_MENU_VISIBLE_ROWS - 1) : 0;
         sInitStartMenuData[0]++;
         break;
     case 2:
@@ -592,7 +644,9 @@ static bool32 InitStartMenuStep(void)
             sInitStartMenuData[0]++;
         break;
     case 5:
-        sStartMenuCursorPos = InitMenuNormal(GetStartMenuWindowId(), FONT_NORMAL, 0, 9, 16, sNumStartMenuActions, sStartMenuCursorPos);
+        // The generic cursor works in visible rows; the absolute position stays in sStartMenuCursorPos
+        InitMenuNormal(GetStartMenuWindowId(), FONT_NORMAL, 0, 1, 16, GetStartMenuVisibleRows(), sStartMenuCursorPos - sStartMenuScrollOffset);
+        DrawStartMenuScrollArrows();
         CopyWindowToVram(GetStartMenuWindowId(), COPYWIN_GFX);
         CopyWindowToVram(GetStartMenuWindowId(), COPYWIN_MAP);
         return TRUE;
@@ -675,34 +729,50 @@ void ShowStartMenu(void)
     LockPlayerFieldControls();
 }
 
+// Moves the cursor in absolute action indices (with wrap-around) and keeps it
+// inside the visible rows, scrolling the window when it would leave them
+static void MoveStartMenuCursor(s8 delta)
+{
+    u8 prevPos = sStartMenuCursorPos;
+    u8 prevOffset = sStartMenuScrollOffset;
+    s16 newPos = (s16)sStartMenuCursorPos + delta;
+
+    if (newPos < 0)
+        newPos = sNumStartMenuActions - 1;
+    else if (newPos >= sNumStartMenuActions)
+        newPos = 0;
+    sStartMenuCursorPos = newPos;
+
+    if (sStartMenuCursorPos < sStartMenuScrollOffset)
+        sStartMenuScrollOffset = sStartMenuCursorPos;
+    else if (sStartMenuCursorPos >= sStartMenuScrollOffset + START_MENU_VISIBLE_ROWS)
+        sStartMenuScrollOffset = sStartMenuCursorPos - (START_MENU_VISIBLE_ROWS - 1);
+
+    if (sStartMenuScrollOffset != prevOffset)
+    {
+        RedrawStartMenuWindow();
+    }
+    else if (sStartMenuCursorPos != prevPos)
+    {
+        RedrawMenuCursor(prevPos - prevOffset, sStartMenuCursorPos - sStartMenuScrollOffset);
+        BlitStartMenuIcon(sCurrentStartMenuActions[prevPos], 8, (prevPos - prevOffset) << 4, TRUE);
+        BlitStartMenuIcon(sCurrentStartMenuActions[sStartMenuCursorPos], 8, (sStartMenuCursorPos - sStartMenuScrollOffset) << 4, FALSE);
+        CopyWindowToVram(GetStartMenuWindowId(), COPYWIN_GFX);
+    }
+}
+
 static bool8 HandleStartMenuInput(void)
 {
     if (JOY_NEW(DPAD_UP))
     {
-        u8 prevPos = sStartMenuCursorPos;
-
         PlaySE(SE_SELECT);
-        sStartMenuCursorPos = Menu_MoveCursor(-1);
-        if (sStartMenuCursorPos != prevPos)
-        {
-            BlitStartMenuIcon(sCurrentStartMenuActions[prevPos], 8, (prevPos << 4) + 8, TRUE);
-            BlitStartMenuIcon(sCurrentStartMenuActions[sStartMenuCursorPos], 8, (sStartMenuCursorPos << 4) + 8, FALSE);
-            CopyWindowToVram(GetStartMenuWindowId(), COPYWIN_GFX);
-        }
+        MoveStartMenuCursor(-1);
     }
 
     if (JOY_NEW(DPAD_DOWN))
     {
-        u8 prevPos = sStartMenuCursorPos;
-
         PlaySE(SE_SELECT);
-        sStartMenuCursorPos = Menu_MoveCursor(1);
-        if (sStartMenuCursorPos != prevPos)
-        {
-            BlitStartMenuIcon(sCurrentStartMenuActions[prevPos], 8, (prevPos << 4) + 8, TRUE);
-            BlitStartMenuIcon(sCurrentStartMenuActions[sStartMenuCursorPos], 8, (sStartMenuCursorPos << 4) + 8, FALSE);
-            CopyWindowToVram(GetStartMenuWindowId(), COPYWIN_GFX);
-        }
+        MoveStartMenuCursor(1);
     }
 
     if (JOY_NEW(A_BUTTON))

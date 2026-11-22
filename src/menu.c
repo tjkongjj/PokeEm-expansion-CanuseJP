@@ -393,7 +393,13 @@ void DisplayYesNoMenuWithDefault(u8 initialCursorPos)
 u8 AddStartMenuWindow(u8 numActions)
 {
     if (sStartMenuWindowId == WINDOW_NONE)
-        sStartMenuWindowId = AddWindowParameterized(0, 19, 1, 10, (numActions * 2) + 2, 15, 0x139);
+    {
+        // The start menu shows at most 7 rows and scrolls; it is also one tile
+        // narrower and one tile shorter than before to trim the right/top margins
+        if (numActions > 7)
+            numActions = 7;
+        sStartMenuWindowId = AddWindowParameterized(0, 20, 1, 9, (numActions * 2) + 1, 15, 0x139);
+    }
     return sStartMenuWindowId;
 }
 
