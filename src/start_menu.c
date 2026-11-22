@@ -218,9 +218,10 @@ static const struct MenuAction sStartMenuItems[] =
 static const u8 sText_StartMenuArrowUp[] = _("{UP_ARROW}");
 static const u8 sText_StartMenuArrowDown[] = _("{DOWN_ARROW}");
 
-// FONT_BOLD's default colors (white text, light-green shadow) are meant for
-// dark backgrounds; on this window use the same colors as FONT_NORMAL
-static const u8 sStartMenuBoldColors[] = {TEXT_COLOR_WHITE, TEXT_COLOR_DARK_GRAY, TEXT_COLOR_LIGHT_GRAY};
+// NOTE: Labels use FONT_NORMAL, not FONT_BOLD. In this fork FONT_BOLD is a
+// battle-bar-only font: gFonts[FONT_BOLD].fontFunction is NULL and RenderText
+// has no FONT_BOLD case, so printing with it from a window calls a NULL
+// function pointer and resets the game.
 
 // Icons in graphics/interface/start_menu_icons.png (4x3 grid of 24x24 icons)
 enum
@@ -558,7 +559,7 @@ static void PrintStartMenuAction(u8 index)
     // placeholder), so all rows print the same way, in bold. x is 38 (not 40)
     // so a 6-character player name at 8px per glyph still fits the 88px width
     StringExpandPlaceholders(gStringVar4, sStartMenuItems[sCurrentStartMenuActions[index]].text);
-    AddTextPrinterParameterized3(GetStartMenuWindowId(), FONT_BOLD, 38, (row * START_MENU_ROW_HEIGHT) + 6, sStartMenuBoldColors, TEXT_SKIP_DRAW, gStringVar4);
+    AddTextPrinterParameterized(GetStartMenuWindowId(), FONT_NORMAL, gStringVar4, 38, (row * START_MENU_ROW_HEIGHT) + 4, TEXT_SKIP_DRAW, NULL);
     BlitStartMenuIcon(sCurrentStartMenuActions[index], 8, row * START_MENU_ROW_HEIGHT, index != sStartMenuCursorPos);
 }
 
