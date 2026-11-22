@@ -34,15 +34,15 @@
       "x": 7,
       "y": 10,
       "elevation": 0,
-      "dest_map": "MAP_BATTLE_FRONTIER_OUTSIDE_EAST",
-      "dest_warp_id": "WARP_ID_FRONTIER_SOUTH_RESORT_GATE"
+      "dest_map": "MAP_SLATEPORT_CITY",
+      "dest_warp_id": "6"
     },
     {
       "x": 8,
       "y": 10,
       "elevation": 0,
-      "dest_map": "MAP_BATTLE_FRONTIER_OUTSIDE_EAST",
-      "dest_warp_id": "WARP_ID_FRONTIER_SOUTH_RESORT_GATE"
+      "dest_map": "MAP_SLATEPORT_CITY",
+      "dest_warp_id": "6"
     },
     {
       "warp_id": "WARP_ID_RESORT_GATE_CAMP",

@@ -1243,7 +1243,7 @@ SlateportCity_Text_HarborSign:
 	.string "$"
 
 SlateportCity_Text_NameRatersHouseSign:
-	.string "「せいめい はんだんし の いえ」\nポケモンの なまえ うらないます"
+	.string "「せいめい はんだんし の いえ」\nそこに おおきく ばつが かかれている\p「しょくどう」 はじめました"
 	.string "$"
 
 SlateportCity_Text_ExplainBerries:
