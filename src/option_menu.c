@@ -86,6 +86,7 @@ static void FrontierAi_DrawChoices(u8 selection);
 static void AdjustOptionMenuScroll(u8 taskId);
 static void RedrawOptionMenu(u8 taskId);
 static void DrawOptionMenuTexts(void);
+static void DrawOptionMenuScrollArrows(void);
 static void DrawHeaderText(void);
 static void DrawBgWindowFrames(void);
 
@@ -115,6 +116,8 @@ static const u8 gText_FrontierAiHard[]      = _("{COLOR GREEN}{SHADOW LIGHT_GREE
 static const u8 gText_FrontierAiStrongest[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}さいきょう");
 static const u8 gText_FrontierAiLeftArrow[]  = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}{LEFT_ARROW}");
 static const u8 gText_FrontierAiRightArrow[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}{RIGHT_ARROW}");
+static const u8 gText_OptionArrowUp[]   = _("{UP_ARROW}");
+static const u8 gText_OptionArrowDown[] = _("{DOWN_ARROW}");
 
 static const u8 *const sText_FrontierAiLevels[] =
 {
@@ -323,6 +326,7 @@ void CB2_InitOptionMenu(void)
         FrameType_DrawChoices(gTasks[taskId].tWindowFrameType);
         BannedSpecies_DrawChoices(gTasks[taskId].tBannedSpecies);
         FrontierAi_DrawChoices(gTasks[taskId].tFrontierAi);
+        DrawOptionMenuScrollArrows();
         HighlightOptionMenuItem(gTasks[taskId].tMenuSelection);
 
         CopyWindowToVram(WIN_OPTIONS, COPYWIN_FULL);
@@ -525,7 +529,18 @@ static void RedrawOptionMenu(u8 taskId)
     if (IsOptionMenuItemVisible(MENUITEM_FRONTIERAI))
         FrontierAi_DrawChoices(gTasks[taskId].tFrontierAi);
 
+    DrawOptionMenuScrollArrows();
     CopyWindowToVram(WIN_OPTIONS, COPYWIN_GFX);
+}
+
+// Scroll markers at the right edge of the first/last visible row (all choices
+// stay within x <= 198, so x = 200 never collides with them)
+static void DrawOptionMenuScrollArrows(void)
+{
+    if (sScrollOffset > 0)
+        AddTextPrinterParameterized(WIN_OPTIONS, FONT_NORMAL, gText_OptionArrowUp, 200, 1, TEXT_SKIP_DRAW, NULL);
+    if (sScrollOffset + MENUITEM_VISIBLE_COUNT < MENUITEM_COUNT)
+        AddTextPrinterParameterized(WIN_OPTIONS, FONT_NORMAL, gText_OptionArrowDown, 200, ((MENUITEM_VISIBLE_COUNT - 1) * 16) + 1, TEXT_SKIP_DRAW, NULL);
 }
 
 static void DrawOptionMenuChoice(const u8 *text, u8 x, u8 y, u8 style)
