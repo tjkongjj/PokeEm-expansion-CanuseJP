@@ -533,14 +533,15 @@ static void RedrawOptionMenu(u8 taskId)
     CopyWindowToVram(WIN_OPTIONS, COPYWIN_GFX);
 }
 
-// Scroll markers at the right edge of the first/last visible row (all choices
-// stay within x <= 198, so x = 200 never collides with them)
+// Scroll markers at the right end of the first/last visible row. Right-aligned
+// choices end at x = 198 (exclusive), so x = 198 never collides with them, and
+// the 8px-wide arrow glyph stays 2px clear of the window's right/bottom edges
 static void DrawOptionMenuScrollArrows(void)
 {
     if (sScrollOffset > 0)
-        AddTextPrinterParameterized(WIN_OPTIONS, FONT_NORMAL, gText_OptionArrowUp, 200, 1, TEXT_SKIP_DRAW, NULL);
+        AddTextPrinterParameterized(WIN_OPTIONS, FONT_NORMAL, gText_OptionArrowUp, 198, 0, TEXT_SKIP_DRAW, NULL);
     if (sScrollOffset + MENUITEM_VISIBLE_COUNT < MENUITEM_COUNT)
-        AddTextPrinterParameterized(WIN_OPTIONS, FONT_NORMAL, gText_OptionArrowDown, 200, ((MENUITEM_VISIBLE_COUNT - 1) * 16) + 1, TEXT_SKIP_DRAW, NULL);
+        AddTextPrinterParameterized(WIN_OPTIONS, FONT_NORMAL, gText_OptionArrowDown, 198, (MENUITEM_VISIBLE_COUNT - 1) * 16, TEXT_SKIP_DRAW, NULL);
 }
 
 static void DrawOptionMenuChoice(const u8 *text, u8 x, u8 y, u8 style)
