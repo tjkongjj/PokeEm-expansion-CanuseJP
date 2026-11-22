@@ -540,6 +540,8 @@ gStdScripts_End::
 	.include "data/maps/BattleFrontier_Lounge6/scripts.inc"
 	.include "data/maps/BattleFrontier_Lounge7/scripts.inc"
 	.include "data/maps/BattleFrontier_ReceptionGate/scripts.inc"
+	.include "data/maps/PartyResortGate/scripts.inc"
+	.include "data/maps/Party_eat_time/scripts.inc"
 	.include "data/maps/BattleFrontier_Lounge8/scripts.inc"
 	.include "data/maps/BattleFrontier_Lounge9/scripts.inc"
 	.include "data/maps/BattleFrontier_PokemonCenter_1F/scripts.inc"
