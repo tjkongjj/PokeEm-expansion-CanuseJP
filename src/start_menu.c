@@ -560,10 +560,12 @@ static void PrintStartMenuAction(u8 index)
     BlitStartMenuIcon(sCurrentStartMenuActions[index], 8, row << 4, index != sStartMenuCursorPos);
 }
 
-// Up/down markers in the bottom padding row, shown only when more actions are hidden that way
+// Up/down markers in the bottom strip under the last row, shown only when more
+// actions are hidden that way. The arrow glyphs hang ~14px below the print Y,
+// so the strip needs the full tile row kept free under the last action row
 static void DrawStartMenuScrollArrows(void)
 {
-    u16 y = GetStartMenuVisibleRows() << 4;
+    u16 y = (GetStartMenuVisibleRows() << 4) + 1;
 
     if (sStartMenuScrollOffset > 0)
         AddTextPrinterParameterized(GetStartMenuWindowId(), FONT_NORMAL, sText_StartMenuArrowUp, 54, y, TEXT_SKIP_DRAW, NULL);
