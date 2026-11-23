@@ -4,7 +4,7 @@
 #include "pokemon_storage_system.h"
 #include "save.h"
 
-#define SAVEBLOCK_MOVE_RANGE    128
+#define SAVEBLOCK_MOVE_RANGE    64 // Reduced from 128 to make room in EWRAM for the 28-box Pokemon Storage
 
 /**
  * These structs are to prevent them from being reordered on newer or modern

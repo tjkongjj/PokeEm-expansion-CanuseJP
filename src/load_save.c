@@ -22,7 +22,7 @@
 
 static void ApplyNewEncryptionKeyToAllEncryptedData(u32 encryptionKey);
 
-#define SAVEBLOCK_MOVE_RANGE    128
+#define SAVEBLOCK_MOVE_RANGE    64 // Must match include/load_save.h; reduced from 128 to make room in EWRAM for the 28-box Pokemon Storage
 
 struct LoadedSaveData
 {
