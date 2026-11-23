@@ -422,6 +422,8 @@ u8 ChooseWildMonLevel(const struct WildPokemon *wildPokemon, u8 wildMonIndex, en
 u16 GetCurrentMapWildMonHeaderId(void)
 {
     u16 i;
+    u16 count;
+    u16 offset;
 
     for (i = 0; ; i++)
     {
@@ -429,17 +431,28 @@ u16 GetCurrentMapWildMonHeaderId(void)
         if (wildHeader->mapGroup == MAP_GROUP(MAP_UNDEFINED))
             break;
 
-        if (gWildMonHeaders[i].mapGroup == gSaveBlock1Ptr->location.mapGroup &&
-            gWildMonHeaders[i].mapNum == gSaveBlock1Ptr->location.mapNum)
+        if (wildHeader->mapGroup == gSaveBlock1Ptr->location.mapGroup &&
+            wildHeader->mapNum == gSaveBlock1Ptr->location.mapNum)
         {
-            if (gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(MAP_ALTERING_CAVE) &&
-                gSaveBlock1Ptr->location.mapNum == MAP_NUM(MAP_ALTERING_CAVE))
+            // A map may define multiple consecutive headers as encounter
+            // groups, in which case the active group rotates once per day.
+            // Maps with a single header always use that header.
+            for (count = 1; ; count++)
             {
-                u16 alteringCaveId = VarGet(VAR_ALTERING_CAVE_WILD_SET);
-                if (alteringCaveId >= NUM_ALTERING_CAVE_TABLES)
-                    alteringCaveId = 0;
+                const struct WildPokemonHeader *nextHeader = &gWildMonHeaders[i + count];
+                if (nextHeader->mapGroup == MAP_GROUP(MAP_UNDEFINED)
+                    || nextHeader->mapGroup != wildHeader->mapGroup
+                    || nextHeader->mapNum != wildHeader->mapNum)
+                    break;
+            }
 
-                i += alteringCaveId;
+            if (count > 1)
+            {
+                // Derive the offset from the map ID so that maps do not all
+                // rotate in sync, and so that each map's phase stays stable
+                // when the encounter data is rearranged.
+                offset = wildHeader->mapGroup * 256 + wildHeader->mapNum;
+                i += (VarGet(VAR_DAYS) + offset) % count;
             }
 
             return i;
