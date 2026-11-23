@@ -6,7 +6,7 @@
 
 // フラグ・変数の定義
 #define DN_FLAG_SEARCHING             FLAG_EXPANSION_DEXNAV_SEARCHING      // ポケモンをサーチ中であることを示すフラグ。
-#define DN_FLAG_DEXNAV_GET            FLAG_EXPANSION_DEXNAV_DISPLAY  // STARTメニューにずかんナビを表示するフラグ。
+#define DN_FLAG_DEXNAV_GET            FLAG_EXPANSION_DEXNAV_DISPLAY  // 予備のフラグ。STARTメニューへの表示は図鑑入手フラグ（FLAG_SYS_POKEDEX_GET）で判定する。
 #define DN_FLAG_DETECTOR_MODE         FLAG_EXPANSION_DEXNAV_DETECT   // 隠れたポケモンを発見できるようにするフラグ。
 #define DN_VAR_SPECIES                VAR_EXPANSION_DEXNAV_SPECIES         // ずかんナビに登録した種族。
 #define DN_VAR_STEP_COUNTER           VAR_EXPANSION_DEXNAV_STEP_COUNTER    // 隠れたポケモンを探すための歩数。

@@ -157,7 +157,8 @@ void SetExpansionTestFlags(void)
     FlagSet(FLAG_EXPANSION_TERA_ORB_CHARGED);
     FlagSet(FLAG_EXPANSION_TERA_ORB_NO_COST);
     FlagSet(FLAG_EXPANSION_EXP_SHARE);
-    FlagSet(FLAG_EXPANSION_DEXNAV_DISPLAY);
+    // DexNav is shown in the START menu once the Pokedex is obtained
+    // (FLAG_SYS_POKEDEX_GET), so FLAG_EXPANSION_DEXNAV_DISPLAY is not set here.
     FlagSet(FLAG_EXPANSION_DEXNAV_DETECT);
 }
 
