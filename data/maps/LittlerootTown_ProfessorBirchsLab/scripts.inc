@@ -161,40 +161,6 @@ LittlerootTown_ProfessorBirchsLab_Movement_PlayerEnterLabForPokedex:
 LittlerootTown_ProfessorBirchsLab_EventScript_UpgradeToNationalDex::
 	lockall
 	delay 30
-	msgbox LittlerootTown_ProfessorBirchsLab_Text_OtherRegionsUpgradeToNational, MSGBOX_DEFAULT
-	closemessage
-	applymovement LOCALID_BIRCHS_LAB_BIRCH, LittlerootTown_ProfessorBirchsLab_Movement_BirchRetrievePokedexes
-	waitmovement 0
-	delay 20
-	playse SE_CLICK
-	delay 10
-	playse SE_CLICK
-	delay 10
-	playse SE_CLICK
-	delay 10
-	playse SE_CLICK
-	delay 20
-	applymovement LOCALID_BIRCHS_LAB_RIVAL, Common_Movement_WalkInPlaceFasterRight
-	applymovement LOCALID_PLAYER, Common_Movement_WalkInPlaceFasterLeft
-	waitmovement 0
-	checkplayergender
-	call_if_eq VAR_RESULT, MALE, LittlerootTown_ProfessorBirchsLab_EventScript_MayUpgradeComment
-	call_if_eq VAR_RESULT, FEMALE, LittlerootTown_ProfessorBirchsLab_EventScript_BrendanUpgradeComment
-	playse SE_PC_ON
-	waitse
-	delay 20
-	applymovement LOCALID_BIRCHS_LAB_BIRCH, LittlerootTown_ProfessorBirchsLab_Movement_BirchReturnPokedex
-	waitmovement 0
-	applymovement LOCALID_BIRCHS_LAB_RIVAL, Common_Movement_WalkInPlaceFasterUp
-	applymovement LOCALID_PLAYER, Common_Movement_WalkInPlaceFasterUp
-	waitmovement 0
-	msgbox LittlerootTown_ProfessorBirchsLab_Text_OkayAllDone, MSGBOX_DEFAULT
-	playfanfare MUS_OBTAIN_ITEM
-	message LittlerootTown_ProfessorBirchsLab_Text_PokedexUpgradedToNational
-	waitmessage
-	waitfanfare
-	setflag FLAG_SYS_NATIONAL_DEX
-	special EnableNationalPokedex
 	msgbox LittlerootTown_ProfessorBirchsLab_Text_GrassyPatchWaiting2, MSGBOX_DEFAULT
 	closemessage
 	setflag FLAG_HIDE_LITTLEROOT_TOWN_BIRCH
@@ -204,48 +170,6 @@ LittlerootTown_ProfessorBirchsLab_EventScript_UpgradeToNationalDex::
 	setflag FLAG_SCOTT_CALL_BATTLE_FRONTIER
 	releaseall
 	end
-
-LittlerootTown_ProfessorBirchsLab_EventScript_MayUpgradeComment::
-	msgbox LittlerootTown_ProfessorBirchsLab_Text_MayUpgradeSoCool, MSGBOX_DEFAULT
-	closemessage
-	return
-
-LittlerootTown_ProfessorBirchsLab_EventScript_BrendanUpgradeComment::
-	msgbox LittlerootTown_ProfessorBirchsLab_Text_BrendanYouCanThankMe, MSGBOX_DEFAULT
-	closemessage
-	return
-
-LittlerootTown_ProfessorBirchsLab_Movement_BirchRetrievePokedexes:
-	walk_left
-	walk_in_place_faster_down
-	delay_16
-	delay_16
-	walk_right
-	walk_in_place_faster_down
-	delay_16
-	delay_16
-	walk_right
-	walk_down
-	walk_down
-	walk_down
-	walk_down
-	walk_right
-	walk_right
-	walk_right
-	walk_in_place_faster_up
-	step_end
-
-LittlerootTown_ProfessorBirchsLab_Movement_BirchReturnPokedex:
-	walk_left
-	walk_left
-	walk_left
-	walk_up
-	walk_up
-	walk_up
-	walk_up
-	walk_left
-	walk_in_place_faster_down
-	step_end
 
 LittlerootTown_ProfessorBirchsLab_EventScript_ChooseJohtoStarter::
 	lockall
@@ -506,7 +430,6 @@ EventScript_RegisterProfBirch::
 LittlerootTown_ProfessorBirchsLab_EventScript_GivePokedex::
 	msgbox LittlerootTown_ProfessorBirchsLab_Text_HeardYouBeatRivalTakePokedex, MSGBOX_DEFAULT
 	call LittlerootTown_ProfessorBirchsLab_EventScript_ReceivePokedex
-	msgbox LittlerootTown_ProfessorBirchsLab_Text_ExplainPokedex, MSGBOX_DEFAULT
 	closemessage
 	applymovement LOCALID_BIRCHS_LAB_RIVAL, LittlerootTown_ProfessorBirchsLab_Movement_RivalApproachPlayer
 	waitmovement 0
@@ -515,6 +438,11 @@ LittlerootTown_ProfessorBirchsLab_EventScript_GivePokedex::
 	checkplayergender
 	call_if_eq VAR_RESULT, MALE, LittlerootTown_ProfessorBirchsLab_EventScript_MayGivePokeBalls
 	call_if_eq VAR_RESULT, FEMALE, LittlerootTown_ProfessorBirchsLab_EventScript_BrendanGivePokeBalls
+	msgbox LittlerootTown_ProfessorBirchsLab_Text_ExplainPokedex, MSGBOX_DEFAULT
+	playfanfare MUS_OBTAIN_ITEM
+	message LittlerootTown_ProfessorBirchsLab_Text_DexNavNowUsable
+	waitmessage
+	waitfanfare
 	setvar VAR_BIRCH_LAB_STATE, 5
 	setflag FLAG_ADVENTURE_STARTED
 	setvar VAR_OLDALE_TOWN_STATE, 1
@@ -544,6 +472,8 @@ LittlerootTown_ProfessorBirchsLab_EventScript_ReceivePokedex::
 	message LittlerootTown_ProfessorBirchsLab_Text_ReceivedPokedex
 	waitfanfare
 	setflag FLAG_SYS_POKEDEX_GET
+	setflag FLAG_SYS_NATIONAL_DEX
+	special EnableNationalPokedex
 	special SetUnlockedPokedexFlags
 	setflag FLAG_RECEIVED_POKEDEX_FROM_BIRCH
 	setvar VAR_CABLE_CLUB_TUTORIAL_STATE, 1
@@ -745,10 +675,16 @@ LittlerootTown_ProfessorBirchsLab_Text_ExplainPokedex:
 	.string "{JPN}ハイテクな どうぐ なんだ!\p"
 	.string "{JPN}{RIVAL}も その ずかんを もっていて\n"
 	.string "{JPN}あちこちに あそびに いくんだな\p"
+	.string "{JPN}ずかんには いま いるばしょの\n"
+	.string "{JPN}ポケモンを さがす きのうも あるんだよ\p"
 	.string "{JPN}で めずらしい ポケモンを つかまえて\n"
 	.string "{JPN}ずかんに きろく できるとだね\p"
 	.string "{JPN}フィールドワークを している わたしを\n"
 	.string "{JPN}さがしだしては みせて くれるんだよ!$"
+
+LittlerootTown_ProfessorBirchsLab_Text_DexNavNowUsable:
+	.string "{PLAYER}は\n"
+	.string "{JPN}ずかんナビが つかえるように なった!$"
 
 LittlerootTown_ProfessorBirchsLab_Text_CountlessPokemonAwait:
 	.string "オダマキ『きみの ゆくてには\n"
@@ -811,43 +747,6 @@ LittlerootTown_ProfessorBirchsLab_Text_CrammedWithBooksOnPokemon:
 
 LittlerootTown_ProfessorBirchsLab_Text_BookTooHardToRead:
 	.string "むずかしそうな ほんが おいてある!$"
-
-LittlerootTown_ProfessorBirchsLab_Text_OtherRegionsUpgradeToNational:
-	.string "オダマキ『……さて\p"
-	.string "{JPN}{PLAYER}{KUN}と {RIVAL}に ポケモンの\n"
-	.string "{JPN}ちょうさを おねがい していた わけだが\p"
-	.string "{JPN}きみたちの どりょくの おかげで\n"
-	.string "{JPN}いろんな ことが わかってきた!\p"
-	.string "{JPN}どうやら ホウエンちほう には\n"
-	.string "{JPN}それいがいの ちほうの ポケモンも\l"
-	.string "{JPN}せいそく している らしいんだ!\p"
-	.string "{JPN}それだけ ホウエンちほうは\n"
-	.string "{JPN}ゆたかな しぜんに めぐまれている\l"
-	.string "{JPN}という ことなんだろうな!\p"
-	.string "{JPN}というわけで きみたちの ずかんを\n"
-	.string "{JPN}ぜんこくばんに バージョンアップ\l"
-	.string "{JPN}してあげようと おもう!\p"
-	.string "{JPN}さあ ずかんを かしておくれ!$"
-
-LittlerootTown_ProfessorBirchsLab_Text_MayUpgradeSoCool:
-	.string "ハルカ『えへへー!\p"
-	.string "{JPN}あたしの ずかんまで\n"
-	.string "{JPN}ぜんこくばんに してもらえる なんて\p"
-	.string "{JPN}{PLAYER}{KUN}が たくさん ポケモンを\n"
-	.string "{JPN}しらべてくれた おかげだね!$"
-
-LittlerootTown_ProfessorBirchsLab_Text_BrendanYouCanThankMe:
-	.string "ユウキ『オレ はりきって ホウエンじゅうの\n"
-	.string "{JPN}ポケモンのこと しらべたからな\p"
-	.string "{JPN}{PLAYER}も ずかんを ぜんこくばんに\n"
-	.string "{JPN}してもらえて ラッキーだったな!$"
-
-LittlerootTown_ProfessorBirchsLab_Text_OkayAllDone:
-	.string "オダマキ『ホイ できたぞ!$"
-
-LittlerootTown_ProfessorBirchsLab_Text_PokedexUpgradedToNational:
-	.string "{PLAYER}の ポケモンずかんが\n"
-	.string "{JPN}ぜんこくばんに バージョンアップ した!$"
 
 LittlerootTown_ProfessorBirchsLab_Text_GrassyPatchWaiting2:
 	.string "オダマキ『いいかい?\n"
