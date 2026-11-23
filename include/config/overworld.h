@@ -90,8 +90,8 @@
 
 // 時刻。
 #define OW_TIMES_OF_DAY                 GEN_LATEST   // 世代ごとに、朝・昼・夜などが切り替わる時刻を変える。
-#define OW_USE_FAKE_RTC                 FALSE        // TRUEでは、ゲーム内時計の秒をplayTimeVBlanksが60進むごと（60フレームごと）に進める。
-#define OW_ALTERED_TIME_RATIO           GEN_LATEST   // GEN_8_PLAでは時計の1秒につきゲーム内で60秒、GEN_9では20秒進む。TIME_DEBUGはデバッグ用の1:1。OW_USE_FAKE_RTCがFALSEなら無効。
+#define OW_USE_FAKE_RTC                 TRUE         // TRUEでは、ゲーム内時計の秒をplayTimeVBlanksが60進むごと（60フレームごと）に進める。
+#define OW_ALTERED_TIME_RATIO           GEN_9        // GEN_8_PLAでは時計の1秒につきゲーム内で60秒、GEN_9では20秒進む。TIME_DEBUGはデバッグ用の1:1。OW_USE_FAKE_RTCがFALSEなら無効。
 #define OW_TIME_OF_DAY_ENCOUNTERS       TRUE        // TRUEでは、時間帯ごとに異なる遭遇テーブルを定義・使用できる。
 #define OW_TIME_OF_DAY_DISABLE_FALLBACK FALSE        // TRUEでは、指定マップ・時間帯の遭遇テーブルが空なら、従来のテーブルへ戻さず、その場所で遭遇しないようにする。
 #define OW_TIME_OF_DAY_FALLBACK         TIME_MORNING // 遭遇テーブルがない場合に使う代替時間帯。OW_TIMES_OF_DAYをGEN_3にする場合、TIME_DAYへ変更しないと遭遇できなくなる。
