@@ -69,7 +69,7 @@ static const u8 sStoragePhysicalSectors[NUM_STORAGE_SECTORS] =
 
 struct
 {
-    u16 offset;
+    u32 offset; // u32 because the Pokemon Storage offsets exceed 64 KiB
     u16 size;
 } static const sSaveSlotLayout[NUM_LOGICAL_SECTORS] =
 {
