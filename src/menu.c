@@ -394,12 +394,12 @@ u8 AddStartMenuWindow(u8 numActions)
 {
     if (sStartMenuWindowId == WINDOW_NONE)
     {
-        // The start menu shows at most 5 rows of 24px and scrolls; each row is
-        // 3 tiles tall. The bottom tile row is kept as the strip the scroll
-        // arrows are drawn in
-        if (numActions > 5)
-            numActions = 5;
-        sStartMenuWindowId = AddWindowParameterized(0, 18, 1, 11, (numActions * 3) + 2, 15, 0x139);
+        // The start menu shows at most 7 rows and scrolls; it is also one tile
+        // narrower than before to trim the right margin. The bottom tile row is
+        // kept as the strip the scroll arrows are drawn in
+        if (numActions > 7)
+            numActions = 7;
+        sStartMenuWindowId = AddWindowParameterized(0, 20, 1, 9, (numActions * 2) + 2, 15, 0x139);
     }
     return sStartMenuWindowId;
 }

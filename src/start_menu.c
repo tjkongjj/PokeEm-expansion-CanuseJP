@@ -210,10 +210,8 @@ static const struct MenuAction sStartMenuItems[] =
     [MENU_ACTION_DEXNAV]          = {gText_MenuDexNav,  {.u8_void = StartMenuDexNavCallback}},
 };
 
-// The start menu window shows at most this many rows; longer menus scroll.
-// Each row is 24px tall (a 24x24 icon plus bold text)
-#define START_MENU_VISIBLE_ROWS 5
-#define START_MENU_ROW_HEIGHT 24
+// The start menu window shows at most this many rows; longer menus scroll
+#define START_MENU_VISIBLE_ROWS 7
 
 static const u8 sText_StartMenuArrowUp[] = _("{UP_ARROW}");
 static const u8 sText_StartMenuArrowDown[] = _("{DOWN_ARROW}");
@@ -223,7 +221,7 @@ static const u8 sText_StartMenuArrowDown[] = _("{DOWN_ARROW}");
 // has no FONT_BOLD case, so printing with it from a window calls a NULL
 // function pointer and resets the game.
 
-// Icons in graphics/interface/start_menu_icons.png (4x3 grid of 24x24 icons)
+// Icons in graphics/interface/start_menu_icons.png (4x3 grid of 16x16 icons)
 enum
 {
     START_MENU_ICON_POKEDEX,
@@ -259,14 +257,13 @@ static const u8 sStartMenuActionIcons[] =
     [MENU_ACTION_DEXNAV]          = START_MENU_ICON_DEXNAV,
 };
 
-static void BlitStartMenuIcon(u8 action, u16 x, u16 y, bool32 grayed)
+static void BlitStartMenuIcon(u8 action, u16 x, u16 y)
 {
     u8 iconId = sStartMenuActionIcons[action];
-    // Sheet is 96px wide (12 tiles per row); each icon is a 3x3 tile block
-    u16 tileOffset = ((iconId / 4) * 36) + ((iconId % 4) * 3);
-    const u8 *sheet = grayed ? gStartMenuIconsGray_Gfx : gStartMenuIcons_Gfx;
+    // Sheet is 64px wide (8 tiles per row); each icon is a 2x2 tile block
+    u16 tileOffset = ((iconId / 4) * 16) + ((iconId % 4) * 2);
 
-    BlitBitmapRectToWindow(GetStartMenuWindowId(), &sheet[tileOffset * 32], 0, 0, 96, 72, x, y, 24, 24);
+    BlitBitmapRectToWindow(GetStartMenuWindowId(), &gStartMenuIcons_Gfx[tileOffset * 32], 0, 0, 64, 48, x, y, 16, 16);
 }
 
 static const struct BgTemplate sBgTemplates_LinkBattleSave[] =
@@ -555,12 +552,16 @@ static void PrintStartMenuAction(u8 index)
         return;
 
     row = index - sStartMenuScrollOffset;
-    // The player-name row goes through the same expansion ({PLAYER} is a
-    // placeholder), so all rows print the same way, in bold. x is 38 (not 40)
-    // so a 6-character player name at 8px per glyph still fits the 88px width
-    StringExpandPlaceholders(gStringVar4, sStartMenuItems[sCurrentStartMenuActions[index]].text);
-    AddTextPrinterParameterized(GetStartMenuWindowId(), FONT_NORMAL, gStringVar4, 38, (row * START_MENU_ROW_HEIGHT) + 4, TEXT_SKIP_DRAW, NULL);
-    BlitStartMenuIcon(sCurrentStartMenuActions[index], 8, row * START_MENU_ROW_HEIGHT, index != sStartMenuCursorPos);
+    if (sStartMenuItems[sCurrentStartMenuActions[index]].func.u8_void == StartMenuPlayerNameCallback)
+    {
+        PrintPlayerNameOnWindow(GetStartMenuWindowId(), sStartMenuItems[sCurrentStartMenuActions[index]].text, 25, (row << 4) + 1);
+    }
+    else
+    {
+        StringExpandPlaceholders(gStringVar4, sStartMenuItems[sCurrentStartMenuActions[index]].text);
+        AddTextPrinterParameterized(GetStartMenuWindowId(), FONT_NORMAL, gStringVar4, 25, (row << 4) + 1, TEXT_SKIP_DRAW, NULL);
+    }
+    BlitStartMenuIcon(sCurrentStartMenuActions[index], 8, row << 4);
 }
 
 // Up/down markers in the bottom strip under the last row, shown only when more
@@ -568,12 +569,12 @@ static void PrintStartMenuAction(u8 index)
 // so the strip needs the full tile row kept free under the last action row
 static void DrawStartMenuScrollArrows(void)
 {
-    u16 y = (GetStartMenuVisibleRows() * START_MENU_ROW_HEIGHT) + 1;
+    u16 y = (GetStartMenuVisibleRows() << 4) + 1;
 
     if (sStartMenuScrollOffset > 0)
-        AddTextPrinterParameterized(GetStartMenuWindowId(), FONT_NORMAL, sText_StartMenuArrowUp, 70, y, TEXT_SKIP_DRAW, NULL);
+        AddTextPrinterParameterized(GetStartMenuWindowId(), FONT_NORMAL, sText_StartMenuArrowUp, 54, y, TEXT_SKIP_DRAW, NULL);
     if (sStartMenuScrollOffset + GetStartMenuVisibleRows() < sNumStartMenuActions)
-        AddTextPrinterParameterized(GetStartMenuWindowId(), FONT_NORMAL, sText_StartMenuArrowDown, 79, y, TEXT_SKIP_DRAW, NULL);
+        AddTextPrinterParameterized(GetStartMenuWindowId(), FONT_NORMAL, sText_StartMenuArrowDown, 63, y, TEXT_SKIP_DRAW, NULL);
 }
 
 static void RedrawStartMenuWindow(void)
@@ -650,7 +651,7 @@ static bool32 InitStartMenuStep(void)
         break;
     case 5:
         // The generic cursor works in visible rows; the absolute position stays in sStartMenuCursorPos
-        InitMenuNormal(GetStartMenuWindowId(), FONT_NORMAL, 0, 5, START_MENU_ROW_HEIGHT, GetStartMenuVisibleRows(), sStartMenuCursorPos - sStartMenuScrollOffset);
+        InitMenuNormal(GetStartMenuWindowId(), FONT_NORMAL, 0, 1, 16, GetStartMenuVisibleRows(), sStartMenuCursorPos - sStartMenuScrollOffset);
         DrawStartMenuScrollArrows();
         CopyWindowToVram(GetStartMenuWindowId(), COPYWIN_GFX);
         CopyWindowToVram(GetStartMenuWindowId(), COPYWIN_MAP);
@@ -760,8 +761,6 @@ static void MoveStartMenuCursor(s8 delta)
     else if (sStartMenuCursorPos != prevPos)
     {
         RedrawMenuCursor(prevPos - prevOffset, sStartMenuCursorPos - sStartMenuScrollOffset);
-        BlitStartMenuIcon(sCurrentStartMenuActions[prevPos], 8, (prevPos - prevOffset) * START_MENU_ROW_HEIGHT, TRUE);
-        BlitStartMenuIcon(sCurrentStartMenuActions[sStartMenuCursorPos], 8, (sStartMenuCursorPos - sStartMenuScrollOffset) * START_MENU_ROW_HEIGHT, FALSE);
         CopyWindowToVram(GetStartMenuWindowId(), COPYWIN_GFX);
     }
 }
