@@ -1201,8 +1201,7 @@ static const u8 sSearchMovementMap_ShiftHoennDex[SEARCH_COUNT][4] =
 
 static const struct SearchOptionText sDexModeOptions[] =
 {
-    [DEX_MODE_HOENN]    = {COMPOUND_STRING("{JPN}ホウエンちほう ばん ポケモンずかん"),   COMPOUND_STRING("{JPN}ホウエン ずかん")},
-    [DEX_MODE_NATIONAL] = {COMPOUND_STRING("{JPN}ぜんこく ばん ポケモンずかん"), COMPOUND_STRING("{JPN}ぜんこく ずかん")},
+    {COMPOUND_STRING("{JPN}ぜんこく ばん ポケモンずかん"), COMPOUND_STRING("{JPN}ぜんこく ずかん")},
     {},
 };
 
@@ -1272,7 +1271,7 @@ static const struct SearchOptionText sDexSearchTypeOptions[] =
     {},
 };
 
-static const u8 sPokedexModes[] = {DEX_MODE_HOENN, DEX_MODE_NATIONAL};
+static const u8 sPokedexModes[] = {DEX_MODE_NATIONAL};
 static const u8 sOrderOptions[] =
 {
     ORDER_NUMERICAL,
@@ -1380,7 +1379,7 @@ void ResetPokedex(void)
 
     sLastSelectedPokemon = 0;
     sPokeBallRotation = POKEBALL_ROTATION_TOP;
-    gSaveBlock2Ptr->pokedex.mode = DEX_MODE_HOENN;
+    gSaveBlock2Ptr->pokedex.mode = DEX_MODE_NATIONAL;
     gSaveBlock2Ptr->pokedex.order = 0;
     gSaveBlock2Ptr->pokedex.nationalMagic = 0;
     gSaveBlock2Ptr->pokedex.unknown2 = 0;
@@ -1487,8 +1486,9 @@ void CB2_OpenPokedex(void)
         sPokedexView = AllocZeroed(sizeof(struct PokedexView));
         ResetPokedexView(sPokedexView);
         CreateTask(Task_OpenPokedexMainPage, 0);
-        sPokedexView->dexMode = gSaveBlock2Ptr->pokedex.mode;
-        if (!IsNationalPokedexEnabled())
+        if (IsNationalPokedexEnabled())
+            sPokedexView->dexMode = DEX_MODE_NATIONAL;
+        else
             sPokedexView->dexMode = DEX_MODE_HOENN;
         sPokedexView->dexOrder = gSaveBlock2Ptr->pokedex.order;
         sPokedexView->selectedPokemon = sLastSelectedPokemon;
@@ -5826,17 +5826,8 @@ void SetDefaultSearchModeAndOrder(u8 taskId)
 {
     u16 selected;
 
-    switch (sPokedexView->dexModeBackup)
-    {
-    default:
-    case DEX_MODE_HOENN:
-        selected = DEX_MODE_HOENN;
-        break;
-    case DEX_MODE_NATIONAL:
-        selected = DEX_MODE_NATIONAL;
-        break;
-    }
-    gTasks[taskId].tCursorPos_Mode = selected;
+    // モードは全国のみのため、カーソル位置は常に先頭（全国）
+    gTasks[taskId].tCursorPos_Mode = 0;
 
     switch (sPokedexView->dexOrderBackup)
     {
