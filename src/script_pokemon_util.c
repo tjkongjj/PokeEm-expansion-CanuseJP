@@ -543,3 +543,66 @@ void Script_GiveRandomBerry(struct ScriptContext *ctx)
 
     gSpecialVar_Result = BerryTypeToItemId(RandomUniform(RNG_RANDOM_BERRY, loBerry, hiBerry));
 }
+
+// Berries that have no (or only a very restricted) obtainment method elsewhere.
+// The Berry Master's wife hands out five distinct ones per day from this pool.
+static const u16 sRareBerryPool[] =
+{
+    ITEM_OCCA_BERRY,
+    ITEM_PASSHO_BERRY,
+    ITEM_WACAN_BERRY,
+    ITEM_RINDO_BERRY,
+    ITEM_YACHE_BERRY,
+    ITEM_CHOPLE_BERRY,
+    ITEM_KEBIA_BERRY,
+    ITEM_PAYAPA_BERRY,
+    ITEM_TANGA_BERRY,
+    ITEM_CHARTI_BERRY,
+    ITEM_SHUCA_BERRY,
+    ITEM_COBA_BERRY,
+    ITEM_KASIB_BERRY,
+    ITEM_BABIRI_BERRY,
+    ITEM_COLBUR_BERRY,
+    ITEM_CHILAN_BERRY,
+    ITEM_HABAN_BERRY,
+    ITEM_ROSELI_BERRY,
+    ITEM_LIECHI_BERRY,
+    ITEM_GANLON_BERRY,
+    ITEM_PETAYA_BERRY,
+    ITEM_APICOT_BERRY,
+    ITEM_MICLE_BERRY,
+    ITEM_CUSTAP_BERRY,
+    ITEM_JABOCA_BERRY,
+    ITEM_ROWAP_BERRY,
+    ITEM_KEE_BERRY,
+    ITEM_MARANGA_BERRY,
+    ITEM_ENIGMA_BERRY,
+    ITEM_SPELON_BERRY,
+    ITEM_PAMTRE_BERRY,
+    ITEM_WATMEL_BERRY,
+    ITEM_DURIN_BERRY,
+    ITEM_BELUE_BERRY,
+    ITEM_SALAC_BERRY,
+    ITEM_STARF_BERRY,
+};
+
+// Picks one berry from sRareBerryPool into VAR_RESULT. The byte argument is the
+// draw number within one handout: draw 0 resets the already-given mask, and no
+// berry is picked twice within the same handout.
+void Script_GiveRandomRareBerry(struct ScriptContext *ctx)
+{
+    static u32 sGivenMask[2];
+    u32 draw = ScriptReadByte(ctx);
+    u32 idx;
+
+    if (draw == 0)
+        sGivenMask[0] = sGivenMask[1] = 0;
+
+    do
+    {
+        idx = RandomUniform(RNG_RANDOM_BERRY, 0, ARRAY_COUNT(sRareBerryPool) - 1);
+    } while (sGivenMask[idx / 32] & (1u << (idx % 32)));
+
+    sGivenMask[idx / 32] |= (1u << (idx % 32));
+    gSpecialVar_Result = sRareBerryPool[idx];
+}

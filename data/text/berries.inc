@@ -106,30 +106,15 @@ Route123_BerryMastersHouse_Text_DoneForToday:
 	.string "{JPN}また おいで\p"
 	.string "{JPN}せかいに はなを さかせましょう!$"
 
-Route123_BerryMastersHouse_Text_HeardAGoodSayingLately:
-	.string "じいさんの きのみの そだてかたは\n"
-	.string "{JPN}そりゃあ せかいいちじゃ\p"
-	.string "{JPN}わしも はなが たかいわい\p"
-	.string "{JPN}ところで あんた\n"
-	.string "{JPN}いい ことばを きいたことが ないかい?$"
-
-Route123_BerryMastersHouse_Text_InspirationalTakeThis:
-	.string "おお! とても よい ことばじゃ!\n"
-	.string "{JPN}かんどう したわい\p"
-	.string "{JPN}ほれ これを もっていきなされ$"
-
-Route123_BerryMastersHouse_Text_GoodSayingTakeThis:
-	.string "おお! なかなか よい ことばじゃ\n"
-	.string "{JPN}あんたも たいしたもんじゃ\p"
-	.string "{JPN}ほれ これを もっていきなされ$"
+Route123_BerryMastersHouse_Text_TakeTheseRareBerries:
+	.string "じいさんが せかいじゅうを まわって\n"
+	.string "{JPN}あつめた とっておきの きのみじゃ\p"
+	.string "{JPN}きょうは 5つ わけて あげよう!$"
 
 Route123_BerryMastersHouse_Text_JoyNeverGoesOutOfMyLife:
 	.string "まごたち 4にんも じいさんを しのぐ\n"
 	.string "{JPN}おおものに なるじゃろうて\p"
 	.string "{JPN}じんせい たのしいことが つきんのう!$"
-
-Route123_BerryMastersHouse_Text_Ah:
-	.string "ほう……$"
 
 Route104_PrettyPetalFlowerShop_Text_ThisIsPrettyPetalFlowerShop:
 	.string "こんにちは!\p"

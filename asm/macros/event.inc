@@ -2856,6 +2856,14 @@
 	giveitem VAR_RESULT
 	.endm
 
+	@ Gives one berry from the rare-berry pool (see Script_GiveRandomRareBerry);
+	@ draw is the draw number within one handout and prevents duplicates
+	.macro giverandomrareberry draw:req
+	callnative Script_GiveRandomRareBerry
+	.byte \draw
+	giveitem VAR_RESULT
+	.endm
+
 @ VS Seeker
 	.macro vsseeker_rematchid rematchId:req
 	callnative NativeVsSeekerRematchId, requests_effects=1
