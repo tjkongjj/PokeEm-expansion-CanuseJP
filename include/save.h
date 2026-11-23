@@ -20,8 +20,13 @@
 #define SECTOR_ID_SAVEBLOCK1_START    1
 #define SECTOR_ID_SAVEBLOCK1_END      4
 #define SECTOR_ID_PKMN_STORAGE_START  5
-#define SECTOR_ID_PKMN_STORAGE_END   13
+// Storage sector ids are logical: the storage is shared between the two
+// save slots and mapped to physical sectors in save.c.
+#define SECTOR_ID_PKMN_STORAGE_END   22
 #define NUM_SECTORS_PER_SLOT         14
+#define NUM_PROGRESS_SECTORS          (SECTOR_ID_SAVEBLOCK1_END - SECTOR_ID_SAVEBLOCK2 + 1)
+#define NUM_STORAGE_SECTORS           (SECTOR_ID_PKMN_STORAGE_END - SECTOR_ID_PKMN_STORAGE_START + 1)
+#define NUM_LOGICAL_SECTORS           (NUM_PROGRESS_SECTORS + NUM_STORAGE_SECTORS)
 // Save Slot 1: 0-13;  Save Slot 2: 14-27
 #define SECTOR_ID_HOF_1              28
 #define SECTOR_ID_HOF_2              29
