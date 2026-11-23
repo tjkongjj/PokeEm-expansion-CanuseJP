@@ -11,11 +11,11 @@
 #define LEVEL_CAP_VARIABLE              2 // B_LEVEL_CAP_VARIABLEで指定したイベント変数の値から上限を決める。
 
 // レベル上限の設定
-#define B_EXP_CAP_TYPE                  EXP_CAP_NONE   // [EXP_CAP_NONE, EXP_CAP_HARD, EXP_CAP_SOFT] 上限到達時の経験値制限方式を選ぶ。
-#define B_LEVEL_CAP_TYPE                LEVEL_CAP_NONE // [LEVEL_CAP_NONE, LEVEL_CAP_FLAG_LIST, LEVEL_CAP_VARIABLE] レベル上限の決定方法を選ぶ。
+#define B_EXP_CAP_TYPE                  EXP_CAP_HARD   // [EXP_CAP_NONE, EXP_CAP_HARD, EXP_CAP_SOFT] 上限到達時の経験値制限方式を選ぶ。
+#define B_LEVEL_CAP_TYPE                LEVEL_CAP_FLAG_LIST // [LEVEL_CAP_NONE, LEVEL_CAP_FLAG_LIST, LEVEL_CAP_VARIABLE] レベル上限の決定方法を選ぶ。
 #define B_LEVEL_CAP_VARIABLE            0 // B_LEVEL_CAP_TYPEがLEVEL_CAP_VARIABLEの場合に、レベル上限を取得するイベント変数。
 
-#define B_RARE_CANDY_CAP                FALSE // TRUEなら、ふしぎなアメでレベル上限を超えられない。
+#define B_RARE_CANDY_CAP                TRUE // TRUEなら、ふしぎなアメでレベル上限を超えられない。
 #define B_LEVEL_CAP_EXP_UP              FALSE // TRUEなら、レベル上限未満のポケモンの獲得経験値を増やす。
 
 // 努力値上限の定数
