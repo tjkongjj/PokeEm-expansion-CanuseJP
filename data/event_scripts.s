@@ -1564,6 +1564,7 @@ EventScript_SelectWithoutRegisteredItem::
 	end
 
 	.include "data/scripts/field_poison.inc"
+	.include "data/scripts/pickup_notification.inc"
 
 Common_EventScript_NopReturn::
 	return

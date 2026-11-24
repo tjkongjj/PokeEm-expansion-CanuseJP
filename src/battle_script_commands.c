@@ -7550,6 +7550,7 @@ static void Cmd_pickup(void)
                 {
                     heldItem = GetBattlePyramidPickupItemId();
                     SetMonData(&gParties[B_TRAINER_PLAYER][i], MON_DATA_HELD_ITEM, &heldItem);
+                    VarSet(VAR_PICKUP_NOTIF_MASK, VarGet(VAR_PICKUP_NOTIF_MASK) | (1 << i));
                 }
                 else
                 {
@@ -7562,6 +7563,7 @@ static void Cmd_pickup(void)
                         if (rand < percentTotal)
                         {
                             SetMonData(&gParties[B_TRAINER_PLAYER][i], MON_DATA_HELD_ITEM, &sPickupTable[j].itemId);
+                            VarSet(VAR_PICKUP_NOTIF_MASK, VarGet(VAR_PICKUP_NOTIF_MASK) | (1 << i));
                             break;
                         }
                     }

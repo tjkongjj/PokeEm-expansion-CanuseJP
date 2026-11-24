@@ -2,6 +2,7 @@
 #include "bike.h"
 #include "clock.h"
 #include "event_data.h"
+#include "event_scripts.h"
 #include "field_camera.h"
 #include "field_effect_helpers.h"
 #include "field_player_avatar.h"
@@ -12,9 +13,12 @@
 #include "main.h"
 #include "metatile_behavior.h"
 #include "overworld.h"
+#include "palette.h"
+#include "pokemon.h"
 #include "script.h"
 #include "secret_base.h"
 #include "sound.h"
+#include "string_util.h"
 #include "task.h"
 #include "constants/field_tasks.h"
 #include "constants/items.h"
@@ -192,6 +196,45 @@ static void Task_RunTimeBasedEvents(u8 taskId)
     }
 }
 
+// After a won battle, Cmd_pickup records the party slots whose Pokémon used
+// Pickup to grab an item in VAR_PICKUP_NOTIF_MASK. Once the player is back on
+// the field with free control, show a message for each of them.
+static void Task_PickupNotification(u8 taskId)
+{
+    if (VarGet(VAR_PICKUP_NOTIF_MASK) == 0)
+        return;
+    if (ArePlayerFieldControlsLocked() || ScriptContext_IsEnabled() || gPaletteFade.active)
+        return;
+    ScriptContext_SetupScript(EventScript_PickupNotification);
+}
+
+// Called from EventScript_PickupNotification in a loop. Buffers the nickname
+// and held item of the next party slot recorded in VAR_PICKUP_NOTIF_MASK into
+// STR_VAR_1 / STR_VAR_2 and clears its bit. Sets VAR_RESULT to FALSE when no
+// recorded slot is left (or the item is somehow gone).
+void PickupNotification_PrepareNext(void)
+{
+    u32 i;
+
+    gSpecialVar_Result = FALSE;
+    for (i = 0; i < PARTY_SIZE; i++)
+    {
+        u32 mask = VarGet(VAR_PICKUP_NOTIF_MASK);
+        enum Item heldItem;
+
+        if (!(mask & (1 << i)))
+            continue;
+        VarSet(VAR_PICKUP_NOTIF_MASK, mask & ~(1 << i));
+        heldItem = GetMonData(&gPlayerParty[i], MON_DATA_HELD_ITEM);
+        if (heldItem == ITEM_NONE)
+            continue;
+        GetMonData(&gPlayerParty[i], MON_DATA_NICKNAME, gStringVar1);
+        CopyItemName(heldItem, gStringVar2);
+        gSpecialVar_Result = TRUE;
+        return;
+    }
+}
+
 #undef tState
 
 void SetUpFieldTasks(void)
@@ -207,6 +250,9 @@ void SetUpFieldTasks(void)
 
     if (!FuncIsActiveTask(Task_RunTimeBasedEvents))
         CreateTask(Task_RunTimeBasedEvents, 80);
+
+    if (!FuncIsActiveTask(Task_PickupNotification))
+        CreateTask(Task_PickupNotification, 80);
 }
 
 void ActivatePerStepCallback(u8 callbackId)
