@@ -41,7 +41,11 @@ struct MemBlock
     u8 data[0];
 };
 
-#define HEAP_SIZE 0x1C500
+// Trimmed by 64 bytes (0x1C500 -> 0x1C4C0) so the quest save data in
+// SaveBlock2 fits in EWRAM, which was within 72 bytes of full. The
+// heap floor is the ~88 KB transiently used when save blocks are
+// moved, so this does not come close to it.
+#define HEAP_SIZE 0x1C4C0
 extern u8 gHeap[HEAP_SIZE];
 
 #if TESTING || !defined(NDEBUG)
