@@ -35,7 +35,7 @@
 
 // レベルアップ技の思い出し
 #define P_PRE_EVO_MOVES                  TRUE    // TRUEなら、進化前のポケモンが覚える技も習得できる。
-#define P_ENABLE_ALL_LEVEL_UP_MOVES      TRUE    // TRUEなら、現在のレベルに関係なくすべてのレベルアップ技を習得できる。
+#define P_ENABLE_ALL_LEVEL_UP_MOVES      FALSE   // TRUEなら、現在のレベルに関係なくすべてのレベルアップ技を習得できる。
 
 // 技マシンの思い出し
 #define P_TM_MOVES_RELEARNER             TRUE    // TRUEなら、技マシンの技思い出しを有効にする。
