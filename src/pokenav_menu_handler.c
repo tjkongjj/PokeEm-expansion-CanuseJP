@@ -34,9 +34,9 @@ static void SetMenuInputHandler(struct Pokenav_Menu *);
 // Number of entries - 1 for that menu type
 static const u8 sLastCursorPositions[] =
 {
-    [POKENAV_MENU_TYPE_DEFAULT]           = 2,
-    [POKENAV_MENU_TYPE_UNLOCK_MC]         = 3,
-    [POKENAV_MENU_TYPE_UNLOCK_MC_RIBBONS] = 4,
+    [POKENAV_MENU_TYPE_DEFAULT]           = 3,
+    [POKENAV_MENU_TYPE_UNLOCK_MC]         = 4,
+    [POKENAV_MENU_TYPE_UNLOCK_MC_RIBBONS] = 5,
     [POKENAV_MENU_TYPE_CONDITION]         = 2,
     [POKENAV_MENU_TYPE_CONDITION_SEARCH]  = 5
 };
@@ -47,14 +47,16 @@ static const u8 sMenuItems[][MAX_POKENAV_MENUITEMS] =
     {
         POKENAV_MENUITEM_MAP,
         POKENAV_MENUITEM_CONDITION,
-        [2 ... MAX_POKENAV_MENUITEMS - 1] = POKENAV_MENUITEM_SWITCH_OFF
+        POKENAV_MENUITEM_QUEST,
+        [3 ... MAX_POKENAV_MENUITEMS - 1] = POKENAV_MENUITEM_SWITCH_OFF
     },
     [POKENAV_MENU_TYPE_UNLOCK_MC] =
     {
         POKENAV_MENUITEM_MAP,
         POKENAV_MENUITEM_CONDITION,
         POKENAV_MENUITEM_MATCH_CALL,
-        [3 ... MAX_POKENAV_MENUITEMS - 1] = POKENAV_MENUITEM_SWITCH_OFF
+        POKENAV_MENUITEM_QUEST,
+        [4 ... MAX_POKENAV_MENUITEMS - 1] = POKENAV_MENUITEM_SWITCH_OFF
     },
     [POKENAV_MENU_TYPE_UNLOCK_MC_RIBBONS] =
     {
@@ -62,7 +64,8 @@ static const u8 sMenuItems[][MAX_POKENAV_MENUITEMS] =
         POKENAV_MENUITEM_CONDITION,
         POKENAV_MENUITEM_MATCH_CALL,
         POKENAV_MENUITEM_RIBBONS,
-        [4 ... MAX_POKENAV_MENUITEMS - 1] = POKENAV_MENUITEM_SWITCH_OFF
+        POKENAV_MENUITEM_QUEST,
+        [5 ... MAX_POKENAV_MENUITEMS - 1] = POKENAV_MENUITEM_SWITCH_OFF
     },
     [POKENAV_MENU_TYPE_CONDITION] =
     {
@@ -246,6 +249,8 @@ static u32 HandleMainMenuInput(struct Pokenav_Menu *menu)
                 menu->callback = HandleCantOpenRibbonsInput;
                 return POKENAV_MENU_FUNC_NO_RIBBON_WINNERS;
             }
+        case POKENAV_MENUITEM_QUEST:
+            return POKENAV_MENU_FUNC_OPEN_QUEST;
         case POKENAV_MENUITEM_SWITCH_OFF:
             return POKENAV_MENU_FUNC_EXIT;
         }

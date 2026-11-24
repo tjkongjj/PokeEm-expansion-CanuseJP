@@ -1889,6 +1889,7 @@ const u32 gPokenavCondition_Tilemap[] = INCBIN_U32("build/extracted_contest/poke
 
 const u16 gPokenavOptions_Tilemap[] = INCBIN_U16("build/extracted_contest/pokenav/condition/search_options.bin");
 const u32 gPokenavOptions_Gfx[] = INCBIN_U32("build/extracted_contest/pokenav/options/options.4bpp.lz");
+const u32 gPokenavQuestLabel_Gfx[] = INCBIN_U32("graphics/pokenav/quest_label.4bpp.lz");
 const u16 gPokenavOptions_Pal[] = INCBIN_U16("build/extracted_contest/pokenav/options/options.gbapal");
 
 const u16 gPokenavHeader_Pal[] = INCBIN_U16("build/extracted_pokenav/header.gbapal");

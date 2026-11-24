@@ -20,6 +20,7 @@
 
 #define GFXTAG_BLUE_LIGHT 1
 #define GFXTAG_OPTIONS    3
+#define GFXTAG_QUEST_LABEL 4
 
 #define PALTAG_BLUE_LIGHT 3
 #define PALTAG_OPTIONS_DEFAULT 4 // Includes green for Smart/Region Map and yellow for Tough
@@ -163,6 +164,11 @@ static const struct CompressedSpriteSheet sPokenavOptionsSpriteSheets[] =
         .data = sMatchCallBlueLightTiles,
         .size = 0x0100,
         .tag = GFXTAG_BLUE_LIGHT
+    },
+    {
+        .data = gPokenavQuestLabel_Gfx,
+        .size = 0x0400,
+        .tag = GFXTAG_QUEST_LABEL
     }
 };
 
@@ -182,6 +188,9 @@ static const u16 sOptionsLabelGfx_RegionMap[] = {0x000, PALTAG_OPTIONS_DEFAULT -
 static const u16 sOptionsLabelGfx_Condition[] = {0x020, PALTAG_OPTIONS_BLUE - PALTAG_OPTIONS_START};
 static const u16 sOptionsLabelGfx_MatchCall[] = {0x040, PALTAG_OPTIONS_RED - PALTAG_OPTIONS_START};
 static const u16 sOptionsLabelGfx_Ribbons[]   = {0x060, PALTAG_OPTIONS_PINK - PALTAG_OPTIONS_START};
+// The quest label lives in its own sprite sheet (GFXTAG_QUEST_LABEL);
+// DrawOptionLabelGfx substitutes that sheet's tile start for this entry.
+static const u16 sOptionsLabelGfx_Quest[]     = {0x000, PALTAG_OPTIONS_DEFAULT - PALTAG_OPTIONS_START};
 static const u16 sOptionsLabelGfx_SwitchOff[] = {0x080, PALTAG_OPTIONS_BEIGE - PALTAG_OPTIONS_START};
 static const u16 sOptionsLabelGfx_Party[]     = {0x0A0, PALTAG_OPTIONS_BLUE - PALTAG_OPTIONS_START};
 static const u16 sOptionsLabelGfx_Search[]    = {0x0C0, PALTAG_OPTIONS_BLUE - PALTAG_OPTIONS_START};
@@ -206,6 +215,7 @@ struct
         .gfx = {
             sOptionsLabelGfx_RegionMap,
             sOptionsLabelGfx_Condition,
+            sOptionsLabelGfx_Quest,
             sOptionsLabelGfx_SwitchOff
         }
     },
@@ -217,18 +227,20 @@ struct
             sOptionsLabelGfx_RegionMap,
             sOptionsLabelGfx_Condition,
             sOptionsLabelGfx_MatchCall,
+            sOptionsLabelGfx_Quest,
             sOptionsLabelGfx_SwitchOff
         }
     },
     [POKENAV_MENU_TYPE_UNLOCK_MC_RIBBONS] =
     {
-        .yStart = 42,
-        .deltaY = 20,
+        .yStart = 32,
+        .deltaY = 19,
         .gfx = {
             sOptionsLabelGfx_RegionMap,
             sOptionsLabelGfx_Condition,
             sOptionsLabelGfx_MatchCall,
             sOptionsLabelGfx_Ribbons,
+            sOptionsLabelGfx_Quest,
             sOptionsLabelGfx_SwitchOff
         }
     },
@@ -275,6 +287,7 @@ static const u8 *const sPageDescriptions[] =
     [POKENAV_MENUITEM_CONDITION]               = COMPOUND_STRING("{JPN}ポケモンを くわしく しらべます"),
     [POKENAV_MENUITEM_MATCH_CALL]              = COMPOUND_STRING("{JPN}とうろくした ひとを よびだします"),
     [POKENAV_MENUITEM_RIBBONS]                 = COMPOUND_STRING("{JPN}てにいれた きねんリボンを みます"),
+    [POKENAV_MENUITEM_QUEST]                   = COMPOUND_STRING("{JPN}クエストの すすみぐあいを みます"),
     [POKENAV_MENUITEM_SWITCH_OFF]              = COMPOUND_STRING("{JPN}ポケナビを しまいます"),
     [POKENAV_MENUITEM_CONDITION_PARTY]         = COMPOUND_STRING("{JPN}てもちポケモンを くわしく しらべます"),
     [POKENAV_MENUITEM_CONDITION_SEARCH]        = COMPOUND_STRING("{JPN}すべてのポケモンを くわしく しらべます"),
@@ -803,6 +816,7 @@ static void FreeAndDestroyMainMenuSprites(void)
 {
     FreeSpriteTilesByTag(GFXTAG_OPTIONS);
     FreeSpriteTilesByTag(GFXTAG_BLUE_LIGHT);
+    FreeSpriteTilesByTag(GFXTAG_QUEST_LABEL);
     FreeSpritePaletteByTag(PALTAG_OPTIONS_DEFAULT);
     FreeSpritePaletteByTag(PALTAG_OPTIONS_BLUE);
     FreeSpritePaletteByTag(PALTAG_OPTIONS_PINK);
@@ -860,9 +874,12 @@ static void DrawOptionLabelGfx(const u16 *const *optionGfx, s32 yPos, s32 deltaY
     {
         if (*optionGfx != NULL)
         {
+            s32 labelBaseTile = (*optionGfx == sOptionsLabelGfx_Quest)
+                              ? GetSpriteTileStartByTag(GFXTAG_QUEST_LABEL)
+                              : baseTile;
             for (j = 0; j < NUM_OPTION_SUBSPRITES; j++)
             {
-                gfx->iconSprites[i][j]->oam.tileNum = (*optionGfx)[0] + baseTile + 8 * j;
+                gfx->iconSprites[i][j]->oam.tileNum = (*optionGfx)[0] + labelBaseTile + 8 * j;
                 gfx->iconSprites[i][j]->oam.paletteNum = IndexOfSpritePaletteTag((*optionGfx)[1] + PALTAG_OPTIONS_START);
                 gfx->iconSprites[i][j]->invisible = TRUE;
                 gfx->iconSprites[i][j]->y = yPos;

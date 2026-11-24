@@ -7,6 +7,7 @@
 #include "palette.h"
 #include "pokemon_storage_system.h"
 #include "pokenav.h"
+#include "quests.h"
 
 #define LOOPED_TASK_DECODE_STATE(action) (action - 5)
 
@@ -21,6 +22,7 @@ struct PokenavResources
     u16 mode;
     u16 conditionSearchId;
     bool32 hasAnyRibbons;
+    bool32 openQuestOnExit;
     void *substructPtrs[POKENAV_SUBSTRUCT_COUNT];
 };
 
@@ -381,6 +383,7 @@ static void InitPokenavResources(struct PokenavResources *resources)
 
     resources->mode = POKENAV_MODE_NORMAL;
     resources->currentMenuIndex = 0;
+    resources->openQuestOnExit = FALSE;
     resources->hasAnyRibbons = AnyMonHasRibbon();
     resources->currentMenuCb1 = NULL;
 }
@@ -460,6 +463,12 @@ static void Task_Pokenav(u8 taskId)
             ShutdownPokenav();
             tState = 5;
         }
+        else if (menuId == POKENAV_MENU_FUNC_OPEN_QUEST)
+        {
+            gPokenavResources->openQuestOnExit = TRUE;
+            ShutdownPokenav();
+            tState = 5;
+        }
         else if (menuId >= POKENAV_MENU_IDS_START)
         {
             PokenavMenuCallbacks[gPokenavResources->currentMenuIndex].free2();
@@ -489,10 +498,13 @@ static void Task_Pokenav(u8 taskId)
         if (!WaitForPokenavShutdownFade())
         {
             bool32 calledFromScript = (gPokenavResources->mode != POKENAV_MODE_NORMAL);
+            bool32 openQuest = gPokenavResources->openQuestOnExit;
 
             FreeMenuHandlerSubstruct1();
             FreePokenavResources();
-            if (calledFromScript)
+            if (openQuest)
+                SetMainCallback2(CB2_InitQuestMenuFromPokenav);
+            else if (calledFromScript)
                 SetMainCallback2(CB2_ReturnToFieldContinueScriptPlayMapMusic);
             else
                 SetMainCallback2(CB2_ReturnToFieldWithOpenMenu);

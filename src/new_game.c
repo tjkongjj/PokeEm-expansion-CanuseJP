@@ -1,6 +1,7 @@
 #include "global.h"
 #include "clock.h"
 #include "new_game.h"
+#include "quests.h"
 #include "random.h"
 #include "clock.h"
 #include "pokemon.h"
@@ -248,6 +249,7 @@ void NewGameInitData(void)
     SetCurrentDifficultyLevel(DIFFICULTY_NORMAL);
     ResetItemFlags();
     ResetDexNav();
+    QuestMenu_ResetMenuSaveData();
     ClearFollowerNPCData();
     SetExpansionTestFlags();
 }

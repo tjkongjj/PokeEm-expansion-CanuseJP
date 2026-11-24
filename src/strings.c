@@ -1181,3 +1181,9 @@ const u8 gText_Volcanobadge[] = _("{JPN}クリムゾンバッジ");
 const u8 gText_Earthbadge[] = _("{JPN}グリーンバッジ");
 const u8 gText_OakImportantToGetToKnowPokemonThroughly[] = _("{JPN}オーキド: ポケモンを よく しることは\nとても たいせつじゃ。\p");
 const u8 gText_OakThisIsListOfPokemon[] = _("{JPN}これは あなたの ポケモンリストじゃ \n{PLAYER}。\pここでは ポケモンの のうりょくや\nわざを みられる。\pどうぐを つかう ポケモンを\nえらぶことも できるぞ。{PAUSE_UNTIL_PRESS}");
+
+// Quest announcements (ported from Pokémon Dreamstone Mysteries by dsmyst)
+const u8 gText_QuestAnnounce[] = _("{JPN}クエスト {STR_VAR_1}\n{STR_VAR_2}");
+const u8 gText_QuestActive[] = _("{JPN}が はじまった!");
+const u8 gText_QuestComplete[] = _("{JPN}が おわった! おつかれさま!");
+const u8 gText_QuestUpdated[] = _("{JPN}が すすんだ! このちょうし!");
