@@ -439,6 +439,7 @@ static void Task_DisplayGaveMailFromBagMessage(u8);
 static void Task_HandleSwitchItemsFromBagYesNoInput(u8);
 static void Task_ValidateChosenHalfParty(u8);
 static bool8 GetBattleEntryEligibility(struct Pokemon *);
+static bool8 CanScaleBattleEntryForFrontierLevel50(void);
 static bool8 HasPartySlotAlreadyBeenSelected(u8);
 static u8 GetBattleEntryLevelCap(void);
 static u8 GetMaxBattleEntries(void);
@@ -7446,7 +7447,8 @@ static bool8 GetBattleEntryEligibility(struct Pokemon *mon)
     enum Species species;
 
     if (GetMonData(mon, MON_DATA_IS_EGG)
-        || GetMonData(mon, MON_DATA_LEVEL) > GetBattleEntryLevelCap()
+        || (GetMonData(mon, MON_DATA_LEVEL) > GetBattleEntryLevelCap()
+            && !CanScaleBattleEntryForFrontierLevel50())
         || (gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(MAP_BATTLE_FRONTIER_BATTLE_PYRAMID_LOBBY)
             && gSaveBlock1Ptr->location.mapNum == MAP_NUM(MAP_BATTLE_FRONTIER_BATTLE_PYRAMID_LOBBY)
             && GetMonData(mon, MON_DATA_HELD_ITEM) != ITEM_NONE))
@@ -7468,6 +7470,12 @@ static bool8 GetBattleEntryEligibility(struct Pokemon *mon)
             return FALSE;
         return TRUE;
     }
+}
+
+static bool8 CanScaleBattleEntryForFrontierLevel50(void)
+{
+    return VarGet(VAR_FRONTIER_FACILITY) < NUM_FRONTIER_FACILITIES
+        && gSpecialVar_0x8004 == FRONTIER_LVL_50;
 }
 
 static u8 CheckBattleEntriesAndGetMessage(void)

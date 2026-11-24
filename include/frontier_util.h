@@ -13,6 +13,7 @@ struct Pokemon;
 #define FRONTIER_MON_FILTER_TYPE(type) (FRONTIER_MON_FILTER_TYPE_BASE + (type))
 
 void CallFrontierUtilFunc(void);
+void SaveFrontierPlayerPartyMon(u16 partyIndex, const struct Pokemon *mon);
 u8 GetFrontierBrainStatus(void);
 void CopyFrontierTrainerText(u8 whichText, u16 trainerId);
 void ResetWinStreaks(void);

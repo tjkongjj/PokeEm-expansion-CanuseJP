@@ -88,6 +88,9 @@ static void ValidateVisitingTrainer(void);
 static void IncrementWinStreak(void);
 static void RestoreHeldItems(void);
 static void SaveRecordBattle(void);
+static bool8 ShouldTemporarilyScaleFrontierMonsToLevel50(void);
+static void SetMonExpToLevelAndRecalculate(struct Pokemon *mon, u8 level);
+static void ApplyTemporaryFrontierLevel50ToPlayerParty(void);
 static void BufferFrontierTrainerName(void);
 static void ResetSketchedMoves(void);
 static void SetFacilityBrainObjectEvent(void);
@@ -958,6 +961,7 @@ static void SetSelectedPartyOrder(void)
     for (i = 0; i < gSpecialVar_0x8005; i++)
         gSelectedOrderFromParty[i] = gSaveBlock2Ptr->frontier.selectedPartyMons[i];
     ReducePlayerPartyToSelectedMons();
+    ApplyTemporaryFrontierLevel50ToPlayerParty();
 }
 
 static void DoSoftReset_(void)
@@ -978,8 +982,71 @@ static void SaveSelectedParty(void)
     {
         u16 monId = gSaveBlock2Ptr->frontier.selectedPartyMons[i] - 1;
         if (monId < PARTY_SIZE)
-            SavePlayerPartyMon(gSaveBlock2Ptr->frontier.selectedPartyMons[i] - 1, &gParties[B_TRAINER_PLAYER][i]);
+            SaveFrontierPlayerPartyMon(monId, &gParties[B_TRAINER_PLAYER][i]);
     }
+}
+
+static bool8 ShouldTemporarilyScaleFrontierMonsToLevel50(void)
+{
+    return gSaveBlock2Ptr->frontier.lvlMode == FRONTIER_LVL_50
+        && VarGet(VAR_FRONTIER_FACILITY) < NUM_FRONTIER_FACILITIES;
+}
+
+static void SetMonExpToLevelAndRecalculate(struct Pokemon *mon, u8 level)
+{
+    enum Species species = GetMonData(mon, MON_DATA_SPECIES);
+    u32 exp;
+
+    if (species == SPECIES_NONE || species == SPECIES_EGG)
+        return;
+
+    exp = gExperienceTables[gSpeciesInfo[species].growthRate][level];
+    SetMonData(mon, MON_DATA_EXP, &exp);
+    CalculateMonStats(mon);
+}
+
+static void ApplyTemporaryFrontierLevel50ToPlayerParty(void)
+{
+    u32 i;
+
+    if (!ShouldTemporarilyScaleFrontierMonsToLevel50())
+        return;
+
+    for (i = 0; i < MAX_FRONTIER_PARTY_SIZE; i++)
+    {
+        struct Pokemon *mon = &gParties[B_TRAINER_PLAYER][i];
+
+        if (GetMonData(mon, MON_DATA_LEVEL) > FRONTIER_MAX_LEVEL_50)
+            SetMonExpToLevelAndRecalculate(mon, FRONTIER_MAX_LEVEL_50);
+    }
+}
+
+void SaveFrontierPlayerPartyMon(u16 partyIndex, const struct Pokemon *mon)
+{
+    struct Pokemon copy;
+    struct Pokemon *savedMon;
+    enum Species species;
+    u32 exp;
+
+    if (partyIndex >= PARTY_SIZE)
+        return;
+
+    copy = *mon;
+    savedMon = GetSavedPlayerPartyMon(partyIndex);
+    species = GetMonData(savedMon, MON_DATA_SPECIES);
+    if (ShouldTemporarilyScaleFrontierMonsToLevel50()
+        && species != SPECIES_NONE
+        && species != SPECIES_EGG
+        && species == GetMonData(&copy, MON_DATA_SPECIES)
+        && GetMonData(savedMon, MON_DATA_LEVEL) > FRONTIER_MAX_LEVEL_50)
+    {
+        // Restore only the saved copy; live challenge mons must stay at level 50.
+        exp = GetMonData(savedMon, MON_DATA_EXP);
+        SetMonData(&copy, MON_DATA_EXP, &exp);
+        CalculateMonStats(&copy);
+    }
+
+    SavePlayerPartyMon(partyIndex, &copy);
 }
 
 static void ShowFacilityResultsWindow(void)
@@ -2027,11 +2094,12 @@ static void AppendIfValid(enum Species species, enum Item heldItem, u16 hp, enum
 {
     s32 i = 0;
 
+    (void)lvlMode;
+    (void)monLevel;
+
     if (species == SPECIES_EGG || species == SPECIES_NONE)
         return;
     if (gSpeciesInfo[species].isFrontierBanned)
-        return;
-    if (lvlMode == FRONTIER_LVL_50 && monLevel > FRONTIER_MAX_LEVEL_50)
         return;
 
     for (i = 0; i < *count && speciesArray[i] != species; i++)
@@ -2286,7 +2354,7 @@ static void ResetSketchedMoves(void)
                 if (k == MAX_MON_MOVES)
                     SetMonMoveSlot(&gParties[B_TRAINER_PLAYER][i], MOVE_SKETCH, j);
             }
-            SavePlayerPartyMon(gSaveBlock2Ptr->frontier.selectedPartyMons[i] - 1, &gParties[B_TRAINER_PLAYER][i]);
+            SaveFrontierPlayerPartyMon(gSaveBlock2Ptr->frontier.selectedPartyMons[i] - 1, &gParties[B_TRAINER_PLAYER][i]);
         }
     }
 }
