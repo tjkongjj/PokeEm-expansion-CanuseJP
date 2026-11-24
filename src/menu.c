@@ -394,11 +394,12 @@ u8 AddStartMenuWindow(u8 numActions)
 {
     if (sStartMenuWindowId == WINDOW_NONE)
     {
-        // The start menu shows a single row and scrolls one row at a time; it
-        // is also one tile narrower than before to trim the right margin. The
-        // bottom tile rows are kept as the strip the scroll arrows are drawn in
-        if (numActions > 1)
-            numActions = 1;
+        // The start menu shows up to four rows at a time and scrolls as the
+        // cursor moves; it is also one tile narrower than before to trim the
+        // right margin. The bottom tile rows are kept as the strip the scroll
+        // arrows are drawn in
+        if (numActions > 4)
+            numActions = 4;
         sStartMenuWindowId = AddWindowParameterized(0, 20, 1, 9, (numActions * 2) + 2, 15, 0x139);
     }
     return sStartMenuWindowId;

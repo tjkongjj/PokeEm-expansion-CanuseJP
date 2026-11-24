@@ -210,9 +210,9 @@ static const struct MenuAction sStartMenuItems[] =
     [MENU_ACTION_DEXNAV]          = {gText_MenuDexNav,  {.u8_void = StartMenuDexNavCallback}},
 };
 
-// The start menu window shows only the selected row; the list scrolls one
-// row at a time inside this single-row window
-#define START_MENU_VISIBLE_ROWS 1
+// The start menu window shows up to this many rows at a time; the list
+// scrolls inside the window as the cursor moves past its edges
+#define START_MENU_VISIBLE_ROWS 4
 
 static const u8 sText_StartMenuArrowUp[] = _("{UP_ARROW}");
 static const u8 sText_StartMenuArrowDown[] = _("{DOWN_ARROW}");
