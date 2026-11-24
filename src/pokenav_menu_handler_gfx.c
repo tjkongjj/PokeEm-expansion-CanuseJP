@@ -20,7 +20,14 @@
 
 #define GFXTAG_BLUE_LIGHT 1
 #define GFXTAG_OPTIONS    3
-#define GFXTAG_QUEST_LABEL 4
+// Sprite tile tags are shared across the whole Pokenav: 1 = blue
+// light, 2 = left header, 3 = options, 4 = region map player icon,
+// 5 = region map cursor, 6 = city zoom, 7 = match call cursor,
+// 8 = trainer pic, 9 = ribbon icons, 10 = list arrow, 100+ =
+// condition screens. The quest label must not reuse one of those:
+// with 4, GetSpriteTileStartByTag could return the player icon's
+// tile range after visiting the region map, garbling the label.
+#define GFXTAG_QUEST_LABEL 11
 
 #define PALTAG_BLUE_LIGHT 3
 #define PALTAG_OPTIONS_DEFAULT 4 // Includes green for Smart/Region Map and yellow for Tough
