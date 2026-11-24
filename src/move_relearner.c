@@ -668,23 +668,6 @@ static void Task_MoveRelearner_LearnMove(u8 taskId)
     gTasks[taskId].tState = LearnMove(&sMoveLearnUI, taskId);
 }
 
-static bool32 UpdateMoveRelearnerState(void)
-{
-    u32 state;
-    struct BoxPokemon *boxmon = GetSelectedBoxMonFromPcOrParty();
-    for (u32 i = 1; i < MOVE_RELEARNER_COUNT; i++)
-    {
-        state = (gMoveRelearnerState + i) % MOVE_RELEARNER_COUNT;
-        if (CanBoxMonRelearnMoves(boxmon, state))
-        {
-            gMoveRelearnerState = state;
-            StoreMoveText();
-            return TRUE;
-        }
-    }
-    return FALSE;
-}
-
 static void Task_MoveRelearner_HandleInput(u8 taskId)
 {
     s32 itemId = ListMenu_ProcessInput(sMoveRelearnerStruct->moveListMenuTask);
@@ -711,21 +694,9 @@ static void Task_MoveRelearner_HandleInput(u8 taskId)
     switch (itemId)
     {
     case LIST_NOTHING_CHOSEN:
-        if (JOY_NEW(SELECT_BUTTON) && gRelearnMode != RELEARN_MODE_SCRIPT)
-        {
-            if (UpdateMoveRelearnerState())
-            {
-                PlaySE(SE_SUCCESS);
-                sMoveRelearnerScrollState.listOffset = 0;
-                sMoveRelearnerScrollState.listRow = 0;
-                RedrawMoveList();
-            }
-            else if (GameHasDifferentRelearners())
-            {
-                PlaySE(SE_FAILURE);
-            }
-        }
-        else if (!C_HIDE_CONTEST_DATA)
+        // No category switching: the summary screen's relearner is limited
+        // to the category it was opened with (level-up moves).
+        if (!C_HIDE_CONTEST_DATA)
         {
             if (!(JOY_NEW(DPAD_LEFT | DPAD_RIGHT)) && !GetLRKeysPressed())
                 break;

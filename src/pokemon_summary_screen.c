@@ -1935,18 +1935,12 @@ bool32 HasAnyRelearnableMoves(enum MoveRelearnerStates state)
 
 static void UpdateMoveRelearnerState(void)
 {
-    u32 state;
+    // The summary screen's move relearner only offers level-up moves; it
+    // never falls through to the egg/TM/tutor categories.
     sMonSummaryScreen->hasRelearnableMoves = FALSE;
-    for (u32 i = 0; i < MOVE_RELEARNER_COUNT; i++)
-    {
-        state = (gMoveRelearnerState + i) % MOVE_RELEARNER_COUNT;
-        if (HasAnyRelearnableMoves(state))
-        {
-            sMonSummaryScreen->hasRelearnableMoves = TRUE;
-            gMoveRelearnerState = state;
-            break;
-        }
-    }
+    gMoveRelearnerState = MOVE_RELEARNER_LEVEL_UP_MOVES;
+    if (HasAnyRelearnableMoves(MOVE_RELEARNER_LEVEL_UP_MOVES))
+        sMonSummaryScreen->hasRelearnableMoves = TRUE;
     UpdateRelearnPrompt();
 }
 
