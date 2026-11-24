@@ -5,6 +5,8 @@
 // (https://github.com/dsmyst/dreamstone-mysteries); quest system design
 // by Skeli, decomp implementation by pkmnsnfrm.
 
+#include "main.h"
+
 //#include constants/quests.h       //included in global.h
 
 #define SORT_DEFAULT 0
