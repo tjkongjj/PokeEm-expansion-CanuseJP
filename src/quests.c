@@ -36,6 +36,8 @@
 #include "text_window.h"
 #include "quests.h"
 #include "overworld.h"
+#include "pokedex.h"
+#include "constants/game_stat.h"
 #include "pokenav.h"
 #include "script.h"
 #include "event_data.h"
@@ -65,6 +67,7 @@ struct QuestMenuResources
 	u8 filterMode;
 	u8 parentQuest;
 	bool8 restoreCursor;
+	u8 sortedList[QUEST_COUNT];
 };
 
 struct QuestMenuStaticResources
@@ -240,8 +243,11 @@ static const u8 sText_ShowLocation[] =
       _("{JPN}場所: {STR_VAR_2}");
 static const u8 sText_StartForMore[] =
       _("{JPN}STARTで くわしく");
+// Shown for achieved (REWARD) quests. Rewards are not implemented
+// yet, so this is a plain achievement message for now; the in-menu
+// claim prompt replaces it when claiming is implemented.
 static const u8 sText_ReturnRecieveReward[] =
-      _("{JPN}{STR_VAR_2}に もどって\nほうびを もらおう!");
+      _("{JPN}たっせいした!");
 static const u8 sText_SubQuestButton[] = _(" {A_BUTTON}");
 static const u8 sText_Type[] = _("{R_BUTTON}しぼりこみ");
 static const u8 sText_Caught[] = _("{JPN}つかまえた");
@@ -254,50 +260,166 @@ static const u8 sText_ColorGreen[] = _("{COLOR}{GREEN}");
 static const u8 sText_AZ[] = _(" 50音順");
 
 ///////////////////////////////////////////////////////////////////////////////
-//////////////////////BEGIN SUBQUEST CUSTOMIZATION/////////////////////////////
+//////////////////////BEGIN ACHIEVEMENT DATA////////////////////////////////
 
-// Placeholder quest content. Real quests are authored here: add texts,
-// a sSubQuestsN table per quest with subquests, and an entry in
-// sSideQuests below (plus the ids in include/constants/quests.h).
-static const u8 sText_PlaceholderQuestName[] = _("{JPN}テストクエスト");
-static const u8 sText_PlaceholderQuestDesc[] =
-      _("{JPN}クエストシステムの テスト用\n"
-        "クエストです。\n"
-        "\n"
-        "ポケナビから この画面が 開けて\n"
-        "閉じると ポケナビに 戻れば OKです。");
-static const u8 sText_PlaceholderQuestDoneDesc[] =
-      _("{JPN}テスト 完了!\n"
-        "ありがとうございました。");
-static const u8 sText_PlaceholderQuestMap[] = _("{JPN}ミシロタウン");
-static const u8 sText_PlaceholderSub1Name[] = _("{JPN}あいさつに 行こう");
-static const u8 sText_PlaceholderSub1Desc[] =
-      _("{JPN}ミシロタウンの ハカセに\n"
-        "あいさつ しよう。");
-static const u8 sText_PlaceholderSub2Name[] = _("{JPN}もどって はなそう");
-static const u8 sText_PlaceholderSub2Desc[] =
-      _("{JPN}ハカセに もういちど\n"
-        "はなしかけよう。");
+// Achievement-style quest content (provisional data, no rewards yet).
+// All entries are visible and active from the start of the game; the
+// checks in sQuestChecks below advance them to the achieved (REWARD)
+// state when the quest menu is opened. Edit quest texts here, and the
+// ids in include/constants/quests.h.
 
-//Declaration of subquest structures. Edits to subquests are made here.
+static const u8 sText_AchievementDoneDesc[] = _("{JPN}たっせいした!");
+
+static const u8 sText_MapKanazumi[] = _("{JPN}カナズミシティ");
+static const u8 sText_MapMuro[] = _("{JPN}ムロタウン");
+static const u8 sText_MapKinsetsu[] = _("{JPN}キンセツシティ");
+static const u8 sText_MapFuen[] = _("{JPN}フエンタウン");
+static const u8 sText_MapTouka[] = _("{JPN}トウカシティ");
+static const u8 sText_MapHiwamaki[] = _("{JPN}ヒワマキシティ");
+static const u8 sText_MapTokusane[] = _("{JPN}トクサネシティ");
+static const u8 sText_MapRune[] = _("{JPN}ルネシティ");
+static const u8 sText_MapFrontier[] = _("{JPN}バトルフロンティア");
+static const u8 sText_MapHoenn[] = _("{JPN}ホウエン地方");
+static const u8 sText_MapLeague[] = _("{JPN}ポケモンリーグ");
+
+// Badge quests
+static const u8 sText_Badge1Name[] = _("{JPN}ストーンバッジ");
+static const u8 sText_Badge1Desc[] =
+      _("{JPN}カナズミジムの ツツジに かって\n"
+        "バッジを てにいれる");
+static const u8 sText_Badge2Name[] = _("{JPN}ナックルバッジ");
+static const u8 sText_Badge2Desc[] =
+      _("{JPN}ムロジムの トウキに かって\n"
+        "バッジを てにいれる");
+static const u8 sText_Badge3Name[] = _("{JPN}ダイナモバッジ");
+static const u8 sText_Badge3Desc[] =
+      _("{JPN}キンセツジムの テッセンに かって\n"
+        "バッジを てにいれる");
+static const u8 sText_Badge4Name[] = _("{JPN}ヒートバッジ");
+static const u8 sText_Badge4Desc[] =
+      _("{JPN}フエンジムの アスナに かって\n"
+        "バッジを てにいれる");
+static const u8 sText_Badge5Name[] = _("{JPN}バランスバッジ");
+static const u8 sText_Badge5Desc[] =
+      _("{JPN}トウカジムの センリに かって\n"
+        "バッジを てにいれる");
+static const u8 sText_Badge6Name[] = _("{JPN}フェザーバッジ");
+static const u8 sText_Badge6Desc[] =
+      _("{JPN}ヒワマキジムの ナギに かって\n"
+        "バッジを てにいれる");
+static const u8 sText_Badge7Name[] = _("{JPN}マインドバッジ");
+static const u8 sText_Badge7Desc[] =
+      _("{JPN}トクサネジムの フウとランに かって\n"
+        "バッジを てにいれる");
+static const u8 sText_Badge8Name[] = _("{JPN}レインバッジ");
+static const u8 sText_Badge8Desc[] =
+      _("{JPN}ルネジムの アダンに かって\n"
+        "バッジを てにいれる");
+
+// Frontier symbol quests
+static const u8 sText_SymbolTowerSilverName[] = _("{JPN}タワーのシルバーシンボル");
+static const u8 sText_SymbolTowerGoldName[] = _("{JPN}タワーのゴールドシンボル");
+static const u8 sText_SymbolTowerDesc[] =
+      _("{JPN}バトルタワーで リラに かって\n"
+        "シンボルを てにいれる");
+static const u8 sText_SymbolDomeSilverName[] = _("{JPN}ドームのシルバーシンボル");
+static const u8 sText_SymbolDomeGoldName[] = _("{JPN}ドームのゴールドシンボル");
+static const u8 sText_SymbolDomeDesc[] =
+      _("{JPN}バトルドームで ヒースに かって\n"
+        "シンボルを てにいれる");
+static const u8 sText_SymbolPalaceSilverName[] = _("{JPN}パレスのシルバーシンボル");
+static const u8 sText_SymbolPalaceGoldName[] = _("{JPN}パレスのゴールドシンボル");
+static const u8 sText_SymbolPalaceDesc[] =
+      _("{JPN}バトルパレスで ウコンに かって\n"
+        "シンボルを てにいれる");
+static const u8 sText_SymbolArenaSilverName[] = _("{JPN}アリーナのシルバーシンボル");
+static const u8 sText_SymbolArenaGoldName[] = _("{JPN}アリーナのゴールドシンボル");
+static const u8 sText_SymbolArenaDesc[] =
+      _("{JPN}バトルアリーナで コゴミに かって\n"
+        "シンボルを てにいれる");
+static const u8 sText_SymbolFactorySilverName[] = _("{JPN}ファクトリーのシルバーシンボル");
+static const u8 sText_SymbolFactoryGoldName[] = _("{JPN}ファクトリーのゴールドシンボル");
+static const u8 sText_SymbolFactoryDesc[] =
+      _("{JPN}バトルファクトリーで ダツラに かって\n"
+        "シンボルを てにいれる");
+static const u8 sText_SymbolPikeSilverName[] = _("{JPN}チューブのシルバーシンボル");
+static const u8 sText_SymbolPikeGoldName[] = _("{JPN}チューブのゴールドシンボル");
+static const u8 sText_SymbolPikeDesc[] =
+      _("{JPN}バトルチューブで アザミに かって\n"
+        "シンボルを てにいれる");
+static const u8 sText_SymbolPyramidSilverName[] = _("{JPN}ピラミッドのシルバーシンボル");
+static const u8 sText_SymbolPyramidGoldName[] = _("{JPN}ピラミッドのゴールドシンボル");
+static const u8 sText_SymbolPyramidDesc[] =
+      _("{JPN}バトルピラミッドで ジンダイに かって\n"
+        "シンボルを てにいれる");
+static const u8 sText_SymbolAllSilverName[] = _("{JPN}シルバーシンボル全制覇");
+static const u8 sText_SymbolAllSilverDesc[] =
+      _("{JPN}すべての しせつの\n"
+        "シルバーシンボルを あつめる");
+static const u8 sText_SymbolAllGoldName[] = _("{JPN}ゴールドシンボル全制覇");
+static const u8 sText_SymbolAllGoldDesc[] =
+      _("{JPN}すべての しせつの\n"
+        "ゴールドシンボルを あつめる");
+
+// Pokedex milestone quests. {STR_VAR_2} is replaced with the current
+// number of caught species when the text is generated.
+static const u8 sText_Dex30Name[] = _("{JPN}ずかん 30しゅるい");
+static const u8 sText_Dex30Desc[] =
+      _("{JPN}ポケモンを 30しゅるい つかまえる\n"
+        "{STR_VAR_2}/30");
+static const u8 sText_Dex50Name[] = _("{JPN}ずかん 50しゅるい");
+static const u8 sText_Dex50Desc[] =
+      _("{JPN}ポケモンを 50しゅるい つかまえる\n"
+        "{STR_VAR_2}/50");
+static const u8 sText_Dex100Name[] = _("{JPN}ずかん 100しゅるい");
+static const u8 sText_Dex100Desc[] =
+      _("{JPN}ポケモンを 100しゅるい つかまえる\n"
+        "{STR_VAR_2}/100");
+static const u8 sText_Dex200Name[] = _("{JPN}ずかん 200しゅるい");
+static const u8 sText_Dex200Desc[] =
+      _("{JPN}ポケモンを 200しゅるい つかまえる\n"
+        "{STR_VAR_2}/200");
+static const u8 sText_Dex300Name[] = _("{JPN}ずかん 300しゅるい");
+static const u8 sText_Dex300Desc[] =
+      _("{JPN}ポケモンを 300しゅるい つかまえる\n"
+        "{STR_VAR_2}/300");
+static const u8 sText_Dex500Name[] = _("{JPN}ずかん 500しゅるい");
+static const u8 sText_Dex500Desc[] =
+      _("{JPN}ポケモンを 500しゅるい つかまえる\n"
+        "{STR_VAR_2}/500");
+static const u8 sText_Dex750Name[] = _("{JPN}ずかん 750しゅるい");
+static const u8 sText_Dex750Desc[] =
+      _("{JPN}ポケモンを 750しゅるい つかまえる\n"
+        "{STR_VAR_2}/750");
+static const u8 sText_Dex1025Name[] = _("{JPN}ずかん かんせい");
+static const u8 sText_Dex1025Desc[] =
+      _("{JPN}ポケモンを 1025しゅるい つかまえる\n"
+        "{STR_VAR_2}/1025");
+
+// Hall of Fame quests. {STR_VAR_2} is the number of Hall of Fame entries.
+static const u8 sText_Hof1Name[] = _("{JPN}でんどういり");
+static const u8 sText_Hof1Desc[] =
+      _("{JPN}ポケモンリーグで ゆうしょうする\n"
+        "{STR_VAR_2}/1");
+static const u8 sText_Hof5Name[] = _("{JPN}でんどういり 5かい");
+static const u8 sText_Hof5Desc[] =
+      _("{JPN}ポケモンリーグで 5かい ゆうしょうする\n"
+        "{STR_VAR_2}/5");
+static const u8 sText_Hof20Name[] = _("{JPN}でんどういり 20かい");
+static const u8 sText_Hof20Desc[] =
+      _("{JPN}ポケモンリーグで 20かい ゆうしょうする\n"
+        "{STR_VAR_2}/20");
+
+//Declaration of subquest structures. Achievements have no subquests;
+// this dummy table only keeps the subquest pointers valid.
 #define sub_quest(i, n, d, m, s, st, t) {.id = i, .name = n, .desc = d, .map = m, .sprite = s, .spritetype = st, .type = t}
-static const struct SubQuest sSubQuests1[QUEST_1_SUB_COUNT] =
+static const struct SubQuest sSubQuestsDummy[SUB_QUEST_COUNT] =
 {
 	sub_quest(
-	      SUB_QUEST_1,
-	      sText_PlaceholderSub1Name,
-	      sText_PlaceholderSub1Desc,
-	      sText_PlaceholderQuestMap,
-	      OBJ_EVENT_GFX_WALLY,
-	      OBJECT,
-	      sText_Empty
-	),
-
-	sub_quest(
-	      SUB_QUEST_2,
-	      sText_PlaceholderSub2Name,
-	      sText_PlaceholderSub2Desc,
-	      sText_PlaceholderQuestMap,
+	      SUB_QUEST_DUMMY,
+	      sText_Empty,
+	      sText_Empty,
+	      sText_Empty,
 	      OBJ_EVENT_GFX_WALLY,
 	      OBJECT,
 	      sText_Empty
@@ -314,18 +436,130 @@ static const struct SubQuest sSubQuests1[QUEST_1_SUB_COUNT] =
 #define side_quest(n, d, dd, m, s, st, sq, ns) {.name = n, .desc = d, .donedesc = dd, .map = m, .sprite = s, .spritetype = st, .subquests = sq, .numSubquests = ns}
 static const struct SideQuest sSideQuests[QUEST_COUNT] =
 {
-	side_quest(
-	      sText_PlaceholderQuestName,
-	      sText_PlaceholderQuestDesc,
-	      sText_PlaceholderQuestDoneDesc,
-	      sText_PlaceholderQuestMap,
-	      OBJ_EVENT_GFX_WALLY,
-	      OBJECT,
-	      sSubQuests1,
-	      QUEST_1_SUB_COUNT
-	),
+	side_quest(sText_Badge1Name, sText_Badge1Desc, sText_AchievementDoneDesc, sText_MapKanazumi, SPECIES_NOSEPASS, PKMN, sSubQuestsDummy, 0),
+	side_quest(sText_Badge2Name, sText_Badge2Desc, sText_AchievementDoneDesc, sText_MapMuro, SPECIES_MAKUHITA, PKMN, sSubQuestsDummy, 0),
+	side_quest(sText_Badge3Name, sText_Badge3Desc, sText_AchievementDoneDesc, sText_MapKinsetsu, SPECIES_MANECTRIC, PKMN, sSubQuestsDummy, 0),
+	side_quest(sText_Badge4Name, sText_Badge4Desc, sText_AchievementDoneDesc, sText_MapFuen, SPECIES_TORKOAL, PKMN, sSubQuestsDummy, 0),
+	side_quest(sText_Badge5Name, sText_Badge5Desc, sText_AchievementDoneDesc, sText_MapTouka, SPECIES_SLAKING, PKMN, sSubQuestsDummy, 0),
+	side_quest(sText_Badge6Name, sText_Badge6Desc, sText_AchievementDoneDesc, sText_MapHiwamaki, SPECIES_ALTARIA, PKMN, sSubQuestsDummy, 0),
+	side_quest(sText_Badge7Name, sText_Badge7Desc, sText_AchievementDoneDesc, sText_MapTokusane, SPECIES_SOLROCK, PKMN, sSubQuestsDummy, 0),
+	side_quest(sText_Badge8Name, sText_Badge8Desc, sText_AchievementDoneDesc, sText_MapRune, SPECIES_MILOTIC, PKMN, sSubQuestsDummy, 0),
+	side_quest(sText_SymbolTowerSilverName, sText_SymbolTowerDesc, sText_AchievementDoneDesc, sText_MapFrontier, SPECIES_ENTEI, PKMN, sSubQuestsDummy, 0),
+	side_quest(sText_SymbolTowerGoldName, sText_SymbolTowerDesc, sText_AchievementDoneDesc, sText_MapFrontier, SPECIES_ENTEI, PKMN, sSubQuestsDummy, 0),
+	side_quest(sText_SymbolDomeSilverName, sText_SymbolDomeDesc, sText_AchievementDoneDesc, sText_MapFrontier, SPECIES_SALAMENCE, PKMN, sSubQuestsDummy, 0),
+	side_quest(sText_SymbolDomeGoldName, sText_SymbolDomeDesc, sText_AchievementDoneDesc, sText_MapFrontier, SPECIES_SALAMENCE, PKMN, sSubQuestsDummy, 0),
+	side_quest(sText_SymbolPalaceSilverName, sText_SymbolPalaceDesc, sText_AchievementDoneDesc, sText_MapFrontier, SPECIES_SUICUNE, PKMN, sSubQuestsDummy, 0),
+	side_quest(sText_SymbolPalaceGoldName, sText_SymbolPalaceDesc, sText_AchievementDoneDesc, sText_MapFrontier, SPECIES_SUICUNE, PKMN, sSubQuestsDummy, 0),
+	side_quest(sText_SymbolArenaSilverName, sText_SymbolArenaDesc, sText_AchievementDoneDesc, sText_MapFrontier, SPECIES_HERACROSS, PKMN, sSubQuestsDummy, 0),
+	side_quest(sText_SymbolArenaGoldName, sText_SymbolArenaDesc, sText_AchievementDoneDesc, sText_MapFrontier, SPECIES_HERACROSS, PKMN, sSubQuestsDummy, 0),
+	side_quest(sText_SymbolFactorySilverName, sText_SymbolFactoryDesc, sText_AchievementDoneDesc, sText_MapFrontier, SPECIES_PORYGON, PKMN, sSubQuestsDummy, 0),
+	side_quest(sText_SymbolFactoryGoldName, sText_SymbolFactoryDesc, sText_AchievementDoneDesc, sText_MapFrontier, SPECIES_PORYGON, PKMN, sSubQuestsDummy, 0),
+	side_quest(sText_SymbolPikeSilverName, sText_SymbolPikeDesc, sText_AchievementDoneDesc, sText_MapFrontier, SPECIES_SEVIPER, PKMN, sSubQuestsDummy, 0),
+	side_quest(sText_SymbolPikeGoldName, sText_SymbolPikeDesc, sText_AchievementDoneDesc, sText_MapFrontier, SPECIES_SEVIPER, PKMN, sSubQuestsDummy, 0),
+	side_quest(sText_SymbolPyramidSilverName, sText_SymbolPyramidDesc, sText_AchievementDoneDesc, sText_MapFrontier, SPECIES_REGIROCK, PKMN, sSubQuestsDummy, 0),
+	side_quest(sText_SymbolPyramidGoldName, sText_SymbolPyramidDesc, sText_AchievementDoneDesc, sText_MapFrontier, SPECIES_REGIROCK, PKMN, sSubQuestsDummy, 0),
+	side_quest(sText_SymbolAllSilverName, sText_SymbolAllSilverDesc, sText_AchievementDoneDesc, sText_MapFrontier, SPECIES_REGISTEEL, PKMN, sSubQuestsDummy, 0),
+	side_quest(sText_SymbolAllGoldName, sText_SymbolAllGoldDesc, sText_AchievementDoneDesc, sText_MapFrontier, SPECIES_HO_OH, PKMN, sSubQuestsDummy, 0),
+	side_quest(sText_Dex30Name, sText_Dex30Desc, sText_AchievementDoneDesc, sText_MapHoenn, SPECIES_PIKACHU, PKMN, sSubQuestsDummy, 0),
+	side_quest(sText_Dex50Name, sText_Dex50Desc, sText_AchievementDoneDesc, sText_MapHoenn, SPECIES_EEVEE, PKMN, sSubQuestsDummy, 0),
+	side_quest(sText_Dex100Name, sText_Dex100Desc, sText_AchievementDoneDesc, sText_MapHoenn, SPECIES_SNORLAX, PKMN, sSubQuestsDummy, 0),
+	side_quest(sText_Dex200Name, sText_Dex200Desc, sText_AchievementDoneDesc, sText_MapHoenn, SPECIES_LAPRAS, PKMN, sSubQuestsDummy, 0),
+	side_quest(sText_Dex300Name, sText_Dex300Desc, sText_AchievementDoneDesc, sText_MapHoenn, SPECIES_DITTO, PKMN, sSubQuestsDummy, 0),
+	side_quest(sText_Dex500Name, sText_Dex500Desc, sText_AchievementDoneDesc, sText_MapHoenn, SPECIES_PORYGON2, PKMN, sSubQuestsDummy, 0),
+	side_quest(sText_Dex750Name, sText_Dex750Desc, sText_AchievementDoneDesc, sText_MapHoenn, SPECIES_MEWTWO, PKMN, sSubQuestsDummy, 0),
+	side_quest(sText_Dex1025Name, sText_Dex1025Desc, sText_AchievementDoneDesc, sText_MapHoenn, SPECIES_MEW, PKMN, sSubQuestsDummy, 0),
+	side_quest(sText_Hof1Name, sText_Hof1Desc, sText_AchievementDoneDesc, sText_MapLeague, SPECIES_METAGROSS, PKMN, sSubQuestsDummy, 0),
+	side_quest(sText_Hof5Name, sText_Hof5Desc, sText_AchievementDoneDesc, sText_MapLeague, SPECIES_METAGROSS, PKMN, sSubQuestsDummy, 0),
+	side_quest(sText_Hof20Name, sText_Hof20Desc, sText_AchievementDoneDesc, sText_MapLeague, SPECIES_METAGROSS, PKMN, sSubQuestsDummy, 0),
 };
 ////////////////////////END QUEST CUSTOMIZATION////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+
+// Achievement checks, parallel to sSideQuests. When the quest menu
+// opens, QuestMenu_CheckAchievements advances every active quest whose
+// progress has reached its goal to the achieved (REWARD) state.
+#define QUEST_CHECK_NONE       0
+#define QUEST_CHECK_FLAG       1 // target = flag id, goal is ignored (1)
+#define QUEST_CHECK_GAME_STAT  2 // target = GAME_STAT_* id
+#define QUEST_CHECK_DEX_CAUGHT 3 // target is ignored, goal = species count
+
+struct QuestCheck
+{
+	u8 type;
+	u16 target;
+	u32 goal;
+};
+
+static const struct QuestCheck sQuestChecks[QUEST_COUNT] =
+{
+	[QUEST_BADGE_1] = {QUEST_CHECK_FLAG, FLAG_BADGE01_GET, 1},
+	[QUEST_BADGE_2] = {QUEST_CHECK_FLAG, FLAG_BADGE02_GET, 1},
+	[QUEST_BADGE_3] = {QUEST_CHECK_FLAG, FLAG_BADGE03_GET, 1},
+	[QUEST_BADGE_4] = {QUEST_CHECK_FLAG, FLAG_BADGE04_GET, 1},
+	[QUEST_BADGE_5] = {QUEST_CHECK_FLAG, FLAG_BADGE05_GET, 1},
+	[QUEST_BADGE_6] = {QUEST_CHECK_FLAG, FLAG_BADGE06_GET, 1},
+	[QUEST_BADGE_7] = {QUEST_CHECK_FLAG, FLAG_BADGE07_GET, 1},
+	[QUEST_BADGE_8] = {QUEST_CHECK_FLAG, FLAG_BADGE08_GET, 1},
+	[QUEST_SYMBOL_TOWER_SILVER] = {QUEST_CHECK_FLAG, FLAG_SYS_TOWER_SILVER, 1},
+	[QUEST_SYMBOL_TOWER_GOLD] = {QUEST_CHECK_FLAG, FLAG_SYS_TOWER_GOLD, 1},
+	[QUEST_SYMBOL_DOME_SILVER] = {QUEST_CHECK_FLAG, FLAG_SYS_DOME_SILVER, 1},
+	[QUEST_SYMBOL_DOME_GOLD] = {QUEST_CHECK_FLAG, FLAG_SYS_DOME_GOLD, 1},
+	[QUEST_SYMBOL_PALACE_SILVER] = {QUEST_CHECK_FLAG, FLAG_SYS_PALACE_SILVER, 1},
+	[QUEST_SYMBOL_PALACE_GOLD] = {QUEST_CHECK_FLAG, FLAG_SYS_PALACE_GOLD, 1},
+	[QUEST_SYMBOL_ARENA_SILVER] = {QUEST_CHECK_FLAG, FLAG_SYS_ARENA_SILVER, 1},
+	[QUEST_SYMBOL_ARENA_GOLD] = {QUEST_CHECK_FLAG, FLAG_SYS_ARENA_GOLD, 1},
+	[QUEST_SYMBOL_FACTORY_SILVER] = {QUEST_CHECK_FLAG, FLAG_SYS_FACTORY_SILVER, 1},
+	[QUEST_SYMBOL_FACTORY_GOLD] = {QUEST_CHECK_FLAG, FLAG_SYS_FACTORY_GOLD, 1},
+	[QUEST_SYMBOL_PIKE_SILVER] = {QUEST_CHECK_FLAG, FLAG_SYS_PIKE_SILVER, 1},
+	[QUEST_SYMBOL_PIKE_GOLD] = {QUEST_CHECK_FLAG, FLAG_SYS_PIKE_GOLD, 1},
+	[QUEST_SYMBOL_PYRAMID_SILVER] = {QUEST_CHECK_FLAG, FLAG_SYS_PYRAMID_SILVER, 1},
+	[QUEST_SYMBOL_PYRAMID_GOLD] = {QUEST_CHECK_FLAG, FLAG_SYS_PYRAMID_GOLD, 1},
+	[QUEST_SYMBOL_ALL_SILVER] = {QUEST_CHECK_FLAG, FLAG_COLLECTED_ALL_SILVER_SYMBOLS, 1},
+	[QUEST_SYMBOL_ALL_GOLD] = {QUEST_CHECK_FLAG, FLAG_COLLECTED_ALL_GOLD_SYMBOLS, 1},
+	[QUEST_DEX_30] = {QUEST_CHECK_DEX_CAUGHT, 0, 30},
+	[QUEST_DEX_50] = {QUEST_CHECK_DEX_CAUGHT, 0, 50},
+	[QUEST_DEX_100] = {QUEST_CHECK_DEX_CAUGHT, 0, 100},
+	[QUEST_DEX_200] = {QUEST_CHECK_DEX_CAUGHT, 0, 200},
+	[QUEST_DEX_300] = {QUEST_CHECK_DEX_CAUGHT, 0, 300},
+	[QUEST_DEX_500] = {QUEST_CHECK_DEX_CAUGHT, 0, 500},
+	[QUEST_DEX_750] = {QUEST_CHECK_DEX_CAUGHT, 0, 750},
+	[QUEST_DEX_1025] = {QUEST_CHECK_DEX_CAUGHT, 0, 1025},
+	[QUEST_HOF_1] = {QUEST_CHECK_GAME_STAT, GAME_STAT_ENTERED_HOF, 1},
+	[QUEST_HOF_5] = {QUEST_CHECK_GAME_STAT, GAME_STAT_ENTERED_HOF, 5},
+	[QUEST_HOF_20] = {QUEST_CHECK_GAME_STAT, GAME_STAT_ENTERED_HOF, 20},
+};
+
+static u32 QuestMenu_GetQuestProgress(u8 quest)
+{
+	switch (sQuestChecks[quest].type)
+	{
+		case QUEST_CHECK_FLAG:
+			return FlagGet(sQuestChecks[quest].target) ? 1 : 0;
+		case QUEST_CHECK_GAME_STAT:
+			return GetGameStat(sQuestChecks[quest].target);
+		case QUEST_CHECK_DEX_CAUGHT:
+			return GetNationalPokedexCount(FLAG_GET_CAUGHT);
+	}
+	return 0;
+}
+
+static void QuestMenu_CheckAchievements(void)
+{
+	u8 i;
+
+	for (i = 0; i < QUEST_COUNT; i++)
+	{
+		if (sQuestChecks[i].type == QUEST_CHECK_NONE)
+			continue;
+		if (!QuestMenu_GetSetQuestState(i, FLAG_GET_ACTIVE))
+			continue;
+		if (QuestMenu_GetQuestProgress(i) >= sQuestChecks[i].goal)
+		{
+			QuestMenu_GetSetQuestState(i, FLAG_SET_REWARD);
+			QuestMenu_GetSetQuestState(i, FLAG_REMOVE_ACTIVE);
+		}
+	}
+}
 ///////////////////////////////////////////////////////////////////////////////
 
 //BG layer defintions
@@ -426,6 +660,7 @@ void QuestMenu_Init(u8 a0, MainCallback callback)
 	u8 i;
 
 	QuestMenu_EnsureSaveDataInitialized();
+	QuestMenu_CheckAchievements();
 
 	if (a0 >= 2)
 	{
@@ -993,7 +1228,9 @@ static u8 CountNumberListRows()
 
 u8 *DefineQuestOrder()
 {
-	static u8 sortedList[QUEST_COUNT];
+	// Kept in the heap-allocated resources instead of a static array
+	// so EWRAM use does not grow with QUEST_COUNT.
+	u8 *sortedList = sStateDataPtr->sortedList;
 	u8 a, c, d;
 	u8 placeholderVariable;
 
@@ -1094,7 +1331,21 @@ static void AssignCancelNameAndId(u8 numRow)
 // The quest save fields were appended to SaveBlock2 for this port, so a
 // save written by an older build holds garbage in them. The marker byte
 // detects that case: if it is not set, clear the fields once and set it.
-#define QUEST_SAVE_DATA_MARKER 0x5155 // "QU"
+// Bumped from 0x5155 when the placeholder quest was replaced with the
+// achievement set, so saves from the placeholder build re-initialize
+// once and get the achievements activated.
+#define QUEST_SAVE_DATA_MARKER 0x5156 // "QV"
+
+static void QuestMenu_ActivateAllQuests(void)
+{
+	u8 i;
+
+	for (i = 0; i < QUEST_COUNT; i++)
+	{
+		QuestMenu_GetSetQuestState(i, FLAG_SET_UNLOCKED);
+		QuestMenu_GetSetQuestState(i, FLAG_SET_ACTIVE);
+	}
+}
 
 static void QuestMenu_EnsureSaveDataInitialized(void)
 {
@@ -1105,6 +1356,7 @@ static void QuestMenu_EnsureSaveDataInitialized(void)
 		memset(&gSaveBlock2Ptr->subQuests, 0,
 		       sizeof(gSaveBlock2Ptr->subQuests));
 		gSaveBlock2Ptr->questDataInitMarker = QUEST_SAVE_DATA_MARKER;
+		QuestMenu_ActivateAllQuests();
 	}
 }
 
@@ -1546,6 +1798,15 @@ void GenerateQuestFlavorText(s32 questId)
 void UpdateQuestFlavorText(s32 questId)
 {
 	StringCopy(gStringVar1, sSideQuests[questId].desc);
+	// Counter-based achievements show their current progress through
+	// {STR_VAR_2} in the description text.
+	if (sQuestChecks[questId].type == QUEST_CHECK_GAME_STAT
+	 || sQuestChecks[questId].type == QUEST_CHECK_DEX_CAUGHT)
+	{
+		ConvertIntToDecimalStringN(gStringVar2,
+		                           QuestMenu_GetQuestProgress(questId),
+		                           STR_CONV_MODE_LEFT_ALIGN, 6);
+	}
 }
 void PrintQuestFlavorText(s32 questId)
 {
@@ -1964,7 +2225,12 @@ static void Task_Main(u8 taskId)
 			default:
 				if (!IsSubquestMode())
 				{
-					EnterSubquestModeAndCleanUp(taskId, data, input);
+					// Achievements have no subquests; the A button
+					// is reserved for claiming rewards later.
+					if (sSideQuests[input].numSubquests == 0)
+						PlaySE(SE_FAILURE);
+					else
+						EnterSubquestModeAndCleanUp(taskId, data, input);
 				}
 				break;
 		}
@@ -2310,6 +2576,7 @@ void QuestMenu_ResetMenuSaveData(void)
 	memset(&gSaveBlock2Ptr->subQuests, 0,
 	       sizeof(gSaveBlock2Ptr->subQuests));
 	gSaveBlock2Ptr->questDataInitMarker = QUEST_SAVE_DATA_MARKER;
+	QuestMenu_ActivateAllQuests();
 }
 
 // Script natives for the questmenu / subquestmenu / returnqueststate
