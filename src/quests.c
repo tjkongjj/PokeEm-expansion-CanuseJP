@@ -225,16 +225,16 @@ static const u32 sQuestMenuTilemap[] =
 //Strings used for the Quest Menu (translated to Japanese for this port)
 static const u8 sText_Empty[] = _("");
 static const u8 sText_AllHeader[] = _("{JPN}すべてのクエスト");
-static const u8 sText_InactiveHeader[] = _("{JPN}未開始のクエスト");
+static const u8 sText_InactiveHeader[] = _("{JPN}未達成のクエスト");
 static const u8 sText_ActiveHeader[] = _("{JPN}進行中のクエスト");
-static const u8 sText_RewardHeader[] = _("{JPN}ほうび待ちのクエスト");
+static const u8 sText_RewardHeader[] = _("{JPN}達成したクエスト");
 static const u8 sText_CompletedHeader[] =
       _("{JPN}完了したクエスト");
 static const u8 sText_QuestNumberDisplay[] =
       _("{STR_VAR_1}/{STR_VAR_2}");
 static const u8 sText_Unk[] = _("??????");
 static const u8 sText_Active[] = _("{JPN}進行中");
-static const u8 sText_Reward[] = _("{JPN}ほうび待ち");
+static const u8 sText_Reward[] = _("{JPN}達成した");
 static const u8 sText_Complete[] = _("{JPN}完了");
 static const u8 sText_ShowLocation[] =
       _("{JPN}場所: {STR_VAR_2}");
