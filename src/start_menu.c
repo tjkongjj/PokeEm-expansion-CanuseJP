@@ -1,5 +1,6 @@
 #include "global.h"
 #include "config/save.h"
+#include "config/overworld.h"
 #include "battle_pike.h"
 #include "battle_pyramid.h"
 #include "battle_pyramid_bag.h"
@@ -24,6 +25,7 @@
 #include "link.h"
 #include "load_save.h"
 #include "main.h"
+#include "map_name_popup.h"
 #include "menu.h"
 #include "new_game.h"
 #include "option_menu.h"
@@ -32,6 +34,7 @@
 #include "party_menu.h"
 #include "pokedex.h"
 #include "pokenav.h"
+#include "rtc.h"
 #include "safari_zone.h"
 #include "save.h"
 #include "scanline_effect.h"
@@ -87,6 +90,12 @@ COMMON_DATA bool8 (*gMenuCallback)(void) = NULL;
 // EWRAM
 EWRAM_DATA static u8 sSafariBallsWindowId = 0;
 EWRAM_DATA static u8 sBattlePyramidFloorWindowId = 0;
+EWRAM_DATA static u8 sPlaceNameWindowId = 0;
+EWRAM_DATA static u8 sClockWindowId = 0;
+EWRAM_DATA static bool8 sPlaceNameWindowShown = FALSE;
+EWRAM_DATA static bool8 sClockWindowShown = FALSE;
+EWRAM_DATA static s8 sClockLastHour = 0;
+EWRAM_DATA static s8 sClockLastMinute = 0;
 EWRAM_DATA static u8 sStartMenuCursorPos = 0;
 EWRAM_DATA static u8 sStartMenuScrollOffset = 0;
 EWRAM_DATA static u8 sNumStartMenuActions = 0;
@@ -187,6 +196,28 @@ static const struct WindowTemplate sWindowTemplate_PyramidPeak = {
     .height = 4,
     .paletteNum = 15,
     .baseBlock = 0x8
+};
+
+// Place name, shown at the top-left of the start menu
+static const struct WindowTemplate sWindowTemplate_PlaceName = {
+    .bg = 0,
+    .tilemapLeft = 1,
+    .tilemapTop = 1,
+    .width = 16,
+    .height = 4,
+    .paletteNum = 15,
+    .baseBlock = 0x8
+};
+
+// Clock, shown at the bottom-right of the start menu
+static const struct WindowTemplate sWindowTemplate_Clock = {
+    .bg = 0,
+    .tilemapLeft = 21,
+    .tilemapTop = 15,
+    .width = 8,
+    .height = 4,
+    .paletteNum = 15,
+    .baseBlock = 0x50
 };
 
 static const u8 sText_MenuDebug[] = _("デバッグ");
@@ -317,6 +348,8 @@ static void BuildBattlePyramidStartMenu(void);
 static void BuildMultiPartnerRoomStartMenu(void);
 static void ShowSafariBallsWindow(void);
 static void ShowPyramidFloorWindow(void);
+static void ShowPlaceTimeWindows(void);
+static void UpdateClockWindow(void);
 static void RemoveExtraStartMenuWindows(void);
 static bool32 PrintStartMenuActions(s8 *pIndex, u32 count);
 static bool32 InitStartMenuStep(void);
@@ -524,6 +557,58 @@ static void ShowPyramidFloorWindow(void)
     CopyWindowToVram(sBattlePyramidFloorWindowId, COPYWIN_GFX);
 }
 
+static void PrintClockWindowContents(void)
+{
+    u8 timeStr[16];
+
+    RtcCalcLocalTime();
+    sClockLastHour = gLocalTime.hours;
+    sClockLastMinute = gLocalTime.minutes;
+    FormatDecimalTimeWithoutSeconds(timeStr, gLocalTime.hours, gLocalTime.minutes, OW_POPUP_BW_TIME_MODE == OW_POPUP_BW_TIME_24_HR);
+    AddTextPrinterParameterized(sClockWindowId, FONT_NORMAL, timeStr, 2, 1, TEXT_SKIP_DRAW, NULL);
+}
+
+static void ShowPlaceTimeWindows(void)
+{
+    // The Safari Balls and Pyramid Floor windows already use the top-left,
+    // so in those places the place name is skipped and only the clock shows
+    if (!GetSafariZoneFlag() && CurrentBattlePyramidLocation() == PYRAMID_LOCATION_NONE)
+    {
+        u8 mapName[MAP_POPUP_STRING_BUFFER_LENGTH];
+
+        sPlaceNameWindowId = AddWindow(&sWindowTemplate_PlaceName);
+        PutWindowTilemap(sPlaceNameWindowId);
+        DrawStdWindowFrame(sPlaceNameWindowId, FALSE);
+        GetPopUpMapName(mapName, &gMapHeader);
+        AddTextPrinterParameterized(sPlaceNameWindowId, FONT_NORMAL, mapName, 2, 1, TEXT_SKIP_DRAW, NULL);
+        CopyWindowToVram(sPlaceNameWindowId, COPYWIN_GFX);
+        sPlaceNameWindowShown = TRUE;
+    }
+
+    sClockWindowId = AddWindow(&sWindowTemplate_Clock);
+    PutWindowTilemap(sClockWindowId);
+    DrawStdWindowFrame(sClockWindowId, FALSE);
+    PrintClockWindowContents();
+    CopyWindowToVram(sClockWindowId, COPYWIN_GFX);
+    sClockWindowShown = TRUE;
+}
+
+// The in-game clock runs faster than real time, so the displayed minute can
+// change while the menu is open; redraw the clock when it does
+static void UpdateClockWindow(void)
+{
+    if (!sClockWindowShown)
+        return;
+
+    RtcCalcLocalTime();
+    if (gLocalTime.hours == sClockLastHour && gLocalTime.minutes == sClockLastMinute)
+        return;
+
+    FillWindowPixelBuffer(sClockWindowId, PIXEL_FILL(1));
+    PrintClockWindowContents();
+    CopyWindowToVram(sClockWindowId, COPYWIN_GFX);
+}
+
 static void RemoveExtraStartMenuWindows(void)
 {
     if (GetSafariZoneFlag())
@@ -536,6 +621,20 @@ static void RemoveExtraStartMenuWindows(void)
     {
         ClearStdWindowAndFrameToTransparent(sBattlePyramidFloorWindowId, FALSE);
         RemoveWindow(sBattlePyramidFloorWindowId);
+    }
+    if (sPlaceNameWindowShown)
+    {
+        ClearStdWindowAndFrameToTransparent(sPlaceNameWindowId, FALSE);
+        CopyWindowToVram(sPlaceNameWindowId, COPYWIN_GFX);
+        RemoveWindow(sPlaceNameWindowId);
+        sPlaceNameWindowShown = FALSE;
+    }
+    if (sClockWindowShown)
+    {
+        ClearStdWindowAndFrameToTransparent(sClockWindowId, FALSE);
+        CopyWindowToVram(sClockWindowId, COPYWIN_GFX);
+        RemoveWindow(sClockWindowId);
+        sClockWindowShown = FALSE;
     }
 }
 
@@ -644,6 +743,7 @@ static bool32 InitStartMenuStep(void)
             ShowSafariBallsWindow();
         if (CurrentBattlePyramidLocation() != PYRAMID_LOCATION_NONE)
             ShowPyramidFloorWindow();
+        ShowPlaceTimeWindows();
         sInitStartMenuData[0]++;
         break;
     case 4:
@@ -768,6 +868,8 @@ static void MoveStartMenuCursor(s8 delta)
 
 static bool8 HandleStartMenuInput(void)
 {
+    UpdateClockWindow();
+
     if (JOY_NEW(DPAD_UP))
     {
         PlaySE(SE_SELECT);
