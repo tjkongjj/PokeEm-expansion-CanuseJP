@@ -286,42 +286,42 @@ static const u8 sText_MapLeague[] = _("{JPN}ポケモンリーグ");
 static const u8 sText_Badge1Name[] = _("{JPN}ストーンバッジ");
 static const u8 sText_Badge1Desc[] =
       _("{JPN}カナズミジムの\n"
-        "ツツジに かって\n"
+        "ツツジに しょうりして\n"
         "バッジを てにいれる");
 static const u8 sText_Badge2Name[] = _("{JPN}ナックルバッジ");
 static const u8 sText_Badge2Desc[] =
       _("{JPN}ムロジムの\n"
-        "トウキに かって\n"
+        "トウキに しょうりして\n"
         "バッジを てにいれる");
 static const u8 sText_Badge3Name[] = _("{JPN}ダイナモバッジ");
 static const u8 sText_Badge3Desc[] =
       _("{JPN}キンセツジムの\n"
-        "テッセンに かって\n"
+        "テッセンに しょうりして\n"
         "バッジを てにいれる");
 static const u8 sText_Badge4Name[] = _("{JPN}ヒートバッジ");
 static const u8 sText_Badge4Desc[] =
       _("{JPN}フエンジムの\n"
-        "アスナに かって\n"
+        "アスナに しょうりして\n"
         "バッジを てにいれる");
 static const u8 sText_Badge5Name[] = _("{JPN}バランスバッジ");
 static const u8 sText_Badge5Desc[] =
       _("{JPN}トウカジムの\n"
-        "センリに かって\n"
+        "センリに しょうりして\n"
         "バッジを てにいれる");
 static const u8 sText_Badge6Name[] = _("{JPN}フェザーバッジ");
 static const u8 sText_Badge6Desc[] =
       _("{JPN}ヒワマキジムの\n"
-        "ナギに かって\n"
+        "ナギに しょうりして\n"
         "バッジを てにいれる");
 static const u8 sText_Badge7Name[] = _("{JPN}マインドバッジ");
 static const u8 sText_Badge7Desc[] =
       _("{JPN}トクサネジムの\n"
-        "フウとランに かって\n"
+        "フウとランに しょうりして\n"
         "バッジを てにいれる");
 static const u8 sText_Badge8Name[] = _("{JPN}レインバッジ");
 static const u8 sText_Badge8Desc[] =
       _("{JPN}ルネジムの\n"
-        "アダンに かって\n"
+        "アダンに しょうりして\n"
         "バッジを てにいれる");
 
 // Frontier symbol quests
@@ -329,43 +329,43 @@ static const u8 sText_SymbolTowerSilverName[] = _("{JPN}タワーのシルバー
 static const u8 sText_SymbolTowerGoldName[] = _("{JPN}タワーのゴールドシンボル");
 static const u8 sText_SymbolTowerDesc[] =
       _("{JPN}バトルタワーで\n"
-        "リラに かって\n"
+        "リラに しょうりして\n"
         "シンボルを てにいれる");
 static const u8 sText_SymbolDomeSilverName[] = _("{JPN}ドームのシルバーシンボル");
 static const u8 sText_SymbolDomeGoldName[] = _("{JPN}ドームのゴールドシンボル");
 static const u8 sText_SymbolDomeDesc[] =
       _("{JPN}バトルドームで\n"
-        "ヒースに かって\n"
+        "ヒースに しょうりして\n"
         "シンボルを てにいれる");
 static const u8 sText_SymbolPalaceSilverName[] = _("{JPN}パレスのシルバーシンボル");
 static const u8 sText_SymbolPalaceGoldName[] = _("{JPN}パレスのゴールドシンボル");
 static const u8 sText_SymbolPalaceDesc[] =
       _("{JPN}バトルパレスで\n"
-        "ウコンに かって\n"
+        "ウコンに しょうりして\n"
         "シンボルを てにいれる");
 static const u8 sText_SymbolArenaSilverName[] = _("{JPN}アリーナのシルバーシンボル");
 static const u8 sText_SymbolArenaGoldName[] = _("{JPN}アリーナのゴールドシンボル");
 static const u8 sText_SymbolArenaDesc[] =
       _("{JPN}バトルアリーナで\n"
-        "コゴミに かって\n"
+        "コゴミに しょうりして\n"
         "シンボルを てにいれる");
 static const u8 sText_SymbolFactorySilverName[] = _("{JPN}ファクトリーのシルバーシンボル");
 static const u8 sText_SymbolFactoryGoldName[] = _("{JPN}ファクトリーのゴールドシンボル");
 static const u8 sText_SymbolFactoryDesc[] =
       _("{JPN}バトルファクトリーで\n"
-        "ダツラに かって\n"
+        "ダツラに しょうりして\n"
         "シンボルを てにいれる");
 static const u8 sText_SymbolPikeSilverName[] = _("{JPN}チューブのシルバーシンボル");
 static const u8 sText_SymbolPikeGoldName[] = _("{JPN}チューブのゴールドシンボル");
 static const u8 sText_SymbolPikeDesc[] =
       _("{JPN}バトルチューブで\n"
-        "アザミに かって\n"
+        "アザミに しょうりして\n"
         "シンボルを てにいれる");
 static const u8 sText_SymbolPyramidSilverName[] = _("{JPN}ピラミッドのシルバーシンボル");
 static const u8 sText_SymbolPyramidGoldName[] = _("{JPN}ピラミッドのゴールドシンボル");
 static const u8 sText_SymbolPyramidDesc[] =
       _("{JPN}バトルピラミッドで\n"
-        "ジンダイに かって\n"
+        "ジンダイに しょうりして\n"
         "シンボルを てにいれる");
 static const u8 sText_SymbolAllSilverName[] = _("{JPN}シルバーシンボル全制覇");
 static const u8 sText_SymbolAllSilverDesc[] =
@@ -2193,7 +2193,7 @@ static void GenerateMenuContext(void)
 static void PrintNumQuests(void)
 {
 	StringExpandPlaceholders(gStringVar4, sText_QuestNumberDisplay);
-	QuestMenu_AddTextPrinterParameterized(2, 0, gStringVar4, 167, 1, 0, 1, 0,
+	QuestMenu_AddTextPrinterParameterized(2, 0, gStringVar4, 156, 1, 0, 1, 0,
 	                                      0);
 }
 static void PrintMenuContext(void)
@@ -2203,7 +2203,7 @@ static void PrintMenuContext(void)
 }
 static void PrintTypeFilterButton(void)
 {
-	QuestMenu_AddTextPrinterParameterized(2, 0, sText_Type, 198, 1,
+	QuestMenu_AddTextPrinterParameterized(2, 0, sText_Type, 187, 1,
 	                                      0, 1, 0, 0);
 
 }
