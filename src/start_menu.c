@@ -209,13 +209,14 @@ static const struct WindowTemplate sWindowTemplate_PlaceName = {
     .baseBlock = 0x8
 };
 
-// Clock, shown at the bottom-right of the start menu
+// Clock, shown at the bottom-right of the start menu. It only ever
+// shows digits, so it can be one tile shorter than a text window.
 static const struct WindowTemplate sWindowTemplate_Clock = {
     .bg = 0,
     .tilemapLeft = 22,
-    .tilemapTop = 15,
+    .tilemapTop = 16,
     .width = 7,
-    .height = 4,
+    .height = 3,
     .paletteNum = 15,
     .baseBlock = 0x50
 };
