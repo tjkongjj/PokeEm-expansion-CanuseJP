@@ -212,9 +212,9 @@ static const struct WindowTemplate sWindowTemplate_PlaceName = {
 // Clock, shown at the bottom-right of the start menu
 static const struct WindowTemplate sWindowTemplate_Clock = {
     .bg = 0,
-    .tilemapLeft = 21,
+    .tilemapLeft = 22,
     .tilemapTop = 15,
-    .width = 8,
+    .width = 7,
     .height = 4,
     .paletteNum = 15,
     .baseBlock = 0x50
@@ -560,12 +560,17 @@ static void ShowPyramidFloorWindow(void)
 static void PrintClockWindowContents(void)
 {
     u8 timeStr[16];
+    u32 x;
 
     RtcCalcLocalTime();
     sClockLastHour = gLocalTime.hours;
     sClockLastMinute = gLocalTime.minutes;
     FormatDecimalTimeWithoutSeconds(timeStr, gLocalTime.hours, gLocalTime.minutes, OW_POPUP_BW_TIME_MODE == OW_POPUP_BW_TIME_24_HR);
-    AddTextPrinterParameterized(sClockWindowId, FONT_NORMAL, timeStr, 2, 1, TEXT_SKIP_DRAW, NULL);
+    // Right-align the time inside the window
+    x = 7 * 8 - GetStringWidth(FONT_NORMAL, timeStr, 0) - 11;
+    if ((s32)x < 2)
+        x = 2;
+    AddTextPrinterParameterized(sClockWindowId, FONT_NORMAL, timeStr, x, 1, TEXT_SKIP_DRAW, NULL);
 }
 
 static void ShowPlaceTimeWindows(void)
@@ -575,11 +580,22 @@ static void ShowPlaceTimeWindows(void)
     if (!GetSafariZoneFlag() && CurrentBattlePyramidLocation() == PYRAMID_LOCATION_NONE)
     {
         u8 mapName[MAP_POPUP_STRING_BUFFER_LENGTH];
+        struct WindowTemplate template = sWindowTemplate_PlaceName;
+        u32 widthTiles;
 
-        sPlaceNameWindowId = AddWindow(&sWindowTemplate_PlaceName);
+        GetPopUpMapName(mapName, &gMapHeader);
+        // Fit the window width to the place name instead of always
+        // using the widest size
+        widthTiles = (GetStringWidth(FONT_NORMAL, mapName, 0) + 14 + 7) / 8;
+        if (widthTiles < 6)
+            widthTiles = 6;
+        if (widthTiles > 16)
+            widthTiles = 16;
+        template.width = widthTiles;
+
+        sPlaceNameWindowId = AddWindow(&template);
         PutWindowTilemap(sPlaceNameWindowId);
         DrawStdWindowFrame(sPlaceNameWindowId, FALSE);
-        GetPopUpMapName(mapName, &gMapHeader);
         AddTextPrinterParameterized(sPlaceNameWindowId, FONT_NORMAL, mapName, 2, 1, TEXT_SKIP_DRAW, NULL);
         CopyWindowToVram(sPlaceNameWindowId, COPYWIN_GFX);
         sPlaceNameWindowShown = TRUE;
