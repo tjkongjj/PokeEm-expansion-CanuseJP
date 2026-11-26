@@ -285,72 +285,87 @@ static const u8 sText_MapLeague[] = _("{JPN}ポケモンリーグ");
 // Badge quests
 static const u8 sText_Badge1Name[] = _("{JPN}ストーンバッジ");
 static const u8 sText_Badge1Desc[] =
-      _("{JPN}カナズミジムの ツツジに かって\n"
+      _("{JPN}カナズミジムの\n"
+        "ツツジに かって\n"
         "バッジを てにいれる");
 static const u8 sText_Badge2Name[] = _("{JPN}ナックルバッジ");
 static const u8 sText_Badge2Desc[] =
-      _("{JPN}ムロジムの トウキに かって\n"
+      _("{JPN}ムロジムの\n"
+        "トウキに かって\n"
         "バッジを てにいれる");
 static const u8 sText_Badge3Name[] = _("{JPN}ダイナモバッジ");
 static const u8 sText_Badge3Desc[] =
-      _("{JPN}キンセツジムの テッセンに かって\n"
+      _("{JPN}キンセツジムの\n"
+        "テッセンに かって\n"
         "バッジを てにいれる");
 static const u8 sText_Badge4Name[] = _("{JPN}ヒートバッジ");
 static const u8 sText_Badge4Desc[] =
-      _("{JPN}フエンジムの アスナに かって\n"
+      _("{JPN}フエンジムの\n"
+        "アスナに かって\n"
         "バッジを てにいれる");
 static const u8 sText_Badge5Name[] = _("{JPN}バランスバッジ");
 static const u8 sText_Badge5Desc[] =
-      _("{JPN}トウカジムの センリに かって\n"
+      _("{JPN}トウカジムの\n"
+        "センリに かって\n"
         "バッジを てにいれる");
 static const u8 sText_Badge6Name[] = _("{JPN}フェザーバッジ");
 static const u8 sText_Badge6Desc[] =
-      _("{JPN}ヒワマキジムの ナギに かって\n"
+      _("{JPN}ヒワマキジムの\n"
+        "ナギに かって\n"
         "バッジを てにいれる");
 static const u8 sText_Badge7Name[] = _("{JPN}マインドバッジ");
 static const u8 sText_Badge7Desc[] =
-      _("{JPN}トクサネジムの フウとランに かって\n"
+      _("{JPN}トクサネジムの\n"
+        "フウとランに かって\n"
         "バッジを てにいれる");
 static const u8 sText_Badge8Name[] = _("{JPN}レインバッジ");
 static const u8 sText_Badge8Desc[] =
-      _("{JPN}ルネジムの アダンに かって\n"
+      _("{JPN}ルネジムの\n"
+        "アダンに かって\n"
         "バッジを てにいれる");
 
 // Frontier symbol quests
 static const u8 sText_SymbolTowerSilverName[] = _("{JPN}タワーのシルバーシンボル");
 static const u8 sText_SymbolTowerGoldName[] = _("{JPN}タワーのゴールドシンボル");
 static const u8 sText_SymbolTowerDesc[] =
-      _("{JPN}バトルタワーで リラに かって\n"
+      _("{JPN}バトルタワーで\n"
+        "リラに かって\n"
         "シンボルを てにいれる");
 static const u8 sText_SymbolDomeSilverName[] = _("{JPN}ドームのシルバーシンボル");
 static const u8 sText_SymbolDomeGoldName[] = _("{JPN}ドームのゴールドシンボル");
 static const u8 sText_SymbolDomeDesc[] =
-      _("{JPN}バトルドームで ヒースに かって\n"
+      _("{JPN}バトルドームで\n"
+        "ヒースに かって\n"
         "シンボルを てにいれる");
 static const u8 sText_SymbolPalaceSilverName[] = _("{JPN}パレスのシルバーシンボル");
 static const u8 sText_SymbolPalaceGoldName[] = _("{JPN}パレスのゴールドシンボル");
 static const u8 sText_SymbolPalaceDesc[] =
-      _("{JPN}バトルパレスで ウコンに かって\n"
+      _("{JPN}バトルパレスで\n"
+        "ウコンに かって\n"
         "シンボルを てにいれる");
 static const u8 sText_SymbolArenaSilverName[] = _("{JPN}アリーナのシルバーシンボル");
 static const u8 sText_SymbolArenaGoldName[] = _("{JPN}アリーナのゴールドシンボル");
 static const u8 sText_SymbolArenaDesc[] =
-      _("{JPN}バトルアリーナで コゴミに かって\n"
+      _("{JPN}バトルアリーナで\n"
+        "コゴミに かって\n"
         "シンボルを てにいれる");
 static const u8 sText_SymbolFactorySilverName[] = _("{JPN}ファクトリーのシルバーシンボル");
 static const u8 sText_SymbolFactoryGoldName[] = _("{JPN}ファクトリーのゴールドシンボル");
 static const u8 sText_SymbolFactoryDesc[] =
-      _("{JPN}バトルファクトリーで ダツラに かって\n"
+      _("{JPN}バトルファクトリーで\n"
+        "ダツラに かって\n"
         "シンボルを てにいれる");
 static const u8 sText_SymbolPikeSilverName[] = _("{JPN}チューブのシルバーシンボル");
 static const u8 sText_SymbolPikeGoldName[] = _("{JPN}チューブのゴールドシンボル");
 static const u8 sText_SymbolPikeDesc[] =
-      _("{JPN}バトルチューブで アザミに かって\n"
+      _("{JPN}バトルチューブで\n"
+        "アザミに かって\n"
         "シンボルを てにいれる");
 static const u8 sText_SymbolPyramidSilverName[] = _("{JPN}ピラミッドのシルバーシンボル");
 static const u8 sText_SymbolPyramidGoldName[] = _("{JPN}ピラミッドのゴールドシンボル");
 static const u8 sText_SymbolPyramidDesc[] =
-      _("{JPN}バトルピラミッドで ジンダイに かって\n"
+      _("{JPN}バトルピラミッドで\n"
+        "ジンダイに かって\n"
         "シンボルを てにいれる");
 static const u8 sText_SymbolAllSilverName[] = _("{JPN}シルバーシンボル全制覇");
 static const u8 sText_SymbolAllSilverDesc[] =
@@ -365,49 +380,60 @@ static const u8 sText_SymbolAllGoldDesc[] =
 // number of caught species when the text is generated.
 static const u8 sText_Dex30Name[] = _("{JPN}ずかん 30しゅるい");
 static const u8 sText_Dex30Desc[] =
-      _("{JPN}ポケモンを 30しゅるい つかまえる\n"
+      _("{JPN}ポケモンを 30しゅるい\n"
+        "つかまえる\n"
         "{STR_VAR_2}/30");
 static const u8 sText_Dex50Name[] = _("{JPN}ずかん 50しゅるい");
 static const u8 sText_Dex50Desc[] =
-      _("{JPN}ポケモンを 50しゅるい つかまえる\n"
+      _("{JPN}ポケモンを 50しゅるい\n"
+        "つかまえる\n"
         "{STR_VAR_2}/50");
 static const u8 sText_Dex100Name[] = _("{JPN}ずかん 100しゅるい");
 static const u8 sText_Dex100Desc[] =
-      _("{JPN}ポケモンを 100しゅるい つかまえる\n"
+      _("{JPN}ポケモンを 100しゅるい\n"
+        "つかまえる\n"
         "{STR_VAR_2}/100");
 static const u8 sText_Dex200Name[] = _("{JPN}ずかん 200しゅるい");
 static const u8 sText_Dex200Desc[] =
-      _("{JPN}ポケモンを 200しゅるい つかまえる\n"
+      _("{JPN}ポケモンを 200しゅるい\n"
+        "つかまえる\n"
         "{STR_VAR_2}/200");
 static const u8 sText_Dex300Name[] = _("{JPN}ずかん 300しゅるい");
 static const u8 sText_Dex300Desc[] =
-      _("{JPN}ポケモンを 300しゅるい つかまえる\n"
+      _("{JPN}ポケモンを 300しゅるい\n"
+        "つかまえる\n"
         "{STR_VAR_2}/300");
 static const u8 sText_Dex500Name[] = _("{JPN}ずかん 500しゅるい");
 static const u8 sText_Dex500Desc[] =
-      _("{JPN}ポケモンを 500しゅるい つかまえる\n"
+      _("{JPN}ポケモンを 500しゅるい\n"
+        "つかまえる\n"
         "{STR_VAR_2}/500");
 static const u8 sText_Dex750Name[] = _("{JPN}ずかん 750しゅるい");
 static const u8 sText_Dex750Desc[] =
-      _("{JPN}ポケモンを 750しゅるい つかまえる\n"
+      _("{JPN}ポケモンを 750しゅるい\n"
+        "つかまえる\n"
         "{STR_VAR_2}/750");
 static const u8 sText_Dex1025Name[] = _("{JPN}ずかん かんせい");
 static const u8 sText_Dex1025Desc[] =
-      _("{JPN}ポケモンを 1025しゅるい つかまえる\n"
+      _("{JPN}ポケモンを 1025しゅるい\n"
+        "つかまえる\n"
         "{STR_VAR_2}/1025");
 
 // Hall of Fame quests. {STR_VAR_2} is the number of Hall of Fame entries.
 static const u8 sText_Hof1Name[] = _("{JPN}でんどういり");
 static const u8 sText_Hof1Desc[] =
-      _("{JPN}ポケモンリーグで ゆうしょうする\n"
+      _("{JPN}ポケモンリーグで\n"
+        "ゆうしょうする\n"
         "{STR_VAR_2}/1");
 static const u8 sText_Hof5Name[] = _("{JPN}でんどういり 5かい");
 static const u8 sText_Hof5Desc[] =
-      _("{JPN}ポケモンリーグで 5かい ゆうしょうする\n"
+      _("{JPN}ポケモンリーグで\n"
+        "5かい ゆうしょうする\n"
         "{STR_VAR_2}/5");
 static const u8 sText_Hof20Name[] = _("{JPN}でんどういり 20かい");
 static const u8 sText_Hof20Desc[] =
-      _("{JPN}ポケモンリーグで 20かい ゆうしょうする\n"
+      _("{JPN}ポケモンリーグで\n"
+        "20かい ゆうしょうする\n"
         "{STR_VAR_2}/20");
 
 //Declaration of subquest structures. Achievements have no subquests;
