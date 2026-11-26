@@ -216,8 +216,8 @@ static const struct WindowTemplate sWindowTemplate_Clock = {
     .bg = 0,
     .tilemapLeft = 23,
     .tilemapTop = 16,
-    .width = 6,
-    .height = 3,
+    .width = 4,
+    .height = 2,
     .paletteNum = 15,
     .baseBlock = 0x50
 };
@@ -612,11 +612,11 @@ static void ShowPlaceTimeWindows(void)
         // bottom-right corner
         RtcCalcLocalTime();
         FormatDecimalTimeWithoutSeconds(timeStr, gLocalTime.hours, gLocalTime.minutes, OW_POPUP_BW_TIME_MODE == OW_POPUP_BW_TIME_24_HR);
-        widthTiles = (GetStringWidth(FONT_NORMAL, timeStr, 0) + 18 + 7) / 8;
-        if (widthTiles < 5)
-            widthTiles = 5;
-        if (widthTiles > 7)
-            widthTiles = 7;
+        widthTiles = (GetStringWidth(FONT_NORMAL, timeStr, 0) + 1 + 7) / 8;
+        if (widthTiles < 4)
+            widthTiles = 4;
+        if (widthTiles > 6)
+            widthTiles = 6;
         template.width = widthTiles;
         template.tilemapLeft = 29 - widthTiles;
         sClockWindowWidthTiles = widthTiles;
