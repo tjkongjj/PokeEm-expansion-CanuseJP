@@ -92,6 +92,7 @@ EWRAM_DATA static u8 sSafariBallsWindowId = 0;
 EWRAM_DATA static u8 sBattlePyramidFloorWindowId = 0;
 EWRAM_DATA static u8 sPlaceNameWindowId = 0;
 EWRAM_DATA static u8 sClockWindowId = 0;
+EWRAM_DATA static u8 sClockWindowWidthTiles = 0;
 EWRAM_DATA static bool8 sPlaceNameWindowShown = FALSE;
 EWRAM_DATA static bool8 sClockWindowShown = FALSE;
 EWRAM_DATA static s8 sClockLastHour = 0;
@@ -213,9 +214,9 @@ static const struct WindowTemplate sWindowTemplate_PlaceName = {
 // shows digits, so it can be one tile shorter than a text window.
 static const struct WindowTemplate sWindowTemplate_Clock = {
     .bg = 0,
-    .tilemapLeft = 22,
+    .tilemapLeft = 23,
     .tilemapTop = 16,
-    .width = 7,
+    .width = 6,
     .height = 3,
     .paletteNum = 15,
     .baseBlock = 0x50
@@ -568,10 +569,10 @@ static void PrintClockWindowContents(void)
     sClockLastMinute = gLocalTime.minutes;
     FormatDecimalTimeWithoutSeconds(timeStr, gLocalTime.hours, gLocalTime.minutes, OW_POPUP_BW_TIME_MODE == OW_POPUP_BW_TIME_24_HR);
     // Right-align the time inside the window
-    x = 7 * 8 - GetStringWidth(FONT_NORMAL, timeStr, 0) - 11;
+    x = sClockWindowWidthTiles * 8 - GetStringWidth(FONT_NORMAL, timeStr, 0) - 11;
     if ((s32)x < 2)
         x = 2;
-    AddTextPrinterParameterized(sClockWindowId, FONT_NORMAL, timeStr, x, 1, TEXT_SKIP_DRAW, NULL);
+    AddTextPrinterParameterized(sClockWindowId, FONT_NORMAL, timeStr, x, 2, TEXT_SKIP_DRAW, NULL);
 }
 
 static void ShowPlaceTimeWindows(void)
@@ -602,7 +603,26 @@ static void ShowPlaceTimeWindows(void)
         sPlaceNameWindowShown = TRUE;
     }
 
-    sClockWindowId = AddWindow(&sWindowTemplate_Clock);
+    {
+        struct WindowTemplate template = sWindowTemplate_Clock;
+        u8 timeStr[16];
+        u32 widthTiles;
+
+        // Fit the window width to the time text, anchored to the
+        // bottom-right corner
+        RtcCalcLocalTime();
+        FormatDecimalTimeWithoutSeconds(timeStr, gLocalTime.hours, gLocalTime.minutes, OW_POPUP_BW_TIME_MODE == OW_POPUP_BW_TIME_24_HR);
+        widthTiles = (GetStringWidth(FONT_NORMAL, timeStr, 0) + 18 + 7) / 8;
+        if (widthTiles < 5)
+            widthTiles = 5;
+        if (widthTiles > 7)
+            widthTiles = 7;
+        template.width = widthTiles;
+        template.tilemapLeft = 29 - widthTiles;
+        sClockWindowWidthTiles = widthTiles;
+
+        sClockWindowId = AddWindow(&template);
+    }
     PutWindowTilemap(sClockWindowId);
     DrawStdWindowFrame(sClockWindowId, FALSE);
     PrintClockWindowContents();
