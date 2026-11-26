@@ -205,7 +205,7 @@ static const struct WindowTemplate sWindowTemplate_PlaceName = {
     .tilemapLeft = 1,
     .tilemapTop = 1,
     .width = 16,
-    .height = 4,
+    .height = 2,
     .paletteNum = 15,
     .baseBlock = 0x8
 };
