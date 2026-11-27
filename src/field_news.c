@@ -276,12 +276,14 @@ static bool8 FieldNews_ShouldHide(void)
         || IsMapNamePopupActive();
 }
 
-/* Whether the band's BG0 rows may be cleared when stopping.
+/* Whether the band's BG0 tilemap rows may be cleared when stopping.
    The start menu and the map name popup draw their own windows
    over the top rows, so while either of them owns the screen the
    tilemap is left alone; the restarted ticker repaints the rows
    when it begins again. During scripts (dialogue) nothing else
-   uses the top rows, so clearing is safe there. */
+   uses the top rows, so clearing is safe there.
+   The BG offsets are separate: they shift the whole BG0 layer,
+   so they are always restored on stop (see FieldNews_Stop). */
 static bool8 FieldNews_CanRestoreBg(void)
 {
     if (IsMapNamePopupActive())
@@ -298,9 +300,14 @@ static void FieldNews_Stop(bool8 finished, bool8 restoreBg)
     {
         if (restoreBg)
         {
-            FieldNews_SetTilemap(FALSE);
+            // Always restore the offsets: every other BG0 user
+            // (start menu windows, dialogue, ...) assumes them at
+            // their normal values, and a leftover scroll offset
+            // shifts the whole layer
             SetGpuReg(REG_OFFSET_BG0HOFS, d->savedHofs);
             SetGpuReg(REG_OFFSET_BG0VOFS, d->savedVofs);
+            if (FieldNews_CanRestoreBg())
+                FieldNews_SetTilemap(FALSE);
         }
         if (d->bitmap != NULL)
             Free(d->bitmap);
@@ -423,7 +430,7 @@ void Task_FieldNews(u8 taskId)
             // it restarts from the beginning via the pending flag
             FieldNews_Stop(FALSE, FALSE);
         else if (FieldNews_ShouldHide())
-            FieldNews_Stop(FALSE, FieldNews_CanRestoreBg());
+            FieldNews_Stop(FALSE, TRUE);
         else
             FieldNews_Update();
     }
