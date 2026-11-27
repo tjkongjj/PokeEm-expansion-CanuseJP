@@ -67,12 +67,16 @@ static const u8 sText_NewsNow[] = _("ただいま ");
 static const u8 sText_NewsPeriodEnd[] = _("の じかんです");
 static const u8 sText_NewsMidnight[] = _("ポケモンの ぶんぷが かわった きが する");
 static const u8 sText_NewsEveningSoon[] = _("もうすぐ ゆうがた です");
+static const u8 sText_PeriodMorning[] = _("あさ");
+static const u8 sText_PeriodDay[] = _("ひる");
+static const u8 sText_PeriodEvening[] = _("ゆうがた");
+static const u8 sText_PeriodNight[] = _("よる");
 static const u8 *const sText_PeriodNames[TIMES_OF_DAY_COUNT] =
 {
-    [TIME_MORNING] = _("あさ"),
-    [TIME_DAY]     = _("ひる"),
-    [TIME_EVENING] = _("ゆうがた"),
-    [TIME_NIGHT]   = _("よる"),
+    [TIME_MORNING] = sText_PeriodMorning,
+    [TIME_DAY]     = sText_PeriodDay,
+    [TIME_EVENING] = sText_PeriodEvening,
+    [TIME_NIGHT]   = sText_PeriodNight,
 };
 
 bool8 IsFieldNewsActive(void)
