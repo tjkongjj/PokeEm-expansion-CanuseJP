@@ -23,7 +23,8 @@
 // (field_news.c) to this decomp codebase.
 // At every hour divisible by 3, a band slides in at the top of the
 // screen and a one-line news text scrolls from right to left once,
-// with a SE_DING_DONG chime. 0:00 and 18:00 have dedicated texts.
+// with a SE_DING_DONG chime. 0:00 and 18:00 show a dedicated text
+// after the common "Xじの ポケモンニュース！" header.
 // The ticker never shows during battles, menus, scripts, palette
 // fades or while the map name popup is up; if it is interrupted it
 // restarts from the beginning once the field is free again.
@@ -85,11 +86,16 @@ bool8 IsFieldNewsActive(void)
     return sState != NEWS_OFF;
 }
 
-/* Builds the text for the given (pending) hour. Always succeeds. */
+/* Builds the text for the given (pending) hour: the common news
+   header, then the hour's body. 0:00 and 18:00 have dedicated
+   bodies instead of the time-of-day announcement.
+   Always succeeds. */
 static bool8 FieldNews_BuildText(u8 *dest, u8 hour)
 {
     u8 *p = dest;
 
+    p = ConvertIntToDecimalStringN(p, hour, STR_CONV_MODE_LEFT_ALIGN, hour >= 10 ? 2 : 1);
+    p = StringCopy(p, sText_NewsHour);
     if (hour == 0)
     {
         // Midnight: the daily wild encounter groups have rotated
@@ -103,8 +109,6 @@ static bool8 FieldNews_BuildText(u8 *dest, u8 hour)
         StringCopy(p, sText_NewsEveningSoon);
         return TRUE;
     }
-    p = ConvertIntToDecimalStringN(p, hour, STR_CONV_MODE_LEFT_ALIGN, hour >= 10 ? 2 : 1);
-    p = StringCopy(p, sText_NewsHour);
     p = StringCopy(p, sText_NewsNow);
     p = StringCopy(p, sText_PeriodNames[GetTimeOfDay()]);
     p = StringCopy(p, sText_NewsPeriodEnd);
