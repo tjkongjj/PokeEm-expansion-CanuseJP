@@ -10,6 +10,7 @@
 #include "overworld.h"
 #include "pokedex.h"
 #include "safari_zone.h"
+#include "string_util.h"
 #include "strings.h"
 #include "text.h"
 #include "text_window.h"
@@ -122,8 +123,8 @@ static const struct MenuHintRow sMenuHintLadder[] =
 {
     { MENU_HINT_TYPE_FLAG, FLAG_SET_WALL_CLOCK, 0, sText_Hint001 }, // 1
     { MENU_HINT_TYPE_VAR_GE, VAR_LITTLEROOT_INTRO_STATE, 7, sText_Hint002 }, // 2
-    { MENU_HINT_TYPE_VAR_GE, VAR_LITTLEROOT_TOWN_STATE, 1, sText_Hint003 }, // 3
-    { MENU_HINT_TYPE_VAR_GE, VAR_ROUTE101_STATE, 2, sText_Hint004 }, // 4
+    { MENU_HINT_TYPE_FLAG, FLAG_MET_RIVAL_MOM, 0, sText_Hint003 }, // 3
+    { MENU_HINT_TYPE_VAR_GE, VAR_LITTLEROOT_TOWN_STATE, 1, sText_Hint004 }, // 4
     { MENU_HINT_TYPE_FLAG, FLAG_RESCUED_BIRCH, 0, sText_Hint005 }, // 5
     { MENU_HINT_TYPE_VAR_GE, VAR_BIRCH_LAB_STATE, 3, sText_Hint006 }, // 6
     { MENU_HINT_TYPE_FLAG, FLAG_DEFEATED_RIVAL_ROUTE103, 0, sText_Hint007 }, // 7
@@ -269,6 +270,12 @@ void ShowMenuHintWindow(void)
     {
         text = sMenuHintLadder[i].text;
     }
+
+    // Placeholders such as {RIVAL} are only byte codes in the raw
+    // string; expand them into names before printing (the dialogue
+    // system does this automatically, a direct window print does not)
+    StringExpandPlaceholders(gStringVar4, text);
+    text = gStringVar4;
 
     sMenuHintWindowId = AddWindow(&sWindowTemplate_MenuHint);
     PutWindowTilemap(sMenuHintWindowId);
