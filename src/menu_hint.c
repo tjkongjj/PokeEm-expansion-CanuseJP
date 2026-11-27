@@ -15,14 +15,15 @@
 #include "text_window.h"
 #include "window.h"
 #include "constants/battle_frontier.h"
+#include "constants/map_groups.h"
 
 // "Next objective" hint window for the start menu (bottom-left).
 // The ladder below is evaluated top to bottom when the menu opens and
 // the first row whose completion condition is not met yet is shown.
 // Row order and conditions: see menu-hint-対応表.md / menu-hint-対応表-殿堂入り後編.md
-// NOTE: the hint texts are placeholders (ヒントテストN) for a full
-// playthrough test of the switching order; the real texts live in
-// menu-hint-ヒント文一覧.md and are swapped in afterwards.
+// NOTE: rows 1-5 already carry their final texts; the remaining rows
+// are placeholders (ヒントテストN) for a playthrough test of the
+// switching order. The text master is menu-hint-ヒント文一覧.md.
 
 #define MENU_HINT_TYPE_FLAG       0 // complete when the flag is set
 #define MENU_HINT_TYPE_VAR_GE     1 // complete when the var reaches the threshold
@@ -40,11 +41,11 @@ struct MenuHintRow
     const u8 *text;
 };
 
-static const u8 sText_Hint001[] = _("ヒントテスト1 ヒントテスト1\nヒントテスト1 ヒントテスト1");
-static const u8 sText_Hint002[] = _("ヒントテスト2 ヒントテスト2\nヒントテスト2 ヒントテスト2");
-static const u8 sText_Hint003[] = _("ヒントテスト3 ヒントテスト3\nヒントテスト3 ヒントテスト3");
-static const u8 sText_Hint004[] = _("ヒントテスト4 ヒントテスト4\nヒントテスト4 ヒントテスト4");
-static const u8 sText_Hint005[] = _("ヒントテスト5 ヒントテスト5\nヒントテスト5 ヒントテスト5");
+static const u8 sText_Hint001[] = _("2かいの へやで\nとけいを あわせよう");
+static const u8 sText_Hint002[] = _("ママが よんでる\nしたに いこう！");
+static const u8 sText_Hint003[] = _("となりの いえに\nあいさつに いこう");
+static const u8 sText_Hint004[] = _("{RIVAL}は どこ？\nさがして みよう");
+static const u8 sText_Hint005[] = _("はかせは どこだろう？\nさがして みよう！");
 static const u8 sText_Hint006[] = _("ヒントテスト6 ヒントテスト6\nヒントテスト6 ヒントテスト6");
 static const u8 sText_Hint007[] = _("ヒントテスト7 ヒントテスト7\nヒントテスト7 ヒントテスト7");
 static const u8 sText_Hint008[] = _("ヒントテスト8 ヒントテスト8\nヒントテスト8 ヒントテスト8");
@@ -87,6 +88,8 @@ static const u8 sText_Hint044[] = _("ヒントテスト44 ヒントテスト44\n
 static const u8 sText_Hint045[] = _("ヒントテスト45 ヒントテスト45\nヒントテスト45 ヒントテスト45");
 static const u8 sText_Hint046[] = _("ヒントテスト46 ヒントテスト46\nヒントテスト46 ヒントテスト46");
 static const u8 sText_Hint047[] = _("ヒントテスト47 ヒントテスト47\nヒントテスト47 ヒントテスト47");
+static const u8 sText_Hint048[] = _("ヒントテスト48 ヒントテスト48\nヒントテスト48 ヒントテスト48");
+static const u8 sText_Hint049[] = _("ヒントテスト49 ヒントテスト49\nヒントテスト49 ヒントテスト49");
 static const u8 sText_HintP01[] = _("ヒントテストP1 ヒントテストP1\nヒントテストP1 ヒントテストP1");
 static const u8 sText_HintP02[] = _("ヒントテストP2 ヒントテストP2\nヒントテストP2 ヒントテストP2");
 static const u8 sText_HintP03[] = _("ヒントテストP3 ヒントテストP3\nヒントテストP3 ヒントテストP3");
@@ -113,58 +116,59 @@ static const u8 sText_HintP23[] = _("ヒントテストP23 ヒントテストP23
 static const u8 sText_HintP24[] = _("ヒントテストP24 ヒントテストP24\nヒントテストP24 ヒントテストP24");
 static const u8 sText_HintP25[] = _("ヒントテストP25 ヒントテストP25\nヒントテストP25 ヒントテストP25");
 static const u8 sText_HintP26[] = _("ヒントテストP26 ヒントテストP26\nヒントテストP26 ヒントテストP26");
-
 static const u8 sText_HintComplete[] = _("ヒントテストEND ヒントテストEND\nヒントテストEND ヒントテストEND");
 
 static const struct MenuHintRow sMenuHintLadder[] =
 {
     { MENU_HINT_TYPE_FLAG, FLAG_SET_WALL_CLOCK, 0, sText_Hint001 }, // 1
-    { MENU_HINT_TYPE_VAR_GE, VAR_LITTLEROOT_TOWN_STATE, 1, sText_Hint002 }, // 2
-    { MENU_HINT_TYPE_FLAG, FLAG_RESCUED_BIRCH, 0, sText_Hint003 }, // 3
-    { MENU_HINT_TYPE_VAR_GE, VAR_BIRCH_LAB_STATE, 3, sText_Hint004 }, // 4
-    { MENU_HINT_TYPE_FLAG, FLAG_DEFEATED_RIVAL_ROUTE103, 0, sText_Hint005 }, // 5
-    { MENU_HINT_TYPE_FLAG, FLAG_SYS_POKEDEX_GET, 0, sText_Hint006 }, // 6
-    { MENU_HINT_TYPE_VAR_GE, VAR_PETALBURG_GYM_STATE, 1, sText_Hint007 }, // 7
-    { MENU_HINT_TYPE_VAR_GE, VAR_PETALBURG_GYM_STATE, 2, sText_Hint008 }, // 8
-    { MENU_HINT_TYPE_VAR_GE, VAR_PETALBURG_WOODS_STATE, 1, sText_Hint009 }, // 9
-    { MENU_HINT_TYPE_FLAG, FLAG_BADGE01_GET, 0, sText_Hint010 }, // 10
-    { MENU_HINT_TYPE_FLAG, FLAG_DEVON_GOODS_STOLEN, 0, sText_Hint011 }, // 11
-    { MENU_HINT_TYPE_FLAG, FLAG_RECOVERED_DEVON_GOODS, 0, sText_Hint012 }, // 12
-    { MENU_HINT_TYPE_FLAG, FLAG_RECEIVED_POKENAV, 0, sText_Hint013 }, // 13
-    { MENU_HINT_TYPE_FLAG, FLAG_MR_BRINEY_SAILING_INTRO, 0, sText_Hint014 }, // 14
-    { MENU_HINT_TYPE_FLAG, FLAG_BADGE02_GET, 0, sText_Hint015 }, // 15
-    { MENU_HINT_TYPE_FLAG, FLAG_DELIVERED_STEVEN_LETTER, 0, sText_Hint016 }, // 16
-    { MENU_HINT_TYPE_FLAG, FLAG_DELIVERED_DEVON_GOODS, 0, sText_Hint017 }, // 17
-    { MENU_HINT_TYPE_VAR_GE, VAR_ROUTE110_STATE, 1, sText_Hint018 }, // 18
-    { MENU_HINT_TYPE_FLAG, FLAG_DEFEATED_WALLY_MAUVILLE, 0, sText_Hint019 }, // 19
-    { MENU_HINT_TYPE_FLAG, FLAG_BADGE03_GET, 0, sText_Hint020 }, // 20
-    { MENU_HINT_TYPE_FLAG, FLAG_RECEIVED_HM_ROCK_SMASH, 0, sText_Hint021 }, // 21
-    { MENU_HINT_TYPE_VAR_GE, VAR_METEOR_FALLS_STATE, 1, sText_Hint022 }, // 22
-    { MENU_HINT_TYPE_FLAG, FLAG_RECEIVED_METEORITE, 0, sText_Hint023 }, // 23
-    { MENU_HINT_TYPE_FLAG, FLAG_BADGE04_GET, 0, sText_Hint024 }, // 24
-    { MENU_HINT_TYPE_FLAG, FLAG_BADGE05_GET, 0, sText_Hint025 }, // 25
-    { MENU_HINT_TYPE_FLAG, FLAG_RECEIVED_HM_SURF, 0, sText_Hint026 }, // 26
-    { MENU_HINT_TYPE_VAR_GE, VAR_ROUTE118_STATE, 1, sText_Hint027 }, // 27
-    { MENU_HINT_TYPE_VAR_GE, VAR_WEATHER_INSTITUTE_STATE, 1, sText_Hint028 }, // 28
-    { MENU_HINT_TYPE_FLAG, FLAG_RECEIVED_HM_FLY, 0, sText_Hint029 }, // 29
-    { MENU_HINT_TYPE_FLAG, FLAG_RECEIVED_DEVON_SCOPE, 0, sText_Hint030 }, // 30
-    { MENU_HINT_TYPE_FLAG, FLAG_BADGE06_GET, 0, sText_Hint031 }, // 31
-    { MENU_HINT_TYPE_VAR_GE, VAR_MT_PYRE_STATE, 1, sText_Hint032 }, // 32
-    { MENU_HINT_TYPE_FLAG, FLAG_GROUDON_AWAKENED_MAGMA_HIDEOUT, 0, sText_Hint033 }, // 33
-    { MENU_HINT_TYPE_FLAG, FLAG_MET_TEAM_AQUA_HARBOR, 0, sText_Hint034 }, // 34
-    { MENU_HINT_TYPE_FLAG, FLAG_TEAM_AQUA_ESCAPED_IN_SUBMARINE, 0, sText_Hint035 }, // 35
-    { MENU_HINT_TYPE_FLAG, FLAG_BADGE07_GET, 0, sText_Hint036 }, // 36
-    { MENU_HINT_TYPE_FLAG, FLAG_DEFEATED_MAGMA_SPACE_CENTER, 0, sText_Hint037 }, // 37
-    { MENU_HINT_TYPE_FLAG, FLAG_RECEIVED_HM_DIVE, 0, sText_Hint038 }, // 38
-    { MENU_HINT_TYPE_FLAG, FLAG_RECEIVED_HM_STRENGTH, 0, sText_Hint039 }, // 39
-    { MENU_HINT_TYPE_FLAG, FLAG_KYOGRE_ESCAPED_SEAFLOOR_CAVERN, 0, sText_Hint040 }, // 40
-    { MENU_HINT_TYPE_VAR_GE, VAR_SKY_PILLAR_STATE, 1, sText_Hint041 }, // 41
-    { MENU_HINT_TYPE_FLAG, FLAG_SOOTOPOLIS_ARCHIE_MAXIE_LEAVE, 0, sText_Hint042 }, // 42
-    { MENU_HINT_TYPE_FLAG, FLAG_RECEIVED_HM_WATERFALL, 0, sText_Hint043 }, // 43
-    { MENU_HINT_TYPE_FLAG, FLAG_BADGE08_GET, 0, sText_Hint044 }, // 44
-    { MENU_HINT_TYPE_FLAG, FLAG_DEFEATED_WALLY_VICTORY_ROAD, 0, sText_Hint045 }, // 45
-    { MENU_HINT_TYPE_VAR_GE, VAR_ELITE_4_STATE, 4, sText_Hint046 }, // 46
-    { MENU_HINT_TYPE_FLAG, FLAG_IS_CHAMPION, 0, sText_Hint047 }, // 47
+    { MENU_HINT_TYPE_VAR_GE, VAR_LITTLEROOT_INTRO_STATE, 7, sText_Hint002 }, // 2
+    { MENU_HINT_TYPE_VAR_GE, VAR_LITTLEROOT_TOWN_STATE, 1, sText_Hint003 }, // 3
+    { MENU_HINT_TYPE_VAR_GE, VAR_ROUTE101_STATE, 2, sText_Hint004 }, // 4
+    { MENU_HINT_TYPE_FLAG, FLAG_RESCUED_BIRCH, 0, sText_Hint005 }, // 5
+    { MENU_HINT_TYPE_VAR_GE, VAR_BIRCH_LAB_STATE, 3, sText_Hint006 }, // 6
+    { MENU_HINT_TYPE_FLAG, FLAG_DEFEATED_RIVAL_ROUTE103, 0, sText_Hint007 }, // 7
+    { MENU_HINT_TYPE_FLAG, FLAG_SYS_POKEDEX_GET, 0, sText_Hint008 }, // 8
+    { MENU_HINT_TYPE_VAR_GE, VAR_PETALBURG_GYM_STATE, 1, sText_Hint009 }, // 9
+    { MENU_HINT_TYPE_VAR_GE, VAR_PETALBURG_GYM_STATE, 2, sText_Hint010 }, // 10
+    { MENU_HINT_TYPE_VAR_GE, VAR_PETALBURG_WOODS_STATE, 1, sText_Hint011 }, // 11
+    { MENU_HINT_TYPE_FLAG, FLAG_BADGE01_GET, 0, sText_Hint012 }, // 12
+    { MENU_HINT_TYPE_FLAG, FLAG_DEVON_GOODS_STOLEN, 0, sText_Hint013 }, // 13
+    { MENU_HINT_TYPE_FLAG, FLAG_RECOVERED_DEVON_GOODS, 0, sText_Hint014 }, // 14
+    { MENU_HINT_TYPE_FLAG, FLAG_RECEIVED_POKENAV, 0, sText_Hint015 }, // 15
+    { MENU_HINT_TYPE_FLAG, FLAG_MR_BRINEY_SAILING_INTRO, 0, sText_Hint016 }, // 16
+    { MENU_HINT_TYPE_FLAG, FLAG_BADGE02_GET, 0, sText_Hint017 }, // 17
+    { MENU_HINT_TYPE_FLAG, FLAG_DELIVERED_STEVEN_LETTER, 0, sText_Hint018 }, // 18
+    { MENU_HINT_TYPE_FLAG, FLAG_DELIVERED_DEVON_GOODS, 0, sText_Hint019 }, // 19
+    { MENU_HINT_TYPE_VAR_GE, VAR_ROUTE110_STATE, 1, sText_Hint020 }, // 20
+    { MENU_HINT_TYPE_FLAG, FLAG_DEFEATED_WALLY_MAUVILLE, 0, sText_Hint021 }, // 21
+    { MENU_HINT_TYPE_FLAG, FLAG_BADGE03_GET, 0, sText_Hint022 }, // 22
+    { MENU_HINT_TYPE_FLAG, FLAG_RECEIVED_HM_ROCK_SMASH, 0, sText_Hint023 }, // 23
+    { MENU_HINT_TYPE_VAR_GE, VAR_METEOR_FALLS_STATE, 1, sText_Hint024 }, // 24
+    { MENU_HINT_TYPE_FLAG, FLAG_RECEIVED_METEORITE, 0, sText_Hint025 }, // 25
+    { MENU_HINT_TYPE_FLAG, FLAG_BADGE04_GET, 0, sText_Hint026 }, // 26
+    { MENU_HINT_TYPE_FLAG, FLAG_BADGE05_GET, 0, sText_Hint027 }, // 27
+    { MENU_HINT_TYPE_FLAG, FLAG_RECEIVED_HM_SURF, 0, sText_Hint028 }, // 28
+    { MENU_HINT_TYPE_VAR_GE, VAR_ROUTE118_STATE, 1, sText_Hint029 }, // 29
+    { MENU_HINT_TYPE_VAR_GE, VAR_WEATHER_INSTITUTE_STATE, 1, sText_Hint030 }, // 30
+    { MENU_HINT_TYPE_FLAG, FLAG_RECEIVED_HM_FLY, 0, sText_Hint031 }, // 31
+    { MENU_HINT_TYPE_FLAG, FLAG_RECEIVED_DEVON_SCOPE, 0, sText_Hint032 }, // 32
+    { MENU_HINT_TYPE_FLAG, FLAG_BADGE06_GET, 0, sText_Hint033 }, // 33
+    { MENU_HINT_TYPE_VAR_GE, VAR_MT_PYRE_STATE, 1, sText_Hint034 }, // 34
+    { MENU_HINT_TYPE_FLAG, FLAG_GROUDON_AWAKENED_MAGMA_HIDEOUT, 0, sText_Hint035 }, // 35
+    { MENU_HINT_TYPE_FLAG, FLAG_MET_TEAM_AQUA_HARBOR, 0, sText_Hint036 }, // 36
+    { MENU_HINT_TYPE_FLAG, FLAG_TEAM_AQUA_ESCAPED_IN_SUBMARINE, 0, sText_Hint037 }, // 37
+    { MENU_HINT_TYPE_FLAG, FLAG_BADGE07_GET, 0, sText_Hint038 }, // 38
+    { MENU_HINT_TYPE_FLAG, FLAG_DEFEATED_MAGMA_SPACE_CENTER, 0, sText_Hint039 }, // 39
+    { MENU_HINT_TYPE_FLAG, FLAG_RECEIVED_HM_DIVE, 0, sText_Hint040 }, // 40
+    { MENU_HINT_TYPE_FLAG, FLAG_RECEIVED_HM_STRENGTH, 0, sText_Hint041 }, // 41
+    { MENU_HINT_TYPE_FLAG, FLAG_KYOGRE_ESCAPED_SEAFLOOR_CAVERN, 0, sText_Hint042 }, // 42
+    { MENU_HINT_TYPE_VAR_GE, VAR_SKY_PILLAR_STATE, 1, sText_Hint043 }, // 43
+    { MENU_HINT_TYPE_FLAG, FLAG_SOOTOPOLIS_ARCHIE_MAXIE_LEAVE, 0, sText_Hint044 }, // 44
+    { MENU_HINT_TYPE_FLAG, FLAG_RECEIVED_HM_WATERFALL, 0, sText_Hint045 }, // 45
+    { MENU_HINT_TYPE_FLAG, FLAG_BADGE08_GET, 0, sText_Hint046 }, // 46
+    { MENU_HINT_TYPE_FLAG, FLAG_DEFEATED_WALLY_VICTORY_ROAD, 0, sText_Hint047 }, // 47
+    { MENU_HINT_TYPE_VAR_GE, VAR_ELITE_4_STATE, 4, sText_Hint048 }, // 48
+    { MENU_HINT_TYPE_FLAG, FLAG_IS_CHAMPION, 0, sText_Hint049 }, // 49
     { MENU_HINT_TYPE_VAR_GE, VAR_LITTLEROOT_HOUSES_STATE_BRENDAN, 4, sText_HintP01 }, // P1
     { MENU_HINT_TYPE_VAR_GE, VAR_DEX_UPGRADE_JOHTO_STARTER_STATE, 6, sText_HintP02 }, // P2
     { MENU_HINT_TYPE_FLAG, FLAG_SYS_FRONTIER_PASS, 0, sText_HintP03 }, // P3
@@ -243,6 +247,11 @@ void ShowMenuHintWindow(void)
         || InBattlePike() == TRUE
         || CurrentBattlePyramidLocation() != PYRAMID_LOCATION_NONE
         || InMultiPartnerRoom() == TRUE)
+        return;
+
+    // No hint window inside the moving truck at the start of the game
+    if (gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(MAP_INSIDE_OF_TRUCK)
+        && gSaveBlock1Ptr->location.mapNum == MAP_NUM(MAP_INSIDE_OF_TRUCK))
         return;
 
     for (i = 0; i < ARRAY_COUNT(sMenuHintLadder); i++)
