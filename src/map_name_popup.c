@@ -363,6 +363,11 @@ enum {
 #define tIncomingPopUp data[3]
 #define tPrintTimer    data[4]
 
+bool8 IsMapNamePopupActive(void)
+{
+    return gTasks[gPopupTaskId].isActive && gTasks[gPopupTaskId].func == Task_MapNamePopUpWindow;
+}
+
 void ShowMapNamePopup(void)
 {
     if (FlagGet(FLAG_HIDE_MAP_NAME_POPUP) != TRUE)

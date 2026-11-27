@@ -8,6 +8,7 @@
 #include "field_player_avatar.h"
 #include "field_special_scene.h"
 #include "field_tasks.h"
+#include "field_news.h"
 #include "fieldmap.h"
 #include "item.h"
 #include "main.h"
@@ -20,6 +21,7 @@
 #include "sound.h"
 #include "string_util.h"
 #include "task.h"
+#include "config/overworld.h"
 #include "constants/field_tasks.h"
 #include "constants/items.h"
 #include "constants/songs.h"
@@ -253,6 +255,11 @@ void SetUpFieldTasks(void)
 
     if (!FuncIsActiveTask(Task_PickupNotification))
         CreateTask(Task_PickupNotification, 80);
+
+#if OW_FIELD_NEWS_TICKER
+    if (!FuncIsActiveTask(Task_FieldNews))
+        CreateTask(Task_FieldNews, 81);
+#endif
 }
 
 void ActivatePerStepCallback(u8 callbackId)
