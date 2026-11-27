@@ -197,16 +197,17 @@ static const struct WindowTemplate sWindowTemplate_MenuHint = {
     .bg = 0,
     .tilemapLeft = 1,
     // The standard frame is drawn one tile outside the window on every
-    // side, so with height 5 the window itself must start at row 14 for
-    // the frame's bottom edge to land on the last screen row (19)
-    .tilemapTop = 14,
+    // side, so the frame's bottom edge lands on the last screen row
+    // (15 + 4 = 19). Two text lines of 16px fill the 4-tile height
+    // exactly (y=0 and y=16)
+    .tilemapTop = 15,
     .width = 21,
-    .height = 5,
+    .height = 4,
     .paletteNum = 15,
     // The start menu window is 9 wide but (4 rows * 2) + 2 = 10 tiles
     // tall, so it occupies 0x139..0x192; the free span below it is
     // 0x5C..0x124 (between the clock window at 0x50 and the Yes/No
-    // window at 0x125), and 21 * 5 = 105 tiles fit there
+    // window at 0x125), and 21 * 4 = 84 tiles fit there
     .baseBlock = 0x5C
 };
 
@@ -266,13 +267,13 @@ void ShowMenuHintWindow(void)
     if (complete)
     {
         // 24x24 hanamaru stamp instead of the bulb
-        BlitBitmapRectToWindow(sMenuHintWindowId, gMenuHintComplete_Gfx, 0, 0, 24, 24, 8, 8, 24, 24);
-        AddTextPrinterParameterized(sMenuHintWindowId, FONT_NORMAL, text, 34, 1, TEXT_SKIP_DRAW, NULL);
+        BlitBitmapRectToWindow(sMenuHintWindowId, gMenuHintComplete_Gfx, 0, 0, 24, 24, 2, 4, 24, 24);
+        AddTextPrinterParameterized(sMenuHintWindowId, FONT_NORMAL, text, 28, 0, TEXT_SKIP_DRAW, NULL);
     }
     else
     {
-        BlitBitmapRectToWindow(sMenuHintWindowId, &gStartMenuIcons_Gfx[MENU_HINT_BULB_TILE_OFFSET * 32], 0, 0, 64, 64, 8, 8, 16, 16);
-        AddTextPrinterParameterized(sMenuHintWindowId, FONT_NORMAL, text, 26, 1, TEXT_SKIP_DRAW, NULL);
+        BlitBitmapRectToWindow(sMenuHintWindowId, &gStartMenuIcons_Gfx[MENU_HINT_BULB_TILE_OFFSET * 32], 0, 0, 64, 64, 2, 8, 16, 16);
+        AddTextPrinterParameterized(sMenuHintWindowId, FONT_NORMAL, text, 20, 0, TEXT_SKIP_DRAW, NULL);
     }
     CopyWindowToVram(sMenuHintWindowId, COPYWIN_GFX);
     sMenuHintWindowShown = TRUE;
