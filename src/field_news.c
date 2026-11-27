@@ -54,7 +54,8 @@ struct FieldNewsData
     u16 savedVofs;
 };
 
-static u8 sLastHour = 0xFF;
+static u8 sLastHour;
+static bool8 sHourKnown = FALSE;
 static bool8 sPending = FALSE;
 static u8 sPendingHour = 0;
 static u8 sState = NEWS_OFF;
@@ -395,10 +396,11 @@ void Task_FieldNews(u8 taskId)
     RtcCalcLocalTime();
     hour = gLocalTime.hours;
 
-    if (sLastHour == 0xFF)
+    if (!sHourKnown)
     {
         // First tick after entering the field: never fire for the
         // hour the game was started in, only from the next one
+        sHourKnown = TRUE;
         sLastHour = hour;
         sLastFrame = frame;
         return;
