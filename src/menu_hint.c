@@ -200,7 +200,11 @@ static const struct WindowTemplate sWindowTemplate_MenuHint = {
     .width = 21,
     .height = 5,
     .paletteNum = 15,
-    .baseBlock = 0x15D
+    // The start menu window is 9 wide but (4 rows * 2) + 2 = 10 tiles
+    // tall, so it occupies 0x139..0x192; the free span below it is
+    // 0x5C..0x124 (between the clock window at 0x50 and the Yes/No
+    // window at 0x125), and 21 * 5 = 105 tiles fit there
+    .baseBlock = 0x5C
 };
 
 EWRAM_DATA static u8 sMenuHintWindowId = 0;
