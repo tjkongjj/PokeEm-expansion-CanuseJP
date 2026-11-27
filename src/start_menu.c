@@ -27,6 +27,7 @@
 #include "main.h"
 #include "map_name_popup.h"
 #include "menu.h"
+#include "menu_hint.h"
 #include "new_game.h"
 #include "option_menu.h"
 #include "overworld.h"
@@ -297,7 +298,7 @@ static void BlitStartMenuIcon(u8 action, u16 x, u16 y)
     // Sheet is 64px wide (8 tiles per row); each icon is a 2x2 tile block
     u16 tileOffset = ((iconId / 4) * 16) + ((iconId % 4) * 2);
 
-    BlitBitmapRectToWindow(GetStartMenuWindowId(), &gStartMenuIcons_Gfx[tileOffset * 32], 0, 0, 64, 48, x, y, 16, 16);
+    BlitBitmapRectToWindow(GetStartMenuWindowId(), &gStartMenuIcons_Gfx[tileOffset * 32], 0, 0, 64, 64, x, y, 16, 16);
 }
 
 static const struct BgTemplate sBgTemplates_LinkBattleSave[] =
@@ -673,6 +674,7 @@ static void RemoveExtraStartMenuWindows(void)
         RemoveWindow(sClockWindowId);
         sClockWindowShown = FALSE;
     }
+    HideMenuHintWindow();
 }
 
 static u8 GetStartMenuVisibleRows(void)
@@ -781,6 +783,7 @@ static bool32 InitStartMenuStep(void)
         if (CurrentBattlePyramidLocation() != PYRAMID_LOCATION_NONE)
             ShowPyramidFloorWindow();
         ShowPlaceTimeWindows();
+        ShowMenuHintWindow();
         sInitStartMenuData[0]++;
         break;
     case 4:
