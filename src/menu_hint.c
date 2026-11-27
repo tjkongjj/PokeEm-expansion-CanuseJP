@@ -196,7 +196,10 @@ static const struct MenuHintRow sMenuHintLadder[] =
 static const struct WindowTemplate sWindowTemplate_MenuHint = {
     .bg = 0,
     .tilemapLeft = 1,
-    .tilemapTop = 15,
+    // The standard frame is drawn one tile outside the window on every
+    // side, so with height 5 the window itself must start at row 14 for
+    // the frame's bottom edge to land on the last screen row (19)
+    .tilemapTop = 14,
     .width = 21,
     .height = 5,
     .paletteNum = 15,
