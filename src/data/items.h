@@ -14130,7 +14130,7 @@ const struct ItemInfo gItemsInfo[] =
         .importance = 1,
         .pocket = POCKET_KEY_ITEMS,
         .type = ITEM_USE_FIELD,
-        .fieldUseFunc = ItemUseOutOfBattle_PokemonBoxLink,
+        .fieldUseFunc = ItemUseOutOfBattle_PartyRoamerPark,
         .iconPic = gItemIcon_PokemonBoxLink,
         .iconPalette = gItemIconPalette_PokemonBoxLink,
     },

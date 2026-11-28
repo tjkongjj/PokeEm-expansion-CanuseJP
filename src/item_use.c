@@ -35,6 +35,7 @@
 #include "overworld.h"
 #include "palette.h"
 #include "party_menu.h"
+#include "party_roamer_park.h"
 #include "pokeblock.h"
 #include "pokemon.h"
 #include "script.h"
@@ -48,6 +49,7 @@
 #include "constants/event_objects.h"
 #include "constants/item_effects.h"
 #include "constants/items.h"
+#include "constants/maps.h"
 #include "constants/songs.h"
 
 static void SetUpItemUseCallback(u8);
@@ -781,6 +783,45 @@ static void Task_AccessPokemonBoxLink(u8 taskId)
 {
     ScriptContext_SetupScript(EventScript_AccessPokemonBoxLink);
     DestroyTask(taskId);
+}
+
+static const u8 sText_EnterPartyRoamerParkPrompt[] = _("{JPN}「{PLAYER}」の パソコンへ \nせつぞくしますか？");
+
+static void Task_EnterPartyRoamerPark(u8 taskId)
+{
+    FieldCallback_PrepareEnterPartyRoamerPark();
+    DestroyTask(taskId);
+}
+
+static void UsePartyRoamerPark(u8 taskId)
+{
+    sItemUseOnFieldCB = Task_EnterPartyRoamerPark;
+    SetUpItemUseOnFieldCallback(taskId);
+}
+
+static const struct YesNoFuncTable sPartyRoamerParkYesNoFuncTable =
+{
+    .yesFunc = UsePartyRoamerPark,
+    .noFunc = CloseItemMessage,
+};
+
+static void ShowPartyRoamerParkYesNo(u8 taskId)
+{
+    BagMenu_YesNo(taskId, ITEMWIN_YESNO_HIGH, &sPartyRoamerParkYesNoFuncTable);
+}
+
+void ItemUseOutOfBattle_PartyRoamerPark(u8 taskId)
+{
+    if (gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(MAP_PARTY_ROAMER_PARK)
+     && gSaveBlock1Ptr->location.mapNum == MAP_NUM(MAP_PARTY_ROAMER_PARK))
+    {
+        DisplayDadsAdviceCannotUseItemMessage(taskId, gTasks[taskId].tUsingRegisteredKeyItem);
+    }
+    else
+    {
+        StringExpandPlaceholders(gStringVar4, sText_EnterPartyRoamerParkPrompt);
+        DisplayItemMessage(taskId, FONT_NORMAL, gStringVar4, ShowPartyRoamerParkYesNo);
+    }
 }
 
 void ItemUseOutOfBattle_CoinCase(u8 taskId)

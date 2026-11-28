@@ -23,7 +23,7 @@
 
 #define PARTY_ROAMER_LOCAL_ID_START 1
 #define PARTY_ROAMER_PARK_ENTRY_X 13
-#define PARTY_ROAMER_PARK_ENTRY_Y 19
+#define PARTY_ROAMER_PARK_ENTRY_Y 5
 
 static const u16 sPartyRoamerObjectFlags[PARTY_SIZE] =
 {

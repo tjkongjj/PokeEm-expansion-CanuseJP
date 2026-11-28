@@ -1537,7 +1537,9 @@ void Task_HandleChooseMonInput(u8 taskId)
 
 static bool8 CanEnterPartyRoamerParkFromPartyMenu(void)
 {
-    return gPartyMenu.menuType == PARTY_MENU_TYPE_FIELD
+    // 一時封鎖: SELECTからの入口は無効化中（ポケモンボックスに移行）
+    return FALSE
+        && gPartyMenu.menuType == PARTY_MENU_TYPE_FIELD
         && gPartyMenu.layout == PARTY_LAYOUT_SINGLE
         && gPartyMenu.action == PARTY_ACTION_CHOOSE_MON
         && (gSaveBlock1Ptr->location.mapGroup != MAP_GROUP(MAP_PARTY_ROAMER_PARK)
