@@ -14125,8 +14125,8 @@ const struct ItemInfo gItemsInfo[] =
         .price = 0,
         .description = COMPOUND_STRING(
             "いつでも ボックスに\n"
-            "{JPN}アクセスして ポケモンを\n"
-            "{JPN}あずけたり ひきだせる"),
+            "{JPN}アクセスして ポケモンと\n"
+            "{JPN}ふれあうことが できる"),
         .importance = 1,
         .pocket = POCKET_KEY_ITEMS,
         .type = ITEM_USE_FIELD,
