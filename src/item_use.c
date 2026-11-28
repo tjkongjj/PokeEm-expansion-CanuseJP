@@ -817,6 +817,11 @@ void ItemUseOutOfBattle_PartyRoamerPark(u8 taskId)
     {
         DisplayDadsAdviceCannotUseItemMessage(taskId, gTasks[taskId].tUsingRegisteredKeyItem);
     }
+    else if (gTasks[taskId].tUsingRegisteredKeyItem == TRUE)
+    {
+        // 登録使用時はバッグの窓が無いため確認ダイアログは出さず、即ワープする
+        UsePartyRoamerPark(taskId);
+    }
     else
     {
         StringExpandPlaceholders(gStringVar4, sText_EnterPartyRoamerParkPrompt);
